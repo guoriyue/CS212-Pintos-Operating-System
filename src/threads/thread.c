@@ -28,6 +28,9 @@ static struct list ready_list;
    when they are first scheduled and removed when they exit. */
 static struct list all_list;
 
+/* List of blocked threads. */
+static struct list blocked_list;
+
 /* Idle thread. */
 static struct thread *idle_thread;
 
