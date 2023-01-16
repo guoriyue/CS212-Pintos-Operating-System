@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7f89ebf4b010. after alignment, vector=0x7f89ebf4c000
+00000000000i[MEM0  ] allocated memory at 0x7f8e735cb010. after alignment, vector=0x7f8e735cc000
 00000000000i[MEM0  ] 4.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=32
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/afs/ir.stanford.edu/class/cs212/x86_64/share/bochs/BIOS-bochs-latest')
@@ -69,7 +69,7 @@
 00000000000i[PLUGIN] init_dev of 'keyboard' plugin device by virtual method
 00000000000i[KBD   ] will paste characters every 400 keyboard ticks
 00000000000i[PLUGIN] init_dev of 'harddrv' plugin device by virtual method
-00000000000i[HD    ] HD on ata0-0: '/tmp/ua7k3HBxpV.dsk', 'flat' mode
+00000000000i[HD    ] HD on ata0-0: '/tmp/0_RuSbKkBB.dsk', 'flat' mode
 00000000000i[IMG   ] hd_size: 516096
 00000000000i[HD    ] ata0-0: using specified geometry: CHS=1/16/63 (sector size=512)
 00000000000i[PLUGIN] init_dev of 'pci_ide' plugin device by virtual method
@@ -204,33 +204,33 @@
 00001866734i[BIOS  ] ata0-0: PCHS=1/16/63 translation=none LCHS=1/16/63
 00005314961i[BIOS  ] IDE time out
 00008382045i[BIOS  ] Booting from 0000:7c00
-00069967646i[NOGUI ] ips = 69.968M
-00141482766i[NOGUI ] ips = 71.515M
-00213004835i[NOGUI ] ips = 71.522M
-00283690428i[NOGUI ] ips = 70.686M
-00354524322i[NOGUI ] ips = 70.834M
-00425250191i[NOGUI ] ips = 70.726M
-00496086501i[NOGUI ] ips = 70.836M
-00538097840p[      ] >>PANIC<< SIGNAL 2 caught
-00538097840i[CPU0  ] CPU is in protected mode (active)
-00538097840i[CPU0  ] CS.mode = 32 bit
-00538097840i[CPU0  ] SS.mode = 32 bit
-00538097840i[CPU0  ] EFER   = 0x00000000
-00538097840i[CPU0  ] | EAX=00000000  EBX=c00300f7  ECX=00000780  EDX=000003f8
-00538097840i[CPU0  ] | ESP=c0103e8c  EBP=c0103f98  ESI=00000054  EDI=c002e220
-00538097840i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf AF PF cf
-00538097840i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-00538097840i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00538097840i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00538097840i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00538097840i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00538097840i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00538097840i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00538097840i[CPU0  ] | EIP=c00287c8 (c00287c8)
-00538097840i[CPU0  ] | CR0=0xe0010015 CR2=0x00000000
-00538097840i[CPU0  ] | CR3=0x00101000 CR4=0x00000000
-00538097840i[CPU0  ] 0xc00287c8>> jmp .-2 (0xc00287c8) : EBFE
-00538097840i[CMOS  ] Last time is 538 (Wed Dec 31 16:08:58 1969)
-00538097840i[NOGUI ] bx_nogui_gui_c::exit() not implemented yet.
-00538097840i[      ] restoring default signal behavior
-00538097840i[SIM   ] quit_sim called with exit code 1
+00035596525i[NOGUI ] ips = 35.597M
+00066653953i[NOGUI ] ips = 31.057M
+00097484584i[NOGUI ] ips = 30.831M
+00127876799i[NOGUI ] ips = 30.392M
+00158522000i[NOGUI ] ips = 30.645M
+00189252650i[NOGUI ] ips = 30.731M
+00219907579i[NOGUI ] ips = 30.655M
+00224897781p[      ] >>PANIC<< SIGNAL 2 caught
+00224897781i[CPU0  ] CPU is in protected mode (active)
+00224897781i[CPU0  ] CS.mode = 32 bit
+00224897781i[CPU0  ] SS.mode = 32 bit
+00224897781i[CPU0  ] EFER   = 0x00000000
+00224897781i[CPU0  ] | EAX=c00b8000  EBX=c00b80a0  ECX=0000006e  EDX=000006e2
+00224897781i[CPU0  ] | ESP=c000ebd0  EBP=c000ed58  ESI=c002e94e  EDI=00000f00
+00224897781i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf af PF CF
+00224897781i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+00224897781i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00224897781i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00224897781i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00224897781i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00224897781i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00224897781i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00224897781i[CPU0  ] | EIP=c00275de (c00275db)
+00224897781i[CPU0  ] | CR0=0xe0010015 CR2=0x00000000
+00224897781i[CPU0  ] | CR3=0x00101000 CR4=0x00000000
+00224897781i[CPU0  ] 0xc00275db>> mov byte ptr ds:[eax+edx], cl : 880C10
+00224897781i[CMOS  ] Last time is 224 (Wed Dec 31 16:03:44 1969)
+00224897781i[NOGUI ] bx_nogui_gui_c::exit() not implemented yet.
+00224897781i[      ] restoring default signal behavior
+00224897781i[SIM   ] quit_sim called with exit code 1

@@ -92,26 +92,31 @@ timer_elapsed (int64_t then)
 void
 timer_sleep (int64_t ticks) 
 {
+  // if(ticks <= 0){
+  //   return;
+  // }
+  
   int64_t start = timer_ticks ();
 
   ASSERT (intr_get_level () == INTR_ON);
 
   struct thread *t = thread_current();
   t->time_wakeup = start + ticks; 
-  printf("%s\n", t->name);
+  printf("sleep: %s\n", t->name);
   enum intr_level old_level = intr_disable ();
   //list_insert_ordered (sleeping_threads_list, t->elem, wakeup_time_cmp, );
-  list_push_back(&blocked_list, &t->elem);
+  // list_push_back(&blocked_list, &t->elem);
+  add_timer_sleep_thread_to_blocked_list();
   thread_block ();
   intr_set_level (old_level);
 }
 
-bool
-wakeup_time_cmp (const struct list_elem *a, const struct list_elem *b, void *aux)
-{
-  //return *(int64_t *)a - *(
-	return 0;
-}
+// bool
+// wakeup_time_cmp (const struct list_elem *a, const struct list_elem *b, void *aux)
+// {
+//   //return *(int64_t *)a - *(
+// 	return 0;
+// }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
    turned on. */
@@ -188,14 +193,27 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
-  //struct thread *t = thread_current();
-  //printf("%s%d\n", t->name, t->time_wakeup);
-  struct list_elem *elem = list_front(&blocked_list);
-    if (&elem->time_wakeup >= ticks) {
-	  thread_unblock(&elem);
-    }
   thread_tick ();
+  // thread_foreach(wake_threads, 0);
+
+  thread_foreach_blocked(&ticks);
+  // struct list_elem *e;
+  
+  // struct thread *t = thread_current();
+  // printf("%s%d\n", t->name, t->time_wakeup);
+  // for (e = list_begin (&blocked_list); e != list_end (&blocked_list);
+  //      e = list_next (e))
+  //   {
+  //     struct thread *t = list_entry (e, struct thread, allelem);
+  //     printf("inter: %s %d\n", t->name, t->time_wakeup);
+  //     if (t->status == THREAD_BLOCKED && t->time_wakeup >= ticks) {
+	//       thread_unblock(t);
+  //     }
+  //     printf("ok\n");
+  //   }
 }
+
+
 
 /* Returns true if LOOPS iterations waits for more than one timer
    tick, otherwise false. */

@@ -132,6 +132,7 @@ void thread_yield (void);
 /* Performs some operation on thread t, given auxiliary data AUX. */
 typedef void thread_action_func (struct thread *t, void *aux);
 void thread_foreach (thread_action_func *, void *);
+void thread_foreach_blocked (int64_t *ticks);
 
 int thread_get_priority (void);
 void thread_set_priority (int);
@@ -141,4 +142,5 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
+void add_timer_sleep_thread_to_blocked_list(void);
 #endif /* threads/thread.h */

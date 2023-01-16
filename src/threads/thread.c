@@ -13,6 +13,7 @@
 #include "threads/vaddr.h"
 #ifdef USERPROG
 #include "userprog/process.h"
+
 #endif
 
 /* Random value for struct thread's `magic' member.
@@ -29,7 +30,7 @@ static struct list ready_list;
 static struct list all_list;
 
 /* List of blocked threads. */
-static struct list blocked_list;
+struct list blocked_list;
 
 /* Idle thread. */
 static struct thread *idle_thread;
@@ -95,6 +96,7 @@ thread_init (void)
   lock_init (&tid_lock);
   list_init (&ready_list);
   list_init (&all_list);
+  list_init (&blocked_list);
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
@@ -223,6 +225,15 @@ thread_block (void)
   schedule ();
 }
 
+void 
+add_timer_sleep_thread_to_blocked_list(void){
+  ASSERT (!intr_context ());
+  ASSERT (intr_get_level () == INTR_OFF);
+  struct thread * t= thread_current ();
+  list_push_back (&blocked_list, &t->elem);
+  // thread_current ()->status = THREAD_BLOCKED;
+}
+
 /* Transitions a blocked thread T to the ready-to-run state.
    This is an error if T is not blocked.  (Use thread_yield() to
    make the running thread ready.)
@@ -333,6 +344,33 @@ thread_foreach (thread_action_func *func, void *aux)
       func (t, aux);
     }
 }
+
+/* check the blocked threads' time_wakeup */ 
+void
+thread_foreach_blocked (int64_t *ticks)
+{
+  struct list_elem *e;
+
+  ASSERT (intr_get_level () == INTR_OFF);
+
+  if(list_empty(&blocked_list)){
+    return;
+  }
+
+  for (e = list_begin (&blocked_list); e != list_end (&blocked_list);
+       e = list_next (e))
+    {
+      struct thread *t = list_entry (e, struct thread, elem);
+      if (t->status == THREAD_BLOCKED && t->time_wakeup <= *ticks) {
+        printf("thread: %s\n", t->name);
+        printf("ticks: %lld\n", *ticks);
+        printf("wakeup_time: %lld\n", t->time_wakeup);
+	      thread_unblock(t);
+      }
+    }
+}
+
+
 
 /* Sets the current thread's priority to NEW_PRIORITY. */
 void

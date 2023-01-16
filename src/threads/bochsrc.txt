@@ -10,6 +10,6 @@ panic: action=fatal
 # For more recent bochs:
 keyboard: user_shortcut=ctrl-alt-del
 clock: sync=none, time0=0
-ata0-master: type=disk, path=/tmp/ua7k3HBxpV.dsk, mode=flat, cylinders=1, heads=16, spt=63, translation=none
+ata0-master: type=disk, path=/tmp/0_RuSbKkBB.dsk, mode=flat, cylinders=1, heads=16, spt=63, translation=none
 com1: enabled=1, mode=file, dev=/dev/stdout
 display_library: nogui
