@@ -29,7 +29,7 @@ static struct list ready_list;
 static struct list all_list;
 
 /* List of blocked threads. */
-static struct list blocked_list;
+struct list blocked_list;
 
 /* Idle thread. */
 static struct thread *idle_thread;
@@ -95,6 +95,7 @@ thread_init (void)
   lock_init (&tid_lock);
   list_init (&ready_list);
   list_init (&all_list);
+  list_init (&blocked_list);
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
@@ -221,6 +222,15 @@ thread_block (void)
 
   thread_current ()->status = THREAD_BLOCKED;
   schedule ();
+}
+
+void 
+add_timer_sleep_thread_to_blocked_list(void){
+  ASSERT (!intr_context ());
+  ASSERT (intr_get_level () == INTR_OFF);
+  struct thread * t= thread_current ();
+  list_push_back (&blocked_list, &t->elem);
+  // thread_current ()->status = THREAD_BLOCKED;
 }
 
 /* Transitions a blocked thread T to the ready-to-run state.
