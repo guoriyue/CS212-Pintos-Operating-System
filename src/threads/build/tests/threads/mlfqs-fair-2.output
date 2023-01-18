@@ -1,0 +1,60 @@
+PiLo hda1
+Loading..........
+Kernel command line: -q -mlfqs run mlfq
+-fair-2
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,200 loops/s.
+Boot complete.
+Executing 'mlfqs-fair-2':
+(mlfqs-fair-2) begin
+(mlfqs-fair-2) Starting 2 threads...
+(mlfqs-fair-2) Starting threads took 4 ticks.
+(mlfqs-fair-2) Sleeping 40 seconds to let threads run, please wait...
+start timer_sleep
+sleep: main
+sleep time, ticks, sum and wake up time 44 4000 4044 4044
+earlist_wakeup_time in time_sleep 4044
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 0
+sleep time, ticks, sum and wake up time 48 495 543 543
+earlist_wakeup_time in time_sleep 543
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 1
+sleep time, ticks, sum and wake up time 52 495 547 547
+earlist_wakeup_time in time_sleep 543
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: load 0
+ticks: 543
+wakeup_time: 543
+end threads_wakeup new_earlist_wakeup_time 547
+earlist_wakeup_time in ticks interruption: 547
+end timer_sleep
+thread: load 1
+ticks: 547
+wakeup_time: 547
+end threads_wakeup new_earlist_wakeup_time 4044
+earlist_wakeup_time in ticks interruption: 4044
+end timer_sleep
+thread: main
+ticks: 4044
+wakeup_time: 4044
+LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
+return INT64_MAX 9223372036854775807
+earlist_wakeup_time in ticks interruption: 9223372036854775807
+end timer_sleep
+(mlfqs-fair-2) Thread 0 received 1490 ticks.
+(mlfqs-fair-2) Thread 1 received 1487 ticks.
+(mlfqs-fair-2) end
+Execution of 'mlfqs-fair-2' complete.
+Timer: 4067 ticks
+Thread: 1012 idle ticks, 3057 kernel ticks, 0 user ticks
+Console: 1881 characters output
+Keyboard: 0 keys pressed
+Powering off..

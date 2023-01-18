@@ -19,6 +19,8 @@
 
 /* Number of timer ticks since OS booted. */
 static int64_t ticks;
+/* To save time. Otherwise we need to loop every time ticks increment. */
+int64_t earlist_wakeup_time = INT64_MAX;
 
 /* Number of loops per timer tick.
    Initialized by timer_calibrate(). */
@@ -92,23 +94,33 @@ timer_elapsed (int64_t then)
 void
 timer_sleep (int64_t ticks) 
 {
-  // if(ticks <= 0){
-  //   return;
-  // }
-  
+  if (ticks <= 0)
+  {
+    return ;
+  }
+  printf("start timer_sleep\n");
   int64_t start = timer_ticks ();
 
   ASSERT (intr_get_level () == INTR_ON);
 
-  struct thread *t = thread_current();
-  t->time_wakeup = start + ticks; 
-  printf("sleep: %s\n", t->name);
   enum intr_level old_level = intr_disable ();
-  //list_insert_ordered (sleeping_threads_list, t->elem, wakeup_time_cmp, );
+  
+  struct thread *t = thread_current();
+  t->time_wakeup = start + ticks;
+  if (earlist_wakeup_time > t->time_wakeup)
+  {
+    earlist_wakeup_time = t->time_wakeup;
+  }
+
+  printf("sleep: %s\n", t->name);
+  printf("sleep time, ticks, sum and wake up time %" PRId64 " %" PRId64 " %" PRId64 " %" PRId64 "\n", start, ticks, start + ticks, t->time_wakeup);
+  printf("earlist_wakeup_time in time_sleep %" PRId64 "\n", earlist_wakeup_time);
+  // list_insert_ordered (sleeping_threads_list, t->elem, wakeup_time_cmp, );
   // list_push_back(&blocked_list, &t->elem);
-  add_timer_sleep_thread_to_blocked_list();
+  add_timer_sleep_thread_to_blocked_list ();
   thread_block ();
   intr_set_level (old_level);
+  printf("end timer_sleep\n");
 }
 
 // bool
@@ -193,10 +205,20 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
+  // printf("ticks number: %" PRId64 "\n", ticks);
   thread_tick ();
   // thread_foreach(wake_threads, 0);
 
-  thread_foreach_blocked(&ticks);
+  /* Interrupts are already disabled in this function. */
+  
+  while (earlist_wakeup_time <= ticks)
+  {
+    /* Use <= because sometimes ticks are negative, so that's why we also need a while loop to wakeup all threads that should be woked up. */
+    /* Wakeup threads and update earlist wakeup time. */
+    earlist_wakeup_time = thread_wakeup(&ticks, &earlist_wakeup_time);
+    printf("earlist_wakeup_time in ticks interruption: %" PRId64 "\n", earlist_wakeup_time);
+  }
+
   // struct list_elem *e;
   
   // struct thread *t = thread_current();

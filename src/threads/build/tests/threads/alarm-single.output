@@ -1,0 +1,101 @@
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-singl
+
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,200 loops/s.
+Boot complete.
+Executing 'alarm-single':
+(alarm-single) begin
+(alarm-single) Creating 5 threads to sleep 1 times each.
+(alarm-single) Thread 0 sleeps 10 ticks each time,
+(alarm-single) thread 1 sleeps 20 ticks each time, and so on.
+(alarm-single) If successful, product of iteration count and
+(alarm-single) sleep duration will appear in nondescending order.
+start timer_sleep
+sleep: thread 0
+sleep time, ticks, sum and wake up time 63 108 171 171
+earlist_wakeup_time in time_sleep 171
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 1
+sleep time, ticks, sum and wake up time 67 115 182 182
+earlist_wakeup_time in time_sleep 171
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 2
+sleep time, ticks, sum and wake up time 71 121 192 192
+earlist_wakeup_time in time_sleep 171
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 3
+sleep time, ticks, sum and wake up time 75 131 206 206
+earlist_wakeup_time in time_sleep 171
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 4
+sleep time, ticks, sum and wake up time 79 141 220 220
+earlist_wakeup_time in time_sleep 171
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: main
+sleep time, ticks, sum and wake up time 82 250 332 332
+earlist_wakeup_time in time_sleep 171
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 0
+ticks: 171
+wakeup_time: 171
+end threads_wakeup new_earlist_wakeup_time 182
+earlist_wakeup_time in ticks interruption: 182
+end timer_sleep
+thread: thread 1
+ticks: 182
+wakeup_time: 182
+end threads_wakeup new_earlist_wakeup_time 192
+earlist_wakeup_time in ticks interruption: 192
+end timer_sleep
+thread: thread 2
+ticks: 192
+wakeup_time: 192
+end threads_wakeup new_earlist_wakeup_time 206
+earlist_wakeup_time in ticks interruption: 206
+end timer_sleep
+thread: thread 3
+ticks: 206
+wakeup_time: 206
+end threads_wakeup new_earlist_wakeup_time 220
+earlist_wakeup_time in ticks interruption: 220
+end timer_sleep
+thread: thread 4
+ticks: 220
+wakeup_time: 220
+end threads_wakeup new_earlist_wakeup_time 332
+earlist_wakeup_time in ticks interruption: 332
+end timer_sleep
+thread: main
+ticks: 332
+wakeup_time: 332
+LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
+return INT64_MAX 9223372036854775807
+earlist_wakeup_time in ticks interruption: 9223372036854775807
+end timer_sleep
+(alarm-single) thread 0: duration=10, iteration=1, product=10
+(alarm-single) thread 1: duration=20, iteration=1, product=20
+(alarm-single) thread 2: duration=30, iteration=1, product=30
+(alarm-single) thread 3: duration=40, iteration=1, product=40
+(alarm-single) thread 4: duration=50, iteration=1, product=50
+(alarm-single) end
+Execution of 'alarm-single' complete.
+Timer: 380 ticks
+Thread: 250 idle ticks, 133 kernel ticks, 0 user ticks
+Console: 3444 characters output
+Keyboard: 0 keys pressed
+Powering off..

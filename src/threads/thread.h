@@ -92,9 +92,6 @@ struct thread
     
     /* for time_sleep */
     int64_t time_wakeup;
-
-    /* List of blocked threads. */
-    static struct list blocked_list;
  
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
@@ -164,5 +161,7 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
+int64_t thread_wakeup(int64_t *ticks, int64_t *earlist_wakeup_time);
 void add_timer_sleep_thread_to_blocked_list(void);
+bool less_time_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
 #endif /* threads/thread.h */

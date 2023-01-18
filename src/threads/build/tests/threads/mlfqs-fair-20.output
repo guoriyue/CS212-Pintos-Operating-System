@@ -1,0 +1,292 @@
+PiLo hda1
+Loading..........
+Kernel command line: -q -mlfqs run mlfq
+-fair-20
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,200 loops/s.
+Boot complete.
+Executing 'mlfqs-fair-20':
+(mlfqs-fair-20) begin
+(mlfqs-fair-20) Starting 20 threads...
+start timer_sleep
+sleep: load 0
+sleep time, ticks, sum and wake up time 34 495 529 529
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 1
+sleep time, ticks, sum and wake up time 40 489 529 529
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 2
+sleep time, ticks, sum and wake up time 47 486 533 533
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 7
+sleep time, ticks, sum and wake up time 54 478 532 532
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 13
+sleep time, ticks, sum and wake up time 59 472 531 531
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 18
+sleep time, ticks, sum and wake up time 63 467 530 530
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 17
+sleep time, ticks, sum and wake up time 67 472 539 539
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 12
+sleep time, ticks, sum and wake up time 71 478 549 549
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 14
+sleep time, ticks, sum and wake up time 75 472 547 547
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 10
+sleep time, ticks, sum and wake up time 79 478 557 557
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 6
+sleep time, ticks, sum and wake up time 83 485 568 568
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 11
+sleep time, ticks, sum and wake up time 87 478 565 565
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 16
+sleep time, ticks, sum and wake up time 91 472 563 563
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 4
+sleep time, ticks, sum and wake up time 95 485 580 580
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 3
+sleep time, ticks, sum and wake up time 99 485 584 584
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 9
+sleep time, ticks, sum and wake up time 103 478 581 581
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 19
+sleep time, ticks, sum and wake up time 107 467 574 574
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 5
+sleep time, ticks, sum and wake up time 111 485 596 596
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 15
+sleep time, ticks, sum and wake up time 115 472 587 587
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+(mlfqs-fair-20) Starting threads took 29 ticks.
+(mlfqs-fair-20) Sleeping 40 seconds to let threads run, please wait...
+start timer_sleep
+sleep: main
+sleep time, ticks, sum and wake up time 133 4000 4133 4133
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 8
+sleep time, ticks, sum and wake up time 137 478 615 615
+earlist_wakeup_time in time_sleep 529
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: load 0
+ticks: 529
+wakeup_time: 529
+thread: load 1
+ticks: 529
+wakeup_time: 529
+end threads_wakeup new_earlist_wakeup_time 530
+earlist_wakeup_time in ticks interruption: 530
+thread: load 18
+ticks: 530
+wakeup_time: 530
+end threads_wakeup new_earlist_wakeup_time 531
+earlist_wakeup_time in ticks interruption: 531
+thread: load 13
+ticks: 531
+wakeup_time: 531
+end threads_wakeup new_earlist_wakeup_time 532
+earlist_wakeup_time in ticks interruption: 532
+thread: load 7
+ticks: 532
+wakeup_time: 532
+end threads_wakeup new_earlist_wakeup_time 533
+earlist_wakeup_time in ticks interruption: 533
+thread: load 2
+ticks: 533
+wakeup_time: 533
+end threads_wakeup new_earlist_wakeup_time 539
+earlist_wakeup_time in ticks interruption: 539
+end timer_sleep
+thread: load 17
+ticks: 539
+wakeup_time: 539
+end threads_wakeup new_earlist_wakeup_time 547
+earlist_wakeup_time in ticks interruption: 547
+end timer_sleep
+thread: load 14
+ticks: 547
+wakeup_time: 547
+end threads_wakeup new_earlist_wakeup_time 549
+earlist_wakeup_time in ticks interruption: 549
+thread: load 12
+ticks: 549
+wakeup_time: 549
+end threads_wakeup new_earlist_wakeup_time 557
+earlist_wakeup_time in ticks interruption: 557
+end timer_sleep
+end timer_sleep
+thread: load 10
+ticks: 557
+wakeup_time: 557
+end threads_wakeup new_earlist_wakeup_time 563
+earlist_wakeup_time in ticks interruption: 563
+thread: load 16
+ticks: 563
+wakeup_time: 563
+end threads_wakeup new_earlist_wakeup_time 565
+earlist_wakeup_time in ticks interruption: 565
+endthread: load 11
+ticks: 565
+wakeup_time: 565
+end threads_wakeup new_earlist_wakeup_time 568
+earlist_wakeup_time in ticks interruption: 568
+thread: load 6
+ticks: 568
+wakeup_time: 568
+end threads_wakeup new_earlist_wakeup_time 574
+earlist_wakeup_time in ticks interruption: 574
+thread: load 19
+ticks: 574
+wakeup_time: 574
+end threads_wakeup new_earlist_wakeup_time 580
+earlist_wakeup_time in ticks interruption: 580
+thread: load 4
+ticks: 580
+wakeup_time: 580
+end threads_wakeup new_earlist_wakeup_time 581
+earlist_wakeup_time in ticks interruption: 581
+thread: load 9
+ticks: 581
+wakeup_time: 581
+end threads_wakeup new_earlist_wakeup_time 584
+earlist_wakeup_time in ticks interruption: 584
+thread: load 3
+ticks: 584
+wakeup_time: 584
+end threads_wakeup new_earlist_wakeup_time 587
+earlist_wakeup_time in ticks interruption: 587
+thread: load 15
+ticks: 587
+wakeup_time: 587
+end threads_wakeup new_earlist_wakeup_time 596
+earlist_wakeup_time in ticks interruption: 596
+thread: load 5
+ticks: 596
+wakeup_time: 596
+end threads_wakeup new_earlist_wakeup_time 615
+earlist_wakeup_time in ticks interruption: 615
+ timer_sleep
+thread: load 8
+ticks: 615
+wakeup_time: 615
+end threads_wakeup new_earlist_wakeup_time 4133
+earlist_wakeup_time in ticks interruption: 4133
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+thread: main
+ticks: 4133
+wakeup_time: 4133
+LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
+return INT64_MAX 9223372036854775807
+earlist_wakeup_time in ticks interruption: 9223372036854775807
+end timer_sleep
+(mlfqs-fair-20) Thread 0 received 177 ticks.
+(mlfqs-fair-20) Thread 1 received 173 ticks.
+(mlfqs-fair-20) Thread 2 received 151 ticks.
+(mlfqs-fair-20) Thread 3 received 131 ticks.
+(mlfqs-fair-20) Thread 4 received 135 ticks.
+(mlfqs-fair-20) Thread 5 received 126 ticks.
+(mlfqs-fair-20) Thread 6 received 138 ticks.
+(mlfqs-fair-20) Thread 7 received 143 ticks.
+(mlfqs-fair-20) Thread 8 received 154 ticks.
+(mlfqs-fair-20) Thread 9 received 135 ticks.
+(mlfqs-fair-20) Thread 10 received 146 ticks.
+(mlfqs-fair-20) Thread 11 received 142 ticks.
+(mlfqs-fair-20) Thread 12 received 155 ticks.
+(mlfqs-fair-20) Thread 13 received 147 ticks.
+(mlfqs-fair-20) Thread 14 received 168 ticks.
+(mlfqs-fair-20) Thread 15 received 130 ticks.
+(mlfqs-fair-20) Thread 16 received 142 ticks.
+(mlfqs-fair-20) Thread 17 received 150 ticks.
+(mlfqs-fair-20) Thread 18 received 168 ticks.
+(mlfqs-fair-20) Thread 19 received 139 ticks.
+(mlfqs-fair-20) end
+Execution of 'mlfqs-fair-20' complete.
+Timer: 4257 ticks
+Thread: 1040 idle ticks, 3219 kernel ticks, 0 user ticks
+Console: 9824 characters output
+Keyboard: 0 keys pressed
+Powering off..

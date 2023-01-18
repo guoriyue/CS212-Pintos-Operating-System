@@ -1,0 +1,27 @@
+PiLo hda1
+Loading..........
+Kernel command line: -q run priority-do
+ate-chain
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,200 loops/s.
+Boot complete.
+Executing 'priority-donate-chain':
+(priority-donate-chain) begin
+(priority-donate-chain) main got lock.
+(priority-donate-chain) main should have priority 3.  Actual priority: 0.
+(priority-donate-chain) main should have priority 6.  Actual priority: 0.
+(priority-donate-chain) main should have priority 9.  Actual priority: 0.
+(priority-donate-chain) main should have priority 12.  Actual priority: 0.
+(priority-donate-chain) main should have priority 15.  Actual priority: 0.
+(priority-donate-chain) main should have priority 18.  Actual priority: 0.
+(priority-donate-chain) main should have priority 21.  Actual priority: 0.
+(priority-donate-chain) main finishing with priority 0.
+(priority-donate-chain) end
+Execution of 'priority-donate-chain' complete.
+Timer: 106 ticks
+Thread: 9 idle ticks, 100 kernel ticks, 0 user ticks
+Console: 1037 characters output
+Keyboard: 0 keys pressed
+Powering off..
