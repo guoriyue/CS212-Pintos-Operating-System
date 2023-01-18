@@ -702,6 +702,12 @@
 //    Used by switch.S, which can't figure it out on its own. */
 // uint32_t thread_stack_ofs = offsetof (struct thread, stack);
 
+
+
+
+
+
+
 #include "threads/thread.h"
 #include <debug.h>
 #include <stddef.h>
@@ -1085,8 +1091,8 @@ thread_wakeup (int64_t *ticks, int64_t *earlist_wakeup_time)
   if (list_empty(&blocked_list))
   {
     printf("LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY\n");
-    printf("return INT64_MAX %" PRId64 "\n", 0x7fffffffffffffffLL);
-    return 0x7fffffffffffffffLL;
+    printf("return INT64_MAX %" PRId64 "\n", INT64_MAX);
+    return INT64_MAX;
   }
   struct list_elem *earlist_wakeup_thread_elem = list_min (&blocked_list, less_time_fun, 0);
   struct thread *earlist_wakeup_thread = list_entry (earlist_wakeup_thread_elem, struct thread, elem);

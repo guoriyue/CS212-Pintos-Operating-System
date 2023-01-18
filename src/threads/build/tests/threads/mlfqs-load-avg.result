@@ -8,28 +8,28 @@ Some load average values were missing or differed from those expected by more th
      8     0.00  =  0.58     
     10     0.00  =  0.87     
     12    undef     1.22     Missing value.
-    14     0.00  =  1.63     
+    14    undef     1.63     Missing value.
     16    undef     2.09     Missing value.
-    18     0.00 <<< 2.60     Too small, by 0.10.
-    20     0.00 <<< 3.16     Too small, by 0.66.
+    18    undef     2.60     Missing value.
+    20    undef     3.16     Missing value.
     22    undef     3.76     Missing value.
-    24     0.00 <<< 4.42     Too small, by 1.92.
+    24    undef     4.42     Missing value.
     26    undef     5.11     Missing value.
-    28     0.00 <<< 5.85     Too small, by 3.35.
+    28    undef     5.85     Missing value.
     30     0.00 <<< 6.63     Too small, by 4.13.
     32     0.00 <<< 7.46     Too small, by 4.96.
     34     0.00 <<< 8.32     Too small, by 5.82.
-    36    undef     9.22     Missing value.
+    36     0.00 <<< 9.22     Too small, by 6.72.
     38     0.00 <<< 10.15    Too small, by 7.65.
-    40    undef     11.12    Missing value.
-    42    undef     12.13    Missing value.
+    40     0.00 <<< 11.12    Too small, by 8.62.
+    42     0.00 <<< 12.13    Too small, by 9.63.
     44     0.00 <<< 13.16    Too small, by 10.66.
     46     0.00 <<< 14.23    Too small, by 11.73.
     48     0.00 <<< 15.33    Too small, by 12.83.
     50     0.00 <<< 16.46    Too small, by 13.96.
     52     0.00 <<< 17.62    Too small, by 15.12.
-    54    undef     18.81    Missing value.
-    56    undef     20.02    Missing value.
+    54     0.00 <<< 18.81    Too small, by 16.31.
+    56     0.00 <<< 20.02    Too small, by 17.52.
     58     0.00 <<< 21.26    Too small, by 18.76.
     60     0.00 <<< 22.52    Too small, by 20.02.
     62     0.00 <<< 23.71    Too small, by 21.21.
@@ -58,18 +58,18 @@ Some load average values were missing or differed from those expected by more th
    108     0.00 <<< 27.94    Too small, by 25.44.
    110     0.00 <<< 27.36    Too small, by 24.86.
    112     0.00 <<< 26.74    Too small, by 24.24.
-   114     0.00 <<< 26.07    Too small, by 23.57.
+   114    undef     26.07    Missing value.
    116     0.00 <<< 25.36    Too small, by 22.86.
    118     0.00 <<< 24.60    Too small, by 22.10.
    120     0.00 <<< 23.81    Too small, by 21.31.
    122     0.00 <<< 23.02    Too small, by 20.52.
-   124     0.00 <<< 22.26    Too small, by 19.76.
+   124    undef     22.26    Missing value.
    126     0.00 <<< 21.52    Too small, by 19.02.
    128     0.00 <<< 20.81    Too small, by 18.31.
    130     0.00 <<< 20.12    Too small, by 17.62.
    132     0.00 <<< 19.46    Too small, by 16.96.
    134     0.00 <<< 18.81    Too small, by 16.31.
-   136    undef     18.19    Missing value.
+   136     0.00 <<< 18.19    Too small, by 15.69.
    138     0.00 <<< 17.59    Too small, by 15.09.
    140     0.00 <<< 17.01    Too small, by 14.51.
    142     0.00 <<< 16.45    Too small, by 13.95.

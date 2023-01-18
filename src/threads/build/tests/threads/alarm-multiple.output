@@ -16,387 +16,428 @@ Executing 'alarm-multiple':
 (alarm-multiple) sleep duration will appear in nondescending order.
 start timer_sleep
 sleep: thread 0
-sleep time, ticks, sum and wake up time 64 108 172 172
-earlist_wakeup_time in time_sleep 172
+sleep time, ticks, sum and wake up time 62 108 170 170
+earlist_wakeup_time in time_sleep 170
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: thread 1
-sleep time, ticks, sum and wake up time 69 115 184 184
-earlist_wakeup_time in time_sleep 172
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: thread 2
-sleep time, ticks, sum and wake up time 73 120 193 193
-earlist_wakeup_time in time_sleep 172
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: thread 3
-sleep time, ticks, sum and wake up time 77 129 206 206
-earlist_wakeup_time in time_sleep 172
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: thread 4
-sleep time, ticks, sum and wake up time 81 139 220 220
-earlist_wakeup_time in time_sleep 172
+sleep time, ticks, sum and wake up time 63 117 180 180
+earlist_wakeup_time in time_sleep 170
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: main
-sleep time, ticks, sum and wake up time 85 550 635 635
-earlist_wakeup_time in time_sleep 172
+sleep time, ticks, sum and wake up time 65 550 615 615
+earlist_wakeup_time in time_sleep 170
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 2
+sleep time, ticks, sum and wake up time 66 124 190 190
+earlist_wakeup_time in time_sleep 170
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 3
+sleep time, ticks, sum and wake up time 67 133 200 200
+earlist_wakeup_time in time_sleep 170
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: thread 4
+sleep time, ticks, sum and wake up time 68 142 210 210
+earlist_wakeup_time in time_sleep 170
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: thread 0
-ticks: 172
-wakeup_time: 172
-end threads_wakeup new_earlist_wakeup_time 184
-earlist_wakeup_time in ticks interruption: 184
+ticks: 170
+wakeup_time: 170
+end threads_wakeup new_earlist_wakeup_time 180
+earlist_wakeup_time in ticks interruption: 180
 end timer_sleep
 start timer_sleep
 sleep: thread 0
-sleep time, ticks, sum and wake up time 179 4 183 183
-earlist_wakeup_time in time_sleep 183
+sleep time, ticks, sum and wake up time 174 6 180 180
+earlist_wakeup_time in time_sleep 180
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
-thread: thread 0
-ticks: 183
-wakeup_time: 183
-end threads_wakeup new_earlist_wakeup_time 184
-earlist_wakeup_time in ticks interruption: 184
 thread: thread 1
-ticks: 184
-wakeup_time: 184
-end threads_wakeup new_earlist_wakeup_time 193
-earlist_wakeup_time in ticks interruption: 193
-end timer_sleep
-start timer_sleep
-sleep: thread 0
-sleep time, ticks, sum and wake up time 191 2 193 193
-earlist_wakeup_time in time_sleep 193
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_thread: thread 2
-ticks: 193
-wakeup_time: 193
+ticks: 180
+wakeup_time: 180
 thread: thread 0
-ticks: 193
-wakeup_time: 193
-end threads_wakeup new_earlist_wakeup_time 206
-earlist_wakeup_time in ticks interruption: 206
-sleep
+ticks: 180
+wakeup_time: 180
+end threads_wakeup new_earlist_wakeup_time 190
+earlist_wakeup_time in ticks interruption: 190
+end timer_sleep
 start timer_sleep
 sleep: thread 1
-sleep time, ticks, sum and wake up time 199 4 203 203
-earlist_wakeup_time in time_sleep 203
+sleep time, ticks, sum and wake up time 183 17 200 200
+earlist_wakeup_time in time_sleep 190
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 end timer_sleep
-stathread: thread 1
-ticks: 203
-wakeup_time: 203
-end threads_wakeup new_earlist_wakeup_time 206
-earlist_wakeup_time in ticks interruption: 206
-rt timer_sleep
-thread: thread 3
-ticks: 206
-wakeup_time: 206
-end threads_wakeup new_earlist_wakeup_time 220
-earlist_wakeup_time in ticks interruption: 220
+start timer_sleep
 sleep: thread 0
-sleep time, ticks, sum and wake up time 207 8 215 215
-earlist_wakeup_time in time_sleep 215
+sleep time, ticks, sum and wake up time 187 3 190 190
+earlist_wakeup_time in time_sleep 190
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 2
+ticks: 190
+wakeup_time: 190
+thread: thread 0
+ticks: 190
+wakeup_time: 190
+end threads_wakeup new_earlist_wakeup_time 200
+earlist_wakeup_time in ticks interruption: 200
+end timer_sleep
+start timer_sleep
+sleep: thread 2
+sleep time, ticks, sum and wake up time 194 26 220 220
+earlist_wakeup_time in time_sleep 200
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
+sleep: thread 0
+sleep time, ticks, sum and wake up time 197 3 200 200
+earlist_wakeup_time in time_sleep 200
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 3
+ticks: 200
+wakeup_time: 200
+thread: thread 1
+ticks: 200
+wakeup_time: 200
+thread: thread 0
+ticks: 200
+wakeup_time: 200
+end threads_wakeup new_earlist_wakeup_time 210
+earlist_wakeup_time in ticks interruption: 210
 end timer_sleep
 start timer_sleep
 sleep: thread 3
-sleep time, ticks, sum and wake up time 213 29 242 242
-earlist_wakeup_time in time_sleep 215
+sleep time, ticks, sum and wake up time 204 36 240 240
+earlist_wakeup_time in time_sleep 210
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
-ethread: thread 0
-ticks: 215
-wakeup_time: 215
+end timer_sleep
+start timer_sleep
+sleep: thread 1
+sleep time, ticks, sum and wake up time 208 12 220 220
+earlist_wakeup_time in time_sleep 210
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+endthread: thread 4
+ticks: 210
+wakeup_time: 210
 end threads_wakeup new_earlist_wakeup_time 220
 earlist_wakeup_time in ticks interruption: 220
-nd timer_sleep
-start timethread: thread 4
+ timer_sleep
+start timer_sleep
+sleep: thread 0
+sleep time, ticks, sum and wake up time 214 6 220 220
+earlist_wakeup_time in time_sleep 220
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
+sleep: thread 4
+sleep time, ticks, sum and wake up time 218 42 260 260
+earlist_wakeup_time in time_sleep 220
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 2
 ticks: 220
 wakeup_time: 220
-end threads_wakeup new_earlist_wakeup_time 242
-earlist_wakeup_time in ticks interruption: 242
-r_sleep
+thread: thread 1
+ticks: 220
+wakeup_time: 220
+thread: thread 0
+ticks: 220
+wakeup_time: 220
+end threads_wakeup new_earlist_wakeup_time 240
+earlist_wakeup_time in ticks interruption: 240
+end timer_sleep
+start timer_sleep
+sleep: thread 2
+sleep time, ticks, sum and wake up time 223 27 250 250
+earlist_wakeup_time in time_sleep 240
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
 sleep: thread 1
-sleep time, ticks, sum and wake up time 223 1 224 224
-earlist_wakeup_time in time_sleep 224
+sleep time, ticks, sum and wake up time 227 13 240 240
+earlist_wakeup_time in time_sleep 240
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+thread: thread 3
+ticks: 240
+wakeup_time: 240
+thread: thread 1
+ticks: 240
+wakeup_time: 240
+end threads_wakeup new_earlist_wakeup_time 250
+earlist_wakeup_time in ticks interruption: 250
+end timer_sleep
+start timer_sleep
+sleep: thread 3
+sleep time, ticks, sum and wake up time 243 37 280 280
+earlist_wakeup_time in time_sleep 250
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
+sleep: thread 1
+sleep time, ticks, sum and wake up time 247 13 260 260
+earlist_wakeup_time in time_sleep 250
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 2
+ticks: 250
+wakeup_time: 250
+end threads_wakeup new_earlist_wakeup_time 260
+earlist_wakeup_time in ticks interruption: 260
+end timer_sleep
+start timer_sleep
+sleep: thread 2
+sleep time, ticks, sum and wake up time 254 26 280 280
+earlist_wakeup_time in time_sleep 260
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 4
+ticks: 260
+wakeup_time: 260
+thread: thread 1
+ticks: 260
+wakeup_time: 260
+end threads_wakeup new_earlist_wakeup_time 280
+earlist_wakeup_time in ticks interruption: 280
+end timer_sleep
+start timer_sleep
+sleep: thread 4
+sleep time, ticks, sum and wake up time 264 46 310 310
+earlist_wakeup_time in time_sleep 280
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
+sleep: thread 1
+sleep time, ticks, sum and wake up time 268 12 280 280
+earlist_wakeup_time in time_sleep 280
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+thread: thread 3
+ticks: 280
+wakeup_time: 280
+thread: thread 2
+ticks: 280
+wakeup_time: 280
+thread: thread 1
+ticks: 280
+wakeup_time: 280
+end threads_wakeup new_earlist_wakeup_time 310
+earlist_wakeup_time in ticks interruption: 310
+end timer_sleep
+start timer_sleep
+sleep: thread 3
+sleep time, ticks, sum and wake up time 284 36 320 320
+earlist_wakeup_time in time_sleep 310
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
+sleep: thread 2
+sleep time, ticks, sum and wake up time 288 22 310 310
+earlist_wakeup_time in time_sleep 310
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+start timer_sleep
+sleep: thread 1
+sleep time, ticks, sum and wake up time 291 9 300 300
+earlist_wakeup_time in time_sleep 300
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: thread 1
-ticks: 224
-wakeup_time: 224
-end threads_wakeup new_earlist_wakeup_time 242
-earlist_wakeup_time in ticks interruption: 242
+ticks: 300
+wakeup_time: 300
+end threads_wakeup new_earlist_wakeup_time 310
+earlist_wakeup_time in ticks interruption: 310
 end timer_sleep
-start timer_sleep
-sleep: thread 0
-sleep time, ticks, sum and wake up time 231 2 233 233
-earlist_wakeup_time in time_sleep 233
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timthread: thread 0
-ticks: 233
-wakeup_time: 233
-end threads_wakeup new_earlist_wakeup_time 242
-earlist_wakeup_time in ticks interruption: 242
-er_sleep
+thread: thread 4
+ticks: 310
+wakeup_time: 310
+thread: thread 2
+ticks: 310
+wakeup_time: 310
+end threads_wakeup new_earlist_wakeup_time 320
+earlist_wakeup_time in ticks interruption: 320
+end timer_sleep
 start timer_sleep
 sleep: thread 4
-sleep time, ticks, sum and wake up time 239 24 263 263
-earlist_wakeup_time in time_sleep 242
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-thread: thread 3
-ticks: 242
-wakeup_time: 242
-end threads_wakeup new_earlist_wakeup_time 263
-earlist_wakeup_time in ticks interruption: 263
-start timer_sleep
-sleep: thread 2
-sleep time, ticks, sum and wake up time 247 6 253 253
-earlist_wakeup_time in time_sleep 253
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-start timer_sleep
-thread: thread 2
-ticks: 253
-wakeup_time: 253
-end threads_wakeup new_earlist_wakeup_time 263
-earlist_wakeup_time in ticks interruption: 263
-sleep: thread 1
-sleep time, ticks, sum and wake up time 254 9 263 263
-earlist_wakeup_time in time_sleep 263
+sleep time, ticks, sum and wake up time 314 46 360 360
+earlist_wakeup_time in time_sleep 320
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 end timer_sleep
 start timer_sleep
 sleep: thread 2
-sleep time, ticks, sum and wake up time 260 23 283 283
-earlist_wakeup_time in time_sleep 263
+sleep time, ticks, sum and wake up time 317 23 340 340
+earlist_wakeup_time in time_sleep 320
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleepthread: thread 4
-ticks: 263
-wakeup_time: 263
-thread: thread 1
-ticks: 263
-wakeup_time: 263
-end threads_wakeup new_earlist_wakeup_time 283
-earlist_wakeup_time in ticks interruption: 283
-
+thread: thread 3
+ticks: 320
+wakeup_time: 320
+end threads_wakeup new_earlist_wakeup_time 340
+earlist_wakeup_time in ticks interruption: 340
+end timer_sleep
 start timer_sleep
 sleep: thread 3
-sleep time, ticks, sum and wake up time 268 15 283 283
-earlist_wakeup_time in time_sleep 283
+sleep time, ticks, sum and wake up time 324 36 360 360
+earlist_wakeup_time in time_sleep 340
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-start timer_sleep
-sleep: thread 4
-sleep time, ticks, sum and wake up time 275 38 313 313
-earlist_wakeup_time in time_sleep 283
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-end timer_sleep
-start timer_sleep
 thread: thread 2
-ticks: 283
-wakeup_time: 283
-thread: thread 3
-ticks: 283
-wakeup_time: 283
-end threads_wakeup new_earlist_wakeup_time 313
-earlist_wakeup_time in ticks interruption: 313
-sleep: thread 1
-sleep time, ticks, sum and wake up time 284 19 303 303
-earlist_wakeup_time in time_sleep 303
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
+ticks: 340
+wakeup_time: 340
+end threads_wakeup new_earlist_wakeup_time 360
+earlist_wakeup_time in ticks interruption: 360
 end timer_sleep
 start timer_sleep
 sleep: thread 2
-sleep time, ticks, sum and wake up time 291 22 313 313
-earlist_wakeup_time in time_sleep 303
+sleep time, ticks, sum and wake up time 344 26 370 370
+earlist_wakeup_time in time_sleep 360
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-start timer_sleep
-sleep: thread 3
-sleep time, ticks, sum and wake up time 297 26 323 323
-earlist_wakeup_time in time_sleep 303
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-thread: thread 1
-ticks: 303
-wakeup_time: 303
-end threads_wakeup new_earlist_wakeup_time 313
-earlist_wakeup_time in ticks interruption: 313
-end timer_sleep
 thread: thread 4
-ticks: 313
-wakeup_time: 313
-thread: thread 2
-ticks: 313
-wakeup_time: 313
-end threads_wakeup new_earlist_wakeup_time 323
-earlist_wakeup_time in ticks interruption: 323
+ticks: 360
+wakeup_time: 360
+thread: thread 3
+ticks: 360
+wakeup_time: 360
+end threads_wakeup new_earlist_wakeup_time 370
+earlist_wakeup_time in ticks interruption: 370
 end timer_sleep
 start timer_sleep
 sleep: thread 4
-sleep time, ticks, sum and wake up time 319 43 362 362
-earlist_wakeup_time in time_sleep 323
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-thread: thread 3
-ticks: 323
-wakeup_time: 323
-end threads_wakeup new_earlist_wakeup_time 362
-earlist_wakeup_time in ticks interruption: 362
-start timer_sleep
-sleep: thread 2
-sleep time, ticks, sum and wake up time 327 16 343 343
-earlist_wakeup_time in time_sleep 343
+sleep time, ticks, sum and wake up time 363 47 410 410
+earlist_wakeup_time in time_sleep 370
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 end timer_sleep
 start timer_sleep
 sleep: thread 3
-sleep time, ticks, sum and wake up time 334 29 363 363
-earlist_wakeup_time in time_sleep 343
+sleep time, ticks, sum and wake up time 367 33 400 400
+earlist_wakeup_time in time_sleep 370
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: thread 2
-ticks: 343
-wakeup_time: 343
-end threads_wakeup new_earlist_wakeup_time 362
-earlist_wakeup_time in ticks interruption: 362
-end timer_sleep
-start timer_sleep
-sleep: thread 2
-sleep time, ticks, sum and wake up time 350 23 373 373
-earlist_wakeup_time in time_sleep 362
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-thread: thread 4
-ticks: 362
-wakeup_time: 362
-end threads_wakeup new_earlist_wakeup_time 363
-earlist_wakeup_time in ticks interruption: 363
-thread: thread 3
-ticks: 363
-wakeup_time: 363
-end threads_wakeup new_earlist_wakeup_time 373
-earlist_wakeup_time in ticks interruption: 373
-end timer_sleep
-start timer_sleep
-sleep: thread 4
-sleep time, ticks, sum and wake up time 369 43 412 412
-earlist_wakeup_time in time_sleep 373
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-end timer_sleep
-thread: thread 2
-ticks: 373
-wakeup_time: 373
-end threads_wakeup new_earlist_wakeup_time 412
-earlist_wakeup_time in ticks interruption: 412
-start timer_sleep
-sleep: thread 3
-sleep time, ticks, sum and wake up time 376 26 402 402
-earlist_wakeup_time in time_sleep 402
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
+ticks: 370
+wakeup_time: 370
+end threads_wakeup new_earlist_wakeup_time 400
+earlist_wakeup_time in ticks interruption: 400
 end timer_sleep
 thread: thread 3
-ticks: 402
-wakeup_time: 402
-end threads_wakeup new_earlist_wakeup_time 412
-earlist_wakeup_time in ticks interruption: 412
+ticks: 400
+wakeup_time: 400
+end threads_wakeup new_earlist_wakeup_time 410
+earlist_wakeup_time in ticks interruption: 410
 end timer_sleep
 start timer_sleep
 sleep: thread 3
-sleep time, ticks, sum and wake up time 409 34 443 443
-earlist_wakeup_time in time_sleep 412
+sleep time, ticks, sum and wake up time 404 36 440 440
+earlist_wakeup_time in time_sleep 410
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: thread 4
-ticks: 412
-wakeup_time: 412
-end threads_wakeup new_earlist_wakeup_time 443
-earlist_wakeup_time in ticks interruption: 443
+ticks: 410
+wakeup_time: 410
+end threads_wakeup new_earlist_wakeup_time 440
+earlist_wakeup_time in ticks interruption: 440
 end timer_sleep
 start timer_sleep
 sleep: thread 4
-sleep time, ticks, sum and wake up time 418 44 462 462
-earlist_wakeup_time in time_sleep 443
+sleep time, ticks, sum and wake up time 413 47 460 460
+earlist_wakeup_time in time_sleep 440
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: thread 3
-ticks: 443
-wakeup_time: 443
-end threads_wakeup new_earlist_wakeup_time 462
-earlist_wakeup_time in ticks interruption: 462
+ticks: 440
+wakeup_time: 440
+end threads_wakeup new_earlist_wakeup_time 460
+earlist_wakeup_time in ticks interruption: 460
 end timer_sleep
 thread: thread 4
-ticks: 462
-wakeup_time: 462
-end threads_wakeup new_earlist_wakeup_time 635
-earlist_wakeup_time in ticks interruption: 635
+ticks: 460
+wakeup_time: 460
+end threads_wakeup new_earlist_wakeup_time 615
+earlist_wakeup_time in ticks interruption: 615
 end timer_sleep
 start timer_sleep
 sleep: thread 4
-sleep time, ticks, sum and wake up time 469 44 513 513
-earlist_wakeup_time in time_sleep 513
+sleep time, ticks, sum and wake up time 464 46 510 510
+earlist_wakeup_time in time_sleep 510
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: thread 4
-ticks: 513
-wakeup_time: 513
-end threads_wakeup new_earlist_wakeup_time 635
-earlist_wakeup_time in ticks interruption: 635
+ticks: 510
+wakeup_time: 510
+end threads_wakeup new_earlist_wakeup_time 615
+earlist_wakeup_time in ticks interruption: 615
 end timer_sleep
 thread: main
-ticks: 635
-wakeup_time: 635
+ticks: 615
+wakeup_time: 615
 LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
 return INT64_MAX 9223372036854775807
 earlist_wakeup_time in ticks interruption: 9223372036854775807
 end timer_sleep
 (alarm-multiple) thread 0: duration=10, iteration=1, product=10
-(alarm-multiple) thread 0: duration=10, iteration=2, product=20
 (alarm-multiple) thread 1: duration=20, iteration=1, product=20
+(alarm-multiple) thread 0: duration=10, iteration=2, product=20
+(alarm-multiple) thread 2: duration=30, iteration=1, product=30
 (alarm-multiple) thread 0: duration=10, iteration=3, product=30
-(alarm-multiple) thread 0: duration=10, iteration=4, product=40
 (alarm-multiple) thread 3: duration=40, iteration=1, product=40
 (alarm-multiple) thread 1: duration=20, iteration=2, product=40
+(alarm-multiple) thread 0: duration=10, iteration=4, product=40
 (alarm-multiple) thread 0: duration=10, iteration=5, product=50
-(alarm-multiple) thread 0: duration=10, iteration=6, product=60
 (alarm-multiple) thread 4: duration=50, iteration=1, product=50
-(alarm-multiple) FAIL: thread 4 woke up out of order (60 > 50)!
-Kernel PANIC at ../../tests/threads/tests.c:93 in fail(): test failed
-Call stack: 0xc002898f.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 721 ticks
-Thread: 432 idle ticks, 289 kernel ticks, 0 user ticks
-Console: 13736 characters output
+(alarm-multiple) thread 2: duration=30, iteration=2, product=60
+(alarm-multiple) thread 1: duration=20, iteration=3, product=60
+(alarm-multiple) thread 0: duration=10, iteration=6, product=60
+(alarm-multiple) thread 0: duration=10, iteration=7, product=70
+(alarm-multiple) thread 3: duration=40, iteration=2, product=80
+(alarm-multiple) thread 1: duration=20, iteration=4, product=80
+(alarm-multiple) thread 2: duration=30, iteration=3, product=90
+(alarm-multiple) thread 4: duration=50, iteration=2, product=100
+(alarm-multiple) thread 1: duration=20, iteration=5, product=100
+(alarm-multiple) thread 3: duration=40, iteration=3, product=120
+(alarm-multiple) thread 2: duration=30, iteration=4, product=120
+(alarm-multiple) thread 1: duration=20, iteration=6, product=120
+(alarm-multiple) thread 1: duration=20, iteration=7, product=140
+(alarm-multiple) thread 4: duration=50, iteration=3, product=150
+(alarm-multiple) thread 2: duration=30, iteration=5, product=150
+(alarm-multiple) thread 3: duration=40, iteration=4, product=160
+(alarm-multiple) thread 2: duration=30, iteration=6, product=180
+(alarm-multiple) thread 4: duration=50, iteration=4, product=200
+(alarm-multiple) thread 3: duration=40, iteration=5, product=200
+(alarm-multiple) thread 2: duration=30, iteration=7, product=210
+(alarm-multiple) thread 3: duration=40, iteration=6, product=240
+(alarm-multiple) thread 4: duration=50, iteration=5, product=250
+(alarm-multiple) thread 3: duration=40, iteration=7, product=280
+(alarm-multiple) thread 4: duration=50, iteration=6, product=300
+(alarm-multiple) thread 4: duration=50, iteration=7, product=350
+(alarm-multiple) end
+Execution of 'alarm-multiple' complete.
+Timer: 891 ticks
+Thread: 525 idle ticks, 369 kernel ticks, 0 user ticks
+Console: 15563 characters output
 Keyboard: 0 keys pressed
 Powering off..

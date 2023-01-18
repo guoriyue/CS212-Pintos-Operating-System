@@ -98,15 +98,20 @@ timer_sleep (int64_t ticks)
   {
     return ;
   }
+  ASSERT (intr_get_level () == INTR_ON);
+
+  /* Disable interrupts at an appripriate time. */
+  enum intr_level old_level = intr_disable ();
   printf("start timer_sleep\n");
   int64_t start = timer_ticks ();
 
-  ASSERT (intr_get_level () == INTR_ON);
-
-  enum intr_level old_level = intr_disable ();
+  
   
   struct thread *t = thread_current();
   t->time_wakeup = start + ticks;
+
+  
+  
   if (earlist_wakeup_time > t->time_wakeup)
   {
     earlist_wakeup_time = t->time_wakeup;
@@ -117,6 +122,9 @@ timer_sleep (int64_t ticks)
   printf("earlist_wakeup_time in time_sleep %" PRId64 "\n", earlist_wakeup_time);
   // list_insert_ordered (sleeping_threads_list, t->elem, wakeup_time_cmp, );
   // list_push_back(&blocked_list, &t->elem);
+
+  
+
   add_timer_sleep_thread_to_blocked_list ();
   thread_block ();
   intr_set_level (old_level);

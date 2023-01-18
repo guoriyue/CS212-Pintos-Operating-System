@@ -8,5 +8,5 @@
 00000000000i[      ] using log file bochsout.txt
 ========================================================================
 Bochs is exiting with the following message:
-[ACPI  ] ACPI control: soft power off
+[      ] SIGNAL 2 caught
 ========================================================================

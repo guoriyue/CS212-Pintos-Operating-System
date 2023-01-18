@@ -13,15 +13,15 @@ Executing 'mlfqs-block':
 (mlfqs-block) Main thread creating block thread, sleeping 25 seconds...
 start timer_sleep
 sleep: main
-sleep time, ticks, sum and wake up time 39 2500 2539 2539
-earlist_wakeup_time in time_sleep 2539
+sleep time, ticks, sum and wake up time 37 2500 2537 2537
+earlist_wakeup_time in time_sleep 2537
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 (mlfqs-block) Block thread spinning for 20 seconds...
 (mlfqs-block) Block thread acquiring lock...
 thread: main
-ticks: 2539
-wakeup_time: 2539
+ticks: 2537
+wakeup_time: 2537
 LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
 return INT64_MAX 9223372036854775807
 earlist_wakeup_time in ticks interruption: 9223372036854775807
@@ -31,8 +31,8 @@ end timer_sleep
 (mlfqs-block) Block thread should have already acquired lock.
 (mlfqs-block) end
 Execution of 'mlfqs-block' complete.
-Timer: 3063 ticks
-Thread: 493 idle ticks, 2572 kernel ticks, 0 user ticks
+Timer: 3061 ticks
+Thread: 493 idle ticks, 2570 kernel ticks, 0 user ticks
 Console: 1201 characters output
 Keyboard: 0 keys pressed
 Powering off..

@@ -12,151 +12,137 @@ Executing 'mlfqs-nice-10':
 (mlfqs-nice-10) Starting 10 threads...
 start timer_sleep
 sleep: load 0
-sleep time, ticks, sum and wake up time 34 495 529 529
-earlist_wakeup_time in time_sleep 529
+sleep time, ticks, sum and wake up time 32 495 527 527
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 1
-sleep time, ticks, sum and wake up time 40 489 529 529
-earlist_wakeup_time in time_sleep 529
+sleep time, ticks, sum and wake up time 36 491 527 527
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 2
-sleep time, ticks, sum and wake up time 46 486 532 532
-earlist_wakeup_time in time_sleep 529
+sleep time, ticks, sum and wake up time 37 490 527 527
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
-sleep: load 7
-sleep time, ticks, sum and wake up time 50 480 530 530
-earlist_wakeup_time in time_sleep 529
+sleep: load 3
+sleep time, ticks, sum and wake up time 39 488 527 527
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
-sleep: load 8
-sleep time, ticks, sum and wake up time 54 480 534 534
-earlist_wakeup_time in time_sleep 529
+sleep: load 4
+sleep time, ticks, sum and wake up time 40 487 527 527
+earlist_wakeup_time in time_sleep 527
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 5
+sleep time, ticks, sum and wake up time 41 486 527 527
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 (mlfqs-nice-10) Starting threads took 17 ticks.
 (mlfqs-nice-10) Sleeping 40 seconds to let threads run, please wait...
 start timer_sleep
 sleep: main
-sleep time, ticks, sum and wake up time 72 4000 4072 4072
-earlist_wakeup_time in time_sleep 529
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 3
-sleep time, ticks, sum and wake up time 76 485 561 561
-earlist_wakeup_time in time_sleep 529
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 4
-sleep time, ticks, sum and wake up time 80 485 565 565
-earlist_wakeup_time in time_sleep 529
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 5
-sleep time, ticks, sum and wake up time 84 485 569 569
-earlist_wakeup_time in time_sleep 529
+sleep time, ticks, sum and wake up time 57 4000 4057 4057
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 6
-sleep time, ticks, sum and wake up time 88 485 573 573
-earlist_wakeup_time in time_sleep 529
+sleep time, ticks, sum and wake up time 57 482 539 539
+earlist_wakeup_time in time_sleep 527
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 7
+sleep time, ticks, sum and wake up time 57 482 539 539
+earlist_wakeup_time in time_sleep 527
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
+sleep: load 8
+sleep time, ticks, sum and wake up time 57 482 539 539
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 9
-sleep time, ticks, sum and wake up time 91 480 571 571
-earlist_wakeup_time in time_sleep 529
+sleep time, ticks, sum and wake up time 57 482 539 539
+earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: load 0
-ticks: 529
-wakeup_time: 529
+ticks: 527
+wakeup_time: 527
 thread: load 1
-ticks: 529
-wakeup_time: 529
-end threads_wakeup new_earlist_wakeup_time 530
-earlist_wakeup_time in ticks interruption: 530
-thread: load 7
-ticks: 530
-wakeup_time: 530
-end threads_wakeup new_earlist_wakeup_time 532
-earlist_wakeup_time in ticks interruption: 532
-end timthread: load 2
-ticks: 532
-wakeup_time: 532
-end threads_wakeup new_earlist_wakeup_time 534
-earlist_wakeup_time in ticks interruption: 534
-er_slethread: load 8
-ticks: 534
-wakeup_time: 534
-end threads_wakeup new_earlist_wakeup_time 561
-earlist_wakeup_time in ticks interruption: 561
-ep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
+ticks: 527
+wakeup_time: 527
+thread: load 2
+ticks: 527
+wakeup_time: 527
 thread: load 3
-ticks: 561
-wakeup_time: 561
-end threads_wakeup new_earlist_wakeup_time 565
-earlist_wakeup_time in ticks interruption: 565
+ticks: 527
+wakeup_time: 527
 thread: load 4
-ticks: 565
-wakeup_time: 565
-end threads_wakeup new_earlist_wakeup_time 569
-earlist_wakeup_time in ticks interruption: 569
+ticks: 527
+wakeup_time: 527
 thread: load 5
-ticks: 569
-wakeup_time: 569
-end threads_wakeup new_earlist_wakeup_time 571
-earlist_wakeup_time in ticks interruption: 571
-thread: load 9
-ticks: 571
-wakeup_time: 571
-end threads_wakeup new_earlist_wakeup_time 573
-earlist_wakeup_time in ticks interruption: 573
+ticks: 527
+wakeup_time: 527
+end threads_wakeup new_earlist_wakeup_time 539
+earlist_wakeup_time in ticks interruption: 539
+end timer_sleep
+end timer_sleep
 thread: load 6
-ticks: 573
-wakeup_time: 573
-end threads_wakeup new_earlist_wakeup_time 4072
-earlist_wakeup_time in ticks interruption: 4072
+ticks: 539
+wakeup_time: 539
+thread: load 7
+ticks: 539
+wakeup_time: 539
+thread: load 8
+ticks: 539
+wakeup_time: 539
+thread: load 9
+ticks: 539
+wakeup_time: 539
+end threads_wakeup new_earlist_wakeup_time 4057
+earlist_wakeup_time in ticks interruption: 4057
+end timer_sleep
+end timer_sleep
+end timer_sleep
 end timer_sleep
 end timer_sleep
 end timer_sleep
 end timer_sleep
 end timer_sleep
 thread: main
-ticks: 4072
-wakeup_time: 4072
+ticks: 4057
+wakeup_time: 4057
 LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
 return INT64_MAX 9223372036854775807
 earlist_wakeup_time in ticks interruption: 9223372036854775807
 end timer_sleep
-(mlfqs-nice-10) Thread 0 received 306 ticks.
+(mlfqs-nice-10) Thread 0 received 303 ticks.
 (mlfqs-nice-10) Thread 1 received 302 ticks.
-(mlfqs-nice-10) Thread 2 received 297 ticks.
+(mlfqs-nice-10) Thread 2 received 299 ticks.
 (mlfqs-nice-10) Thread 3 received 295 ticks.
-(mlfqs-nice-10) Thread 4 received 294 ticks.
+(mlfqs-nice-10) Thread 4 received 295 ticks.
 (mlfqs-nice-10) Thread 5 received 294 ticks.
-(mlfqs-nice-10) Thread 6 received 291 ticks.
-(mlfqs-nice-10) Thread 7 received 296 ticks.
-(mlfqs-nice-10) Thread 8 received 302 ticks.
-(mlfqs-nice-10) Thread 9 received 294 ticks.
+(mlfqs-nice-10) Thread 6 received 299 ticks.
+(mlfqs-nice-10) Thread 7 received 299 ticks.
+(mlfqs-nice-10) Thread 8 received 298 ticks.
+(mlfqs-nice-10) Thread 9 received 299 ticks.
 (mlfqs-nice-10) end
 Execution of 'mlfqs-nice-10' complete.
-Timer: 4139 ticks
-Thread: 1014 idle ticks, 3128 kernel ticks, 0 user ticks
-Console: 5348 characters output
+Timer: 4124 ticks
+Thread: 1019 idle ticks, 3108 kernel ticks, 0 user ticks
+Console: 4690 characters output
 Keyboard: 0 keys pressed
 Powering off..

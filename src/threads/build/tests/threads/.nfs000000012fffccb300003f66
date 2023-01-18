@@ -1,0 +1,493 @@
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release
+PiLo hda1
+Loading..........
+Kernel command line: -q run alarm-single
+start lock_acquire
+start thread_current
+end thread_current
+start sema_down
+end sema_down
+start thread_current
+end thread_current
+end lock_acquire
+start lock_release
+start thread_current
+end thread_current
+start sema_up
+end sema_up
+end lock_release

@@ -62,7 +62,7 @@ Some load average values were missing or differed from those expected by more th
    116     0.00 <<< 14.62    Too small, by 11.12.
    118     0.00 <<< 14.14    Too small, by 10.64.
    120     0.00 <<< 13.67    Too small, by 10.17.
-   122    undef     13.22    Missing value.
+   122     0.00 <<< 13.22    Too small, by 9.72.
    124     0.00 <<< 12.78    Too small, by 9.28.
    126     0.00 <<< 12.36    Too small, by 8.86.
    128     0.00 <<< 11.95    Too small, by 8.45.
