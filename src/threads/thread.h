@@ -89,12 +89,14 @@ struct thread
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
     struct list_elem allelem;           /* List element for all threads list. */
-    
-    /* for time_sleep */
-    int64_t time_wakeup;
-    
+    int64_t time_wakeup;				/* Wakeup time for thread. */
+	struct semaphore *sema;  			/* Thread's semaphore. */
+
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
+
+    /* New elem struct for the blocked queue */
+	struct list_elem elem_sleep;
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
@@ -132,7 +134,6 @@ void thread_yield (void);
 /* Performs some operation on thread t, given auxiliary data AUX. */
 typedef void thread_action_func (struct thread *t, void *aux);
 void thread_foreach (thread_action_func *, void *);
-void thread_foreach_blocked (int64_t *ticks);
 
 int thread_get_priority (void);
 void thread_set_priority (int);
@@ -142,5 +143,4 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
-void add_timer_sleep_thread_to_blocked_list(void);
 #endif /* threads/thread.h */
