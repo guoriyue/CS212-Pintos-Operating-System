@@ -89,34 +89,14 @@ struct thread
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
     struct list_elem allelem;           /* List element for all threads list. */
-    
-    /* for time_sleep */
-    int64_t time_wakeup;
+    int64_t time_wakeup;				/* Wakeup time for thread. */
+	struct semaphore *sema;  			/* Thread's semaphore. */
 
-    /* List of blocked threads. */
-    static struct list blocked_list;
- 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
-    /* The lock that the thread is waiting on. */
-    struct lock *wait_on_lock;
-    /* Locks that the thread holds. */
-    struct list hold_locks;
-   
-    /* Other threads which are waiting on locks the thread holds.
-       They might be donations to the thread. */
-    struct list donor_threads;
-    /* I think that list_elem is just a placeholder for calling list functions. */
-    struct list_elem donor_thread_elem;
-    
-    /* The donee threads are threads would be donated priority. 
-       If thread A is holding L, thread B is waiting on L, and the priority of thread B is higher than A, 
-       then L is B's *wait_on_lock and A is in B's donee_threads. */
-    struct list donee_threads;
-    /* List element for donee_threads, shared between thread.c and synch.c. */
-    struct list_elem donee_thread_elem;                    
-
+    /* New elem struct for the blocked queue */
+	struct list_elem elem_sleep;
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
