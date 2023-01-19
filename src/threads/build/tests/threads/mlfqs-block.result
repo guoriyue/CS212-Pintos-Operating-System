@@ -1,38 +1,5 @@
 FAIL
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (mlfqs-block) begin
-  (mlfqs-block) Main thread acquiring lock.
-  (mlfqs-block) Main thread creating block thread, sleeping 25 seconds...
-  (mlfqs-block) Block thread spinning for 20 seconds...
-  (mlfqs-block) Block thread acquiring lock...
-  (mlfqs-block) Main thread spinning for 5 seconds...
-  (mlfqs-block) Main thread releasing lock.
-  (mlfqs-block) ...got it.
-  (mlfqs-block) Block thread should have already acquired lock.
-  (mlfqs-block) end
-Differences in `diff -u' format:
-  (mlfqs-block) begin
-  (mlfqs-block) Main thread acquiring lock.
-  (mlfqs-block) Main thread creating block thread, sleeping 25 seconds...
-+ start timer_sleep
-+ sleep: main
-+ sleep time, ticks, sum and wake up time 37 2500 2537 2537
-+ earlist_wakeup_time in time_sleep 2537
-+ before list_push_back add_timer_sleep_thread_to_blocked_list
-+ after list_push_back add_timer_sleep_thread_to_blocked_list
-  (mlfqs-block) Block thread spinning for 20 seconds...
-  (mlfqs-block) Block thread acquiring lock...
-+ thread: main
-+ ticks: 2537
-+ wakeup_time: 2537
-+ LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
-+ return INT64_MAX 9223372036854775807
-+ earlist_wakeup_time in ticks interruption: 9223372036854775807
-+ end timer_sleep
-  (mlfqs-block) Main thread spinning for 5 seconds...
-  (mlfqs-block) Main thread releasing lock.
-- (mlfqs-block) ...got it.
-  (mlfqs-block) Block thread should have already acquired lock.
-  (mlfqs-block) end
+Kernel panic in run: PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
+Call stack: 0xc002882f
+Translation of call stack:
+0xc002882f: debug_panic (.../../lib/kernel/debug.c:38)

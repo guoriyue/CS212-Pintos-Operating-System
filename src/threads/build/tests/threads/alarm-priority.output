@@ -3,130 +3,21 @@ squish-pty bochs -q
 PiLo hda1
 Loading..........
 Kernel command line: -q run alarm-priority
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  164,200 loops/s.
-Boot complete.
-Executing 'alarm-priority':
-(alarm-priority) begin
-start timer_sleep
-sleep: priority 25
-sleep time, ticks, sum and wake up time 33 494 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 24
-sleep time, ticks, sum and wake up time 35 492 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 23
-sleep time, ticks, sum and wake up time 37 490 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 22
-sleep time, ticks, sum and wake up time 39 488 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 21
-sleep time, ticks, sum and wake up time 41 486 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 30
-sleep time, ticks, sum and wake up time 43 484 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 29
-sleep time, ticks, sum and wake up time 45 482 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 28
-sleep time, ticks, sum and wake up time 47 480 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 27
-sleep time, ticks, sum and wake up time 49 478 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: priority 26
-sleep time, ticks, sum and wake up time 51 476 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-thread: priority 25
-ticks: 527
-wakeup_time: 527
-thread: priority 24
-ticks: 527
-wakeup_time: 527
-thread: priority 23
-ticks: 527
-wakeup_time: 527
-thread: priority 22
-ticks: 527
-wakeup_time: 527
-thread: priority 21
-ticks: 527
-wakeup_time: 527
-thread: priority 30
-ticks: 527
-wakeup_time: 527
-thread: priority 29
-ticks: 527
-wakeup_time: 527
-thread: priority 28
-ticks: 527
-wakeup_time: 527
-thread: priority 27
-ticks: 527
-wakeup_time: 527
-thread: priority 26
-ticks: 527
-wakeup_time: 527
-LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
-return INT64_MAX 9223372036854775807
-earlist_wakeup_time in ticks interruption: 9223372036854775807
-end timer_sleep
-(alarm-priority) Thread priority 25 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 22 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 28 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 23 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 27 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 30 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 21 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 29 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 24 woke up.
-end timer_sleep
-(alarm-priority) Thread priority 26 woke up.
-(alarm-priority) end
-Execution of 'alarm-priority' complete.
-Timer: 618 ticks
-Thread: 492 idle ticks, 128 kernel ticks, 0 user ticks
-Console: 4131 characters output
+start lock_acquire
+start sema_down
+end sema_down
+end lock_acquire
+start lock_release
+start sema_up
+end sema_up
+end lock_release
+Kernel PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
+Call stack: 0xc002882f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Timer: 0 ticks
+Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
+Console: 513 characters output
 Keyboard: 0 keys pressed
-Powering off..
+Powering off...

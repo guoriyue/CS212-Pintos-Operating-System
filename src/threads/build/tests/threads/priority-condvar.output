@@ -3,33 +3,21 @@ squish-pty bochs -q
 PiLo hda1
 Loading..........
 Kernel command line: -q run priority-condvar
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  164,200 loops/s.
-Boot complete.
-Executing 'priority-condvar':
-(priority-condvar) begin
-(priority-condvar) Thread priority 23 starting.
-(priority-condvar) Thread priority 25 starting.
-(priority-condvar) Thread priority 29 starting.
-(priority-condvar) Thread priority 26 starting.
-(priority-condvar) Thread priority 22 starting.
-(priority-condvar) Thread priority 30 starting.
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) Signaling...
-(priority-condvar) end
-Execution of 'priority-condvar' complete.
-Timer: 111 ticks
-Thread: 7 idle ticks, 107 kernel ticks, 0 user ticks
-Console: 1003 characters output
+start lock_acquire
+start sema_down
+end sema_down
+end lock_acquire
+start lock_release
+start sema_up
+end sema_up
+end lock_release
+Kernel PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
+Call stack: 0xc002882f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Timer: 0 ticks
+Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
+Console: 515 characters output
 Keyboard: 0 keys pressed
-Powering off..
+Powering off...

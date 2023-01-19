@@ -3,57 +3,21 @@ squish-pty bochs -q
 PiLo hda1
 Loading..........
 Kernel command line: -q -mlfqs run mlfqs-fair-2
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  164,200 loops/s.
-Boot complete.
-Executing 'mlfqs-fair-2':
-(mlfqs-fair-2) begin
-(mlfqs-fair-2) Starting 2 threads...
-(mlfqs-fair-2) Starting threads took 4 ticks.
-(mlfqs-fair-2) Sleeping 40 seconds to let threads run, please wait...
-start timer_sleep
-sleep: main
-sleep time, ticks, sum and wake up time 41 4000 4041 4041
-earlist_wakeup_time in time_sleep 4041
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 0
-sleep time, ticks, sum and wake up time 41 495 536 536
-earlist_wakeup_time in time_sleep 536
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 1
-sleep time, ticks, sum and wake up time 41 495 536 536
-earlist_wakeup_time in time_sleep 536
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-thread: load 0
-ticks: 536
-wakeup_time: 536
-thread: load 1
-ticks: 536
-wakeup_time: 536
-end threads_wakeup new_earlist_wakeup_time 4041
-earlist_wakeup_time in ticks interruption: 4041
-end timer_sleep
-end timer_sleep
-thread: main
-ticks: 4041
-wakeup_time: 4041
-LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
-return INT64_MAX 9223372036854775807
-earlist_wakeup_time in ticks interruption: 9223372036854775807
-end timer_sleep
-(mlfqs-fair-2) Thread 0 received 1496 ticks.
-(mlfqs-fair-2) Thread 1 received 1492 ticks.
-(mlfqs-fair-2) end
-Execution of 'mlfqs-fair-2' complete.
-Timer: 4064 ticks
-Thread: 1014 idle ticks, 3052 kernel ticks, 0 user ticks
-Console: 1787 characters output
+start lock_acquire
+start sema_down
+end sema_down
+end lock_acquire
+start lock_release
+start sema_up
+end sema_up
+end lock_release
+Kernel PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
+Call stack: 0xc002882f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Timer: 0 ticks
+Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
+Console: 518 characters output
 Keyboard: 0 keys pressed
-Powering off..
+Powering off...

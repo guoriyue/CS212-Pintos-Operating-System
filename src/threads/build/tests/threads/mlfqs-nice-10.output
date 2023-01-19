@@ -3,147 +3,21 @@ squish-pty bochs -q
 PiLo hda1
 Loading..........
 Kernel command line: -q -mlfqs run mlfqs-nice-10
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  164,200 loops/s.
-Boot complete.
-Executing 'mlfqs-nice-10':
-(mlfqs-nice-10) begin
-(mlfqs-nice-10) Starting 10 threads...
-start timer_sleep
-sleep: load 0
-sleep time, ticks, sum and wake up time 32 495 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 1
-sleep time, ticks, sum and wake up time 36 491 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 2
-sleep time, ticks, sum and wake up time 37 490 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 3
-sleep time, ticks, sum and wake up time 39 488 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 4
-sleep time, ticks, sum and wake up time 40 487 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 5
-sleep time, ticks, sum and wake up time 41 486 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-(mlfqs-nice-10) Starting threads took 17 ticks.
-(mlfqs-nice-10) Sleeping 40 seconds to let threads run, please wait...
-start timer_sleep
-sleep: main
-sleep time, ticks, sum and wake up time 57 4000 4057 4057
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 6
-sleep time, ticks, sum and wake up time 57 482 539 539
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 7
-sleep time, ticks, sum and wake up time 57 482 539 539
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 8
-sleep time, ticks, sum and wake up time 57 482 539 539
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-start timer_sleep
-sleep: load 9
-sleep time, ticks, sum and wake up time 57 482 539 539
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-thread: load 0
-ticks: 527
-wakeup_time: 527
-thread: load 1
-ticks: 527
-wakeup_time: 527
-thread: load 2
-ticks: 527
-wakeup_time: 527
-thread: load 3
-ticks: 527
-wakeup_time: 527
-thread: load 4
-ticks: 527
-wakeup_time: 527
-thread: load 5
-ticks: 527
-wakeup_time: 527
-end threads_wakeup new_earlist_wakeup_time 539
-earlist_wakeup_time in ticks interruption: 539
-end timer_sleep
-end timer_sleep
-thread: load 6
-ticks: 539
-wakeup_time: 539
-thread: load 7
-ticks: 539
-wakeup_time: 539
-thread: load 8
-ticks: 539
-wakeup_time: 539
-thread: load 9
-ticks: 539
-wakeup_time: 539
-end threads_wakeup new_earlist_wakeup_time 4057
-earlist_wakeup_time in ticks interruption: 4057
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-thread: main
-ticks: 4057
-wakeup_time: 4057
-LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
-return INT64_MAX 9223372036854775807
-earlist_wakeup_time in ticks interruption: 9223372036854775807
-end timer_sleep
-(mlfqs-nice-10) Thread 0 received 303 ticks.
-(mlfqs-nice-10) Thread 1 received 302 ticks.
-(mlfqs-nice-10) Thread 2 received 298 ticks.
-(mlfqs-nice-10) Thread 3 received 294 ticks.
-(mlfqs-nice-10) Thread 4 received 294 ticks.
-(mlfqs-nice-10) Thread 5 received 295 ticks.
-(mlfqs-nice-10) Thread 6 received 298 ticks.
-(mlfqs-nice-10) Thread 7 received 299 ticks.
-(mlfqs-nice-10) Thread 8 received 298 ticks.
-(mlfqs-nice-10) Thread 9 received 298 ticks.
-(mlfqs-nice-10) end
-Execution of 'mlfqs-nice-10' complete.
-Timer: 4124 ticks
-Thread: 1019 idle ticks, 3108 kernel ticks, 0 user ticks
-Console: 4690 characters output
+start lock_acquire
+start sema_down
+end sema_down
+end lock_acquire
+start lock_release
+start sema_up
+end sema_up
+end lock_release
+Kernel PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
+Call stack: 0xc002882f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Timer: 0 ticks
+Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
+Console: 519 characters output
 Keyboard: 0 keys pressed
-Powering off..
+Powering off...

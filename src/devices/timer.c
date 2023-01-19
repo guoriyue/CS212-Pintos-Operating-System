@@ -19,15 +19,13 @@
 
 /* Number of timer ticks since OS booted. */
 static int64_t ticks;
-/* To save time. Otherwise we need to loop every time ticks increment. */
-int64_t earlist_wakeup_time = INT64_MAX;
+
+/* List of all blocked threads waiting for their semaphore to go up. */
+static struct list blocked_list;
 
 /* Number of loops per timer tick.
    Initialized by timer_calibrate(). */
 static unsigned loops_per_tick;
-
-/* List for sleeping threads. */
-struct list sleeping_threads_list;
 
 static intr_handler_func timer_interrupt;
 static bool too_many_loops (unsigned loops);
@@ -42,6 +40,7 @@ timer_init (void)
 {
   pit_configure_channel (0, 2, TIMER_FREQ);
   intr_register_ext (0x20, timer_interrupt, "8254 Timer");
+  list_init(&blocked_list);
 }
 
 /* Calibrates loops_per_tick, used to implement brief delays. */
@@ -94,49 +93,21 @@ timer_elapsed (int64_t then)
 void
 timer_sleep (int64_t ticks) 
 {
-  if (ticks <= 0)
-  {
-    return ;
-  }
-  ASSERT (intr_get_level () == INTR_ON);
-
-  /* Disable interrupts at an appripriate time. */
-  enum intr_level old_level = intr_disable ();
-  printf("start timer_sleep\n");
   int64_t start = timer_ticks ();
 
+  ASSERT (intr_get_level () == INTR_ON);
   
-  
+  intr_disable();
+  struct semaphore sema;
+  sema_init(&sema, 0);
   struct thread *t = thread_current();
-  t->time_wakeup = start + ticks;
-
-  
-  
-  if (earlist_wakeup_time > t->time_wakeup)
-  {
-    earlist_wakeup_time = t->time_wakeup;
-  }
-
-  printf("sleep: %s\n", t->name);
-  printf("sleep time, ticks, sum and wake up time %" PRId64 " %" PRId64 " %" PRId64 " %" PRId64 "\n", start, ticks, start + ticks, t->time_wakeup);
-  printf("earlist_wakeup_time in time_sleep %" PRId64 "\n", earlist_wakeup_time);
-  // list_insert_ordered (sleeping_threads_list, t->elem, wakeup_time_cmp, );
-  // list_push_back(&blocked_list, &t->elem);
-
-  
-
-  add_timer_sleep_thread_to_blocked_list ();
-  thread_block ();
-  intr_set_level (old_level);
-  printf("end timer_sleep\n");
+  t->time_wakeup = ticks + start;
+  t->sema = &sema;
+  list_push_back(&blocked_list, &t->elem_sleep);
+  intr_enable();
+  //printf("%s%s%s\n", "Thread ", t->name, " added to blocked list");
+  sema_down(&sema);
 }
-
-// bool
-// wakeup_time_cmp (const struct list_elem *a, const struct list_elem *b, void *aux)
-// {
-//   //return *(int64_t *)a - *(
-// 	return 0;
-// }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
    turned on. */
@@ -213,37 +184,24 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
-  // printf("ticks number: %" PRId64 "\n", ticks);
-  thread_tick ();
-  // thread_foreach(wake_threads, 0);
-
-  /* Interrupts are already disabled in this function. */
-  
-  while (earlist_wakeup_time <= ticks)
-  {
-    /* Use <= because sometimes ticks are negative, so that's why we also need a while loop to wakeup all threads that should be woked up. */
-    /* Wakeup threads and update earlist wakeup time. */
-    earlist_wakeup_time = thread_wakeup(&ticks, &earlist_wakeup_time);
-    printf("earlist_wakeup_time in ticks interruption: %" PRId64 "\n", earlist_wakeup_time);
+  struct list_elem *e; 
+  for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
+	   e = list_next(e)) 
+	{
+      
+	  struct thread *t = list_entry(e, struct thread, elem_sleep);
+      //printf("%s%s%s%"PRId64"\n", "Currently on ", t->name, " with wakeup time ", t->time_wakeup);
+      if (timer_ticks() >= t->time_wakeup) 
+		 {
+			//printf("%s%s%s\n", "Thread ", t->name, "is done");
+			list_remove(e);
+			sema_up(t->sema);
+			//printf("%s%s%s\n", "Thread ", t->name, " unblocked");
+	  }
+     
   }
-
-  // struct list_elem *e;
-  
-  // struct thread *t = thread_current();
-  // printf("%s%d\n", t->name, t->time_wakeup);
-  // for (e = list_begin (&blocked_list); e != list_end (&blocked_list);
-  //      e = list_next (e))
-  //   {
-  //     struct thread *t = list_entry (e, struct thread, allelem);
-  //     printf("inter: %s %d\n", t->name, t->time_wakeup);
-  //     if (t->status == THREAD_BLOCKED && t->time_wakeup >= ticks) {
-	//       thread_unblock(t);
-  //     }
-  //     printf("ok\n");
-  //   }
+  thread_tick();
 }
-
-
 
 /* Returns true if LOOPS iterations waits for more than one timer
    tick, otherwise false. */

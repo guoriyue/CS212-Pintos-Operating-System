@@ -1,14 +1,5 @@
 FAIL
-Some tick counts were missing or differed from those expected by more than 25.
-thread   actual <-> expected explanation
------- -------- --- -------- ----------------------------------------
-     0      303 <<< 672      Too small, by 344.
-     1      302 <<< 588      Too small, by 261.
-     2      298 <<< 492      Too small, by 169.
-     3      294 <<< 408      Too small, by 89.
-     4      294  =  316      
-     5      295 >>> 232      Too big, by 38.
-     6      298 >>> 152      Too big, by 121.
-     7      299 >>> 92       Too big, by 182.
-     8      298 >>> 40       Too big, by 233.
-     9      298 >>> 8        Too big, by 265.
+Kernel panic in run: PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
+Call stack: 0xc002882f
+Translation of call stack:
+0xc002882f: debug_panic (.../../lib/kernel/debug.c:38)
