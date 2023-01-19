@@ -335,67 +335,7 @@ thread_foreach (thread_action_func *func, void *aux)
 void
 thread_set_priority (int new_priority) 
 {
-  // thread_current ()->priority = new_priority;
-  enum intr_level old_level = intr_disable ();
-  struct thread *cur = thread_current ()
-  int old_priority = cur->priority;
-  /* Just simply set the priority. The donation mechanism only changes the donated priorty. */
-  cur->priority = new_priority;
-  if (list_empty(&cur->donor_threads))
-  {
-    /* If no donor threads, new priority should be simply set. 
-       Do nothing. */
-  }
-  else
-  {
-    /* Have some donor threads, need to make sure that the new priority is greater than the old priority. 
-       Otherwise if the new priority is less that the original priority, it breaks the donation rule. */
-
-    // I just follow other list_entry function calls, why use donor_thread_elem instead of cur->donor_thread_elem?
-    struct thread *highest_priority_donor_thread = list_entry (list_begin (&cur->donor_threads), struct thread, donor_thread_elem);
-    if (highest_priority_donor_thread->priority > new_priority)
-    {
-      /* The new priority must be greater than the old priority, if not, use the highest donor priority.
-         This equals to set the new priority and perform priority donation again. 
-         In this situation, the new current priority must be less than the old current priority, so yield this thread. */
-      cur->priority = highest_priority_donor_thread->priority;
-      thread_yield ();
-    }
-    else if (highest_priority_donor_thread->priority < new_priority)
-    {
-      /* The new priority is greater than the old priority. */
-      thread_donate_priority (cur, new_priority);
-    }
-  }
-  
-  intr_set_level (old_level);
-}
-
-/* Recursively donate priority. We need to use recursion to handle nested donations. */
-void
-thread_donate_priority (struct thread *t, int set_priority)
-{
-  /* Recursion ends when priority equals because we visit threads with higher priorities first. */
-  if (t->priority == set_priority){
-    return ;
-  }
-
-  struct lock *l = t->wait_on_lock;
-  if (l->holder)
-  {
-    /* Thread which holds the lock that the current thread is waiting for, this thread is a possible donee. */
-    if (l->holder->priority >= set_priority){
-      /* Possible donee has a higher priority (or equal), no donation needed. */
-      return ;
-    }
-    l->holder->priority = set_priority;
-    thread_donate_priority (l->holder, set_priority);
-  }
-  else
-  {
-    /* No thread holds the lock that the current thread is waiting for. */
-    return ;
-  }
+  thread_current ()->priority = new_priority;
 }
 
 /* Returns the current thread's priority. */

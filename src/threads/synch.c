@@ -196,40 +196,8 @@ lock_acquire (struct lock *lock)
   ASSERT (!intr_context ());
   ASSERT (!lock_held_by_current_thread (lock));
 
-  // /* Current thread successfully acquires the lock. */
-  // sema_down (&lock->semaphore);
-  // lock->holder = thread_current ();
-
-  struct thread* cur = thread_current ();
-  enum intr_level old_level;
-  ASSERT (!intr_context ());
-  old_level = intr_disable ();
-
-  if (lock->holder)
-  {
-    /* If the lock is already held by some thread, and the current thread is still acquiring the lock. 
-       It is possible that we need priority donation, and the current thread is the donor. */
-    cur->wait_on_lock = lock;
-    /* If the current thread's item is not in the holder thread's donor list, and the current thread is waiting on the lock,
-       then add current thread to the holder's donor list. 
-       From the slides, later waiting threads can be donors of former waiting threads. */
-    
-    list_insert_ordered (lock->holder->donor_threadsm, cur->donor_thread_elem, priority_cmp, 0);
-  }  
-
-  /* Original code, if the lock is not held by any other threads and is successfully acquired by the current thread. */
-  /* sema_down updates sema waiter list, which is the list of all threads waiting for this sema. */
   sema_down (&lock->semaphore);
   lock->holder = thread_current ();
-
-  intr_set_level (old_level);
-}
-
-
-bool
-priority_cmp (const struct list_elem *a, const struct list_elem *b, void *aux)
-{
-  return 0;
 }
 
 /* Tries to acquires LOCK and returns true if successful or false
