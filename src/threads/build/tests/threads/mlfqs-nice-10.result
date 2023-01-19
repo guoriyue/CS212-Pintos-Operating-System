@@ -4,11 +4,11 @@ thread   actual <-> expected explanation
 ------ -------- --- -------- ----------------------------------------
      0      303 <<< 672      Too small, by 344.
      1      302 <<< 588      Too small, by 261.
-     2      299 <<< 492      Too small, by 168.
-     3      295 <<< 408      Too small, by 88.
-     4      295  =  316      
-     5      294 >>> 232      Too big, by 37.
-     6      299 >>> 152      Too big, by 122.
+     2      298 <<< 492      Too small, by 169.
+     3      294 <<< 408      Too small, by 89.
+     4      294  =  316      
+     5      295 >>> 232      Too big, by 38.
+     6      298 >>> 152      Too big, by 121.
      7      299 >>> 92       Too big, by 182.
      8      298 >>> 40       Too big, by 233.
-     9      299 >>> 8        Too big, by 266.
+     9      298 >>> 8        Too big, by 265.

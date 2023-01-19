@@ -1,7 +1,8 @@
+squish-pty bochs -q
+
 PiLo hda1
 Loading..........
-Kernel command line: -q -mlfqs run mlfq
--fair-20
+Kernel command line: -q -mlfqs run mlfqs-fair-20
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
@@ -118,23 +119,23 @@ sleep time, ticks, sum and wake up time 62 465 527 527
 earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
-(mlfqs-fair-20) start timer_sleep
+(mlfqs-fair-20) Starting threads took 37 ticks.
+(mlfqs-fair-20) Sleeping 40 seconds to let threads run, please wait...
+start timer_sleep
+sleep: main
+sleep time, ticks, sum and wake up time 77 4000 4077 4077
+earlist_wakeup_time in time_sleep 527
+before list_push_back add_timer_sleep_thread_to_blocked_list
+after list_push_back add_timer_sleep_thread_to_blocked_list
+start timer_sleep
 sleep: load 18
-sleep time, ticks, sum and wake up time 66 461 527 527
+sleep time, ticks, sum and wake up time 77 461 538 538
 earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 19
-sleep time, ticks, sum and wake up time 67 460 527 527
-earlist_wakeup_time in time_sleep 527
-before list_push_back add_timer_sleep_thread_to_blocked_list
-after list_push_back add_timer_sleep_thread_to_blocked_list
-Starting threads took 37 ticks.
-(mlfqs-fair-20) Sleeping 40 seconds to let threads run, please wait...
-start timer_sleep
-sleep: main
-sleep time, ticks, sum and wake up time 80 4000 4080 4080
+sleep time, ticks, sum and wake up time 77 461 538 538
 earlist_wakeup_time in time_sleep 527
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
@@ -192,16 +193,18 @@ wakeup_time: 527
 thread: load 17
 ticks: 527
 wakeup_time: 527
+end threads_wakeup new_earlist_wakeup_time 538
+earlist_wakeup_time in ticks interruption: 538
+end timer_sleep
+end timer_sleep
 thread: load 18
-ticks: 527
-wakeup_time: 527
+ticks: 538
+wakeup_time: 538
 thread: load 19
-ticks: 527
-wakeup_time: 527
-end threads_wakeup new_earlist_wakeup_time 4080
-earlist_wakeup_time in ticks interruption: 4080
-end timer_sleep
-end timer_sleep
+ticks: 538
+wakeup_time: 538
+end threads_wakeup new_earlist_wakeup_time 4077
+earlist_wakeup_time in ticks interruption: 4077
 end timer_sleep
 end timer_sleep
 end timer_sleep
@@ -221,36 +224,36 @@ end timer_sleep
 end timer_sleep
 end timer_sleep
 thread: main
-ticks: 4080
-wakeup_time: 4080
+ticks: 4077
+wakeup_time: 4077
 LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
 return INT64_MAX 9223372036854775807
 earlist_wakeup_time in ticks interruption: 9223372036854775807
 end timer_sleep
-(mlfqs-fair-20) Thread 0 received 183 ticks.
-(mlfqs-fair-20) Thread 1 received 183 ticks.
-(mlfqs-fair-20) Thread 2 received 179 ticks.
-(mlfqs-fair-20) Thread 3 received 175 ticks.
-(mlfqs-fair-20) Thread 4 received 171 ticks.
-(mlfqs-fair-20) Thread 5 received 167 ticks.
-(mlfqs-fair-20) Thread 6 received 162 ticks.
-(mlfqs-fair-20) Thread 7 received 159 ticks.
-(mlfqs-fair-20) Thread 8 received 155 ticks.
-(mlfqs-fair-20) Thread 9 received 150 ticks.
-(mlfqs-fair-20) Thread 10 received 147 ticks.
-(mlfqs-fair-20) Thread 11 received 143 ticks.
-(mlfqs-fair-20) Thread 12 received 138 ticks.
-(mlfqs-fair-20) Thread 13 received 134 ticks.
-(mlfqs-fair-20) Thread 14 received 131 ticks.
-(mlfqs-fair-20) Thread 15 received 126 ticks.
-(mlfqs-fair-20) Thread 16 received 122 ticks.
-(mlfqs-fair-20) Thread 17 received 118 ticks.
-(mlfqs-fair-20) Thread 18 received 114 ticks.
-(mlfqs-fair-20) Thread 19 received 111 ticks.
+(mlfqs-fair-20) Thread 0 received 161 ticks.
+(mlfqs-fair-20) Thread 1 received 163 ticks.
+(mlfqs-fair-20) Thread 2 received 158 ticks.
+(mlfqs-fair-20) Thread 3 received 154 ticks.
+(mlfqs-fair-20) Thread 4 received 152 ticks.
+(mlfqs-fair-20) Thread 5 received 151 ticks.
+(mlfqs-fair-20) Thread 6 received 150 ticks.
+(mlfqs-fair-20) Thread 7 received 151 ticks.
+(mlfqs-fair-20) Thread 8 received 147 ticks.
+(mlfqs-fair-20) Thread 9 received 147 ticks.
+(mlfqs-fair-20) Thread 10 received 146 ticks.
+(mlfqs-fair-20) Thread 11 received 142 ticks.
+(mlfqs-fair-20) Thread 12 received 143 ticks.
+(mlfqs-fair-20) Thread 13 received 143 ticks.
+(mlfqs-fair-20) Thread 14 received 139 ticks.
+(mlfqs-fair-20) Thread 15 received 138 ticks.
+(mlfqs-fair-20) Thread 16 received 139 ticks.
+(mlfqs-fair-20) Thread 17 received 135 ticks.
+(mlfqs-fair-20) Thread 18 received 155 ticks.
+(mlfqs-fair-20) Thread 19 received 154 ticks.
 (mlfqs-fair-20) end
 Execution of 'mlfqs-fair-20' complete.
-Timer: 4204 ticks
-Thread: 1032 idle ticks, 3174 kernel ticks, 0 user ticks
-Console: 8126 characters output
+Timer: 4201 ticks
+Thread: 1031 idle ticks, 3172 kernel ticks, 0 user ticks
+Console: 8220 characters output
 Keyboard: 0 keys pressed
 Powering off..

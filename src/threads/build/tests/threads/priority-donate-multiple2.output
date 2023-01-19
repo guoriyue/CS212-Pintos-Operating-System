@@ -1,7 +1,8 @@
+squish-pty bochs -q
+
 PiLo hda1
 Loading..........
-Kernel command line: -q run priority-do
-ate-multiple2
+Kernel command line: -q run priority-donate-multiple2
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.

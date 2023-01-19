@@ -1,7 +1,8 @@
+squish-pty bochs -q
+
 PiLo hda1
 Loading..........
-Kernel command line: -q -mlfqs run mlfq
--nice-2
+Kernel command line: -q -mlfqs run mlfqs-nice-2
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
@@ -47,8 +48,8 @@ LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
 return INT64_MAX 9223372036854775807
 earlist_wakeup_time in ticks interruption: 9223372036854775807
 end timer_sleep
-(mlfqs-nice-2) Thread 0 received 1496 ticks.
-(mlfqs-nice-2) Thread 1 received 1492 ticks.
+(mlfqs-nice-2) Thread 0 received 1495 ticks.
+(mlfqs-nice-2) Thread 1 received 1491 ticks.
 (mlfqs-nice-2) end
 Execution of 'mlfqs-nice-2' complete.
 Timer: 4064 ticks

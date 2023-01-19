@@ -1,7 +1,8 @@
+squish-pty bochs -q
+
 PiLo hda1
 Loading..........
-Kernel command line: -q -mlfqs run mlfq
--load-avg
+Kernel command line: -q -mlfqs run mlfqs-load-avg
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
@@ -2019,7 +2020,7 @@ end timer_sleep
 (mlfqs-load-avg) end
 Execution of 'mlfqs-load-avg' complete.
 Timer: 18845 ticks
-Thread: 6511 idle ticks, 12337 kernel ticks, 0 user ticks
+Thread: 6513 idle ticks, 12335 kernel ticks, 0 user ticks
 Console: 70510 characters output
 Keyboard: 0 keys pressed
 Powering off..

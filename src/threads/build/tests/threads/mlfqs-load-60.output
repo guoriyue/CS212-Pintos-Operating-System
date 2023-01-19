@@ -1,7 +1,8 @@
+squish-pty bochs -q
+
 PiLo hda1
 Loading..........
-Kernel command line: -q -mlfqs run mlfq
--load-60
+Kernel command line: -q -mlfqs run mlfqs-load-60
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
@@ -659,388 +660,388 @@ end timer_sleep
 (mlfqs-load-60) After 60 seconds, load average=0.00.
 start timer_sleep
 sleep: main
-sleep time, ticks, sum and wake up time 7131 96 7227 7227
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 96 7228 7228
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 46
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 43
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 40
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 37
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 34
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 31
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 28
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 25
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 22
-sleep time, ticks, sum and wake up time 7131 5993 13124 13124
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5993 13125 13125
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 19
-sleep time, ticks, sum and wake up time 7131 5993 13124 13124
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5993 13125 13125
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 16
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 13
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 10
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 7
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 4
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 1
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 0
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 56
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 53
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 50
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 47
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 44
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 41
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 38
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 35
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 32
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 29
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 26
-sleep time, ticks, sum and wake up time 7131 6000 13131 13131
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 6000 13132 13132
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 23
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 20
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 17
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 14
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 11
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 8
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 5
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 2
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 58
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 57
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 54
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 51
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 48
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 45
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 42
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 39
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 36
-sleep time, ticks, sum and wake up time 7131 5999 13130 13130
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5999 13131 13131
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 33
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 30
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 27
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 24
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 21
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 18
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 15
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 12
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 9
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 6
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 3
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 59
-sleep time, ticks, sum and wake up time 7131 5998 13129 13129
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5998 13130 13130
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 55
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 52
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 start timer_sleep
 sleep: load 49
-sleep time, ticks, sum and wake up time 7131 5994 13125 13125
-earlist_wakeup_time in time_sleep 7227
+sleep time, ticks, sum and wake up time 7132 5994 13126 13126
+earlist_wakeup_time in time_sleep 7228
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
-ticks: 7227
-wakeup_time: 7227
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+ticks: 7228
+wakeup_time: 7228
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 62 seconds, load average=0.00.
 start timer_sleep
 sleep: main
-sleep time, ticks, sum and wake up time 7237 190 7427 7427
+sleep time, ticks, sum and wake up time 7238 189 7427 7427
 earlist_wakeup_time in time_sleep 7427
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 7427
 wakeup_time: 7427
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 64 seconds, load average=0.00.
 start timer_sleep
@@ -1052,8 +1053,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 7627
 wakeup_time: 7627
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 66 seconds, load average=0.00.
 start timer_sleep
@@ -1065,8 +1066,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 7827
 wakeup_time: 7827
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 68 seconds, load average=0.00.
 start timer_sleep
@@ -1078,8 +1079,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 8027
 wakeup_time: 8027
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 70 seconds, load average=0.00.
 start timer_sleep
@@ -1091,8 +1092,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 8227
 wakeup_time: 8227
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 72 seconds, load average=0.00.
 start timer_sleep
@@ -1104,8 +1105,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 8427
 wakeup_time: 8427
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 74 seconds, load average=0.00.
 start timer_sleep
@@ -1117,8 +1118,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 8627
 wakeup_time: 8627
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 76 seconds, load average=0.00.
 start timer_sleep
@@ -1130,8 +1131,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 8827
 wakeup_time: 8827
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 78 seconds, load average=0.00.
 start timer_sleep
@@ -1143,8 +1144,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 9027
 wakeup_time: 9027
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 80 seconds, load average=0.00.
 start timer_sleep
@@ -1156,8 +1157,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 9227
 wakeup_time: 9227
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 82 seconds, load average=0.00.
 start timer_sleep
@@ -1169,8 +1170,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 9427
 wakeup_time: 9427
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 84 seconds, load average=0.00.
 start timer_sleep
@@ -1182,8 +1183,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 9627
 wakeup_time: 9627
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 86 seconds, load average=0.00.
 start timer_sleep
@@ -1195,8 +1196,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 9827
 wakeup_time: 9827
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 88 seconds, load average=0.00.
 start timer_sleep
@@ -1208,8 +1209,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 10027
 wakeup_time: 10027
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 90 seconds, load average=0.00.
 start timer_sleep
@@ -1221,8 +1222,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 10227
 wakeup_time: 10227
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 92 seconds, load average=0.00.
 start timer_sleep
@@ -1234,8 +1235,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 10427
 wakeup_time: 10427
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 94 seconds, load average=0.00.
 start timer_sleep
@@ -1247,8 +1248,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 10627
 wakeup_time: 10627
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 96 seconds, load average=0.00.
 start timer_sleep
@@ -1260,8 +1261,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 10827
 wakeup_time: 10827
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 98 seconds, load average=0.00.
 start timer_sleep
@@ -1273,8 +1274,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 11027
 wakeup_time: 11027
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 100 seconds, load average=0.00.
 start timer_sleep
@@ -1286,8 +1287,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 11227
 wakeup_time: 11227
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 102 seconds, load average=0.00.
 start timer_sleep
@@ -1299,8 +1300,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 11427
 wakeup_time: 11427
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 104 seconds, load average=0.00.
 start timer_sleep
@@ -1312,8 +1313,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 11627
 wakeup_time: 11627
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 106 seconds, load average=0.00.
 start timer_sleep
@@ -1325,8 +1326,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 11827
 wakeup_time: 11827
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 108 seconds, load average=0.00.
 start timer_sleep
@@ -1338,8 +1339,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 12027
 wakeup_time: 12027
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 110 seconds, load average=0.00.
 start timer_sleep
@@ -1351,8 +1352,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 12227
 wakeup_time: 12227
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 112 seconds, load average=0.00.
 start timer_sleep
@@ -1364,8 +1365,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 12427
 wakeup_time: 12427
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 114 seconds, load average=0.00.
 start timer_sleep
@@ -1377,8 +1378,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 12627
 wakeup_time: 12627
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 116 seconds, load average=0.00.
 start timer_sleep
@@ -1390,8 +1391,8 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 12827
 wakeup_time: 12827
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 118 seconds, load average=0.00.
 start timer_sleep
@@ -1403,205 +1404,205 @@ after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: main
 ticks: 13027
 wakeup_time: 13027
-end threads_wakeup new_earlist_wakeup_time 13124
-earlist_wakeup_time in ticks interruption: 13124
+end threads_wakeup new_earlist_wakeup_time 13125
+earlist_wakeup_time in ticks interruption: 13125
 end timer_sleep
 (mlfqs-load-60) After 120 seconds, load average=0.00.
 start timer_sleep
 sleep: main
 sleep time, ticks, sum and wake up time 13038 189 13227 13227
-earlist_wakeup_time in time_sleep 13124
+earlist_wakeup_time in time_sleep 13125
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
 thread: load 22
-ticks: 13124
-wakeup_time: 13124
+ticks: 13125
+wakeup_time: 13125
 thread: load 19
-ticks: 13124
-wakeup_time: 13124
-end threads_wakeup new_earlist_wakeup_time 13125
-earlist_wakeup_time in ticks interruption: 13125
+ticks: 13125
+wakeup_time: 13125
+end threads_wakeup new_earlist_wakeup_time 13126
+earlist_wakeup_time in ticks interruption: 13126
 thread: load 46
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 43
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 40
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 37
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 34
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 31
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 28
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 25
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 55
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 52
-ticks: 13125
-wakeup_time: 13125
+ticks: 13126
+wakeup_time: 13126
 thread: load 49
-ticks: 13125
-wakeup_time: 13125
-end threads_wakeup new_earlist_wakeup_time 13129
-earlist_wakeup_time in ticks interruption: 13129
-end timer_sleep
-thread: load 33
-ticks: 13129
-wakeup_time: 13129
-thread: load 30
-ticks: 13129
-wakeup_time: 13129
-thread: load 27
-ticks: 13129
-wakeup_time: 13129
-thread: load 24
-ticks: 13129
-wakeup_time: 13129
-thread: load 21
-ticks: 13129
-wakeup_time: 13129
-thread: load 18
-ticks: 13129
-wakeup_time: 13129
-thread: load 15
-ticks: 13129
-wakeup_time: 13129
-thread: load 12
-ticks: 13129
-wakeup_time: 13129
-thread: load 9
-ticks: 13129
-wakeup_time: 13129
-thread: load 6
-ticks: 13129
-wakeup_time: 13129
-thread: load 3
-ticks: 13129
-wakeup_time: 13129
-thread: load 59
-ticks: 13129
-wakeup_time: 13129
+ticks: 13126
+wakeup_time: 13126
 end threads_wakeup new_earlist_wakeup_time 13130
 earlist_wakeup_time in ticks interruption: 13130
-thread: load 23
+end timer_sleep
+thread: load 33
 ticks: 13130
 wakeup_time: 13130
-thread: load 20
+thread: load 30
 ticks: 13130
 wakeup_time: 13130
-thread: load 17
+thread: load 27
 ticks: 13130
 wakeup_time: 13130
-thread: load 14
+thread: load 24
 ticks: 13130
 wakeup_time: 13130
-thread: load 11
+thread: load 21
 ticks: 13130
 wakeup_time: 13130
-thread: load 8
+thread: load 18
 ticks: 13130
 wakeup_time: 13130
-thread: load 5
+thread: load 15
 ticks: 13130
 wakeup_time: 13130
-thread: load 2
+thread: load 12
 ticks: 13130
 wakeup_time: 13130
-thread: load 58
+thread: load 9
 ticks: 13130
 wakeup_time: 13130
-thread: load 57
+thread: load 6
 ticks: 13130
 wakeup_time: 13130
-thread: load 54
+thread: load 3
 ticks: 13130
 wakeup_time: 13130
-thread: load 51
-ticks: 13130
-wakeup_time: 13130
-thread: load 48
-ticks: 13130
-wakeup_time: 13130
-thread: load 45
-ticks: 13130
-wakeup_time: 13130
-thread: load 42
-ticks: 13130
-wakeup_time: 13130
-thread: load 39
-ticks: 13130
-wakeup_time: 13130
-thread: load 36
+thread: load 59
 ticks: 13130
 wakeup_time: 13130
 end threads_wakeup new_earlist_wakeup_time 13131
 earlist_wakeup_time in ticks interruption: 13131
+thread: load 23
+ticks: 13131
+wakeup_time: 13131
+thread: load 20
+ticks: 13131
+wakeup_time: 13131
+thread: load 17
+ticks: 13131
+wakeup_time: 13131
+thread: load 14
+ticks: 13131
+wakeup_time: 13131
+thread: load 11
+ticks: 13131
+wakeup_time: 13131
+thread: load 8
+ticks: 13131
+wakeup_time: 13131
+thread: load 5
+ticks: 13131
+wakeup_time: 13131
+thread: load 2
+ticks: 13131
+wakeup_time: 13131
+thread: load 58
+ticks: 13131
+wakeup_time: 13131
+thread: load 57
+ticks: 13131
+wakeup_time: 13131
+thread: load 54
+ticks: 13131
+wakeup_time: 13131
+thread: load 51
+ticks: 13131
+wakeup_time: 13131
+thread: load 48
+ticks: 13131
+wakeup_time: 13131
+thread: load 45
+ticks: 13131
+wakeup_time: 13131
+thread: load 42
+ticks: 13131
+wakeup_time: 13131
+thread: load 39
+ticks: 13131
+wakeup_time: 13131
+thread: load 36
+ticks: 13131
+wakeup_time: 13131
+end threads_wakeup new_earlist_wakeup_time 13132
+earlist_wakeup_time in ticks interruption: 13132
 thread: load 16
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 13
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 10
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 7
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 4
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 1
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 0
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 56
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 53
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 50
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 47
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 44
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 41
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 38
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 35
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 32
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 29
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 thread: load 26
-ticks: 13131
-wakeup_time: 13131
+ticks: 13132
+wakeup_time: 13132
 end threads_wakeup new_earlist_wakeup_time 13227
 earlist_wakeup_time in ticks interruption: 13227
 end timer_sleep
@@ -1648,35 +1649,35 @@ LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY
 return INT64_MAX 9223372036854775807
 earlist_wakeup_time in ticks interruption: 9223372036854775807
 end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
-end timer_sleep
 (mlfqs-load-60) After 122 seconds, load average=0.00.
 start timer_sleep
 sleep: main
-sleep time, ticks, sum and wake up time 13293 134 13427 13427
+sleep time, ticks, sum and wake up time 13237 190 13427 13427
 earlist_wakeup_time in time_sleep 13427
 before list_push_back add_timer_sleep_thread_to_blocked_list
 after list_push_back add_timer_sleep_thread_to_blocked_list
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
+end timer_sleep
 thread: main
 ticks: 13427
 wakeup_time: 13427
@@ -2066,7 +2067,7 @@ end timer_sleep
 (mlfqs-load-60) end
 Execution of 'mlfqs-load-60' complete.
 Timer: 18845 ticks
-Thread: 11964 idle ticks, 6884 kernel ticks, 0 user ticks
+Thread: 11970 idle ticks, 6878 kernel ticks, 0 user ticks
 Console: 69736 characters output
 Keyboard: 0 keys pressed
 Powering off..
