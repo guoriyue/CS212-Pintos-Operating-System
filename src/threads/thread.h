@@ -88,6 +88,7 @@ struct thread
     char name[16];                      /* Name (for debugging purposes). */
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
+    int old_priority;                   /* Old priority, we may need to recover a lower priority sometimes. */
     struct list_elem allelem;           /* List element for all threads list. */
     int64_t time_wakeup;				/* Wakeup time for thread. */
 	struct semaphore *sema;  			/* Thread's semaphore. */
@@ -97,6 +98,25 @@ struct thread
 
     /* New elem struct for the blocked queue */
 	struct list_elem elem_sleep;
+
+    /* The lock that the thread is waiting on. */
+    struct lock *wait_on_lock;
+    /* Locks that the thread holds, and also waited on by other threads, which are potential donor threads. */
+    struct list hold_locks;
+   
+    /* Other threads which are waiting on locks the thread holds.
+       They might be donations to the thread. */
+    struct list donor_threads;
+    /* I think that list_elem is just a placeholder for calling list functions. */
+    struct list_elem donor_thread_elem;
+    
+    /* The donee threads are threads would be donated priority. 
+       If thread A is holding L, thread B is waiting on L, and the priority of thread B is higher than A, 
+       then L is B's *wait_on_lock and A is in B's donee_threads. */
+    struct list donee_threads;
+    /* List element for donee_threads, shared between thread.c and synch.c. */
+    struct list_elem donee_thread_elem;                    
+
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
@@ -143,4 +163,10 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
+int64_t thread_wakeup(int64_t *ticks, int64_t *earlist_wakeup_time);
+bool less_time_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
+void thread_donate_priority (struct thread *t, int set_priority);
+
+bool lower_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
+bool higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
 #endif /* threads/thread.h */

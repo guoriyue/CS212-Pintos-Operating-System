@@ -1,0 +1,23 @@
+squish-pty bochs -q
+
+PiLo hda1
+Loading..........
+Kernel command line: -q run priority-donate-nest
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,000 loops/s.
+Boot complete.
+Executing 'priority-donate-nest':
+(priority-donate-nest) begin
+(priority-donate-nest) Low thread should have priority 32.  Actual priority: 32.
+Kernel PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
+Call stack: 0xc0028a7f 0xc0105064.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Timer: 37 ticks
+Thread: 0 idle ticks, 37 kernel ticks, 0 user ticks
+Console: 726 characters output
+Keyboard: 0 keys pressed
+Powering off..
