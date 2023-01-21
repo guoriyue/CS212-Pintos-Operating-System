@@ -50,6 +50,6 @@ void cond_broadcast (struct condition *, struct lock *);
 #define barrier() asm volatile ("" : : : "memory")
 
 
-bool less_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
-
+bool lower_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
+bool elem_exist (struct list *list, struct list_elem *elem);
 #endif /* threads/synch.h */

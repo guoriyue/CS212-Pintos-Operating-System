@@ -1,5 +1,2 @@
 FAIL
-Kernel panic in run: PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
-Call stack: 0xc002882f
-Translation of call stack:
-0xc002882f: debug_panic (.../../lib/kernel/debug.c:38)
+run: TIMEOUT after 60 seconds of host CPU time

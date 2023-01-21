@@ -3,21 +3,22 @@ squish-pty bochs -q
 PiLo hda1
 Loading..........
 Kernel command line: -q run priority-donate-chain
-start lock_acquire
-start sema_down
-end sema_down
-end lock_acquire
-start lock_release
-start sema_up
-end sema_up
-end lock_release
-Kernel PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
-Call stack: 0xc002882f.
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,000 loops/s.
+Boot complete.
+Executing 'priority-donate-chain':
+(priority-donate-chain) begin
+(priority-donate-chain) main got lock.
+(priority-donate-chain) main should have priority 3.  Actual priority: 3.
+Kernel PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
+Call stack: 0xc0028a7f 0xc0106064.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 0 ticks
-Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
-Console: 520 characters output
+Timer: 40 ticks
+Thread: 0 idle ticks, 40 kernel ticks, 0 user ticks
+Console: 761 characters output
 Keyboard: 0 keys pressed
-Powering off...
+Powering off..

@@ -1,5 +1,6 @@
 FAIL
-Kernel panic in run: PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
-Call stack: 0xc002882f
+Kernel panic in run: PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
+Call stack: 0xc0028a7f 0xc0106064
 Translation of call stack:
-0xc002882f: debug_panic (.../../lib/kernel/debug.c:38)
+0xc0028a7f: debug_panic (.../../lib/kernel/debug.c:38)
+0xc0106064: (unknown)

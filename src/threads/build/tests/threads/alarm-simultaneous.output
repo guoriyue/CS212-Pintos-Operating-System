@@ -3,21 +3,35 @@ squish-pty bochs -q
 PiLo hda1
 Loading..........
 Kernel command line: -q run alarm-simultaneous
-start lock_acquire
-start sema_down
-end sema_down
-end lock_acquire
-start lock_release
-start sema_up
-end sema_up
-end lock_release
-Kernel PANIC at ../../threads/thread.c:281 in thread_current(): assertion `is_thread (t)' failed.
-Call stack: 0xc002882f.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 0 ticks
-Thread: 0 idle ticks, 0 kernel ticks, 0 user ticks
-Console: 517 characters output
+Pintos booting with 4,096 kB RAM...
+383 pages available in kernel pool.
+383 pages available in user pool.
+Calibrating timer...  164,000 loops/s.
+Boot complete.
+Executing 'alarm-simultaneous':
+(alarm-simultaneous) begin
+(alarm-simultaneous) Creating 3 threads to sleep 5 times each.
+(alarm-simultaneous) Each thread sleeps 10 ticks each time.
+(alarm-simultaneous) Within an iteration, all threads should wake up on the same tick.
+(alarm-simultaneous) iteration 0, thread 0: woke up after 10 ticks
+(alarm-simultaneous) iteration 0, thread 1: woke up 0 ticks later
+(alarm-simultaneous) iteration 0, thread 2: woke up 0 ticks later
+(alarm-simultaneous) iteration 1, thread 0: woke up 10 ticks later
+(alarm-simultaneous) iteration 1, thread 1: woke up 0 ticks later
+(alarm-simultaneous) iteration 1, thread 2: woke up 0 ticks later
+(alarm-simultaneous) iteration 2, thread 0: woke up 10 ticks later
+(alarm-simultaneous) iteration 2, thread 1: woke up 0 ticks later
+(alarm-simultaneous) iteration 2, thread 2: woke up 0 ticks later
+(alarm-simultaneous) iteration 3, thread 0: woke up 10 ticks later
+(alarm-simultaneous) iteration 3, thread 1: woke up 0 ticks later
+(alarm-simultaneous) iteration 3, thread 2: woke up 0 ticks later
+(alarm-simultaneous) iteration 4, thread 0: woke up 10 ticks later
+(alarm-simultaneous) iteration 4, thread 1: woke up 0 ticks later
+(alarm-simultaneous) iteration 4, thread 2: woke up 0 ticks later
+(alarm-simultaneous) end
+Execution of 'alarm-simultaneous' complete.
+Timer: 420 ticks
+Thread: 273 idle ticks, 149 kernel ticks, 0 user ticks
+Console: 1612 characters output
 Keyboard: 0 keys pressed
-Powering off...
+Powering off..
