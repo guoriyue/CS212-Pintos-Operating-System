@@ -12,15 +12,26 @@ Executing 'priority-fifo':
 (priority-fifo) begin
 (priority-fifo) 16 threads will iterate 16 times in the same order each time.
 (priority-fifo) If the order varies then there is a bug.
-(priUnexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-Unexpected interrupt 0x0e (#PF Page-Fault Exception)
-
-TIMEOUT after 60 seconds of host CPU time
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) iteration: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+(priority-fifo) end
+Execution of 'priority-fifo' complete.
+Timer: 264 ticks
+Thread: 8 idle ticks, 258 kernel ticks, 0 user ticks
+Console: 1555 characters output
+Keyboard: 0 keys pressed
+Powering off..

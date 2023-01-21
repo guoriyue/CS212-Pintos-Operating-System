@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7ff9a60d5010. after alignment, vector=0x7ff9a60d6000
+00000000000i[MEM0  ] allocated memory at 0x7fc6e61f8010. after alignment, vector=0x7fc6e61f9000
 00000000000i[MEM0  ] 4.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=32
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/afs/ir.stanford.edu/class/cs212/rice/share/bochs/BIOS-bochs-latest')
@@ -69,7 +69,7 @@
 00000000000i[PLUGIN] init_dev of 'keyboard' plugin device by virtual method
 00000000000i[KBD   ] will paste characters every 400 keyboard ticks
 00000000000i[PLUGIN] init_dev of 'harddrv' plugin device by virtual method
-00000000000i[HD    ] HD on ata0-0: '/tmp/66dq9tWbQs.dsk', 'flat' mode
+00000000000i[HD    ] HD on ata0-0: '/tmp/LbWjCaIbYs.dsk', 'flat' mode
 00000000000i[IMG   ] hd_size: 516096
 00000000000i[HD    ] ata0-0: using specified geometry: CHS=1/16/63 (sector size=512)
 00000000000i[PLUGIN] init_dev of 'pci_ide' plugin device by virtual method
@@ -162,6 +162,21 @@
 00000000000i[PLUGIN] reset of 'extfpuirq' plugin device by virtual method
 00000000000i[PLUGIN] reset of 'parallel' plugin device by virtual method
 00000000000i[PLUGIN] reset of 'serial' plugin device by virtual method
+00000000000i[GDBST ] addr 00000000c0022c40 len 40
+00000000000i[GDBST ] addr 00000000c0022c7d len 1
+00000000000i[GDBST ] addr 00000000c002b200 len 40
+00000000000i[GDBST ] addr 00000000c002b233 len 1
+00000000000i[GDBST ] addr 00000000c0022c7d len 1
+00000000000i[GDBST ] addr 000000000000fff0 len 1
+00000000000i[GDBST ] addr 000000000000fff0 len 1
+00000000000i[GDBST ] addr 000000000000ffc0 len 40
+00000000000i[GDBST ] addr 000000000000fff0 len 8
+00000000000i[GDBST ] addr 000000000000fff0 len 7
+00000000000i[GDBST ] addr 00000000c0020f00 len 40
+00000000000i[GDBST ] addr 00000000c0020fbd len 1
+00000000000i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00000000000i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00000000000i[GDBST ] Setting breakpoint at 00000000c002b233
 00000004662i[BIOS  ] $Revision: 13752 $ $Date: 2019-12-30 14:16:18 +0100 (Mon, 30 Dec 2019) $
 00000317062i[KBD   ] reset-disable command received
 00000318319i[BIOS  ] Starting rombios32
@@ -197,6 +212,7 @@
 00001384379i[BIOS  ] Firmware waking vector 0x3f00cc
 00001386859i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
 00001387582i[BIOS  ] bios_table_cur_addr: 0x000f9ff4
+00001492438i[NOGUI ] ips = 1.492M
 00001516453i[VBIOS ] VGABios $Id: vgabios.c 226 2020-01-02 21:36:23Z vruppert $
 00001516524i[BXVGA ] VBE known Display Interface b0c0
 00001516556i[BXVGA ] VBE known Display Interface b0c5
@@ -204,33 +220,3085 @@
 00001866734i[BIOS  ] ata0-0: PCHS=1/16/63 translation=none LCHS=1/16/63
 00005314961i[BIOS  ] IDE time out
 00008382045i[BIOS  ] Booting from 0000:7c00
-00068528355i[NOGUI ] ips = 68.528M
-00139924234i[NOGUI ] ips = 71.396M
-00211333763i[NOGUI ] ips = 71.410M
-00282179507i[NOGUI ] ips = 70.846M
-00348319426i[NOGUI ] ips = 66.140M
-00419621902i[NOGUI ] ips = 71.302M
-00490325089i[NOGUI ] ips = 70.703M
-00509515300p[      ] >>PANIC<< SIGNAL 2 caught
-00509515300i[CPU0  ] CPU is in protected mode (active)
-00509515300i[CPU0  ] CS.mode = 32 bit
-00509515300i[CPU0  ] SS.mode = 32 bit
-00509515300i[CPU0  ] EFER   = 0x00000000
-00509515300i[CPU0  ] | EAX=00000000  EBX=c002f273  ECX=00000780  EDX=000003f8
-00509515300i[CPU0  ] | ESP=c0105f48  EBP=00000000  ESI=000001a2  EDI=c002d47c
-00509515300i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf AF PF cf
-00509515300i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-00509515300i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00509515300i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00509515300i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00509515300i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00509515300i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00509515300i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00509515300i[CPU0  ] | EIP=c0028b98 (c0028b98)
-00509515300i[CPU0  ] | CR0=0xe0010015 CR2=0x00000000
-00509515300i[CPU0  ] | CR3=0x00101000 CR4=0x00000000
-00509515300i[CPU0  ] 0xc0028b98>> jmp .-2 (0xc0028b98) : EBFE
-00509515300i[CMOS  ] Last time is 509 (Wed Dec 31 16:08:29 1969)
-00509515300i[NOGUI ] bx_nogui_gui_c::exit() not implemented yet.
-00509515300i[      ] restoring default signal behavior
-00509515300i[SIM   ] quit_sim called with exit code 1
+00008716398i[GDBST ] found breakpoint at c0022c7d
+00008716398i[GDBST ] stopped with ac1
+00008716398i[GDBST ] reg 8 set to 00000000c0022c7d
+00008716398i[GDBST ] reg 41 set to 00000000ffffffff
+00008716398i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008716398i[GDBST ] stepping
+00008716399i[GDBST ] stopped with ac2
+00008716399i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008752341i[GDBST ] found breakpoint at c0022c7d
+00008752341i[GDBST ] stopped with ac1
+00008752341i[GDBST ] reg 8 set to 00000000c0022c7d
+00008752341i[GDBST ] reg 41 set to 00000000ffffffff
+00008752341i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008752341i[GDBST ] stepping
+00008752342i[GDBST ] stopped with ac2
+00008752342i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008789815i[GDBST ] found breakpoint at c0022c7d
+00008789815i[GDBST ] stopped with ac1
+00008789815i[GDBST ] reg 8 set to 00000000c0022c7d
+00008789815i[GDBST ] reg 41 set to 00000000ffffffff
+00008789815i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008789815i[GDBST ] stepping
+00008789816i[GDBST ] stopped with ac2
+00008789816i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008837375i[GDBST ] found breakpoint at c0022c7d
+00008837375i[GDBST ] stopped with ac1
+00008837375i[GDBST ] reg 8 set to 00000000c0022c7d
+00008837375i[GDBST ] reg 41 set to 00000000ffffffff
+00008837375i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008837375i[GDBST ] stepping
+00008837376i[GDBST ] stopped with ac2
+00008837376i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008851416i[GDBST ] found breakpoint at c0022c7d
+00008851416i[GDBST ] stopped with ac1
+00008851416i[GDBST ] reg 8 set to 00000000c0022c7d
+00008851416i[GDBST ] reg 41 set to 00000000ffffffff
+00008851416i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008851416i[GDBST ] stepping
+00008851417i[GDBST ] stopped with ac2
+00008851417i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008852981i[GDBST ] found breakpoint at c0022c7d
+00008852981i[GDBST ] stopped with ac1
+00008852981i[GDBST ] reg 8 set to 00000000c0022c7d
+00008852981i[GDBST ] reg 41 set to 00000000ffffffff
+00008852981i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008852981i[GDBST ] stepping
+00008852982i[GDBST ] stopped with ac2
+00008852982i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008896668i[GDBST ] found breakpoint at c0022c7d
+00008896668i[GDBST ] stopped with ac1
+00008896668i[GDBST ] reg 8 set to 00000000c0022c7d
+00008896668i[GDBST ] reg 41 set to 00000000ffffffff
+00008896668i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008896668i[GDBST ] stepping
+00008896669i[GDBST ] stopped with ac2
+00008896669i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008898276i[GDBST ] found breakpoint at c0022c7d
+00008898276i[GDBST ] stopped with ac1
+00008898276i[GDBST ] reg 8 set to 00000000c0022c7d
+00008898276i[GDBST ] reg 41 set to 00000000ffffffff
+00008898276i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008898276i[GDBST ] stepping
+00008898277i[GDBST ] stopped with ac2
+00008898277i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008899209i[GDBST ] found breakpoint at c0020fbd
+00008899209i[GDBST ] stopped with ac1
+00008899209i[GDBST ] reg 8 set to 00000000c0020fbd
+00008899209i[GDBST ] reg 41 set to 00000000ffffffff
+00008899209i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00008899209i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008899209i[GDBST ] Removing breakpoint at 00000000c002b233
+00008899209i[NOGUI ] ips = 7.407M
+00008899209i[GDBST ] addr 00000000c000eeec len 4
+00008899209i[GDBST ] addr 00000000c000eeec len 4
+00008899209i[GDBST ] addr 00000000c000ef1c len 4
+00008899209i[GDBST ] addr 00000000c000ef1c len 4
+00008899209i[GDBST ] addr 00000000c000eeec len 4
+00008899209i[GDBST ] addr 00000000c000ef1c len 4
+00008899209i[GDBST ] addr 00000000c000ef4c len 4
+00008899209i[GDBST ] addr 00000000c000ef4c len 4
+00008899209i[GDBST ] addr 00000000c000ef1c len 4
+00008899209i[GDBST ] addr 00000000c000ef4c len 4
+00008899209i[GDBST ] addr 00000000c000ef40 len 4
+00008899209i[GDBST ] addr 00000000c000ef50 len 4
+00008899209i[GDBST ] addr 00000000c000ef8c len 4
+00008899209i[GDBST ] addr 00000000c000ef8c len 4
+00008899209i[GDBST ] addr 00000000c000ef4c len 4
+00008899209i[GDBST ] addr 00000000c000ef8c len 4
+00008899209i[GDBST ] addr 00000000c000effc len 4
+00008899209i[GDBST ] addr 00000000c000effc len 4
+00008899209i[GDBST ] addr 00000000c000ef8c len 4
+00008899209i[GDBST ] addr 00000000c000effc len 4
+00008899209i[GDBST ] addr 00000000c000eff8 len 4
+00008899209i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008899209i[GDBST ] Setting breakpoint at 00000000c002b233
+00008899209i[GDBST ] stepping
+00008899210i[GDBST ] stopped with ac2
+00008899210i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00008899893i[GDBST ] found breakpoint at c0020fbd
+00008899893i[GDBST ] stopped with ac1
+00008899893i[GDBST ] reg 8 set to 00000000c0020fbd
+00008899893i[GDBST ] reg 41 set to 00000000ffffffff
+00008899893i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00008899893i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008899893i[GDBST ] Removing breakpoint at 00000000c002b233
+00008899893i[NOGUI ] ips = 0.001M
+00008899893i[GDBST ] addr 00000000c0103f74 len 4
+00008899893i[GDBST ] addr 00000000c0103f74 len 4
+00008899893i[GDBST ] addr 00000000c0103fa4 len 4
+00008899893i[GDBST ] addr 00000000c0103fa4 len 4
+00008899893i[GDBST ] addr 00000000c0103f74 len 4
+00008899893i[GDBST ] addr 00000000c0103fa4 len 4
+00008899893i[GDBST ] addr 00000000c0103fc4 len 4
+00008899893i[GDBST ] addr 00000000c0103fc4 len 4
+00008899893i[GDBST ] addr 00000000c0103fa4 len 4
+00008899893i[GDBST ] addr 00000000c0103fc4 len 4
+00008899893i[GDBST ] addr 00000000c0103fc8 len 4
+00008899893i[GDBST ] addr 00000000c0103ff4 len 4
+00008899893i[GDBST ] addr 00000000c0103ff4 len 4
+00008899893i[GDBST ] addr 00000000c0103fc4 len 4
+00008899893i[GDBST ] addr 00000000c0103ff4 len 4
+00008899893i[GDBST ] addr 0000000000000000 len 8
+00008899893i[GDBST ] addr 0000000000000000 len 7
+00008899893i[GDBST ] addr 00000000c0103ff8 len 4
+00008899893i[GDBST ] addr 00000000c0103ffc len 4
+00008899893i[GDBST ] addr 00000000c0020fbd len 1
+00008899893i[GDBST ] addr 00000000c0103fc8 len 4
+00008899893i[GDBST ] addr 00000000c0103ff8 len 4
+00008899893i[GDBST ] addr 00000000c0103ffc len 4
+00008899893i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00008899893i[GDBST ] Setting breakpoint at 00000000c002b233
+00008899893i[GDBST ] stepping
+00008899894i[GDBST ] stopped with ac2
+00008899894i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00008914022i[GDBST ] found breakpoint at c0022c7d
+00008914022i[GDBST ] stopped with ac1
+00008914022i[GDBST ] reg 8 set to 00000000c0022c7d
+00008914022i[GDBST ] reg 41 set to 00000000ffffffff
+00008914022i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00008914022i[GDBST ] stepping
+00008914023i[GDBST ] stopped with ac2
+00008914023i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009108715i[GDBST ] found breakpoint at c0022c7d
+00009108715i[GDBST ] stopped with ac1
+00009108715i[GDBST ] reg 8 set to 00000000c0022c7d
+00009108715i[GDBST ] reg 41 set to 00000000ffffffff
+00009108715i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009108715i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009108715i[GDBST ] Removing breakpoint at 00000000c002b233
+00009108715i[GDBST ] addr 00000000c000eeec len 4
+00009108715i[GDBST ] addr 00000000c000eeec len 4
+00009108715i[GDBST ] addr 00000000c000eef0 len 4
+00009108715i[NOGUI ] ips = 0.209M
+00009108715i[GDBST ] addr 00000000c000eef0 len 4
+00009108715i[GDBST ] addr 00000000c000ef0c len 4
+00009108715i[GDBST ] addr 00000000c000ef0c len 4
+00009108715i[GDBST ] addr 00000000c000eeec len 4
+00009108715i[GDBST ] addr 00000000c000ef0c len 4
+00009108715i[GDBST ] addr 00000000c000ef3c len 4
+00009108715i[GDBST ] addr 00000000c000ef3c len 4
+00009108715i[GDBST ] addr 00000000c000ef0c len 4
+00009108715i[GDBST ] addr 00000000c000ef3c len 4
+00009108715i[GDBST ] addr 00000000c000ef5c len 4
+00009108715i[GDBST ] addr 00000000c000ef5c len 4
+00009108715i[GDBST ] addr 00000000c000ef3c len 4
+00009108715i[GDBST ] addr 00000000c000ef5c len 4
+00009108715i[GDBST ] addr 00000000c000ef60 len 4
+00009108715i[GDBST ] addr 00000000c000ef40 len 4
+00009108715i[GDBST ] addr 00000000c002f52e len 8
+00009108715i[GDBST ] addr 00000000c002f536 len 8
+00009108715i[GDBST ] addr 00000000c000ef44 len 4
+00009108715i[GDBST ] addr 00000000c000ef64 len 8
+00009108715i[GDBST ] addr 00000000c000ef60 len 4
+00009108715i[GDBST ] addr 00000000c002f52e len 8
+00009108715i[GDBST ] addr 00000000c002f536 len 8
+00009108715i[GDBST ] addr 00000000c000ef8c len 4
+00009108715i[GDBST ] addr 00000000c000ef8c len 4
+00009108715i[GDBST ] addr 00000000c000ef5c len 4
+00009108715i[GDBST ] addr 00000000c000ef8c len 4
+00009108715i[GDBST ] addr 00000000c000eee8 len 4
+00009108715i[GDBST ] addr 00000000c000effc len 4
+00009108715i[GDBST ] addr 00000000c000effc len 4
+00009108715i[GDBST ] addr 00000000c000ef8c len 4
+00009108715i[GDBST ] addr 00000000c000effc len 4
+00009108715i[GDBST ] addr 00000000c000eff8 len 4
+00009108715i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009108715i[GDBST ] Setting breakpoint at 00000000c002b233
+00009108715i[GDBST ] stepping
+00009108716i[GDBST ] stopped with ac2
+00009108716i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009138224i[GDBST ] found breakpoint at c0022c7d
+00009138224i[GDBST ] stopped with ac1
+00009138224i[GDBST ] reg 8 set to 00000000c0022c7d
+00009138224i[GDBST ] reg 41 set to 00000000ffffffff
+00009138224i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009138224i[GDBST ] stepping
+00009138225i[GDBST ] stopped with ac2
+00009138225i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009179609i[GDBST ] found breakpoint at c0022c7d
+00009179609i[GDBST ] stopped with ac1
+00009179609i[GDBST ] reg 8 set to 00000000c0022c7d
+00009179609i[GDBST ] reg 41 set to 00000000ffffffff
+00009179609i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009179609i[GDBST ] stepping
+00009179610i[GDBST ] stopped with ac2
+00009179610i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009194134i[GDBST ] found breakpoint at c0022c7d
+00009194134i[GDBST ] stopped with ac1
+00009194134i[GDBST ] reg 8 set to 00000000c0022c7d
+00009194134i[GDBST ] reg 41 set to 00000000ffffffff
+00009194134i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009194134i[GDBST ] stepping
+00009194135i[GDBST ] stopped with ac2
+00009194135i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009197582i[GDBST ] found breakpoint at c0022c7d
+00009197582i[GDBST ] stopped with ac1
+00009197582i[GDBST ] reg 8 set to 00000000c0022c7d
+00009197582i[GDBST ] reg 41 set to 00000000ffffffff
+00009197582i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009197582i[GDBST ] stepping
+00009197583i[GDBST ] stopped with ac2
+00009197583i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009219303i[GDBST ] found breakpoint at c0022c7d
+00009219303i[GDBST ] stopped with ac1
+00009219303i[GDBST ] reg 8 set to 00000000c0022c7d
+00009219303i[GDBST ] reg 41 set to 00000000ffffffff
+00009219303i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009219303i[GDBST ] stepping
+00009219304i[GDBST ] stopped with ac2
+00009219304i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009220464i[GDBST ] found breakpoint at c0022c7d
+00009220464i[GDBST ] stopped with ac1
+00009220464i[GDBST ] reg 8 set to 00000000c0022c7d
+00009220464i[GDBST ] reg 41 set to 00000000ffffffff
+00009220464i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009220464i[GDBST ] stepping
+00009220465i[GDBST ] stopped with ac2
+00009220465i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009223229i[GDBST ] found breakpoint at c0022c7d
+00009223229i[GDBST ] stopped with ac1
+00009223229i[GDBST ] reg 8 set to 00000000c0022c7d
+00009223229i[GDBST ] reg 41 set to 00000000ffffffff
+00009223229i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009223229i[GDBST ] stepping
+00009223230i[GDBST ] stopped with ac2
+00009223230i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009224527i[GDBST ] found breakpoint at c0020fbd
+00009224527i[GDBST ] stopped with ac1
+00009224527i[GDBST ] reg 8 set to 00000000c0020fbd
+00009224527i[GDBST ] reg 41 set to 00000000ffffffff
+00009224527i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009224527i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009224527i[GDBST ] Removing breakpoint at 00000000c002b233
+00009224527i[NOGUI ] ips = 0.116M
+00009224527i[GDBST ] addr 00000000c000ee7c len 4
+00009224527i[GDBST ] addr 00000000c000ee7c len 4
+00009224527i[GDBST ] addr 00000000c000eeac len 4
+00009224527i[GDBST ] addr 00000000c000eeac len 4
+00009224527i[GDBST ] addr 00000000c000ee7c len 4
+00009224527i[GDBST ] addr 00000000c000eeac len 4
+00009224527i[GDBST ] addr 00000000c000eeec len 4
+00009224527i[GDBST ] addr 00000000c000eeec len 4
+00009224527i[GDBST ] addr 00000000c000eeac len 4
+00009224527i[GDBST ] addr 00000000c000eeec len 4
+00009224527i[GDBST ] addr 00000000c000eef0 len 4
+00009224527i[GDBST ] addr 00000000c0030d25 len 8
+00009224527i[GDBST ] addr 00000000c0030d2d len 8
+00009224527i[GDBST ] addr 00000000c000eef4 len 4
+00009224527i[GDBST ] addr 00000000c000eef8 len 4
+00009224527i[GDBST ] addr 00000000c000eedc len 4
+00009224527i[GDBST ] addr 00000000c000eefc len 4
+00009224527i[GDBST ] addr 00000000c000ef3c len 4
+00009224527i[GDBST ] addr 00000000c000ef3c len 4
+00009224527i[GDBST ] addr 00000000c000eeec len 4
+00009224527i[GDBST ] addr 00000000c000ef3c len 4
+00009224527i[GDBST ] addr 00000000c000ef6c len 4
+00009224527i[GDBST ] addr 00000000c000ef6c len 4
+00009224527i[GDBST ] addr 00000000c000ef3c len 4
+00009224527i[GDBST ] addr 00000000c000ef6c len 4
+00009224527i[GDBST ] addr 00000000c000ef64 len 4
+00009224527i[GDBST ] addr 00000000c000ef70 len 4
+00009224527i[GDBST ] addr 00000000c0007d42 len 8
+00009224527i[GDBST ] addr 00000000c0007d4a len 8
+00009224527i[GDBST ] addr 00000000c0007d52 len 8
+00009224527i[GDBST ] addr 00000000c000ef8c len 4
+00009224527i[GDBST ] addr 00000000c000ef8c len 4
+00009224527i[GDBST ] addr 00000000c000ef6c len 4
+00009224527i[GDBST ] addr 00000000c000ef8c len 4
+00009224527i[GDBST ] addr 00000000c000ef8c len 4
+00009224527i[GDBST ] addr 00000000c000eee8 len 4
+00009224527i[GDBST ] addr 00000000c000ef90 len 4
+00009224527i[GDBST ] addr 00000000c000eee4 len 4
+00009224527i[GDBST ] addr 00000000c000effc len 4
+00009224527i[GDBST ] addr 00000000c000effc len 4
+00009224527i[GDBST ] addr 00000000c000ef8c len 4
+00009224527i[GDBST ] addr 00000000c000effc len 4
+00009224527i[GDBST ] addr 00000000c000eff8 len 4
+00009224527i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009224527i[GDBST ] Setting breakpoint at 00000000c002b233
+00009224527i[GDBST ] stepping
+00009224528i[GDBST ] stopped with ac2
+00009224528i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009225492i[GDBST ] found breakpoint at c0020fbd
+00009225492i[GDBST ] stopped with ac1
+00009225492i[GDBST ] reg 8 set to 00000000c0020fbd
+00009225492i[GDBST ] reg 41 set to 00000000ffffffff
+00009225492i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009225492i[GDBST ] stepping
+00009225493i[GDBST ] stopped with ac2
+00009225493i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009239827i[GDBST ] found breakpoint at c0022c7d
+00009239827i[GDBST ] stopped with ac1
+00009239827i[GDBST ] reg 8 set to 00000000c0022c7d
+00009239827i[GDBST ] reg 41 set to 00000000ffffffff
+00009239827i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009239827i[GDBST ] stepping
+00009239828i[GDBST ] stopped with ac2
+00009239828i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009297711i[GDBST ] found breakpoint at c0022c7d
+00009297711i[GDBST ] stopped with ac1
+00009297711i[GDBST ] reg 8 set to 00000000c0022c7d
+00009297711i[GDBST ] reg 41 set to 00000000ffffffff
+00009297711i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009297711i[GDBST ] stepping
+00009297712i[GDBST ] stopped with ac2
+00009297712i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009319055i[GDBST ] found breakpoint at c0022c7d
+00009319055i[GDBST ] stopped with ac1
+00009319055i[GDBST ] reg 8 set to 00000000c0022c7d
+00009319055i[GDBST ] reg 41 set to 00000000ffffffff
+00009319055i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009319055i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009319055i[GDBST ] Removing breakpoint at 00000000c002b233
+00009319055i[GDBST ] addr 00000000c000ee9c len 4
+00009319055i[GDBST ] addr 00000000c000ee9c len 4
+00009319055i[GDBST ] addr 00000000c000eea0 len 4
+00009319055i[NOGUI ] ips = 0.095M
+00009319055i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009319055i[GDBST ] Setting breakpoint at 00000000c002b233
+00009319055i[GDBST ] stepping
+00009319056i[GDBST ] stopped with ac2
+00009319056i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009320116i[GDBST ] found breakpoint at c0022c7d
+00009320116i[GDBST ] stopped with ac1
+00009320116i[GDBST ] reg 8 set to 00000000c0022c7d
+00009320116i[GDBST ] reg 41 set to 00000000ffffffff
+00009320116i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009320116i[GDBST ] stepping
+00009320117i[GDBST ] stopped with ac2
+00009320117i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009322881i[GDBST ] found breakpoint at c0022c7d
+00009322881i[GDBST ] stopped with ac1
+00009322881i[GDBST ] reg 8 set to 00000000c0022c7d
+00009322881i[GDBST ] reg 41 set to 00000000ffffffff
+00009322881i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009322881i[GDBST ] stepping
+00009322882i[GDBST ] stopped with ac2
+00009322882i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009323802i[GDBST ] found breakpoint at c0020fbd
+00009323802i[GDBST ] stopped with ac1
+00009323802i[GDBST ] reg 8 set to 00000000c0020fbd
+00009323802i[GDBST ] reg 41 set to 00000000ffffffff
+00009323802i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009323802i[GDBST ] stepping
+00009323803i[GDBST ] stopped with ac2
+00009323803i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009325477i[GDBST ] found breakpoint at c0020fbd
+00009325477i[GDBST ] stopped with ac1
+00009325477i[GDBST ] reg 8 set to 00000000c0020fbd
+00009325477i[GDBST ] reg 41 set to 00000000ffffffff
+00009325477i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009325477i[GDBST ] stepping
+00009325478i[GDBST ] stopped with ac2
+00009325478i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009339812i[GDBST ] found breakpoint at c0022c7d
+00009339812i[GDBST ] stopped with ac1
+00009339812i[GDBST ] reg 8 set to 00000000c0022c7d
+00009339812i[GDBST ] reg 41 set to 00000000ffffffff
+00009339812i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009339812i[GDBST ] stepping
+00009339813i[GDBST ] stopped with ac2
+00009339813i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009360361i[GDBST ] found breakpoint at c0020fbd
+00009360361i[GDBST ] stopped with ac1
+00009360361i[GDBST ] reg 8 set to 00000000c0020fbd
+00009360361i[GDBST ] reg 41 set to 00000000ffffffff
+00009360361i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009360361i[GDBST ] stepping
+00009360362i[GDBST ] stopped with ac2
+00009360362i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009361227i[GDBST ] found breakpoint at c0020fbd
+00009361227i[GDBST ] stopped with ac1
+00009361227i[GDBST ] reg 8 set to 00000000c0020fbd
+00009361227i[GDBST ] reg 41 set to 00000000ffffffff
+00009361227i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009361227i[GDBST ] stepping
+00009361228i[GDBST ] stopped with ac2
+00009361228i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009361289i[GDBST ] found breakpoint at c0022c7d
+00009361289i[GDBST ] stopped with ac1
+00009361289i[GDBST ] reg 8 set to 00000000c0022c7d
+00009361289i[GDBST ] reg 41 set to 00000000ffffffff
+00009361289i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009361289i[GDBST ] stepping
+00009361290i[GDBST ] stopped with ac2
+00009361290i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009365537i[GDBST ] found breakpoint at c0020fbd
+00009365537i[GDBST ] stopped with ac1
+00009365537i[GDBST ] reg 8 set to 00000000c0020fbd
+00009365537i[GDBST ] reg 41 set to 00000000ffffffff
+00009365537i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009365537i[GDBST ] stepping
+00009365538i[GDBST ] stopped with ac2
+00009365538i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009366913i[GDBST ] found breakpoint at c0020fbd
+00009366913i[GDBST ] stopped with ac1
+00009366913i[GDBST ] reg 8 set to 00000000c0020fbd
+00009366913i[GDBST ] reg 41 set to 00000000ffffffff
+00009366913i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009366913i[GDBST ] stepping
+00009366914i[GDBST ] stopped with ac2
+00009366914i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009366975i[GDBST ] found breakpoint at c0022c7d
+00009366975i[GDBST ] stopped with ac1
+00009366975i[GDBST ] reg 8 set to 00000000c0022c7d
+00009366975i[GDBST ] reg 41 set to 00000000ffffffff
+00009366975i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009366975i[GDBST ] stepping
+00009366976i[GDBST ] stopped with ac2
+00009366976i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009369621i[GDBST ] found breakpoint at c0020fbd
+00009369621i[GDBST ] stopped with ac1
+00009369621i[GDBST ] reg 8 set to 00000000c0020fbd
+00009369621i[GDBST ] reg 41 set to 00000000ffffffff
+00009369621i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009369621i[GDBST ] stepping
+00009369622i[GDBST ] stopped with ac2
+00009369622i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009370487i[GDBST ] found breakpoint at c0020fbd
+00009370487i[GDBST ] stopped with ac1
+00009370487i[GDBST ] reg 8 set to 00000000c0020fbd
+00009370487i[GDBST ] reg 41 set to 00000000ffffffff
+00009370487i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009370487i[GDBST ] stepping
+00009370488i[GDBST ] stopped with ac2
+00009370488i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009370549i[GDBST ] found breakpoint at c0022c7d
+00009370549i[GDBST ] stopped with ac1
+00009370549i[GDBST ] reg 8 set to 00000000c0022c7d
+00009370549i[GDBST ] reg 41 set to 00000000ffffffff
+00009370549i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009370549i[GDBST ] stepping
+00009370550i[GDBST ] stopped with ac2
+00009370550i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009372819i[GDBST ] found breakpoint at c0020fbd
+00009372819i[GDBST ] stopped with ac1
+00009372819i[GDBST ] reg 8 set to 00000000c0020fbd
+00009372819i[GDBST ] reg 41 set to 00000000ffffffff
+00009372819i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009372819i[GDBST ] stepping
+00009372820i[GDBST ] stopped with ac2
+00009372820i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009373685i[GDBST ] found breakpoint at c0020fbd
+00009373685i[GDBST ] stopped with ac1
+00009373685i[GDBST ] reg 8 set to 00000000c0020fbd
+00009373685i[GDBST ] reg 41 set to 00000000ffffffff
+00009373685i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009373685i[GDBST ] stepping
+00009373686i[GDBST ] stopped with ac2
+00009373686i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009373747i[GDBST ] found breakpoint at c0022c7d
+00009373747i[GDBST ] stopped with ac1
+00009373747i[GDBST ] reg 8 set to 00000000c0022c7d
+00009373747i[GDBST ] reg 41 set to 00000000ffffffff
+00009373747i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009373747i[GDBST ] stepping
+00009373748i[GDBST ] stopped with ac2
+00009373748i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009376017i[GDBST ] found breakpoint at c0020fbd
+00009376017i[GDBST ] stopped with ac1
+00009376017i[GDBST ] reg 8 set to 00000000c0020fbd
+00009376017i[GDBST ] reg 41 set to 00000000ffffffff
+00009376017i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009376017i[GDBST ] stepping
+00009376018i[GDBST ] stopped with ac2
+00009376018i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009377393i[GDBST ] found breakpoint at c0020fbd
+00009377393i[GDBST ] stopped with ac1
+00009377393i[GDBST ] reg 8 set to 00000000c0020fbd
+00009377393i[GDBST ] reg 41 set to 00000000ffffffff
+00009377393i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009377393i[GDBST ] stepping
+00009377394i[GDBST ] stopped with ac2
+00009377394i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009377455i[GDBST ] found breakpoint at c0022c7d
+00009377455i[GDBST ] stopped with ac1
+00009377455i[GDBST ] reg 8 set to 00000000c0022c7d
+00009377455i[GDBST ] reg 41 set to 00000000ffffffff
+00009377455i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009377455i[GDBST ] stepping
+00009377456i[GDBST ] stopped with ac2
+00009377456i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009380101i[GDBST ] found breakpoint at c0020fbd
+00009380101i[GDBST ] stopped with ac1
+00009380101i[GDBST ] reg 8 set to 00000000c0020fbd
+00009380101i[GDBST ] reg 41 set to 00000000ffffffff
+00009380101i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009380101i[GDBST ] stepping
+00009380102i[GDBST ] stopped with ac2
+00009380102i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009380967i[GDBST ] found breakpoint at c0020fbd
+00009380967i[GDBST ] stopped with ac1
+00009380967i[GDBST ] reg 8 set to 00000000c0020fbd
+00009380967i[GDBST ] reg 41 set to 00000000ffffffff
+00009380967i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009380967i[GDBST ] stepping
+00009380968i[GDBST ] stopped with ac2
+00009380968i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009381029i[GDBST ] found breakpoint at c0022c7d
+00009381029i[GDBST ] stopped with ac1
+00009381029i[GDBST ] reg 8 set to 00000000c0022c7d
+00009381029i[GDBST ] reg 41 set to 00000000ffffffff
+00009381029i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009381029i[GDBST ] stepping
+00009381030i[GDBST ] stopped with ac2
+00009381030i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009383299i[GDBST ] found breakpoint at c0020fbd
+00009383299i[GDBST ] stopped with ac1
+00009383299i[GDBST ] reg 8 set to 00000000c0020fbd
+00009383299i[GDBST ] reg 41 set to 00000000ffffffff
+00009383299i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009383299i[GDBST ] stepping
+00009383300i[GDBST ] stopped with ac2
+00009383300i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009384165i[GDBST ] found breakpoint at c0020fbd
+00009384165i[GDBST ] stopped with ac1
+00009384165i[GDBST ] reg 8 set to 00000000c0020fbd
+00009384165i[GDBST ] reg 41 set to 00000000ffffffff
+00009384165i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009384165i[GDBST ] stepping
+00009384166i[GDBST ] stopped with ac2
+00009384166i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009384227i[GDBST ] found breakpoint at c0022c7d
+00009384227i[GDBST ] stopped with ac1
+00009384227i[GDBST ] reg 8 set to 00000000c0022c7d
+00009384227i[GDBST ] reg 41 set to 00000000ffffffff
+00009384227i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009384227i[GDBST ] stepping
+00009384228i[GDBST ] stopped with ac2
+00009384228i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009408173i[GDBST ] found breakpoint at c0022c7d
+00009408173i[GDBST ] stopped with ac1
+00009408173i[GDBST ] reg 8 set to 00000000c0022c7d
+00009408173i[GDBST ] reg 41 set to 00000000ffffffff
+00009408173i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009408173i[GDBST ] stepping
+00009408174i[GDBST ] stopped with ac2
+00009408174i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009429079i[GDBST ] found breakpoint at c0022c7d
+00009429079i[GDBST ] stopped with ac1
+00009429079i[GDBST ] reg 8 set to 00000000c0022c7d
+00009429079i[GDBST ] reg 41 set to 00000000ffffffff
+00009429079i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009429079i[GDBST ] stepping
+00009429080i[GDBST ] stopped with ac2
+00009429080i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009429204i[GDBST ] found breakpoint at c0022c7d
+00009429204i[GDBST ] stopped with ac1
+00009429204i[GDBST ] reg 8 set to 00000000c0022c7d
+00009429204i[GDBST ] reg 41 set to 00000000ffffffff
+00009429204i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009429204i[GDBST ] stepping
+00009429205i[GDBST ] stopped with ac2
+00009429205i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009437007i[GDBST ] found breakpoint at c0020fbd
+00009437007i[GDBST ] stopped with ac1
+00009437007i[GDBST ] reg 8 set to 00000000c0020fbd
+00009437007i[GDBST ] reg 41 set to 00000000ffffffff
+00009437007i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009437007i[GDBST ] stepping
+00009437008i[GDBST ] stopped with ac2
+00009437008i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009437468i[GDBST ] found breakpoint at c002b233
+00009437468i[GDBST ] stopped with ac1
+00009437468i[GDBST ] reg 8 set to 00000000c002b233
+00009437468i[GDBST ] reg 41 set to 00000000ffffffff
+00009437468i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009437468i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009437468i[GDBST ] Removing breakpoint at 00000000c002b233
+00009437468i[GDBST ] addr 00000000c0105fc4 len 4
+00009437468i[GDBST ] addr 00000000c0105fc4 len 4
+00009437468i[GDBST ] addr 00000000c0105fc8 len 4
+00009437468i[NOGUI ] ips = 0.118M
+00009437468i[GDBST ] addr 00000000c0105fc8 len 4
+00009437468i[GDBST ] addr 00000000c0105ff4 len 4
+00009437468i[GDBST ] addr 00000000c0105ff4 len 4
+00009437468i[GDBST ] addr 00000000c0105fc4 len 4
+00009437468i[GDBST ] addr 00000000c0105ff4 len 4
+00009437468i[GDBST ] addr 0000000000000000 len 8
+00009437468i[GDBST ] addr 0000000000000000 len 7
+00009437468i[GDBST ] addr 00000000c0105ff8 len 4
+00009437468i[GDBST ] addr 00000000c0105ffc len 4
+00009437468i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009437468i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009437468i[GDBST ] stepping
+00009437469i[GDBST ] stopped with ac2
+00009437469i[GDBST ] Setting breakpoint at 00000000c002b233
+00009438073i[GDBST ] found breakpoint at c0020fbd
+00009438073i[GDBST ] stopped with ac1
+00009438073i[GDBST ] reg 8 set to 00000000c0020fbd
+00009438073i[GDBST ] reg 41 set to 00000000ffffffff
+00009438073i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009438073i[GDBST ] stepping
+00009438074i[GDBST ] stopped with ac2
+00009438074i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009442350i[GDBST ] found breakpoint at c0020fbd
+00009442350i[GDBST ] stopped with ac1
+00009442350i[GDBST ] reg 8 set to 00000000c0020fbd
+00009442350i[GDBST ] reg 41 set to 00000000ffffffff
+00009442350i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009442350i[GDBST ] stepping
+00009442351i[GDBST ] stopped with ac2
+00009442351i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009443216i[GDBST ] found breakpoint at c0020fbd
+00009443216i[GDBST ] stopped with ac1
+00009443216i[GDBST ] reg 8 set to 00000000c0020fbd
+00009443216i[GDBST ] reg 41 set to 00000000ffffffff
+00009443216i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009443216i[GDBST ] stepping
+00009443217i[GDBST ] stopped with ac2
+00009443217i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009443278i[GDBST ] found breakpoint at c0022c7d
+00009443278i[GDBST ] stopped with ac1
+00009443278i[GDBST ] reg 8 set to 00000000c0022c7d
+00009443278i[GDBST ] reg 41 set to 00000000ffffffff
+00009443278i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009443278i[GDBST ] stepping
+00009443279i[GDBST ] stopped with ac2
+00009443279i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009445530i[GDBST ] found breakpoint at c0020fbd
+00009445530i[GDBST ] stopped with ac1
+00009445530i[GDBST ] reg 8 set to 00000000c0020fbd
+00009445530i[GDBST ] reg 41 set to 00000000ffffffff
+00009445530i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009445530i[GDBST ] stepping
+00009445531i[GDBST ] stopped with ac2
+00009445531i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009446906i[GDBST ] found breakpoint at c0020fbd
+00009446906i[GDBST ] stopped with ac1
+00009446906i[GDBST ] reg 8 set to 00000000c0020fbd
+00009446906i[GDBST ] reg 41 set to 00000000ffffffff
+00009446906i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009446906i[GDBST ] stepping
+00009446907i[GDBST ] stopped with ac2
+00009446907i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009446968i[GDBST ] found breakpoint at c0022c7d
+00009446968i[GDBST ] stopped with ac1
+00009446968i[GDBST ] reg 8 set to 00000000c0022c7d
+00009446968i[GDBST ] reg 41 set to 00000000ffffffff
+00009446968i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009446968i[GDBST ] stepping
+00009446969i[GDBST ] stopped with ac2
+00009446969i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009448905i[GDBST ] found breakpoint at c0022c7d
+00009448905i[GDBST ] stopped with ac1
+00009448905i[GDBST ] reg 8 set to 00000000c0022c7d
+00009448905i[GDBST ] reg 41 set to 00000000ffffffff
+00009448905i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009448905i[GDBST ] stepping
+00009448906i[GDBST ] stopped with ac2
+00009448906i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009452721i[GDBST ] found breakpoint at c0020fbd
+00009452721i[GDBST ] stopped with ac1
+00009452721i[GDBST ] reg 8 set to 00000000c0020fbd
+00009452721i[GDBST ] reg 41 set to 00000000ffffffff
+00009452721i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009452721i[GDBST ] stepping
+00009452722i[GDBST ] stopped with ac2
+00009452722i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009453187i[GDBST ] found breakpoint at c0020fbd
+00009453187i[GDBST ] stopped with ac1
+00009453187i[GDBST ] reg 8 set to 00000000c0020fbd
+00009453187i[GDBST ] reg 41 set to 00000000ffffffff
+00009453187i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009453187i[GDBST ] stepping
+00009453188i[GDBST ] stopped with ac2
+00009453188i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009454188i[GDBST ] found breakpoint at c0020fbd
+00009454188i[GDBST ] stopped with ac1
+00009454188i[GDBST ] reg 8 set to 00000000c0020fbd
+00009454188i[GDBST ] reg 41 set to 00000000ffffffff
+00009454188i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009454188i[GDBST ] stepping
+00009454189i[GDBST ] stopped with ac2
+00009454189i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009454250i[GDBST ] found breakpoint at c0022c7d
+00009454250i[GDBST ] stopped with ac1
+00009454250i[GDBST ] reg 8 set to 00000000c0022c7d
+00009454250i[GDBST ] reg 41 set to 00000000ffffffff
+00009454250i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009454250i[GDBST ] stepping
+00009454251i[GDBST ] stopped with ac2
+00009454251i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009457028i[GDBST ] found breakpoint at c0020fbd
+00009457028i[GDBST ] stopped with ac1
+00009457028i[GDBST ] reg 8 set to 00000000c0020fbd
+00009457028i[GDBST ] reg 41 set to 00000000ffffffff
+00009457028i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009457028i[GDBST ] stepping
+00009457029i[GDBST ] stopped with ac2
+00009457029i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009457894i[GDBST ] found breakpoint at c0020fbd
+00009457894i[GDBST ] stopped with ac1
+00009457894i[GDBST ] reg 8 set to 00000000c0020fbd
+00009457894i[GDBST ] reg 41 set to 00000000ffffffff
+00009457894i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009457894i[GDBST ] stepping
+00009457895i[GDBST ] stopped with ac2
+00009457895i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009457956i[GDBST ] found breakpoint at c0022c7d
+00009457956i[GDBST ] stopped with ac1
+00009457956i[GDBST ] reg 8 set to 00000000c0022c7d
+00009457956i[GDBST ] reg 41 set to 00000000ffffffff
+00009457956i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009457956i[GDBST ] stepping
+00009457957i[GDBST ] stopped with ac2
+00009457957i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009460226i[GDBST ] found breakpoint at c0020fbd
+00009460226i[GDBST ] stopped with ac1
+00009460226i[GDBST ] reg 8 set to 00000000c0020fbd
+00009460226i[GDBST ] reg 41 set to 00000000ffffffff
+00009460226i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009460226i[GDBST ] stepping
+00009460227i[GDBST ] stopped with ac2
+00009460227i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009461092i[GDBST ] found breakpoint at c0020fbd
+00009461092i[GDBST ] stopped with ac1
+00009461092i[GDBST ] reg 8 set to 00000000c0020fbd
+00009461092i[GDBST ] reg 41 set to 00000000ffffffff
+00009461092i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009461092i[GDBST ] stepping
+00009461093i[GDBST ] stopped with ac2
+00009461093i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009461154i[GDBST ] found breakpoint at c0022c7d
+00009461154i[GDBST ] stopped with ac1
+00009461154i[GDBST ] reg 8 set to 00000000c0022c7d
+00009461154i[GDBST ] reg 41 set to 00000000ffffffff
+00009461154i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009461154i[GDBST ] stepping
+00009461155i[GDBST ] stopped with ac2
+00009461155i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009464177i[GDBST ] found breakpoint at c0020fbd
+00009464177i[GDBST ] stopped with ac1
+00009464177i[GDBST ] reg 8 set to 00000000c0020fbd
+00009464177i[GDBST ] reg 41 set to 00000000ffffffff
+00009464177i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009464177i[GDBST ] stepping
+00009464178i[GDBST ] stopped with ac2
+00009464178i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009465043i[GDBST ] found breakpoint at c0020fbd
+00009465043i[GDBST ] stopped with ac1
+00009465043i[GDBST ] reg 8 set to 00000000c0020fbd
+00009465043i[GDBST ] reg 41 set to 00000000ffffffff
+00009465043i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009465043i[GDBST ] stepping
+00009465044i[GDBST ] stopped with ac2
+00009465044i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009465105i[GDBST ] found breakpoint at c0022c7d
+00009465105i[GDBST ] stopped with ac1
+00009465105i[GDBST ] reg 8 set to 00000000c0022c7d
+00009465105i[GDBST ] reg 41 set to 00000000ffffffff
+00009465105i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009465105i[GDBST ] stepping
+00009465106i[GDBST ] stopped with ac2
+00009465106i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009467507i[GDBST ] found breakpoint at c0020fbd
+00009467507i[GDBST ] stopped with ac1
+00009467507i[GDBST ] reg 8 set to 00000000c0020fbd
+00009467507i[GDBST ] reg 41 set to 00000000ffffffff
+00009467507i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009467507i[GDBST ] stepping
+00009467508i[GDBST ] stopped with ac2
+00009467508i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009468373i[GDBST ] found breakpoint at c0020fbd
+00009468373i[GDBST ] stopped with ac1
+00009468373i[GDBST ] reg 8 set to 00000000c0020fbd
+00009468373i[GDBST ] reg 41 set to 00000000ffffffff
+00009468373i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009468373i[GDBST ] stepping
+00009468374i[GDBST ] stopped with ac2
+00009468374i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009468435i[GDBST ] found breakpoint at c0022c7d
+00009468435i[GDBST ] stopped with ac1
+00009468435i[GDBST ] reg 8 set to 00000000c0022c7d
+00009468435i[GDBST ] reg 41 set to 00000000ffffffff
+00009468435i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009468435i[GDBST ] stepping
+00009468436i[GDBST ] stopped with ac2
+00009468436i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009471458i[GDBST ] found breakpoint at c0020fbd
+00009471458i[GDBST ] stopped with ac1
+00009471458i[GDBST ] reg 8 set to 00000000c0020fbd
+00009471458i[GDBST ] reg 41 set to 00000000ffffffff
+00009471458i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009471458i[GDBST ] stepping
+00009471459i[GDBST ] stopped with ac2
+00009471459i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009472324i[GDBST ] found breakpoint at c0020fbd
+00009472324i[GDBST ] stopped with ac1
+00009472324i[GDBST ] reg 8 set to 00000000c0020fbd
+00009472324i[GDBST ] reg 41 set to 00000000ffffffff
+00009472324i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009472324i[GDBST ] stepping
+00009472325i[GDBST ] stopped with ac2
+00009472325i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009472386i[GDBST ] found breakpoint at c0022c7d
+00009472386i[GDBST ] stopped with ac1
+00009472386i[GDBST ] reg 8 set to 00000000c0022c7d
+00009472386i[GDBST ] reg 41 set to 00000000ffffffff
+00009472386i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009472386i[GDBST ] stepping
+00009472387i[GDBST ] stopped with ac2
+00009472387i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009474656i[GDBST ] found breakpoint at c0020fbd
+00009474656i[GDBST ] stopped with ac1
+00009474656i[GDBST ] reg 8 set to 00000000c0020fbd
+00009474656i[GDBST ] reg 41 set to 00000000ffffffff
+00009474656i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009474656i[GDBST ] stepping
+00009474657i[GDBST ] stopped with ac2
+00009474657i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009475522i[GDBST ] found breakpoint at c0020fbd
+00009475522i[GDBST ] stopped with ac1
+00009475522i[GDBST ] reg 8 set to 00000000c0020fbd
+00009475522i[GDBST ] reg 41 set to 00000000ffffffff
+00009475522i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009475522i[GDBST ] stepping
+00009475523i[GDBST ] stopped with ac2
+00009475523i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009475584i[GDBST ] found breakpoint at c0022c7d
+00009475584i[GDBST ] stopped with ac1
+00009475584i[GDBST ] reg 8 set to 00000000c0022c7d
+00009475584i[GDBST ] reg 41 set to 00000000ffffffff
+00009475584i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009475584i[GDBST ] stepping
+00009475585i[GDBST ] stopped with ac2
+00009475585i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009478739i[GDBST ] found breakpoint at c0020fbd
+00009478739i[GDBST ] stopped with ac1
+00009478739i[GDBST ] reg 8 set to 00000000c0020fbd
+00009478739i[GDBST ] reg 41 set to 00000000ffffffff
+00009478739i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009478739i[GDBST ] stepping
+00009478740i[GDBST ] stopped with ac2
+00009478740i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009479605i[GDBST ] found breakpoint at c0020fbd
+00009479605i[GDBST ] stopped with ac1
+00009479605i[GDBST ] reg 8 set to 00000000c0020fbd
+00009479605i[GDBST ] reg 41 set to 00000000ffffffff
+00009479605i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009479605i[GDBST ] stepping
+00009479606i[GDBST ] stopped with ac2
+00009479606i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009479667i[GDBST ] found breakpoint at c0022c7d
+00009479667i[GDBST ] stopped with ac1
+00009479667i[GDBST ] reg 8 set to 00000000c0022c7d
+00009479667i[GDBST ] reg 41 set to 00000000ffffffff
+00009479667i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009479667i[GDBST ] stepping
+00009479668i[GDBST ] stopped with ac2
+00009479668i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009481937i[GDBST ] found breakpoint at c0020fbd
+00009481937i[GDBST ] stopped with ac1
+00009481937i[GDBST ] reg 8 set to 00000000c0020fbd
+00009481937i[GDBST ] reg 41 set to 00000000ffffffff
+00009481937i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009481937i[GDBST ] stepping
+00009481938i[GDBST ] stopped with ac2
+00009481938i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009482803i[GDBST ] found breakpoint at c0020fbd
+00009482803i[GDBST ] stopped with ac1
+00009482803i[GDBST ] reg 8 set to 00000000c0020fbd
+00009482803i[GDBST ] reg 41 set to 00000000ffffffff
+00009482803i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009482803i[GDBST ] stepping
+00009482804i[GDBST ] stopped with ac2
+00009482804i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009482865i[GDBST ] found breakpoint at c0022c7d
+00009482865i[GDBST ] stopped with ac1
+00009482865i[GDBST ] reg 8 set to 00000000c0022c7d
+00009482865i[GDBST ] reg 41 set to 00000000ffffffff
+00009482865i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009482865i[GDBST ] stepping
+00009482866i[GDBST ] stopped with ac2
+00009482866i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009485135i[GDBST ] found breakpoint at c0020fbd
+00009485135i[GDBST ] stopped with ac1
+00009485135i[GDBST ] reg 8 set to 00000000c0020fbd
+00009485135i[GDBST ] reg 41 set to 00000000ffffffff
+00009485135i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009485135i[GDBST ] stepping
+00009485136i[GDBST ] stopped with ac2
+00009485136i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009486001i[GDBST ] found breakpoint at c0020fbd
+00009486001i[GDBST ] stopped with ac1
+00009486001i[GDBST ] reg 8 set to 00000000c0020fbd
+00009486001i[GDBST ] reg 41 set to 00000000ffffffff
+00009486001i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009486001i[GDBST ] stepping
+00009486002i[GDBST ] stopped with ac2
+00009486002i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009486063i[GDBST ] found breakpoint at c0022c7d
+00009486063i[GDBST ] stopped with ac1
+00009486063i[GDBST ] reg 8 set to 00000000c0022c7d
+00009486063i[GDBST ] reg 41 set to 00000000ffffffff
+00009486063i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009486063i[GDBST ] stepping
+00009486064i[GDBST ] stopped with ac2
+00009486064i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009489218i[GDBST ] found breakpoint at c0020fbd
+00009489218i[GDBST ] stopped with ac1
+00009489218i[GDBST ] reg 8 set to 00000000c0020fbd
+00009489218i[GDBST ] reg 41 set to 00000000ffffffff
+00009489218i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009489218i[GDBST ] stepping
+00009489219i[GDBST ] stopped with ac2
+00009489219i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009490084i[GDBST ] found breakpoint at c0020fbd
+00009490084i[GDBST ] stopped with ac1
+00009490084i[GDBST ] reg 8 set to 00000000c0020fbd
+00009490084i[GDBST ] reg 41 set to 00000000ffffffff
+00009490084i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009490084i[GDBST ] stepping
+00009490085i[GDBST ] stopped with ac2
+00009490085i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009490146i[GDBST ] found breakpoint at c0022c7d
+00009490146i[GDBST ] stopped with ac1
+00009490146i[GDBST ] reg 8 set to 00000000c0022c7d
+00009490146i[GDBST ] reg 41 set to 00000000ffffffff
+00009490146i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009490146i[GDBST ] stepping
+00009490147i[GDBST ] stopped with ac2
+00009490147i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009492416i[GDBST ] found breakpoint at c0020fbd
+00009492416i[GDBST ] stopped with ac1
+00009492416i[GDBST ] reg 8 set to 00000000c0020fbd
+00009492416i[GDBST ] reg 41 set to 00000000ffffffff
+00009492416i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009492416i[GDBST ] stepping
+00009492417i[GDBST ] stopped with ac2
+00009492417i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009493282i[GDBST ] found breakpoint at c0020fbd
+00009493282i[GDBST ] stopped with ac1
+00009493282i[GDBST ] reg 8 set to 00000000c0020fbd
+00009493282i[GDBST ] reg 41 set to 00000000ffffffff
+00009493282i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009493282i[GDBST ] stepping
+00009493283i[GDBST ] stopped with ac2
+00009493283i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009493344i[GDBST ] found breakpoint at c0022c7d
+00009493344i[GDBST ] stopped with ac1
+00009493344i[GDBST ] reg 8 set to 00000000c0022c7d
+00009493344i[GDBST ] reg 41 set to 00000000ffffffff
+00009493344i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009493344i[GDBST ] stepping
+00009493345i[GDBST ] stopped with ac2
+00009493345i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009495614i[GDBST ] found breakpoint at c0020fbd
+00009495614i[GDBST ] stopped with ac1
+00009495614i[GDBST ] reg 8 set to 00000000c0020fbd
+00009495614i[GDBST ] reg 41 set to 00000000ffffffff
+00009495614i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009495614i[GDBST ] stepping
+00009495615i[GDBST ] stopped with ac2
+00009495615i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009496990i[GDBST ] found breakpoint at c0020fbd
+00009496990i[GDBST ] stopped with ac1
+00009496990i[GDBST ] reg 8 set to 00000000c0020fbd
+00009496990i[GDBST ] reg 41 set to 00000000ffffffff
+00009496990i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009496990i[GDBST ] stepping
+00009496991i[GDBST ] stopped with ac2
+00009496991i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009497052i[GDBST ] found breakpoint at c0022c7d
+00009497052i[GDBST ] stopped with ac1
+00009497052i[GDBST ] reg 8 set to 00000000c0022c7d
+00009497052i[GDBST ] reg 41 set to 00000000ffffffff
+00009497052i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009497052i[GDBST ] stepping
+00009497053i[GDBST ] stopped with ac2
+00009497053i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009499698i[GDBST ] found breakpoint at c0020fbd
+00009499698i[GDBST ] stopped with ac1
+00009499698i[GDBST ] reg 8 set to 00000000c0020fbd
+00009499698i[GDBST ] reg 41 set to 00000000ffffffff
+00009499698i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009499698i[GDBST ] stepping
+00009499699i[GDBST ] stopped with ac2
+00009499699i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009500564i[GDBST ] found breakpoint at c0020fbd
+00009500564i[GDBST ] stopped with ac1
+00009500564i[GDBST ] reg 8 set to 00000000c0020fbd
+00009500564i[GDBST ] reg 41 set to 00000000ffffffff
+00009500564i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009500564i[GDBST ] stepping
+00009500565i[GDBST ] stopped with ac2
+00009500565i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009500626i[GDBST ] found breakpoint at c0022c7d
+00009500626i[GDBST ] stopped with ac1
+00009500626i[GDBST ] reg 8 set to 00000000c0022c7d
+00009500626i[GDBST ] reg 41 set to 00000000ffffffff
+00009500626i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009500626i[GDBST ] stepping
+00009500627i[GDBST ] stopped with ac2
+00009500627i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009502896i[GDBST ] found breakpoint at c0020fbd
+00009502896i[GDBST ] stopped with ac1
+00009502896i[GDBST ] reg 8 set to 00000000c0020fbd
+00009502896i[GDBST ] reg 41 set to 00000000ffffffff
+00009502896i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009502896i[GDBST ] stepping
+00009502897i[GDBST ] stopped with ac2
+00009502897i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009503762i[GDBST ] found breakpoint at c0020fbd
+00009503762i[GDBST ] stopped with ac1
+00009503762i[GDBST ] reg 8 set to 00000000c0020fbd
+00009503762i[GDBST ] reg 41 set to 00000000ffffffff
+00009503762i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009503762i[GDBST ] stepping
+00009503763i[GDBST ] stopped with ac2
+00009503763i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009503824i[GDBST ] found breakpoint at c0022c7d
+00009503824i[GDBST ] stopped with ac1
+00009503824i[GDBST ] reg 8 set to 00000000c0022c7d
+00009503824i[GDBST ] reg 41 set to 00000000ffffffff
+00009503824i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009503824i[GDBST ] stepping
+00009503825i[GDBST ] stopped with ac2
+00009503825i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009506979i[GDBST ] found breakpoint at c0020fbd
+00009506979i[GDBST ] stopped with ac1
+00009506979i[GDBST ] reg 8 set to 00000000c0020fbd
+00009506979i[GDBST ] reg 41 set to 00000000ffffffff
+00009506979i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009506979i[GDBST ] stepping
+00009506980i[GDBST ] stopped with ac2
+00009506980i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009507845i[GDBST ] found breakpoint at c0020fbd
+00009507845i[GDBST ] stopped with ac1
+00009507845i[GDBST ] reg 8 set to 00000000c0020fbd
+00009507845i[GDBST ] reg 41 set to 00000000ffffffff
+00009507845i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009507845i[GDBST ] stepping
+00009507846i[GDBST ] stopped with ac2
+00009507846i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009507907i[GDBST ] found breakpoint at c0022c7d
+00009507907i[GDBST ] stopped with ac1
+00009507907i[GDBST ] reg 8 set to 00000000c0022c7d
+00009507907i[GDBST ] reg 41 set to 00000000ffffffff
+00009507907i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009507907i[GDBST ] stepping
+00009507908i[GDBST ] stopped with ac2
+00009507908i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009531248i[GDBST ] found breakpoint at c0022c7d
+00009531248i[GDBST ] stopped with ac1
+00009531248i[GDBST ] reg 8 set to 00000000c0022c7d
+00009531248i[GDBST ] reg 41 set to 00000000ffffffff
+00009531248i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009531248i[GDBST ] stepping
+00009531249i[GDBST ] stopped with ac2
+00009531249i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009553365i[GDBST ] found breakpoint at c0022c7d
+00009553365i[GDBST ] stopped with ac1
+00009553365i[GDBST ] reg 8 set to 00000000c0022c7d
+00009553365i[GDBST ] reg 41 set to 00000000ffffffff
+00009553365i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009553365i[GDBST ] stepping
+00009553366i[GDBST ] stopped with ac2
+00009553366i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009560379i[GDBST ] found breakpoint at c0020fbd
+00009560379i[GDBST ] stopped with ac1
+00009560379i[GDBST ] reg 8 set to 00000000c0020fbd
+00009560379i[GDBST ] reg 41 set to 00000000ffffffff
+00009560379i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009560379i[GDBST ] stepping
+00009560380i[GDBST ] stopped with ac2
+00009560380i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009560845i[GDBST ] found breakpoint at c0020fbd
+00009560845i[GDBST ] stopped with ac1
+00009560845i[GDBST ] reg 8 set to 00000000c0020fbd
+00009560845i[GDBST ] reg 41 set to 00000000ffffffff
+00009560845i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009560845i[GDBST ] stepping
+00009560846i[GDBST ] stopped with ac2
+00009560846i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009561846i[GDBST ] found breakpoint at c0020fbd
+00009561846i[GDBST ] stopped with ac1
+00009561846i[GDBST ] reg 8 set to 00000000c0020fbd
+00009561846i[GDBST ] reg 41 set to 00000000ffffffff
+00009561846i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009561846i[GDBST ] stepping
+00009561847i[GDBST ] stopped with ac2
+00009561847i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009561908i[GDBST ] found breakpoint at c0022c7d
+00009561908i[GDBST ] stopped with ac1
+00009561908i[GDBST ] reg 8 set to 00000000c0022c7d
+00009561908i[GDBST ] reg 41 set to 00000000ffffffff
+00009561908i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009561908i[GDBST ] stepping
+00009561909i[GDBST ] stopped with ac2
+00009561909i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009564530i[GDBST ] found breakpoint at c0020fbd
+00009564530i[GDBST ] stopped with ac1
+00009564530i[GDBST ] reg 8 set to 00000000c0020fbd
+00009564530i[GDBST ] reg 41 set to 00000000ffffffff
+00009564530i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009564530i[GDBST ] stepping
+00009564531i[GDBST ] stopped with ac2
+00009564531i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009565396i[GDBST ] found breakpoint at c0020fbd
+00009565396i[GDBST ] stopped with ac1
+00009565396i[GDBST ] reg 8 set to 00000000c0020fbd
+00009565396i[GDBST ] reg 41 set to 00000000ffffffff
+00009565396i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009565396i[GDBST ] stepping
+00009565397i[GDBST ] stopped with ac2
+00009565397i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009565458i[GDBST ] found breakpoint at c0022c7d
+00009565458i[GDBST ] stopped with ac1
+00009565458i[GDBST ] reg 8 set to 00000000c0022c7d
+00009565458i[GDBST ] reg 41 set to 00000000ffffffff
+00009565458i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009565458i[GDBST ] stepping
+00009565459i[GDBST ] stopped with ac2
+00009565459i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009567842i[GDBST ] found breakpoint at c0020fbd
+00009567842i[GDBST ] stopped with ac1
+00009567842i[GDBST ] reg 8 set to 00000000c0020fbd
+00009567842i[GDBST ] reg 41 set to 00000000ffffffff
+00009567842i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009567842i[GDBST ] stepping
+00009567843i[GDBST ] stopped with ac2
+00009567843i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009568708i[GDBST ] found breakpoint at c0020fbd
+00009568708i[GDBST ] stopped with ac1
+00009568708i[GDBST ] reg 8 set to 00000000c0020fbd
+00009568708i[GDBST ] reg 41 set to 00000000ffffffff
+00009568708i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009568708i[GDBST ] stepping
+00009568709i[GDBST ] stopped with ac2
+00009568709i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009568770i[GDBST ] found breakpoint at c0022c7d
+00009568770i[GDBST ] stopped with ac1
+00009568770i[GDBST ] reg 8 set to 00000000c0022c7d
+00009568770i[GDBST ] reg 41 set to 00000000ffffffff
+00009568770i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009568770i[GDBST ] stepping
+00009568771i[GDBST ] stopped with ac2
+00009568771i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009571042i[GDBST ] found breakpoint at c0020fbd
+00009571042i[GDBST ] stopped with ac1
+00009571042i[GDBST ] reg 8 set to 00000000c0020fbd
+00009571042i[GDBST ] reg 41 set to 00000000ffffffff
+00009571042i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009571042i[GDBST ] stepping
+00009571043i[GDBST ] stopped with ac2
+00009571043i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009571908i[GDBST ] found breakpoint at c0020fbd
+00009571908i[GDBST ] stopped with ac1
+00009571908i[GDBST ] reg 8 set to 00000000c0020fbd
+00009571908i[GDBST ] reg 41 set to 00000000ffffffff
+00009571908i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009571908i[GDBST ] stepping
+00009571909i[GDBST ] stopped with ac2
+00009571909i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009571970i[GDBST ] found breakpoint at c0022c7d
+00009571970i[GDBST ] stopped with ac1
+00009571970i[GDBST ] reg 8 set to 00000000c0022c7d
+00009571970i[GDBST ] reg 41 set to 00000000ffffffff
+00009571970i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009571970i[GDBST ] stepping
+00009571971i[GDBST ] stopped with ac2
+00009571971i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009573517i[GDBST ] found breakpoint at c0022c7d
+00009573517i[GDBST ] stopped with ac1
+00009573517i[GDBST ] reg 8 set to 00000000c0022c7d
+00009573517i[GDBST ] reg 41 set to 00000000ffffffff
+00009573517i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009573517i[GDBST ] stepping
+00009573518i[GDBST ] stopped with ac2
+00009573518i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009578218i[GDBST ] found breakpoint at c0020fbd
+00009578218i[GDBST ] stopped with ac1
+00009578218i[GDBST ] reg 8 set to 00000000c0020fbd
+00009578218i[GDBST ] reg 41 set to 00000000ffffffff
+00009578218i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009578218i[GDBST ] stepping
+00009578219i[GDBST ] stopped with ac2
+00009578219i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009578684i[GDBST ] found breakpoint at c0020fbd
+00009578684i[GDBST ] stopped with ac1
+00009578684i[GDBST ] reg 8 set to 00000000c0020fbd
+00009578684i[GDBST ] reg 41 set to 00000000ffffffff
+00009578684i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009578684i[GDBST ] stepping
+00009578685i[GDBST ] stopped with ac2
+00009578685i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009579685i[GDBST ] found breakpoint at c0020fbd
+00009579685i[GDBST ] stopped with ac1
+00009579685i[GDBST ] reg 8 set to 00000000c0020fbd
+00009579685i[GDBST ] reg 41 set to 00000000ffffffff
+00009579685i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009579685i[GDBST ] stepping
+00009579686i[GDBST ] stopped with ac2
+00009579686i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009579747i[GDBST ] found breakpoint at c0022c7d
+00009579747i[GDBST ] stopped with ac1
+00009579747i[GDBST ] reg 8 set to 00000000c0022c7d
+00009579747i[GDBST ] reg 41 set to 00000000ffffffff
+00009579747i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009579747i[GDBST ] stepping
+00009579748i[GDBST ] stopped with ac2
+00009579748i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009582393i[GDBST ] found breakpoint at c0020fbd
+00009582393i[GDBST ] stopped with ac1
+00009582393i[GDBST ] reg 8 set to 00000000c0020fbd
+00009582393i[GDBST ] reg 41 set to 00000000ffffffff
+00009582393i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009582393i[GDBST ] stepping
+00009582394i[GDBST ] stopped with ac2
+00009582394i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009583259i[GDBST ] found breakpoint at c0020fbd
+00009583259i[GDBST ] stopped with ac1
+00009583259i[GDBST ] reg 8 set to 00000000c0020fbd
+00009583259i[GDBST ] reg 41 set to 00000000ffffffff
+00009583259i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009583259i[GDBST ] stepping
+00009583260i[GDBST ] stopped with ac2
+00009583260i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009583321i[GDBST ] found breakpoint at c0022c7d
+00009583321i[GDBST ] stopped with ac1
+00009583321i[GDBST ] reg 8 set to 00000000c0022c7d
+00009583321i[GDBST ] reg 41 set to 00000000ffffffff
+00009583321i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009583321i[GDBST ] stepping
+00009583322i[GDBST ] stopped with ac2
+00009583322i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009585591i[GDBST ] found breakpoint at c0020fbd
+00009585591i[GDBST ] stopped with ac1
+00009585591i[GDBST ] reg 8 set to 00000000c0020fbd
+00009585591i[GDBST ] reg 41 set to 00000000ffffffff
+00009585591i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009585591i[GDBST ] stepping
+00009585592i[GDBST ] stopped with ac2
+00009585592i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009586590i[GDBST ] found breakpoint at c0020fbd
+00009586590i[GDBST ] stopped with ac1
+00009586590i[GDBST ] reg 8 set to 00000000c0020fbd
+00009586590i[GDBST ] reg 41 set to 00000000ffffffff
+00009586590i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009586590i[GDBST ] stepping
+00009586591i[GDBST ] stopped with ac2
+00009586591i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009586652i[GDBST ] found breakpoint at c0022c7d
+00009586652i[GDBST ] stopped with ac1
+00009586652i[GDBST ] reg 8 set to 00000000c0022c7d
+00009586652i[GDBST ] reg 41 set to 00000000ffffffff
+00009586652i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009586652i[GDBST ] stepping
+00009586653i[GDBST ] stopped with ac2
+00009586653i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009589675i[GDBST ] found breakpoint at c0020fbd
+00009589675i[GDBST ] stopped with ac1
+00009589675i[GDBST ] reg 8 set to 00000000c0020fbd
+00009589675i[GDBST ] reg 41 set to 00000000ffffffff
+00009589675i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009589675i[GDBST ] stepping
+00009589676i[GDBST ] stopped with ac2
+00009589676i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009590541i[GDBST ] found breakpoint at c0020fbd
+00009590541i[GDBST ] stopped with ac1
+00009590541i[GDBST ] reg 8 set to 00000000c0020fbd
+00009590541i[GDBST ] reg 41 set to 00000000ffffffff
+00009590541i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009590541i[GDBST ] stepping
+00009590542i[GDBST ] stopped with ac2
+00009590542i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009590603i[GDBST ] found breakpoint at c0022c7d
+00009590603i[GDBST ] stopped with ac1
+00009590603i[GDBST ] reg 8 set to 00000000c0022c7d
+00009590603i[GDBST ] reg 41 set to 00000000ffffffff
+00009590603i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009590603i[GDBST ] stepping
+00009590604i[GDBST ] stopped with ac2
+00009590604i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009592873i[GDBST ] found breakpoint at c0020fbd
+00009592873i[GDBST ] stopped with ac1
+00009592873i[GDBST ] reg 8 set to 00000000c0020fbd
+00009592873i[GDBST ] reg 41 set to 00000000ffffffff
+00009592873i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009592873i[GDBST ] stepping
+00009592874i[GDBST ] stopped with ac2
+00009592874i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009593739i[GDBST ] found breakpoint at c0020fbd
+00009593739i[GDBST ] stopped with ac1
+00009593739i[GDBST ] reg 8 set to 00000000c0020fbd
+00009593739i[GDBST ] reg 41 set to 00000000ffffffff
+00009593739i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009593739i[GDBST ] stepping
+00009593740i[GDBST ] stopped with ac2
+00009593740i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009593801i[GDBST ] found breakpoint at c0022c7d
+00009593801i[GDBST ] stopped with ac1
+00009593801i[GDBST ] reg 8 set to 00000000c0022c7d
+00009593801i[GDBST ] reg 41 set to 00000000ffffffff
+00009593801i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009593801i[GDBST ] stepping
+00009593802i[GDBST ] stopped with ac2
+00009593802i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009596071i[GDBST ] found breakpoint at c0020fbd
+00009596071i[GDBST ] stopped with ac1
+00009596071i[GDBST ] reg 8 set to 00000000c0020fbd
+00009596071i[GDBST ] reg 41 set to 00000000ffffffff
+00009596071i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009596071i[GDBST ] stepping
+00009596072i[GDBST ] stopped with ac2
+00009596072i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009597070i[GDBST ] found breakpoint at c0020fbd
+00009597070i[GDBST ] stopped with ac1
+00009597070i[GDBST ] reg 8 set to 00000000c0020fbd
+00009597070i[GDBST ] reg 41 set to 00000000ffffffff
+00009597070i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009597070i[GDBST ] stepping
+00009597071i[GDBST ] stopped with ac2
+00009597071i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009597132i[GDBST ] found breakpoint at c0022c7d
+00009597132i[GDBST ] stopped with ac1
+00009597132i[GDBST ] reg 8 set to 00000000c0022c7d
+00009597132i[GDBST ] reg 41 set to 00000000ffffffff
+00009597132i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009597132i[GDBST ] stepping
+00009597133i[GDBST ] stopped with ac2
+00009597133i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009600155i[GDBST ] found breakpoint at c0020fbd
+00009600155i[GDBST ] stopped with ac1
+00009600155i[GDBST ] reg 8 set to 00000000c0020fbd
+00009600155i[GDBST ] reg 41 set to 00000000ffffffff
+00009600155i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009600155i[GDBST ] stepping
+00009600156i[GDBST ] stopped with ac2
+00009600156i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009601021i[GDBST ] found breakpoint at c0020fbd
+00009601021i[GDBST ] stopped with ac1
+00009601021i[GDBST ] reg 8 set to 00000000c0020fbd
+00009601021i[GDBST ] reg 41 set to 00000000ffffffff
+00009601021i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009601021i[GDBST ] stepping
+00009601022i[GDBST ] stopped with ac2
+00009601022i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009601083i[GDBST ] found breakpoint at c0022c7d
+00009601083i[GDBST ] stopped with ac1
+00009601083i[GDBST ] reg 8 set to 00000000c0022c7d
+00009601083i[GDBST ] reg 41 set to 00000000ffffffff
+00009601083i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009601083i[GDBST ] stepping
+00009601084i[GDBST ] stopped with ac2
+00009601084i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009603353i[GDBST ] found breakpoint at c0020fbd
+00009603353i[GDBST ] stopped with ac1
+00009603353i[GDBST ] reg 8 set to 00000000c0020fbd
+00009603353i[GDBST ] reg 41 set to 00000000ffffffff
+00009603353i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009603353i[GDBST ] stepping
+00009603354i[GDBST ] stopped with ac2
+00009603354i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009604219i[GDBST ] found breakpoint at c0020fbd
+00009604219i[GDBST ] stopped with ac1
+00009604219i[GDBST ] reg 8 set to 00000000c0020fbd
+00009604219i[GDBST ] reg 41 set to 00000000ffffffff
+00009604219i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009604219i[GDBST ] stepping
+00009604220i[GDBST ] stopped with ac2
+00009604220i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009604281i[GDBST ] found breakpoint at c0022c7d
+00009604281i[GDBST ] stopped with ac1
+00009604281i[GDBST ] reg 8 set to 00000000c0022c7d
+00009604281i[GDBST ] reg 41 set to 00000000ffffffff
+00009604281i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009604281i[GDBST ] stepping
+00009604282i[GDBST ] stopped with ac2
+00009604282i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009607436i[GDBST ] found breakpoint at c0020fbd
+00009607436i[GDBST ] stopped with ac1
+00009607436i[GDBST ] reg 8 set to 00000000c0020fbd
+00009607436i[GDBST ] reg 41 set to 00000000ffffffff
+00009607436i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009607436i[GDBST ] stepping
+00009607437i[GDBST ] stopped with ac2
+00009607437i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009608302i[GDBST ] found breakpoint at c0020fbd
+00009608302i[GDBST ] stopped with ac1
+00009608302i[GDBST ] reg 8 set to 00000000c0020fbd
+00009608302i[GDBST ] reg 41 set to 00000000ffffffff
+00009608302i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009608302i[GDBST ] stepping
+00009608303i[GDBST ] stopped with ac2
+00009608303i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009608364i[GDBST ] found breakpoint at c0022c7d
+00009608364i[GDBST ] stopped with ac1
+00009608364i[GDBST ] reg 8 set to 00000000c0022c7d
+00009608364i[GDBST ] reg 41 set to 00000000ffffffff
+00009608364i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009608364i[GDBST ] stepping
+00009608365i[GDBST ] stopped with ac2
+00009608365i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009610634i[GDBST ] found breakpoint at c0020fbd
+00009610634i[GDBST ] stopped with ac1
+00009610634i[GDBST ] reg 8 set to 00000000c0020fbd
+00009610634i[GDBST ] reg 41 set to 00000000ffffffff
+00009610634i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009610634i[GDBST ] stepping
+00009610635i[GDBST ] stopped with ac2
+00009610635i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009611500i[GDBST ] found breakpoint at c0020fbd
+00009611500i[GDBST ] stopped with ac1
+00009611500i[GDBST ] reg 8 set to 00000000c0020fbd
+00009611500i[GDBST ] reg 41 set to 00000000ffffffff
+00009611500i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009611500i[GDBST ] stepping
+00009611501i[GDBST ] stopped with ac2
+00009611501i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009611562i[GDBST ] found breakpoint at c0022c7d
+00009611562i[GDBST ] stopped with ac1
+00009611562i[GDBST ] reg 8 set to 00000000c0022c7d
+00009611562i[GDBST ] reg 41 set to 00000000ffffffff
+00009611562i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009611562i[GDBST ] stepping
+00009611563i[GDBST ] stopped with ac2
+00009611563i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009613832i[GDBST ] found breakpoint at c0020fbd
+00009613832i[GDBST ] stopped with ac1
+00009613832i[GDBST ] reg 8 set to 00000000c0020fbd
+00009613832i[GDBST ] reg 41 set to 00000000ffffffff
+00009613832i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009613832i[GDBST ] stepping
+00009613833i[GDBST ] stopped with ac2
+00009613833i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009614698i[GDBST ] found breakpoint at c0020fbd
+00009614698i[GDBST ] stopped with ac1
+00009614698i[GDBST ] reg 8 set to 00000000c0020fbd
+00009614698i[GDBST ] reg 41 set to 00000000ffffffff
+00009614698i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009614698i[GDBST ] stepping
+00009614699i[GDBST ] stopped with ac2
+00009614699i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009614760i[GDBST ] found breakpoint at c0022c7d
+00009614760i[GDBST ] stopped with ac1
+00009614760i[GDBST ] reg 8 set to 00000000c0022c7d
+00009614760i[GDBST ] reg 41 set to 00000000ffffffff
+00009614760i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009614760i[GDBST ] stepping
+00009614761i[GDBST ] stopped with ac2
+00009614761i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009617915i[GDBST ] found breakpoint at c0020fbd
+00009617915i[GDBST ] stopped with ac1
+00009617915i[GDBST ] reg 8 set to 00000000c0020fbd
+00009617915i[GDBST ] reg 41 set to 00000000ffffffff
+00009617915i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009617915i[GDBST ] stepping
+00009617916i[GDBST ] stopped with ac2
+00009617916i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009618781i[GDBST ] found breakpoint at c0020fbd
+00009618781i[GDBST ] stopped with ac1
+00009618781i[GDBST ] reg 8 set to 00000000c0020fbd
+00009618781i[GDBST ] reg 41 set to 00000000ffffffff
+00009618781i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009618781i[GDBST ] stepping
+00009618782i[GDBST ] stopped with ac2
+00009618782i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009618843i[GDBST ] found breakpoint at c0022c7d
+00009618843i[GDBST ] stopped with ac1
+00009618843i[GDBST ] reg 8 set to 00000000c0022c7d
+00009618843i[GDBST ] reg 41 set to 00000000ffffffff
+00009618843i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009618843i[GDBST ] stepping
+00009618844i[GDBST ] stopped with ac2
+00009618844i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009621113i[GDBST ] found breakpoint at c0020fbd
+00009621113i[GDBST ] stopped with ac1
+00009621113i[GDBST ] reg 8 set to 00000000c0020fbd
+00009621113i[GDBST ] reg 41 set to 00000000ffffffff
+00009621113i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009621113i[GDBST ] stepping
+00009621114i[GDBST ] stopped with ac2
+00009621114i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009621979i[GDBST ] found breakpoint at c0020fbd
+00009621979i[GDBST ] stopped with ac1
+00009621979i[GDBST ] reg 8 set to 00000000c0020fbd
+00009621979i[GDBST ] reg 41 set to 00000000ffffffff
+00009621979i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009621979i[GDBST ] stepping
+00009621980i[GDBST ] stopped with ac2
+00009621980i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009622041i[GDBST ] found breakpoint at c0022c7d
+00009622041i[GDBST ] stopped with ac1
+00009622041i[GDBST ] reg 8 set to 00000000c0022c7d
+00009622041i[GDBST ] reg 41 set to 00000000ffffffff
+00009622041i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009622041i[GDBST ] stepping
+00009622042i[GDBST ] stopped with ac2
+00009622042i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009625064i[GDBST ] found breakpoint at c0020fbd
+00009625064i[GDBST ] stopped with ac1
+00009625064i[GDBST ] reg 8 set to 00000000c0020fbd
+00009625064i[GDBST ] reg 41 set to 00000000ffffffff
+00009625064i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009625064i[GDBST ] stepping
+00009625065i[GDBST ] stopped with ac2
+00009625065i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009625930i[GDBST ] found breakpoint at c0020fbd
+00009625930i[GDBST ] stopped with ac1
+00009625930i[GDBST ] reg 8 set to 00000000c0020fbd
+00009625930i[GDBST ] reg 41 set to 00000000ffffffff
+00009625930i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009625930i[GDBST ] stepping
+00009625931i[GDBST ] stopped with ac2
+00009625931i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009625992i[GDBST ] found breakpoint at c0022c7d
+00009625992i[GDBST ] stopped with ac1
+00009625992i[GDBST ] reg 8 set to 00000000c0022c7d
+00009625992i[GDBST ] reg 41 set to 00000000ffffffff
+00009625992i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009625992i[GDBST ] stepping
+00009625993i[GDBST ] stopped with ac2
+00009625993i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009628394i[GDBST ] found breakpoint at c0020fbd
+00009628394i[GDBST ] stopped with ac1
+00009628394i[GDBST ] reg 8 set to 00000000c0020fbd
+00009628394i[GDBST ] reg 41 set to 00000000ffffffff
+00009628394i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009628394i[GDBST ] stepping
+00009628395i[GDBST ] stopped with ac2
+00009628395i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009629260i[GDBST ] found breakpoint at c0020fbd
+00009629260i[GDBST ] stopped with ac1
+00009629260i[GDBST ] reg 8 set to 00000000c0020fbd
+00009629260i[GDBST ] reg 41 set to 00000000ffffffff
+00009629260i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009629260i[GDBST ] stepping
+00009629261i[GDBST ] stopped with ac2
+00009629261i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009629322i[GDBST ] found breakpoint at c0022c7d
+00009629322i[GDBST ] stopped with ac1
+00009629322i[GDBST ] reg 8 set to 00000000c0022c7d
+00009629322i[GDBST ] reg 41 set to 00000000ffffffff
+00009629322i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009629322i[GDBST ] stepping
+00009629323i[GDBST ] stopped with ac2
+00009629323i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009631245i[GDBST ] found breakpoint at c0022c7d
+00009631245i[GDBST ] stopped with ac1
+00009631245i[GDBST ] reg 8 set to 00000000c0022c7d
+00009631245i[GDBST ] reg 41 set to 00000000ffffffff
+00009631245i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009631245i[GDBST ] stepping
+00009631246i[GDBST ] stopped with ac2
+00009631246i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009653362i[GDBST ] found breakpoint at c0022c7d
+00009653362i[GDBST ] stopped with ac1
+00009653362i[GDBST ] reg 8 set to 00000000c0022c7d
+00009653362i[GDBST ] reg 41 set to 00000000ffffffff
+00009653362i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009653362i[GDBST ] stepping
+00009653363i[GDBST ] stopped with ac2
+00009653363i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009659262i[GDBST ] found breakpoint at c0020fbd
+00009659262i[GDBST ] stopped with ac1
+00009659262i[GDBST ] reg 8 set to 00000000c0020fbd
+00009659262i[GDBST ] reg 41 set to 00000000ffffffff
+00009659262i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009659262i[GDBST ] stepping
+00009659263i[GDBST ] stopped with ac2
+00009659263i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009659728i[GDBST ] found breakpoint at c0020fbd
+00009659728i[GDBST ] stopped with ac1
+00009659728i[GDBST ] reg 8 set to 00000000c0020fbd
+00009659728i[GDBST ] reg 41 set to 00000000ffffffff
+00009659728i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009659728i[GDBST ] stepping
+00009659729i[GDBST ] stopped with ac2
+00009659729i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009660729i[GDBST ] found breakpoint at c0020fbd
+00009660729i[GDBST ] stopped with ac1
+00009660729i[GDBST ] reg 8 set to 00000000c0020fbd
+00009660729i[GDBST ] reg 41 set to 00000000ffffffff
+00009660729i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009660729i[GDBST ] stepping
+00009660730i[GDBST ] stopped with ac2
+00009660730i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009660791i[GDBST ] found breakpoint at c0022c7d
+00009660791i[GDBST ] stopped with ac1
+00009660791i[GDBST ] reg 8 set to 00000000c0022c7d
+00009660791i[GDBST ] reg 41 set to 00000000ffffffff
+00009660791i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009660791i[GDBST ] stepping
+00009660792i[GDBST ] stopped with ac2
+00009660792i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009663413i[GDBST ] found breakpoint at c0020fbd
+00009663413i[GDBST ] stopped with ac1
+00009663413i[GDBST ] reg 8 set to 00000000c0020fbd
+00009663413i[GDBST ] reg 41 set to 00000000ffffffff
+00009663413i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009663413i[GDBST ] stepping
+00009663414i[GDBST ] stopped with ac2
+00009663414i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009664279i[GDBST ] found breakpoint at c0020fbd
+00009664279i[GDBST ] stopped with ac1
+00009664279i[GDBST ] reg 8 set to 00000000c0020fbd
+00009664279i[GDBST ] reg 41 set to 00000000ffffffff
+00009664279i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009664279i[GDBST ] stepping
+00009664280i[GDBST ] stopped with ac2
+00009664280i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009664341i[GDBST ] found breakpoint at c0022c7d
+00009664341i[GDBST ] stopped with ac1
+00009664341i[GDBST ] reg 8 set to 00000000c0022c7d
+00009664341i[GDBST ] reg 41 set to 00000000ffffffff
+00009664341i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009664341i[GDBST ] stepping
+00009664342i[GDBST ] stopped with ac2
+00009664342i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009666725i[GDBST ] found breakpoint at c0020fbd
+00009666725i[GDBST ] stopped with ac1
+00009666725i[GDBST ] reg 8 set to 00000000c0020fbd
+00009666725i[GDBST ] reg 41 set to 00000000ffffffff
+00009666725i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009666725i[GDBST ] stepping
+00009666726i[GDBST ] stopped with ac2
+00009666726i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009667591i[GDBST ] found breakpoint at c0020fbd
+00009667591i[GDBST ] stopped with ac1
+00009667591i[GDBST ] reg 8 set to 00000000c0020fbd
+00009667591i[GDBST ] reg 41 set to 00000000ffffffff
+00009667591i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009667591i[GDBST ] stepping
+00009667592i[GDBST ] stopped with ac2
+00009667592i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009667653i[GDBST ] found breakpoint at c0022c7d
+00009667653i[GDBST ] stopped with ac1
+00009667653i[GDBST ] reg 8 set to 00000000c0022c7d
+00009667653i[GDBST ] reg 41 set to 00000000ffffffff
+00009667653i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009667653i[GDBST ] stepping
+00009667654i[GDBST ] stopped with ac2
+00009667654i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009669905i[GDBST ] found breakpoint at c0020fbd
+00009669905i[GDBST ] stopped with ac1
+00009669905i[GDBST ] reg 8 set to 00000000c0020fbd
+00009669905i[GDBST ] reg 41 set to 00000000ffffffff
+00009669905i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009669905i[GDBST ] stepping
+00009669906i[GDBST ] stopped with ac2
+00009669906i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009670771i[GDBST ] found breakpoint at c0020fbd
+00009670771i[GDBST ] stopped with ac1
+00009670771i[GDBST ] reg 8 set to 00000000c0020fbd
+00009670771i[GDBST ] reg 41 set to 00000000ffffffff
+00009670771i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009670771i[GDBST ] stepping
+00009670772i[GDBST ] stopped with ac2
+00009670772i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009670833i[GDBST ] found breakpoint at c0022c7d
+00009670833i[GDBST ] stopped with ac1
+00009670833i[GDBST ] reg 8 set to 00000000c0022c7d
+00009670833i[GDBST ] reg 41 set to 00000000ffffffff
+00009670833i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009670833i[GDBST ] stepping
+00009670834i[GDBST ] stopped with ac2
+00009670834i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009673517i[GDBST ] found breakpoint at c0022c7d
+00009673517i[GDBST ] stopped with ac1
+00009673517i[GDBST ] reg 8 set to 00000000c0022c7d
+00009673517i[GDBST ] reg 41 set to 00000000ffffffff
+00009673517i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009673517i[GDBST ] stepping
+00009673518i[GDBST ] stopped with ac2
+00009673518i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009676204i[GDBST ] found breakpoint at c0020fbd
+00009676204i[GDBST ] stopped with ac1
+00009676204i[GDBST ] reg 8 set to 00000000c0020fbd
+00009676204i[GDBST ] reg 41 set to 00000000ffffffff
+00009676204i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009676204i[GDBST ] stepping
+00009676205i[GDBST ] stopped with ac2
+00009676205i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009676670i[GDBST ] found breakpoint at c0020fbd
+00009676670i[GDBST ] stopped with ac1
+00009676670i[GDBST ] reg 8 set to 00000000c0020fbd
+00009676670i[GDBST ] reg 41 set to 00000000ffffffff
+00009676670i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009676670i[GDBST ] stepping
+00009676671i[GDBST ] stopped with ac2
+00009676671i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009677804i[GDBST ] found breakpoint at c0020fbd
+00009677804i[GDBST ] stopped with ac1
+00009677804i[GDBST ] reg 8 set to 00000000c0020fbd
+00009677804i[GDBST ] reg 41 set to 00000000ffffffff
+00009677804i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009677804i[GDBST ] stepping
+00009677805i[GDBST ] stopped with ac2
+00009677805i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009677866i[GDBST ] found breakpoint at c0022c7d
+00009677866i[GDBST ] stopped with ac1
+00009677866i[GDBST ] reg 8 set to 00000000c0022c7d
+00009677866i[GDBST ] reg 41 set to 00000000ffffffff
+00009677866i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009677866i[GDBST ] stepping
+00009677867i[GDBST ] stopped with ac2
+00009677867i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009678660i[GDBST ] found breakpoint at c0022c7d
+00009678660i[GDBST ] stopped with ac1
+00009678660i[GDBST ] reg 8 set to 00000000c0022c7d
+00009678660i[GDBST ] reg 41 set to 00000000ffffffff
+00009678660i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009678660i[GDBST ] stepping
+00009678661i[GDBST ] stopped with ac2
+00009678661i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009700400i[GDBST ] found breakpoint at c0022c7d
+00009700400i[GDBST ] stopped with ac1
+00009700400i[GDBST ] reg 8 set to 00000000c0022c7d
+00009700400i[GDBST ] reg 41 set to 00000000ffffffff
+00009700400i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009700400i[GDBST ] stepping
+00009700401i[GDBST ] stopped with ac2
+00009700401i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009706535i[GDBST ] found breakpoint at c0020fbd
+00009706535i[GDBST ] stopped with ac1
+00009706535i[GDBST ] reg 8 set to 00000000c0020fbd
+00009706535i[GDBST ] reg 41 set to 00000000ffffffff
+00009706535i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009706535i[GDBST ] stepping
+00009706536i[GDBST ] stopped with ac2
+00009706536i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009707001i[GDBST ] found breakpoint at c0020fbd
+00009707001i[GDBST ] stopped with ac1
+00009707001i[GDBST ] reg 8 set to 00000000c0020fbd
+00009707001i[GDBST ] reg 41 set to 00000000ffffffff
+00009707001i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009707001i[GDBST ] stepping
+00009707002i[GDBST ] stopped with ac2
+00009707002i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009708002i[GDBST ] found breakpoint at c0020fbd
+00009708002i[GDBST ] stopped with ac1
+00009708002i[GDBST ] reg 8 set to 00000000c0020fbd
+00009708002i[GDBST ] reg 41 set to 00000000ffffffff
+00009708002i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009708002i[GDBST ] stepping
+00009708003i[GDBST ] stopped with ac2
+00009708003i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009708064i[GDBST ] found breakpoint at c0022c7d
+00009708064i[GDBST ] stopped with ac1
+00009708064i[GDBST ] reg 8 set to 00000000c0022c7d
+00009708064i[GDBST ] reg 41 set to 00000000ffffffff
+00009708064i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009708064i[GDBST ] stepping
+00009708065i[GDBST ] stopped with ac2
+00009708065i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009710710i[GDBST ] found breakpoint at c0020fbd
+00009710710i[GDBST ] stopped with ac1
+00009710710i[GDBST ] reg 8 set to 00000000c0020fbd
+00009710710i[GDBST ] reg 41 set to 00000000ffffffff
+00009710710i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009710710i[GDBST ] stepping
+00009710711i[GDBST ] stopped with ac2
+00009710711i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009711576i[GDBST ] found breakpoint at c0020fbd
+00009711576i[GDBST ] stopped with ac1
+00009711576i[GDBST ] reg 8 set to 00000000c0020fbd
+00009711576i[GDBST ] reg 41 set to 00000000ffffffff
+00009711576i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009711576i[GDBST ] stepping
+00009711577i[GDBST ] stopped with ac2
+00009711577i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009711638i[GDBST ] found breakpoint at c0022c7d
+00009711638i[GDBST ] stopped with ac1
+00009711638i[GDBST ] reg 8 set to 00000000c0022c7d
+00009711638i[GDBST ] reg 41 set to 00000000ffffffff
+00009711638i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009711638i[GDBST ] stepping
+00009711639i[GDBST ] stopped with ac2
+00009711639i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009714077i[GDBST ] found breakpoint at c0020fbd
+00009714077i[GDBST ] stopped with ac1
+00009714077i[GDBST ] reg 8 set to 00000000c0020fbd
+00009714077i[GDBST ] reg 41 set to 00000000ffffffff
+00009714077i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009714077i[GDBST ] stepping
+00009714078i[GDBST ] stopped with ac2
+00009714078i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009714943i[GDBST ] found breakpoint at c0020fbd
+00009714943i[GDBST ] stopped with ac1
+00009714943i[GDBST ] reg 8 set to 00000000c0020fbd
+00009714943i[GDBST ] reg 41 set to 00000000ffffffff
+00009714943i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009714943i[GDBST ] stepping
+00009714944i[GDBST ] stopped with ac2
+00009714944i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009715005i[GDBST ] found breakpoint at c0022c7d
+00009715005i[GDBST ] stopped with ac1
+00009715005i[GDBST ] reg 8 set to 00000000c0022c7d
+00009715005i[GDBST ] reg 41 set to 00000000ffffffff
+00009715005i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009715005i[GDBST ] stepping
+00009715006i[GDBST ] stopped with ac2
+00009715006i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009718136i[GDBST ] found breakpoint at c0020fbd
+00009718136i[GDBST ] stopped with ac1
+00009718136i[GDBST ] reg 8 set to 00000000c0020fbd
+00009718136i[GDBST ] reg 41 set to 00000000ffffffff
+00009718136i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009718136i[GDBST ] stepping
+00009718137i[GDBST ] stopped with ac2
+00009718137i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009719002i[GDBST ] found breakpoint at c0020fbd
+00009719002i[GDBST ] stopped with ac1
+00009719002i[GDBST ] reg 8 set to 00000000c0020fbd
+00009719002i[GDBST ] reg 41 set to 00000000ffffffff
+00009719002i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009719002i[GDBST ] stepping
+00009719003i[GDBST ] stopped with ac2
+00009719003i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009719064i[GDBST ] found breakpoint at c0022c7d
+00009719064i[GDBST ] stopped with ac1
+00009719064i[GDBST ] reg 8 set to 00000000c0022c7d
+00009719064i[GDBST ] reg 41 set to 00000000ffffffff
+00009719064i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009719064i[GDBST ] stepping
+00009719065i[GDBST ] stopped with ac2
+00009719065i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009721316i[GDBST ] found breakpoint at c0020fbd
+00009721316i[GDBST ] stopped with ac1
+00009721316i[GDBST ] reg 8 set to 00000000c0020fbd
+00009721316i[GDBST ] reg 41 set to 00000000ffffffff
+00009721316i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009721316i[GDBST ] stepping
+00009721317i[GDBST ] stopped with ac2
+00009721317i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009722182i[GDBST ] found breakpoint at c0020fbd
+00009722182i[GDBST ] stopped with ac1
+00009722182i[GDBST ] reg 8 set to 00000000c0020fbd
+00009722182i[GDBST ] reg 41 set to 00000000ffffffff
+00009722182i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009722182i[GDBST ] stepping
+00009722183i[GDBST ] stopped with ac2
+00009722183i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009722244i[GDBST ] found breakpoint at c0022c7d
+00009722244i[GDBST ] stopped with ac1
+00009722244i[GDBST ] reg 8 set to 00000000c0022c7d
+00009722244i[GDBST ] reg 41 set to 00000000ffffffff
+00009722244i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009722244i[GDBST ] stepping
+00009722245i[GDBST ] stopped with ac2
+00009722245i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009724496i[GDBST ] found breakpoint at c0020fbd
+00009724496i[GDBST ] stopped with ac1
+00009724496i[GDBST ] reg 8 set to 00000000c0020fbd
+00009724496i[GDBST ] reg 41 set to 00000000ffffffff
+00009724496i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009724496i[GDBST ] stepping
+00009724497i[GDBST ] stopped with ac2
+00009724497i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009725362i[GDBST ] found breakpoint at c0020fbd
+00009725362i[GDBST ] stopped with ac1
+00009725362i[GDBST ] reg 8 set to 00000000c0020fbd
+00009725362i[GDBST ] reg 41 set to 00000000ffffffff
+00009725362i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009725362i[GDBST ] stepping
+00009725363i[GDBST ] stopped with ac2
+00009725363i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009725424i[GDBST ] found breakpoint at c0022c7d
+00009725424i[GDBST ] stopped with ac1
+00009725424i[GDBST ] reg 8 set to 00000000c0022c7d
+00009725424i[GDBST ] reg 41 set to 00000000ffffffff
+00009725424i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009725424i[GDBST ] stepping
+00009725425i[GDBST ] stopped with ac2
+00009725425i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009728555i[GDBST ] found breakpoint at c0020fbd
+00009728555i[GDBST ] stopped with ac1
+00009728555i[GDBST ] reg 8 set to 00000000c0020fbd
+00009728555i[GDBST ] reg 41 set to 00000000ffffffff
+00009728555i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009728555i[GDBST ] stepping
+00009728556i[GDBST ] stopped with ac2
+00009728556i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009729421i[GDBST ] found breakpoint at c0020fbd
+00009729421i[GDBST ] stopped with ac1
+00009729421i[GDBST ] reg 8 set to 00000000c0020fbd
+00009729421i[GDBST ] reg 41 set to 00000000ffffffff
+00009729421i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009729421i[GDBST ] stepping
+00009729422i[GDBST ] stopped with ac2
+00009729422i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009729483i[GDBST ] found breakpoint at c0022c7d
+00009729483i[GDBST ] stopped with ac1
+00009729483i[GDBST ] reg 8 set to 00000000c0022c7d
+00009729483i[GDBST ] reg 41 set to 00000000ffffffff
+00009729483i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009729483i[GDBST ] stepping
+00009729484i[GDBST ] stopped with ac2
+00009729484i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009731755i[GDBST ] found breakpoint at c0020fbd
+00009731755i[GDBST ] stopped with ac1
+00009731755i[GDBST ] reg 8 set to 00000000c0020fbd
+00009731755i[GDBST ] reg 41 set to 00000000ffffffff
+00009731755i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009731755i[GDBST ] stepping
+00009731756i[GDBST ] stopped with ac2
+00009731756i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009732621i[GDBST ] found breakpoint at c0020fbd
+00009732621i[GDBST ] stopped with ac1
+00009732621i[GDBST ] reg 8 set to 00000000c0020fbd
+00009732621i[GDBST ] reg 41 set to 00000000ffffffff
+00009732621i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009732621i[GDBST ] stepping
+00009732622i[GDBST ] stopped with ac2
+00009732622i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009732683i[GDBST ] found breakpoint at c0022c7d
+00009732683i[GDBST ] stopped with ac1
+00009732683i[GDBST ] reg 8 set to 00000000c0022c7d
+00009732683i[GDBST ] reg 41 set to 00000000ffffffff
+00009732683i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009732683i[GDBST ] stepping
+00009732684i[GDBST ] stopped with ac2
+00009732684i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009735706i[GDBST ] found breakpoint at c0020fbd
+00009735706i[GDBST ] stopped with ac1
+00009735706i[GDBST ] reg 8 set to 00000000c0020fbd
+00009735706i[GDBST ] reg 41 set to 00000000ffffffff
+00009735706i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009735706i[GDBST ] stepping
+00009735707i[GDBST ] stopped with ac2
+00009735707i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009736705i[GDBST ] found breakpoint at c0020fbd
+00009736705i[GDBST ] stopped with ac1
+00009736705i[GDBST ] reg 8 set to 00000000c0020fbd
+00009736705i[GDBST ] reg 41 set to 00000000ffffffff
+00009736705i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009736705i[GDBST ] stepping
+00009736706i[GDBST ] stopped with ac2
+00009736706i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009736767i[GDBST ] found breakpoint at c0022c7d
+00009736767i[GDBST ] stopped with ac1
+00009736767i[GDBST ] reg 8 set to 00000000c0022c7d
+00009736767i[GDBST ] reg 41 set to 00000000ffffffff
+00009736767i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009736767i[GDBST ] stepping
+00009736768i[GDBST ] stopped with ac2
+00009736768i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009739037i[GDBST ] found breakpoint at c0020fbd
+00009739037i[GDBST ] stopped with ac1
+00009739037i[GDBST ] reg 8 set to 00000000c0020fbd
+00009739037i[GDBST ] reg 41 set to 00000000ffffffff
+00009739037i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009739037i[GDBST ] stepping
+00009739038i[GDBST ] stopped with ac2
+00009739038i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009739903i[GDBST ] found breakpoint at c0020fbd
+00009739903i[GDBST ] stopped with ac1
+00009739903i[GDBST ] reg 8 set to 00000000c0020fbd
+00009739903i[GDBST ] reg 41 set to 00000000ffffffff
+00009739903i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009739903i[GDBST ] stepping
+00009739904i[GDBST ] stopped with ac2
+00009739904i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009739965i[GDBST ] found breakpoint at c0022c7d
+00009739965i[GDBST ] stopped with ac1
+00009739965i[GDBST ] reg 8 set to 00000000c0022c7d
+00009739965i[GDBST ] reg 41 set to 00000000ffffffff
+00009739965i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009739965i[GDBST ] stepping
+00009739966i[GDBST ] stopped with ac2
+00009739966i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009742988i[GDBST ] found breakpoint at c0020fbd
+00009742988i[GDBST ] stopped with ac1
+00009742988i[GDBST ] reg 8 set to 00000000c0020fbd
+00009742988i[GDBST ] reg 41 set to 00000000ffffffff
+00009742988i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009742988i[GDBST ] stepping
+00009742989i[GDBST ] stopped with ac2
+00009742989i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009743854i[GDBST ] found breakpoint at c0020fbd
+00009743854i[GDBST ] stopped with ac1
+00009743854i[GDBST ] reg 8 set to 00000000c0020fbd
+00009743854i[GDBST ] reg 41 set to 00000000ffffffff
+00009743854i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009743854i[GDBST ] stepping
+00009743855i[GDBST ] stopped with ac2
+00009743855i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009743916i[GDBST ] found breakpoint at c0022c7d
+00009743916i[GDBST ] stopped with ac1
+00009743916i[GDBST ] reg 8 set to 00000000c0022c7d
+00009743916i[GDBST ] reg 41 set to 00000000ffffffff
+00009743916i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009743916i[GDBST ] stepping
+00009743917i[GDBST ] stopped with ac2
+00009743917i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009764982i[GDBST ] found breakpoint at c0022c7d
+00009764982i[GDBST ] stopped with ac1
+00009764982i[GDBST ] reg 8 set to 00000000c0022c7d
+00009764982i[GDBST ] reg 41 set to 00000000ffffffff
+00009764982i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009764982i[GDBST ] stepping
+00009764983i[GDBST ] stopped with ac2
+00009764983i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009766143i[GDBST ] found breakpoint at c0020fbd
+00009766143i[GDBST ] stopped with ac1
+00009766143i[GDBST ] reg 8 set to 00000000c0020fbd
+00009766143i[GDBST ] reg 41 set to 00000000ffffffff
+00009766143i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009766143i[GDBST ] stepping
+00009766144i[GDBST ] stopped with ac2
+00009766144i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009772904i[GDBST ] found breakpoint at c0020fbd
+00009772904i[GDBST ] stopped with ac1
+00009772904i[GDBST ] reg 8 set to 00000000c0020fbd
+00009772904i[GDBST ] reg 41 set to 00000000ffffffff
+00009772904i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009772904i[GDBST ] stepping
+00009772905i[GDBST ] stopped with ac2
+00009772905i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009773770i[GDBST ] found breakpoint at c0020fbd
+00009773770i[GDBST ] stopped with ac1
+00009773770i[GDBST ] reg 8 set to 00000000c0020fbd
+00009773770i[GDBST ] reg 41 set to 00000000ffffffff
+00009773770i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009773770i[GDBST ] stepping
+00009773771i[GDBST ] stopped with ac2
+00009773771i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009773832i[GDBST ] found breakpoint at c0022c7d
+00009773832i[GDBST ] stopped with ac1
+00009773832i[GDBST ] reg 8 set to 00000000c0022c7d
+00009773832i[GDBST ] reg 41 set to 00000000ffffffff
+00009773832i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009773832i[GDBST ] stepping
+00009773833i[GDBST ] stopped with ac2
+00009773833i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009776084i[GDBST ] found breakpoint at c0020fbd
+00009776084i[GDBST ] stopped with ac1
+00009776084i[GDBST ] reg 8 set to 00000000c0020fbd
+00009776084i[GDBST ] reg 41 set to 00000000ffffffff
+00009776084i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009776084i[GDBST ] stepping
+00009776085i[GDBST ] stopped with ac2
+00009776085i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009777083i[GDBST ] found breakpoint at c0020fbd
+00009777083i[GDBST ] stopped with ac1
+00009777083i[GDBST ] reg 8 set to 00000000c0020fbd
+00009777083i[GDBST ] reg 41 set to 00000000ffffffff
+00009777083i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009777083i[GDBST ] stepping
+00009777084i[GDBST ] stopped with ac2
+00009777084i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009777145i[GDBST ] found breakpoint at c0022c7d
+00009777145i[GDBST ] stopped with ac1
+00009777145i[GDBST ] reg 8 set to 00000000c0022c7d
+00009777145i[GDBST ] reg 41 set to 00000000ffffffff
+00009777145i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009777145i[GDBST ] stepping
+00009777146i[GDBST ] stopped with ac2
+00009777146i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009779397i[GDBST ] found breakpoint at c0020fbd
+00009779397i[GDBST ] stopped with ac1
+00009779397i[GDBST ] reg 8 set to 00000000c0020fbd
+00009779397i[GDBST ] reg 41 set to 00000000ffffffff
+00009779397i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009779397i[GDBST ] stepping
+00009779398i[GDBST ] stopped with ac2
+00009779398i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009780263i[GDBST ] found breakpoint at c0020fbd
+00009780263i[GDBST ] stopped with ac1
+00009780263i[GDBST ] reg 8 set to 00000000c0020fbd
+00009780263i[GDBST ] reg 41 set to 00000000ffffffff
+00009780263i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009780263i[GDBST ] stepping
+00009780264i[GDBST ] stopped with ac2
+00009780264i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009780325i[GDBST ] found breakpoint at c0022c7d
+00009780325i[GDBST ] stopped with ac1
+00009780325i[GDBST ] reg 8 set to 00000000c0022c7d
+00009780325i[GDBST ] reg 41 set to 00000000ffffffff
+00009780325i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009780325i[GDBST ] stepping
+00009780326i[GDBST ] stopped with ac2
+00009780326i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009783344i[GDBST ] found breakpoint at c0020fbd
+00009783344i[GDBST ] stopped with ac1
+00009783344i[GDBST ] reg 8 set to 00000000c0020fbd
+00009783344i[GDBST ] reg 41 set to 00000000ffffffff
+00009783344i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009783344i[GDBST ] stepping
+00009783345i[GDBST ] stopped with ac2
+00009783345i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009784210i[GDBST ] found breakpoint at c0020fbd
+00009784210i[GDBST ] stopped with ac1
+00009784210i[GDBST ] reg 8 set to 00000000c0020fbd
+00009784210i[GDBST ] reg 41 set to 00000000ffffffff
+00009784210i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009784210i[GDBST ] stepping
+00009784211i[GDBST ] stopped with ac2
+00009784211i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009784272i[GDBST ] found breakpoint at c0022c7d
+00009784272i[GDBST ] stopped with ac1
+00009784272i[GDBST ] reg 8 set to 00000000c0022c7d
+00009784272i[GDBST ] reg 41 set to 00000000ffffffff
+00009784272i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009784272i[GDBST ] stepping
+00009784273i[GDBST ] stopped with ac2
+00009784273i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009785819i[GDBST ] found breakpoint at c0022c7d
+00009785819i[GDBST ] stopped with ac1
+00009785819i[GDBST ] reg 8 set to 00000000c0022c7d
+00009785819i[GDBST ] reg 41 set to 00000000ffffffff
+00009785819i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009785819i[GDBST ] stepping
+00009785820i[GDBST ] stopped with ac2
+00009785820i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009787732i[GDBST ] found breakpoint at c0020fbd
+00009787732i[GDBST ] stopped with ac1
+00009787732i[GDBST ] reg 8 set to 00000000c0020fbd
+00009787732i[GDBST ] reg 41 set to 00000000ffffffff
+00009787732i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009787732i[GDBST ] stepping
+00009787733i[GDBST ] stopped with ac2
+00009787733i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009788598i[GDBST ] found breakpoint at c0020fbd
+00009788598i[GDBST ] stopped with ac1
+00009788598i[GDBST ] reg 8 set to 00000000c0020fbd
+00009788598i[GDBST ] reg 41 set to 00000000ffffffff
+00009788598i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009788598i[GDBST ] stepping
+00009788599i[GDBST ] stopped with ac2
+00009788599i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009788660i[GDBST ] found breakpoint at c0022c7d
+00009788660i[GDBST ] stopped with ac1
+00009788660i[GDBST ] reg 8 set to 00000000c0022c7d
+00009788660i[GDBST ] reg 41 set to 00000000ffffffff
+00009788660i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009788660i[GDBST ] stepping
+00009788661i[GDBST ] stopped with ac2
+00009788661i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009791683i[GDBST ] found breakpoint at c0020fbd
+00009791683i[GDBST ] stopped with ac1
+00009791683i[GDBST ] reg 8 set to 00000000c0020fbd
+00009791683i[GDBST ] reg 41 set to 00000000ffffffff
+00009791683i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009791683i[GDBST ] stepping
+00009791684i[GDBST ] stopped with ac2
+00009791684i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009792549i[GDBST ] found breakpoint at c0020fbd
+00009792549i[GDBST ] stopped with ac1
+00009792549i[GDBST ] reg 8 set to 00000000c0020fbd
+00009792549i[GDBST ] reg 41 set to 00000000ffffffff
+00009792549i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009792549i[GDBST ] stepping
+00009792550i[GDBST ] stopped with ac2
+00009792550i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009792611i[GDBST ] found breakpoint at c0022c7d
+00009792611i[GDBST ] stopped with ac1
+00009792611i[GDBST ] reg 8 set to 00000000c0022c7d
+00009792611i[GDBST ] reg 41 set to 00000000ffffffff
+00009792611i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009792611i[GDBST ] stepping
+00009792612i[GDBST ] stopped with ac2
+00009792612i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009794881i[GDBST ] found breakpoint at c0020fbd
+00009794881i[GDBST ] stopped with ac1
+00009794881i[GDBST ] reg 8 set to 00000000c0020fbd
+00009794881i[GDBST ] reg 41 set to 00000000ffffffff
+00009794881i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009794881i[GDBST ] stepping
+00009794882i[GDBST ] stopped with ac2
+00009794882i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009795747i[GDBST ] found breakpoint at c0020fbd
+00009795747i[GDBST ] stopped with ac1
+00009795747i[GDBST ] reg 8 set to 00000000c0020fbd
+00009795747i[GDBST ] reg 41 set to 00000000ffffffff
+00009795747i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009795747i[GDBST ] stepping
+00009795748i[GDBST ] stopped with ac2
+00009795748i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009795809i[GDBST ] found breakpoint at c0022c7d
+00009795809i[GDBST ] stopped with ac1
+00009795809i[GDBST ] reg 8 set to 00000000c0022c7d
+00009795809i[GDBST ] reg 41 set to 00000000ffffffff
+00009795809i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009795809i[GDBST ] stepping
+00009795810i[GDBST ] stopped with ac2
+00009795810i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009798964i[GDBST ] found breakpoint at c0020fbd
+00009798964i[GDBST ] stopped with ac1
+00009798964i[GDBST ] reg 8 set to 00000000c0020fbd
+00009798964i[GDBST ] reg 41 set to 00000000ffffffff
+00009798964i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009798964i[GDBST ] stepping
+00009798965i[GDBST ] stopped with ac2
+00009798965i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009799830i[GDBST ] found breakpoint at c0020fbd
+00009799830i[GDBST ] stopped with ac1
+00009799830i[GDBST ] reg 8 set to 00000000c0020fbd
+00009799830i[GDBST ] reg 41 set to 00000000ffffffff
+00009799830i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009799830i[GDBST ] stepping
+00009799831i[GDBST ] stopped with ac2
+00009799831i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009799892i[GDBST ] found breakpoint at c0022c7d
+00009799892i[GDBST ] stopped with ac1
+00009799892i[GDBST ] reg 8 set to 00000000c0022c7d
+00009799892i[GDBST ] reg 41 set to 00000000ffffffff
+00009799892i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009799892i[GDBST ] stepping
+00009799893i[GDBST ] stopped with ac2
+00009799893i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009802162i[GDBST ] found breakpoint at c0020fbd
+00009802162i[GDBST ] stopped with ac1
+00009802162i[GDBST ] reg 8 set to 00000000c0020fbd
+00009802162i[GDBST ] reg 41 set to 00000000ffffffff
+00009802162i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009802162i[GDBST ] stepping
+00009802163i[GDBST ] stopped with ac2
+00009802163i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009803028i[GDBST ] found breakpoint at c0020fbd
+00009803028i[GDBST ] stopped with ac1
+00009803028i[GDBST ] reg 8 set to 00000000c0020fbd
+00009803028i[GDBST ] reg 41 set to 00000000ffffffff
+00009803028i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009803028i[GDBST ] stepping
+00009803029i[GDBST ] stopped with ac2
+00009803029i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009803090i[GDBST ] found breakpoint at c0022c7d
+00009803090i[GDBST ] stopped with ac1
+00009803090i[GDBST ] reg 8 set to 00000000c0022c7d
+00009803090i[GDBST ] reg 41 set to 00000000ffffffff
+00009803090i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009803090i[GDBST ] stepping
+00009803091i[GDBST ] stopped with ac2
+00009803091i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009805360i[GDBST ] found breakpoint at c0020fbd
+00009805360i[GDBST ] stopped with ac1
+00009805360i[GDBST ] reg 8 set to 00000000c0020fbd
+00009805360i[GDBST ] reg 41 set to 00000000ffffffff
+00009805360i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009805360i[GDBST ] stepping
+00009805361i[GDBST ] stopped with ac2
+00009805361i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009806736i[GDBST ] found breakpoint at c0020fbd
+00009806736i[GDBST ] stopped with ac1
+00009806736i[GDBST ] reg 8 set to 00000000c0020fbd
+00009806736i[GDBST ] reg 41 set to 00000000ffffffff
+00009806736i[GDBST ] Removing breakpoint at 00000000c0020fbd
+00009806736i[GDBST ] stepping
+00009806737i[GDBST ] stopped with ac2
+00009806737i[GDBST ] Setting breakpoint at 00000000c0020fbd
+00009806798i[GDBST ] found breakpoint at c0022c7d
+00009806798i[GDBST ] stopped with ac1
+00009806798i[GDBST ] reg 8 set to 00000000c0022c7d
+00009806798i[GDBST ] reg 41 set to 00000000ffffffff
+00009806798i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009806798i[GDBST ] stepping
+00009806799i[GDBST ] stopped with ac2
+00009806799i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009808721i[GDBST ] found breakpoint at c0022c7d
+00009808721i[GDBST ] stopped with ac1
+00009808721i[GDBST ] reg 8 set to 00000000c0022c7d
+00009808721i[GDBST ] reg 41 set to 00000000ffffffff
+00009808721i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009808721i[GDBST ] stepping
+00009808722i[GDBST ] stopped with ac2
+00009808722i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009829627i[GDBST ] found breakpoint at c0022c7d
+00009829627i[GDBST ] stopped with ac1
+00009829627i[GDBST ] reg 8 set to 00000000c0022c7d
+00009829627i[GDBST ] reg 41 set to 00000000ffffffff
+00009829627i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009829627i[GDBST ] stepping
+00009829628i[GDBST ] stopped with ac2
+00009829628i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00009829752i[GDBST ] found breakpoint at c0022c7d
+00009829752i[GDBST ] stopped with ac1
+00009829752i[GDBST ] reg 8 set to 00000000c0022c7d
+00009829752i[GDBST ] reg 41 set to 00000000ffffffff
+00009829752i[GDBST ] Removing breakpoint at 00000000c0022c7d
+00009829752i[GDBST ] stepping
+00009829753i[GDBST ] stopped with ac2
+00009829753i[GDBST ] Setting breakpoint at 00000000c0022c7d
+00025361509i[NOGUI ] ips = 15.924M
+00061314320i[NOGUI ] ips = 35.953M
+00097279932i[NOGUI ] ips = 35.966M
+00133226073i[NOGUI ] ips = 35.946M
+00169268723i[NOGUI ] ips = 36.043M
+00205252398i[NOGUI ] ips = 35.984M
+00241254057i[NOGUI ] ips = 36.002M
+00277266009i[NOGUI ] ips = 36.012M
+00313316931i[NOGUI ] ips = 36.051M
+00349254459i[NOGUI ] ips = 35.938M
+00385184163i[NOGUI ] ips = 35.930M
+00421477113i[NOGUI ] ips = 36.293M
+00457432667i[NOGUI ] ips = 35.956M
+00493423509i[NOGUI ] ips = 35.991M
+00529447153i[NOGUI ] ips = 36.024M
+00565561224i[NOGUI ] ips = 36.114M
+00601593892i[NOGUI ] ips = 36.033M
+00637638878i[NOGUI ] ips = 36.045M
+00673660890i[NOGUI ] ips = 36.022M
+00709780452i[NOGUI ] ips = 36.120M
+00745949930i[NOGUI ] ips = 36.169M
+00781981330i[NOGUI ] ips = 36.031M
+00818253486i[NOGUI ] ips = 36.272M
+00854460325i[NOGUI ] ips = 36.207M
+00890536426i[NOGUI ] ips = 36.076M
+00926769509i[NOGUI ] ips = 36.233M
+00962912482i[NOGUI ] ips = 36.143M
+00998991009i[NOGUI ] ips = 36.079M
+01034987626i[NOGUI ] ips = 35.997M
+01070916509i[NOGUI ] ips = 35.929M
+01107074695i[NOGUI ] ips = 36.158M
+01143330009i[NOGUI ] ips = 36.255M
+01179426351i[NOGUI ] ips = 36.096M
+01215392780i[NOGUI ] ips = 35.966M
+01251468576i[NOGUI ] ips = 36.076M
+01287530752i[NOGUI ] ips = 36.062M
+01323718312i[NOGUI ] ips = 36.188M
+01359831719i[NOGUI ] ips = 36.113M
+01395852306i[NOGUI ] ips = 36.021M
+01431751433i[NOGUI ] ips = 35.899M
+01467991960i[NOGUI ] ips = 36.241M
+01504155688i[NOGUI ] ips = 36.164M
+01540125132i[NOGUI ] ips = 35.969M
+01576043709i[NOGUI ] ips = 35.919M
+01612208083i[NOGUI ] ips = 36.164M
+01648304997i[NOGUI ] ips = 36.097M
+01684487804i[NOGUI ] ips = 36.183M
+01720443390i[NOGUI ] ips = 35.956M
+01756484009i[NOGUI ] ips = 36.041M
+01792513488i[NOGUI ] ips = 36.029M
+01828564155i[NOGUI ] ips = 36.051M
+01864794156i[NOGUI ] ips = 36.230M
+01900862792i[NOGUI ] ips = 36.069M
+01936769305i[NOGUI ] ips = 35.907M
+01972956509i[NOGUI ] ips = 36.187M
+02009088058i[NOGUI ] ips = 36.132M
+02045188852i[NOGUI ] ips = 36.101M
+02081138643i[NOGUI ] ips = 35.950M
+02117091974i[NOGUI ] ips = 35.953M
+02153061305i[NOGUI ] ips = 35.969M
+02189023679i[NOGUI ] ips = 35.962M
+02225059700i[NOGUI ] ips = 36.036M
+02261113346i[NOGUI ] ips = 36.054M
+02297086057i[NOGUI ] ips = 35.973M
+02333174980i[NOGUI ] ips = 36.089M
+02369236395i[NOGUI ] ips = 36.061M
+02405427888i[NOGUI ] ips = 36.191M
+02441520805i[NOGUI ] ips = 36.093M
+02477771062i[NOGUI ] ips = 36.250M
+02513907195i[NOGUI ] ips = 36.136M
+02549994939i[NOGUI ] ips = 36.088M
+02586002208i[NOGUI ] ips = 36.007M
+02622248586i[NOGUI ] ips = 36.246M
+02658359550i[NOGUI ] ips = 36.111M
+02694567295i[NOGUI ] ips = 36.208M
+02730688488i[NOGUI ] ips = 36.121M
+02766734231i[NOGUI ] ips = 36.046M
+02802879858i[NOGUI ] ips = 36.146M
+02839037620i[NOGUI ] ips = 36.158M
+02875238381i[NOGUI ] ips = 36.201M
+02911263872i[NOGUI ] ips = 36.025M
+02947350989i[NOGUI ] ips = 36.087M
+02983353648i[NOGUI ] ips = 36.003M
+03019486305i[NOGUI ] ips = 36.133M
+03055576514i[NOGUI ] ips = 36.090M
+03091819595i[NOGUI ] ips = 36.243M
+03128020639i[NOGUI ] ips = 36.201M
+03164104703i[NOGUI ] ips = 36.084M
+03200219319i[NOGUI ] ips = 36.115M
+03236383072i[NOGUI ] ips = 36.164M
+03272437805i[NOGUI ] ips = 36.055M
+03308540659i[NOGUI ] ips = 36.103M
+03344735219i[NOGUI ] ips = 36.195M
+03380688805i[NOGUI ] ips = 35.954M
+03416844617i[NOGUI ] ips = 36.156M
+03452900574i[NOGUI ] ips = 36.056M
+03489030420i[NOGUI ] ips = 36.130M
+03525132794i[NOGUI ] ips = 36.102M
+03561373720i[NOGUI ] ips = 36.241M
+03597544805i[NOGUI ] ips = 36.171M
+03633686378i[NOGUI ] ips = 36.142M
+03669775071i[NOGUI ] ips = 36.089M
+03706049022i[NOGUI ] ips = 36.274M
+03742138769i[NOGUI ] ips = 36.090M
+03778235132i[NOGUI ] ips = 36.096M
+03814338792i[NOGUI ] ips = 36.104M
+03850397305i[NOGUI ] ips = 36.059M
+03886487805i[NOGUI ] ips = 36.090M
+03922596805i[NOGUI ] ips = 36.109M
+03958746592i[NOGUI ] ips = 36.150M
+03994802384i[NOGUI ] ips = 36.056M
+04030950284i[NOGUI ] ips = 36.148M
+04066992884i[NOGUI ] ips = 36.043M
+04103076187i[NOGUI ] ips = 36.083M
+04139077406i[NOGUI ] ips = 36.001M
+04175264889i[NOGUI ] ips = 36.187M
+04211219698i[NOGUI ] ips = 35.955M
+04247231314i[NOGUI ] ips = 36.012M
+04283340290i[NOGUI ] ips = 36.109M
+04319261427i[NOGUI ] ips = 35.921M
+04355217305i[NOGUI ] ips = 35.956M
+04391282688i[NOGUI ] ips = 36.065M
+04427429985i[NOGUI ] ips = 36.147M
+04463511305i[NOGUI ] ips = 36.081M
+04499523817i[NOGUI ] ips = 36.013M
+04535586805i[NOGUI ] ips = 36.063M
+04571589937i[NOGUI ] ips = 36.003M
+04607533521i[NOGUI ] ips = 35.944M
+04643634273i[NOGUI ] ips = 36.101M
+04679609235i[NOGUI ] ips = 35.975M
+04715712944i[NOGUI ] ips = 36.104M
+04751741505i[NOGUI ] ips = 36.029M
+04789512115i[NOGUI ] ips = 37.771M
+04827084165i[NOGUI ] ips = 37.572M
+04863871653i[NOGUI ] ips = 36.787M
+04900129805i[NOGUI ] ips = 36.258M
+04936296000i[NOGUI ] ips = 36.166M
+04972616548i[NOGUI ] ips = 36.321M
+05008798000i[NOGUI ] ips = 36.181M
+05045050315i[NOGUI ] ips = 36.252M
+05081252334i[NOGUI ] ips = 36.202M
+05117433925i[NOGUI ] ips = 36.182M
+05153759805i[NOGUI ] ips = 36.326M
+05190179965i[NOGUI ] ips = 36.420M
+05226778083i[NOGUI ] ips = 36.598M
+05264062568i[NOGUI ] ips = 37.284M
+05301262390i[NOGUI ] ips = 37.200M
+05338217805i[NOGUI ] ips = 36.955M
+05375960589i[NOGUI ] ips = 37.743M
+05413702515i[NOGUI ] ips = 37.742M
+05451434026i[NOGUI ] ips = 37.732M
+05489119586i[NOGUI ] ips = 37.686M
+05526697481i[NOGUI ] ips = 37.578M
+05564404496i[NOGUI ] ips = 37.707M
+05602050805i[NOGUI ] ips = 37.646M
+05639652456i[NOGUI ] ips = 37.602M
+05677446337i[NOGUI ] ips = 37.794M
+05715117945i[NOGUI ] ips = 37.672M
+05752814998i[NOGUI ] ips = 37.697M
+05790505303i[NOGUI ] ips = 37.690M
+05828112330i[NOGUI ] ips = 37.607M
+05865833305i[NOGUI ] ips = 37.721M
+05903662970i[NOGUI ] ips = 37.830M
+05941383446i[NOGUI ] ips = 37.720M
+05979063950i[NOGUI ] ips = 37.681M
+06016739970i[NOGUI ] ips = 37.676M
+06054433424i[NOGUI ] ips = 37.693M
+06092434751i[NOGUI ] ips = 38.001M
+06130147250i[NOGUI ] ips = 37.712M
+06167829215i[NOGUI ] ips = 37.682M
+06205550893i[NOGUI ] ips = 37.722M
+06243278066i[NOGUI ] ips = 37.727M
+06281064496i[NOGUI ] ips = 37.786M
+06318858305i[NOGUI ] ips = 37.794M
+06356588521i[NOGUI ] ips = 37.730M
+06394220895i[NOGUI ] ips = 37.632M
+06432055305i[NOGUI ] ips = 37.834M
+06469980941i[NOGUI ] ips = 37.926M
+06507698976i[NOGUI ] ips = 37.718M
+06545201876i[NOGUI ] ips = 37.503M
+06581167601i[NOGUI ] ips = 35.966M
+06617240910i[NOGUI ] ips = 36.073M
+06653255416i[NOGUI ] ips = 36.015M
+06689568101i[NOGUI ] ips = 36.313M
+06725661029i[NOGUI ] ips = 36.093M
+06761669595i[NOGUI ] ips = 36.009M
+06797755601i[NOGUI ] ips = 36.086M
+06833805703i[NOGUI ] ips = 36.050M
+06869768601i[NOGUI ] ips = 35.963M
+06905699623i[NOGUI ] ips = 35.931M
+06941939601i[NOGUI ] ips = 36.240M
+06978074160i[NOGUI ] ips = 36.135M
+07014139177i[NOGUI ] ips = 36.065M
+07050082083i[NOGUI ] ips = 35.943M
+07086268778i[NOGUI ] ips = 36.187M
+07122484290i[NOGUI ] ips = 36.216M
+07158506753i[NOGUI ] ips = 36.022M
+07194623268i[NOGUI ] ips = 36.117M
+07230620830i[NOGUI ] ips = 35.998M
+07266578660i[NOGUI ] ips = 35.958M
+07302573081i[NOGUI ] ips = 35.994M
+07338603144i[NOGUI ] ips = 36.030M
+07374614084i[NOGUI ] ips = 36.011M
+07410730601i[NOGUI ] ips = 36.117M
+07446651304i[NOGUI ] ips = 35.921M
+07482600101i[NOGUI ] ips = 35.949M
+07518540615i[NOGUI ] ips = 35.941M
+07554651173i[NOGUI ] ips = 36.111M
+07590641078i[NOGUI ] ips = 35.990M
+07626585609i[NOGUI ] ips = 35.945M
+07662680653i[NOGUI ] ips = 36.095M
+07698630319i[NOGUI ] ips = 35.950M
+07734639849i[NOGUI ] ips = 36.010M
+07770650124i[NOGUI ] ips = 36.010M
+07806726101i[NOGUI ] ips = 36.076M
+07842718445i[NOGUI ] ips = 35.992M
+07878674222i[NOGUI ] ips = 35.956M
+07914857995i[NOGUI ] ips = 36.184M
+07951022146i[NOGUI ] ips = 36.164M
+07987054502i[NOGUI ] ips = 36.032M
+08023292927i[NOGUI ] ips = 36.238M
+08059307601i[NOGUI ] ips = 36.015M
+08095458961i[NOGUI ] ips = 36.151M
+08131405343i[NOGUI ] ips = 35.946M
+08167621601i[NOGUI ] ips = 36.216M
+08203680659i[NOGUI ] ips = 36.059M
+08239687848i[NOGUI ] ips = 36.007M
+08275703167i[NOGUI ] ips = 36.015M
+08311813601i[NOGUI ] ips = 36.110M
+08348139521i[NOGUI ] ips = 36.326M
+08384307473i[NOGUI ] ips = 36.168M
+08420393260i[NOGUI ] ips = 36.086M
+08456439348i[NOGUI ] ips = 36.046M
+08492555809i[NOGUI ] ips = 36.116M
+08528678116i[NOGUI ] ips = 36.122M
+08564761601i[NOGUI ] ips = 36.083M
+08600784500i[NOGUI ] ips = 36.023M
+08637046101i[NOGUI ] ips = 36.262M
+08673106021i[NOGUI ] ips = 36.060M
+08709067207i[NOGUI ] ips = 35.961M
+08745225599i[NOGUI ] ips = 36.158M
+08781347812i[NOGUI ] ips = 36.122M
+08817362230i[NOGUI ] ips = 36.014M
+08853369528i[NOGUI ] ips = 36.007M
+08889511539i[NOGUI ] ips = 36.142M
+08925669267i[NOGUI ] ips = 36.158M
+08961706541i[NOGUI ] ips = 36.037M
+08997678897i[NOGUI ] ips = 35.972M
+09033716282i[NOGUI ] ips = 36.037M
+09069824304i[NOGUI ] ips = 36.108M
+09105955895i[NOGUI ] ips = 36.132M
+09142180360i[NOGUI ] ips = 36.224M
+09178244017i[NOGUI ] ips = 36.064M
+09214375401i[NOGUI ] ips = 36.131M
+09250471269i[NOGUI ] ips = 36.096M
+09286547350i[NOGUI ] ips = 36.076M
+09322606452i[NOGUI ] ips = 36.059M
+09358759101i[NOGUI ] ips = 36.153M
+09394944966i[NOGUI ] ips = 36.186M
+09430881101i[NOGUI ] ips = 35.936M
+09467021197i[NOGUI ] ips = 36.140M
+09502990488i[NOGUI ] ips = 35.969M
+09539006601i[NOGUI ] ips = 36.016M
+09575044616i[NOGUI ] ips = 36.038M
+09611051209i[NOGUI ] ips = 36.007M
+09647121116i[NOGUI ] ips = 36.070M
+09683135731i[NOGUI ] ips = 36.015M
+09719176110i[NOGUI ] ips = 36.040M
+09755134601i[NOGUI ] ips = 35.958M
+09791184440i[NOGUI ] ips = 36.050M
+09827229700i[NOGUI ] ips = 36.045M
+09863313736i[NOGUI ] ips = 36.084M
+09899303101i[NOGUI ] ips = 35.989M
+09935409308i[NOGUI ] ips = 36.106M
+09971362491i[NOGUI ] ips = 35.953M
+10007456622i[NOGUI ] ips = 36.094M
+10043559923i[NOGUI ] ips = 36.103M
+10079667575i[NOGUI ] ips = 36.108M
+10115673294i[NOGUI ] ips = 36.006M
+10151652811i[NOGUI ] ips = 35.980M
+10187803455i[NOGUI ] ips = 36.151M
+10223960609i[NOGUI ] ips = 36.157M
+10260009435i[NOGUI ] ips = 36.049M
+10296009043i[NOGUI ] ips = 36.000M
+10332064601i[NOGUI ] ips = 36.056M
+10368057101i[NOGUI ] ips = 35.992M
+10404179101i[NOGUI ] ips = 36.122M
+10440302302i[NOGUI ] ips = 36.123M
+10476318344i[NOGUI ] ips = 36.016M
+10512337101i[NOGUI ] ips = 36.019M
+10548422703i[NOGUI ] ips = 36.086M
+10584386930i[NOGUI ] ips = 35.964M
+10620307429i[NOGUI ] ips = 35.920M
+10656508027i[NOGUI ] ips = 36.201M
+10692501354i[NOGUI ] ips = 35.993M
+10728552886i[NOGUI ] ips = 36.052M
+10764552000i[NOGUI ] ips = 35.999M
+10800799567i[NOGUI ] ips = 36.248M
+10836941436i[NOGUI ] ips = 36.142M
+10872917344i[NOGUI ] ips = 35.976M
+10909107504i[NOGUI ] ips = 36.190M
+10945396819i[NOGUI ] ips = 36.289M
+10981489222i[NOGUI ] ips = 36.092M
+11017697682i[NOGUI ] ips = 36.208M
+11053784112i[NOGUI ] ips = 36.086M
+11089817897i[NOGUI ] ips = 36.034M
+11125834961i[NOGUI ] ips = 36.017M
+11161815268i[NOGUI ] ips = 35.980M
+11197822397i[NOGUI ] ips = 36.007M
+11233776026i[NOGUI ] ips = 35.954M
+11269967397i[NOGUI ] ips = 36.191M
+11305953127i[NOGUI ] ips = 35.986M
+11342023633i[NOGUI ] ips = 36.071M
+11378092882i[NOGUI ] ips = 36.069M
+11414237105i[NOGUI ] ips = 36.144M
+11450294407i[NOGUI ] ips = 36.057M
+11486417314i[NOGUI ] ips = 36.123M
+11522476207i[NOGUI ] ips = 36.059M
+11558508002i[NOGUI ] ips = 36.032M
+11594524929i[NOGUI ] ips = 36.017M
+11630786342i[NOGUI ] ips = 36.261M
+11666821619i[NOGUI ] ips = 36.035M
+11702874787i[NOGUI ] ips = 36.053M
+11739156363i[NOGUI ] ips = 36.282M
+11775276726i[NOGUI ] ips = 36.120M
+11811432824i[NOGUI ] ips = 36.156M
+11847490897i[NOGUI ] ips = 36.058M
+11883531649i[NOGUI ] ips = 36.041M
+11919663311i[NOGUI ] ips = 36.132M
+11955839969i[NOGUI ] ips = 36.177M
+11991794897i[NOGUI ] ips = 35.955M
+12027862209i[NOGUI ] ips = 36.067M
+12063906006i[NOGUI ] ips = 36.044M
+12099958898i[NOGUI ] ips = 36.053M
+12136082897i[NOGUI ] ips = 36.124M
+12172055012i[NOGUI ] ips = 35.972M
+12207957138i[NOGUI ] ips = 35.902M
+12244025460i[NOGUI ] ips = 36.068M
+12280165687i[NOGUI ] ips = 36.140M
+12316172448i[NOGUI ] ips = 36.007M
+12352119794i[NOGUI ] ips = 35.947M
+12388093572i[NOGUI ] ips = 35.974M
+12424201919i[NOGUI ] ips = 36.108M
+12460224897i[NOGUI ] ips = 36.023M
+12496331433i[NOGUI ] ips = 36.107M
+12532587397i[NOGUI ] ips = 36.256M
+12568717897i[NOGUI ] ips = 36.130M
+12604836812i[NOGUI ] ips = 36.119M
+12640941897i[NOGUI ] ips = 36.105M
+12676988546i[NOGUI ] ips = 36.047M
+12712970010i[NOGUI ] ips = 35.981M
+12748963634i[NOGUI ] ips = 35.994M
+12784963045i[NOGUI ] ips = 35.999M
+12820995257i[NOGUI ] ips = 36.032M
+12856984898i[NOGUI ] ips = 35.990M
+12893006452i[NOGUI ] ips = 36.022M
+12929053464i[NOGUI ] ips = 36.047M
+12965134264i[NOGUI ] ips = 36.081M
+13001226284i[NOGUI ] ips = 36.092M
+13037305897i[NOGUI ] ips = 36.080M
+13073330416i[NOGUI ] ips = 36.025M
+13109335280i[NOGUI ] ips = 36.005M
+13145384919i[NOGUI ] ips = 36.050M
+13181457897i[NOGUI ] ips = 36.073M
+13217686921i[NOGUI ] ips = 36.229M
+13253689812i[NOGUI ] ips = 36.003M
+13289630114i[NOGUI ] ips = 35.940M
+13325519060i[NOGUI ] ips = 35.889M
+13361487844i[NOGUI ] ips = 35.969M
+13397446466i[NOGUI ] ips = 35.959M
+13433470232i[NOGUI ] ips = 36.024M
+13469464397i[NOGUI ] ips = 35.994M
+13505413897i[NOGUI ] ips = 35.950M
+13542206686i[NOGUI ] ips = 36.793M
+13578164858i[NOGUI ] ips = 35.958M
+13614116232i[NOGUI ] ips = 35.951M
+13650240998i[NOGUI ] ips = 36.125M
+13686292897i[NOGUI ] ips = 36.052M
+13722458317i[NOGUI ] ips = 36.165M
+13758531897i[NOGUI ] ips = 36.074M
+13794621766i[NOGUI ] ips = 36.090M
+13830570397i[NOGUI ] ips = 35.949M
+13866734906i[NOGUI ] ips = 36.165M
+13902821864i[NOGUI ] ips = 36.087M
+13938892857i[NOGUI ] ips = 36.071M
+13974864397i[NOGUI ] ips = 35.972M
+14010890481i[NOGUI ] ips = 36.026M
+14046915175i[NOGUI ] ips = 36.025M
+14083019785i[NOGUI ] ips = 36.105M
+14119127397i[NOGUI ] ips = 36.108M
+14155139377i[NOGUI ] ips = 36.012M
+14191224276i[NOGUI ] ips = 36.085M
+14227366043i[NOGUI ] ips = 36.142M
+14263364386i[NOGUI ] ips = 35.998M
+14299575599i[NOGUI ] ips = 36.211M
+14335697154i[NOGUI ] ips = 36.122M
+14371694059i[NOGUI ] ips = 35.997M
+14407920092i[NOGUI ] ips = 36.226M
+14444009397i[NOGUI ] ips = 36.089M
+14480094233i[NOGUI ] ips = 36.085M
+14516026292i[NOGUI ] ips = 35.932M
+14552170390i[NOGUI ] ips = 36.144M
+14588154477i[NOGUI ] ips = 35.984M
+14624304084i[NOGUI ] ips = 36.150M
+14660467956i[NOGUI ] ips = 36.164M
+14696458003i[NOGUI ] ips = 35.990M
+14732412121i[NOGUI ] ips = 35.954M
+14768568567i[NOGUI ] ips = 36.156M
+14804647305i[NOGUI ] ips = 36.079M
+14840805890i[NOGUI ] ips = 36.159M
+14876804880i[NOGUI ] ips = 35.999M
+14912845579i[NOGUI ] ips = 36.041M
+14948955858i[NOGUI ] ips = 36.110M
+14984921559i[NOGUI ] ips = 35.966M
+15020911782i[NOGUI ] ips = 35.990M
+15056876000i[NOGUI ] ips = 35.964M
+15092916886i[NOGUI ] ips = 36.041M
+15128931453i[NOGUI ] ips = 36.015M
+15165038830i[NOGUI ] ips = 36.107M
+15200943193i[NOGUI ] ips = 35.904M
+15236942693i[NOGUI ] ips = 35.999M
+15273097413i[NOGUI ] ips = 36.155M
+15309076987i[NOGUI ] ips = 35.980M
+15345136078i[NOGUI ] ips = 36.059M
+15381123667i[NOGUI ] ips = 35.988M
+15417239029i[NOGUI ] ips = 36.115M
+15453225259i[NOGUI ] ips = 35.986M
+15489251348i[NOGUI ] ips = 36.026M
+15525353141i[NOGUI ] ips = 36.102M
+15561338557i[NOGUI ] ips = 35.985M
+15597565561i[NOGUI ] ips = 36.227M
+15633618876i[NOGUI ] ips = 36.053M
+15669562693i[NOGUI ] ips = 35.944M
+15705857045i[NOGUI ] ips = 36.294M
+15741861516i[NOGUI ] ips = 36.004M
+15778042533i[NOGUI ] ips = 36.181M
+15814083303i[NOGUI ] ips = 36.041M
+15850157693i[NOGUI ] ips = 36.074M
+15886174725i[NOGUI ] ips = 36.017M
+15922304420i[NOGUI ] ips = 36.130M
+15958520365i[NOGUI ] ips = 36.216M
+15994692707i[NOGUI ] ips = 36.172M
+16030758453i[NOGUI ] ips = 36.066M
+16066811684i[NOGUI ] ips = 36.053M
+16102939989i[NOGUI ] ips = 36.128M
+16139118556i[NOGUI ] ips = 36.179M
+16175280741i[NOGUI ] ips = 36.162M
+16211549007i[NOGUI ] ips = 36.268M
+16247624413i[NOGUI ] ips = 36.075M
+16283562135i[NOGUI ] ips = 35.938M
+16319483243i[NOGUI ] ips = 35.921M
+16355648252i[NOGUI ] ips = 36.165M
+16391546847i[NOGUI ] ips = 35.899M
+16427598193i[NOGUI ] ips = 36.051M
+16463609846i[NOGUI ] ips = 36.012M
+16499637482i[NOGUI ] ips = 36.028M
+16535656448i[NOGUI ] ips = 36.019M
+16571806589i[NOGUI ] ips = 36.150M
+16607934675i[NOGUI ] ips = 36.128M
+16643905693i[NOGUI ] ips = 35.971M
+16680195511i[NOGUI ] ips = 36.290M
+16716396498i[NOGUI ] ips = 36.201M
+16752359599i[NOGUI ] ips = 35.963M
+16788638193i[NOGUI ] ips = 36.279M
+16824800746i[NOGUI ] ips = 36.163M
+16860743193i[NOGUI ] ips = 35.942M
+16896915667i[NOGUI ] ips = 36.172M
+16932892574i[NOGUI ] ips = 35.977M
+16968894941i[NOGUI ] ips = 36.002M
+17005196996i[NOGUI ] ips = 36.302M
+17041448876i[NOGUI ] ips = 36.252M
+17077644128i[NOGUI ] ips = 36.195M
+17113719605i[NOGUI ] ips = 36.075M
+17149810693i[NOGUI ] ips = 36.091M
+17185900693i[NOGUI ] ips = 36.090M
+17221944955i[NOGUI ] ips = 36.044M
+17257940500i[NOGUI ] ips = 35.996M
+17294045677i[NOGUI ] ips = 36.105M
+17330011187i[NOGUI ] ips = 35.966M
+17366146645i[NOGUI ] ips = 36.135M
+17402209208i[NOGUI ] ips = 36.063M
+17438562693i[NOGUI ] ips = 36.353M
+17474663437i[NOGUI ] ips = 36.101M
+17510881368i[NOGUI ] ips = 36.218M
+17546914821i[NOGUI ] ips = 36.033M
+17582849276i[NOGUI ] ips = 35.934M
+17618879490i[NOGUI ] ips = 36.030M
+17655059143i[NOGUI ] ips = 36.180M
+17690937954i[NOGUI ] ips = 35.879M
+17726917882i[NOGUI ] ips = 35.980M
+17763229819i[NOGUI ] ips = 36.312M
+17799393210i[NOGUI ] ips = 36.163M
+17835350106i[NOGUI ] ips = 35.957M
+17872223503i[NOGUI ] ips = 36.873M
+17910420693i[NOGUI ] ips = 38.197M
+17946607357i[NOGUI ] ips = 36.187M
+17982852841i[NOGUI ] ips = 36.245M
+18018997905i[NOGUI ] ips = 36.145M
+18055082306i[NOGUI ] ips = 36.084M
+18091296311i[NOGUI ] ips = 36.214M
+18127419193i[NOGUI ] ips = 36.123M
+18163610920i[NOGUI ] ips = 36.192M
+18199824170i[NOGUI ] ips = 36.213M
+18235852193i[NOGUI ] ips = 36.028M
+18271785941i[NOGUI ] ips = 35.934M
+18308031162i[NOGUI ] ips = 36.245M
+18344186086i[NOGUI ] ips = 36.155M
+18380190182i[NOGUI ] ips = 36.004M
+18416325594i[NOGUI ] ips = 36.135M
+18452314721i[NOGUI ] ips = 35.989M
+18488323189i[NOGUI ] ips = 36.008M
+18524291193i[NOGUI ] ips = 35.968M
+18560315956i[NOGUI ] ips = 36.025M
+18596466414i[NOGUI ] ips = 36.150M
+18632801956i[NOGUI ] ips = 36.336M
+18668835596i[NOGUI ] ips = 36.034M
+18704811862i[NOGUI ] ips = 35.976M
+18740953632i[NOGUI ] ips = 36.142M
+18777098910i[NOGUI ] ips = 36.145M
+18813267246i[NOGUI ] ips = 36.168M
+18849261768i[NOGUI ] ips = 35.995M
+18885317193i[NOGUI ] ips = 36.055M
+18921656673i[NOGUI ] ips = 36.339M
+18957830528i[NOGUI ] ips = 36.174M
+18993824194i[NOGUI ] ips = 35.994M
+19029874198i[NOGUI ] ips = 36.050M
+19065983250i[NOGUI ] ips = 36.109M
+19102021035i[NOGUI ] ips = 36.038M
+19138160578i[NOGUI ] ips = 36.140M
+19174282693i[NOGUI ] ips = 36.122M
+19210225251i[NOGUI ] ips = 35.943M
+19246319883i[NOGUI ] ips = 36.095M
+19282549266i[NOGUI ] ips = 36.229M
+19318516178i[NOGUI ] ips = 35.967M
+19354737468i[NOGUI ] ips = 36.221M
+19391036861i[NOGUI ] ips = 36.299M
+19427169440i[NOGUI ] ips = 36.133M
+19463666493i[NOGUI ] ips = 36.497M
+19499712820i[NOGUI ] ips = 36.046M
+19535740813i[NOGUI ] ips = 36.028M
+19571823521i[NOGUI ] ips = 36.083M
+19607872448i[NOGUI ] ips = 36.049M
+19643981002i[NOGUI ] ips = 36.109M
+19680103467i[NOGUI ] ips = 36.122M
+19716199205i[NOGUI ] ips = 36.096M
+19752212149i[NOGUI ] ips = 36.013M
+19788109890i[NOGUI ] ips = 35.898M
+19824256456i[NOGUI ] ips = 36.147M
+19860314344i[NOGUI ] ips = 36.058M
+19896227891i[NOGUI ] ips = 35.914M
+19932167766i[NOGUI ] ips = 35.940M
+19968104939i[NOGUI ] ips = 35.937M
+20004054308i[NOGUI ] ips = 35.949M
+20040153418i[NOGUI ] ips = 36.099M
+20076489382i[NOGUI ] ips = 36.336M
+20112859158i[NOGUI ] ips = 36.370M
+20149206297i[NOGUI ] ips = 36.347M
+20185279010i[NOGUI ] ips = 36.073M
+20221505690i[NOGUI ] ips = 36.227M
+20257768071i[NOGUI ] ips = 36.262M
+20295774303i[NOGUI ] ips = 38.006M
+20333561807i[NOGUI ] ips = 37.788M
+20371009939i[NOGUI ] ips = 37.448M
+20408461047i[NOGUI ] ips = 37.451M
+20445938182i[NOGUI ] ips = 37.477M
+20483767811i[NOGUI ] ips = 37.830M
+20521502556i[NOGUI ] ips = 37.735M
+20559244701i[NOGUI ] ips = 37.742M
+20596961088i[NOGUI ] ips = 37.716M
+20634346489i[NOGUI ] ips = 37.385M
+20671649820i[NOGUI ] ips = 37.303M
+20709194349i[NOGUI ] ips = 37.545M
+20746861910i[NOGUI ] ips = 37.668M
+20784719089i[NOGUI ] ips = 37.857M
+20822546989i[NOGUI ] ips = 37.828M
+20860029966i[NOGUI ] ips = 37.483M
+20896969671i[NOGUI ] ips = 36.940M
+20932842561i[NOGUI ] ips = 35.873M
+20968817996i[NOGUI ] ips = 35.975M
+21004949565i[NOGUI ] ips = 36.132M
+21040927060i[NOGUI ] ips = 35.977M
+21076890209i[NOGUI ] ips = 35.963M
+21112856693i[NOGUI ] ips = 35.966M
+21148679142i[NOGUI ] ips = 35.822M
+21184620510i[NOGUI ] ips = 35.941M
+21220896341i[NOGUI ] ips = 36.276M
+21256953729i[NOGUI ] ips = 36.057M
+21292905351i[NOGUI ] ips = 35.952M
+21328852060i[NOGUI ] ips = 35.947M
+21364794489i[NOGUI ] ips = 35.942M
+21400748178i[NOGUI ] ips = 35.954M
+21436876368i[NOGUI ] ips = 36.128M
+21472850750i[NOGUI ] ips = 35.974M
+21508836518i[NOGUI ] ips = 35.986M
+21544837200i[NOGUI ] ips = 36.001M
+21580688381i[NOGUI ] ips = 35.851M
+21616570108i[NOGUI ] ips = 35.882M
+21652511077i[NOGUI ] ips = 35.941M
+21688499102i[NOGUI ] ips = 35.988M
+21724427489i[NOGUI ] ips = 35.928M
+21760472460i[NOGUI ] ips = 36.045M
+21796460489i[NOGUI ] ips = 35.988M
+21832388141i[NOGUI ] ips = 35.928M
+21868219668i[NOGUI ] ips = 35.832M
+21904191943i[NOGUI ] ips = 35.972M
+21940145208i[NOGUI ] ips = 35.953M
+21976051206i[NOGUI ] ips = 35.906M
+22012004518i[NOGUI ] ips = 35.953M
+22047953008i[NOGUI ] ips = 35.948M
+22083774989i[NOGUI ] ips = 35.822M
+22119667989i[NOGUI ] ips = 35.893M
+22155710671i[NOGUI ] ips = 36.043M
+22191724028i[NOGUI ] ips = 36.013M
+22228836713i[NOGUI ] ips = 37.113M
+22265041561i[NOGUI ] ips = 36.205M
+22301063645i[NOGUI ] ips = 36.022M
+22337093031i[NOGUI ] ips = 36.029M
+22373178872i[NOGUI ] ips = 36.086M
+22409548761i[NOGUI ] ips = 36.370M
+22445706489i[NOGUI ] ips = 36.158M
+22481657670i[NOGUI ] ips = 35.951M
+22517592277i[NOGUI ] ips = 35.935M
+22553526305i[NOGUI ] ips = 35.934M
+22589473646i[NOGUI ] ips = 35.947M
+22625394720i[NOGUI ] ips = 35.921M
+22661379639i[NOGUI ] ips = 35.985M
+22697337363i[NOGUI ] ips = 35.958M
+22733222726i[NOGUI ] ips = 35.885M
+22769111677i[NOGUI ] ips = 35.889M
+22805071232i[NOGUI ] ips = 35.960M
+22841098653i[NOGUI ] ips = 36.027M
+22876986994i[NOGUI ] ips = 35.888M
+22913078877i[NOGUI ] ips = 36.092M
+22949056696i[NOGUI ] ips = 35.978M
+22985058952i[NOGUI ] ips = 36.002M
+23021109610i[NOGUI ] ips = 36.051M
+23057106213i[NOGUI ] ips = 35.997M
+23093194989i[NOGUI ] ips = 36.089M
+23129229284i[NOGUI ] ips = 36.034M
+23165126958i[NOGUI ] ips = 35.898M
+23201064524i[NOGUI ] ips = 35.938M
+23236978489i[NOGUI ] ips = 35.914M
+23272921240i[NOGUI ] ips = 35.943M
+23309028336i[NOGUI ] ips = 36.107M
+23345133227i[NOGUI ] ips = 36.105M
+23381291297i[NOGUI ] ips = 36.158M
+23417444641i[NOGUI ] ips = 36.153M
+23453416300i[NOGUI ] ips = 35.972M
+23489486956i[NOGUI ] ips = 36.071M
+23525503055i[NOGUI ] ips = 36.016M
+23561609984i[NOGUI ] ips = 36.107M
+23597532989i[NOGUI ] ips = 35.923M
+23633447202i[NOGUI ] ips = 35.914M
+23669304363i[NOGUI ] ips = 35.857M
+23705092785i[NOGUI ] ips = 35.788M
+23741099295i[NOGUI ] ips = 36.007M
+23777071270i[NOGUI ] ips = 35.972M
+23812972477i[NOGUI ] ips = 35.901M
+23848979878i[NOGUI ] ips = 36.007M
+23884918285i[NOGUI ] ips = 35.938M
+23920826002i[NOGUI ] ips = 35.908M
+23956729181i[NOGUI ] ips = 35.903M
+23992764285i[NOGUI ] ips = 36.035M
+24028659828i[NOGUI ] ips = 35.896M
+24064647285i[NOGUI ] ips = 35.987M
+24100627285i[NOGUI ] ips = 35.980M
+24136565265i[NOGUI ] ips = 35.938M
+24172520785i[NOGUI ] ips = 35.956M
+24208472563i[NOGUI ] ips = 35.952M
+24244450928i[NOGUI ] ips = 35.978M
+24280585880i[NOGUI ] ips = 36.135M
+24316507758i[NOGUI ] ips = 35.922M
+24352513321i[NOGUI ] ips = 36.006M
+24388580222i[NOGUI ] ips = 36.067M
+24424645785i[NOGUI ] ips = 36.066M
+24460665344i[NOGUI ] ips = 36.020M
+24496789889i[NOGUI ] ips = 36.125M
+24532842788i[NOGUI ] ips = 36.053M
+24568899609i[NOGUI ] ips = 36.057M
+24605003113i[NOGUI ] ips = 36.104M
+24640994510i[NOGUI ] ips = 35.991M
+24677152959i[NOGUI ] ips = 36.158M
+24713315038i[NOGUI ] ips = 36.162M
+24749516034i[NOGUI ] ips = 36.201M
+24785506762i[NOGUI ] ips = 35.991M
+24821558211i[NOGUI ] ips = 36.051M
+24857563819i[NOGUI ] ips = 36.006M
+24893388785i[NOGUI ] ips = 35.825M
+24929558581i[NOGUI ] ips = 36.170M
+24965551406i[NOGUI ] ips = 35.993M
+25001720359i[NOGUI ] ips = 36.169M
+25037664437i[NOGUI ] ips = 35.944M
+25073681457i[NOGUI ] ips = 36.017M
+25109539785i[NOGUI ] ips = 35.858M
+25145483405i[NOGUI ] ips = 35.944M
+25181445216i[NOGUI ] ips = 35.962M
+25217437189i[NOGUI ] ips = 35.992M
+25253483117i[NOGUI ] ips = 36.046M
+25289472745i[NOGUI ] ips = 35.990M
+25325403745i[NOGUI ] ips = 35.931M
+25361446436i[NOGUI ] ips = 36.043M
+25397621285i[NOGUI ] ips = 36.175M
+25433735132i[NOGUI ] ips = 36.114M
+25469908211i[NOGUI ] ips = 36.173M
+25506043053i[NOGUI ] ips = 36.135M
+25542207233i[NOGUI ] ips = 36.164M
+25578326925i[NOGUI ] ips = 36.120M
+25614491676i[NOGUI ] ips = 36.165M
+25650571285i[NOGUI ] ips = 36.080M
+25686576231i[NOGUI ] ips = 36.005M
+25722640030i[NOGUI ] ips = 36.064M
+25758576187i[NOGUI ] ips = 35.936M
+25794439748i[NOGUI ] ips = 35.864M
+25830359372i[NOGUI ] ips = 35.920M
+25866426964i[NOGUI ] ips = 36.068M
+25902405685i[NOGUI ] ips = 35.979M
+25938361681i[NOGUI ] ips = 35.956M
+25974346742i[NOGUI ] ips = 35.985M
+26010296066i[NOGUI ] ips = 35.949M
+26046230593i[NOGUI ] ips = 35.935M
+26082258758i[NOGUI ] ips = 36.028M
+26118190836i[NOGUI ] ips = 35.932M
+26154140845i[NOGUI ] ips = 35.950M
+26190000244i[NOGUI ] ips = 35.859M
+26225942530i[NOGUI ] ips = 35.942M
+26261914227i[NOGUI ] ips = 35.972M
+26297958715i[NOGUI ] ips = 36.044M
+26333915039i[NOGUI ] ips = 35.956M
+26370012921i[NOGUI ] ips = 36.098M
+26405995661i[NOGUI ] ips = 35.983M
+26441831095i[NOGUI ] ips = 35.835M
+26477723285i[NOGUI ] ips = 35.892M
+26513603950i[NOGUI ] ips = 35.881M
+26549712464i[NOGUI ] ips = 36.109M
+26585719489i[NOGUI ] ips = 36.007M
+26621748068i[NOGUI ] ips = 36.029M
+26657234732i[NOGUI ] ips = 35.487M
+26692796285i[NOGUI ] ips = 35.562M
+26728335914i[NOGUI ] ips = 35.540M
+26764262785i[NOGUI ] ips = 35.927M
+26800326072i[NOGUI ] ips = 36.063M
+26836294758i[NOGUI ] ips = 35.969M
+26871941326i[NOGUI ] ips = 35.647M
+26907243877i[NOGUI ] ips = 35.303M
+26942734559i[NOGUI ] ips = 35.491M
+26978469785i[NOGUI ] ips = 35.735M
+27014317687i[NOGUI ] ips = 35.848M
+27050285416i[NOGUI ] ips = 35.968M
+27086262019i[NOGUI ] ips = 35.977M
+27121629302i[NOGUI ] ips = 35.367M
+27157214315i[NOGUI ] ips = 35.585M
+27192667434i[NOGUI ] ips = 35.453M
+27228647489i[NOGUI ] ips = 35.980M
+27264808785i[NOGUI ] ips = 36.161M
+27300799858i[NOGUI ] ips = 35.991M
+27336531434i[NOGUI ] ips = 35.732M
+27371913785i[NOGUI ] ips = 35.382M
+27407525973i[NOGUI ] ips = 35.612M
+27443252188i[NOGUI ] ips = 35.726M
+27479340304i[NOGUI ] ips = 36.088M
+27515267644i[NOGUI ] ips = 35.927M
+27551385779i[NOGUI ] ips = 36.118M
+27586675263i[NOGUI ] ips = 35.289M
+27622176290i[NOGUI ] ips = 35.501M
+27628931785p[      ] >>PANIC<< SIGNAL 2 caught
+27628931785i[CPU0  ] CPU is in protected mode (active)
+27628931785i[CPU0  ] CS.mode = 32 bit
+27628931785i[CPU0  ] SS.mode = 32 bit
+27628931785i[CPU0  ] EFER   = 0x00000000
+27628931785i[CPU0  ] | EAX=00000000  EBX=c002f1d3  ECX=00000780  EDX=000003f8
+27628931785i[CPU0  ] | ESP=c0105f48  EBP=00000000  ESI=000001a7  EDI=c002d3dc
+27628931785i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf AF PF cf
+27628931785i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+27628931785i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+27628931785i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+27628931785i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+27628931785i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+27628931785i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+27628931785i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+27628931785i[CPU0  ] | EIP=c0028b08 (c0028b08)
+27628931785i[CPU0  ] | CR0=0xe0010015 CR2=0x00000000
+27628931785i[CPU0  ] | CR3=0x00101000 CR4=0x00000000
+27628931785i[CPU0  ] 0xc0028b08>> jmp .-2 (0xc0028b08) : EBFE
+27628931785i[CMOS  ] Last time is 27628 (Wed Dec 31 23:40:28 1969)
+27628931785i[NOGUI ] bx_nogui_gui_c::exit() not implemented yet.
+27628931785i[      ] restoring default signal behavior
+27628931785i[SIM   ] quit_sim called with exit code 1

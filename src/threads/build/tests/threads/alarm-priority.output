@@ -15,13 +15,15 @@ Executing 'alarm-priority':
 (alarm-priority) Thread priority 28 woke up.
 (alarm-priority) Thread priority 27 woke up.
 (alarm-priority) Thread priority 26 woke up.
-(alarm-prioKernel PANIC at ../../threads/thread.c:296 in thread_current(): assertion `t->status == THREAD_RUNNING' failed.
-Call stack: 0xc0028a7f 0xc0028b7a 0xc0100010.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 550 ticks
-Thread: 484 idle ticks, 66 kernel ticks, 0 user ticks
-Console: 874 characters output
+(alarm-priority) Thread priority 25 woke up.
+(alarm-priority) Thread priority 24 woke up.
+(alarm-priority) Thread priority 23 woke up.
+(alarm-priority) Thread priority 22 woke up.
+(alarm-priority) Thread priority 21 woke up.
+(alarm-priority) end
+Execution of 'alarm-priority' complete.
+Timer: 586 ticks
+Thread: 490 idle ticks, 98 kernel ticks, 0 user ticks
+Console: 836 characters output
 Keyboard: 0 keys pressed
 Powering off..

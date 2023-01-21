@@ -1,7 +1,1 @@
-FAIL
-Kernel panic in run: PANIC at ../../threads/thread.c:296 in thread_current(): assertion `t->status == THREAD_RUNNING' failed.
-Call stack: 0xc0028a7f 0xc0028b7a 0xc0100010
-Translation of call stack:
-0xc0028a7f: debug_panic (.../../lib/kernel/debug.c:38)
-0xc0028b7a: is_head (..../../lib/kernel/list.c:41)
-0xc0100010: (unknown)
+PASS

@@ -164,7 +164,9 @@ sema_up (struct semaphore *sema)
   old_level = intr_disable ();
   if (!list_empty (&sema->waiters))
   {
-    thread_unblock (list_entry (list_pop_front (&sema->waiters),
+    struct list_elem *elem = list_min(&sema->waiters, higher_priority_fun, 0);
+    list_remove(elem);
+    thread_unblock (list_entry (elem,
                                 struct thread, elem));
   }
   sema->value++;
@@ -318,7 +320,7 @@ lock_acquire (struct lock *lock)
   // sema_down (&lock->semaphore);
 
   // printf("start lock acquire\n");
-  
+
   // /* Not sure why but seems like add this here makes output msg sequential. */
   // thread_yield();
 
@@ -326,10 +328,11 @@ lock_acquire (struct lock *lock)
   {
     if (lock->holder)
     {
-      if (!elem_exist (&sema->waiters, &thread_current ()->elem))
-      {
-        list_push_back (&sema->waiters,  &thread_current ()->elem);
-      }
+      // if (!elem_exist (&sema->waiters, &thread_current ()->elem))
+      // {
+      //   list_push_back (&sema->waiters,  &thread_current ()->elem);
+      // }
+      list_push_back (&sema->waiters,  &thread_current ()->elem);
       list_sort (&sema->waiters, higher_priority_fun, 0);
       // printf("start lock_acquire but held by other threads\n");
       /* If the lock is already held by some threads, and the current thread is still acquiring the lock. 
@@ -341,10 +344,10 @@ lock_acquire (struct lock *lock)
       
       // list_push_back (&lock->holder->donor_threads, &cur->donor_thread_elem);
 
-      if (!elem_exist (&lock->holder->donor_threads, &cur->donor_thread_elem))
-      {
-        list_push_back (&lock->holder->donor_threads, &cur->donor_thread_elem);
-      }
+      // if (!elem_exist (&lock->holder->donor_threads, &cur->donor_thread_elem))
+      // {
+      //   list_push_back (&lock->holder->donor_threads, &cur->donor_thread_elem);
+      // }
 
       /* Avoid infinate loop. */
       if (!elem_exist (&lock->holder->hold_locks, &lock->thread_elem))
@@ -358,11 +361,13 @@ lock_acquire (struct lock *lock)
       {
         // printf("start lock_acquire thread_donate_priority\n");
         thread_donate_priority (lock->holder, cur->priority);
+        /* WRONG: If yield here, would jump to the next lock (33->32). */
         // thread_yield();
       }
     }
     thread_block ();
   }
+  
   sema->value--;
 
   /* Lock not acquired by any threads. Otherwise it would be blocked. */

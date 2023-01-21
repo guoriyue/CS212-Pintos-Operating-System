@@ -6,19 +6,18 @@ Kernel command line: -q run priority-donate-multiple2
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
-Calibrating timer...  163,800 loops/s.
+Calibrating timer...  164,000 loops/s.
 Boot complete.
 Executing 'priority-donate-multiple2':
 (priority-donate-multiple2) begin
 (priority-donate-multiple2) Main thread should have priority 34.  Actual priority: 34.
-(priority-donate-multiple2) Main thread should have priority 36.  Actual priority: 36.
-(priority-donate-multiple2) Main thread should have priority 36.  Actual priority: 36.
-(priority-donate-multiple2) Threads b, a, c should have just finished, in that order.
-(priority-donate-multiple2) Main thread should have priority 31.  Actual priority: 36.
-(priority-donate-multiple2) end
-Execution of 'priority-donate-multiple2' complete.
-Timer: 92 ticks
-Thread: 7 idle ticks, 87 kernel ticks, 0 user ticks
-Console: 872 characters output
+Kernel PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
+Call stack: 0xc0028b4f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Timer: 39 ticks
+Thread: 0 idle ticks, 39 kernel ticks, 0 user ticks
+Console: 736 characters output
 Keyboard: 0 keys pressed
 Powering off..

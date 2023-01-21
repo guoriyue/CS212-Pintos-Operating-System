@@ -11,18 +11,13 @@ Boot complete.
 Executing 'priority-sema':
 (priority-sema) begin
 (priority-sema) Back in main thread.
-(priority-sema) Back in main thread.
-(priority-sema) Back in main thread.
-(priority-sema) Back in main thread.
-(priority-sema) Back in main thread.
-(priority-sema) Back in main thread.
-(priority-sema) Thread priorityKernel PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
-Call stack: 0xc0028a7f 0xc010b06c.
+Kernel PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
+Call stack: 0xc0028b4f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 59 ticks
-Thread: 0 idle ticks, 59 kernel ticks, 0 user ticks
-Console: 878 characters output
+Timer: 37 ticks
+Thread: 0 idle ticks, 37 kernel ticks, 0 user ticks
+Console: 650 characters output
 Keyboard: 0 keys pressed
 Powering off..
