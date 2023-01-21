@@ -318,6 +318,10 @@ lock_acquire (struct lock *lock)
   // sema_down (&lock->semaphore);
 
   // printf("start lock acquire\n");
+  
+  // /* Not sure why but seems like add this here makes output msg sequential. */
+  // thread_yield();
+
   while (sema->value == 0)
   {
     if (lock->holder)
@@ -422,11 +426,8 @@ lock_release (struct lock *lock)
 
   lock->holder = NULL;
   
-
-  
   // struct list_elem *highest_priority_elem = list_min (&cur->donor_threads, higher_priority_fun, 0);
   // struct thread *highest_priority_thread = list_entry (highest_priority_elem, struct thread, elem);
-  
   
   // thread_yield();
   // if (cur->priority < highest_priority_thread->priority)
@@ -482,6 +483,7 @@ lock_release (struct lock *lock)
       thread_yield ();
     }
   }
+  // thread_yield ();
   sema->value++;
   intr_set_level (old_level);
 }

@@ -536,6 +536,7 @@ higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void 
 void
 thread_donate_priority (struct thread *t, int set_priority)
 {
+  ASSERT(intr_get_level() == INTR_OFF);
   /* Recursion ends when priority equals because we visit threads with higher priorities first. */
   if (t->priority == set_priority){
     return ;
