@@ -9,8 +9,7 @@ panic: action=fatal
 #user_shortcut: keys=ctrlaltdel
 # For more recent bochs:
 keyboard: user_shortcut=ctrl-alt-del
-gdbstub: enabled=1, port=1235
 clock: sync=none, time0=0
-ata0-master: type=disk, path=/tmp/LbWjCaIbYs.dsk, mode=flat, cylinders=1, heads=16, spt=63, translation=none
+ata0-master: type=disk, path=/tmp/ZoPW7ZUB0x.dsk, mode=flat, cylinders=1, heads=16, spt=63, translation=none
 com1: enabled=1, mode=term, dev=/dev/stdout
 display_library: nogui
