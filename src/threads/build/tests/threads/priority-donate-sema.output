@@ -12,13 +12,10 @@ Executing 'priority-donate-sema':
 (priority-donate-sema) begin
 (priority-donate-sema) Thread L acquired lock.
 (priority-donate-sema) Main thread finished.
-Kernel PANIC at ../../lib/kernel/list.c:84 in list_next(): assertion `is_head (elem) || is_interior (elem)' failed.
-Call stack: 0xc0028b4f.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 38 ticks
-Thread: 0 idle ticks, 38 kernel ticks, 0 user ticks
-Console: 726 characters output
+(priority-donate-sema) end
+Execution of 'priority-donate-sema' complete.
+Timer: 45 ticks
+Thread: 0 idle ticks, 48 kernel ticks, 0 user ticks
+Console: 505 characters output
 Keyboard: 0 keys pressed
 Powering off..

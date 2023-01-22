@@ -18,7 +18,7 @@ Executing 'priority-change':
 (priority-change) end
 Execution of 'priority-change' complete.
 Timer: 63 ticks
-Thread: 7 idle ticks, 58 kernel ticks, 0 user ticks
+Thread: 4 idle ticks, 61 kernel ticks, 0 user ticks
 Console: 645 characters output
 Keyboard: 0 keys pressed
 Powering off..

@@ -104,7 +104,7 @@ Executing 'mlfqs-recent-1':
 (mlfqs-recent-1) end
 Execution of 'mlfqs-recent-1' complete.
 Timer: 19013 ticks
-Thread: 967 idle ticks, 18048 kernel ticks, 0 user ticks
+Thread: 966 idle ticks, 18049 kernel ticks, 0 user ticks
 Console: 7087 characters output
 Keyboard: 0 keys pressed
 Powering off..

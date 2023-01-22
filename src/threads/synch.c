@@ -420,6 +420,9 @@ void
 lock_release (struct lock *lock) 
 {
   ASSERT (lock != NULL);
+  if (thread_current ()-> priority < 0){
+    int placeholder = 0;
+  }
   ASSERT (lock_held_by_current_thread (lock));
 
   enum intr_level old_level;
@@ -476,6 +479,7 @@ lock_release (struct lock *lock)
     
     /* Yield when unblock. */
     // list_entry (list_pop_front (&sema->waiters), struct thread, elem);
+    
     struct list_elem *highest_priority_thread_elem = list_min (&sema->waiters, higher_priority_fun, 0);
     list_remove(highest_priority_thread_elem);
     struct thread *highest_priority_thread = list_entry (highest_priority_thread_elem, struct thread, elem);

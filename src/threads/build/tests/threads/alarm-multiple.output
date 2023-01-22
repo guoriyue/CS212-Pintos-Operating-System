@@ -53,7 +53,7 @@ Executing 'alarm-multiple':
 (alarm-multiple) end
 Execution of 'alarm-multiple' complete.
 Timer: 880 ticks
-Thread: 611 idle ticks, 272 kernel ticks, 0 user ticks
+Thread: 602 idle ticks, 280 kernel ticks, 0 user ticks
 Console: 2952 characters output
 Keyboard: 0 keys pressed
 Powering off..
