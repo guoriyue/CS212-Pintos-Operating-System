@@ -104,6 +104,7 @@ timer_sleep (int64_t ticks)
   t->time_wakeup = ticks + start;
   t->sema = &sema;
   list_push_back(&blocked_list, &t->elem_sleep);
+  list_sort(&blocked_list, higher_priority_fun, 0);
   intr_enable();
   //printf("%s%s%s\n", "Thread ", t->name, " added to blocked list");
   sema_down(&sema);
