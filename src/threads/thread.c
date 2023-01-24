@@ -72,11 +72,11 @@ static void schedule (void);
 void thread_schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
 
-/* Compare wake up time, less function. */
+
 bool
-less_time_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
+higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
 {
-  if (list_entry(a, struct thread, elem)->time_wakeup < list_entry(b, struct thread, elem)->time_wakeup)
+  if (list_entry(a, struct thread, elem)->priority > list_entry(b, struct thread, elem)->priority)
   {
     return true;
   }
@@ -235,17 +235,6 @@ thread_block (void)
   // printf("end thread_block\n");
 }
 
-// void 
-// add_timer_sleep_thread_to_blocked_list(void){
-//   ASSERT (!intr_context ());
-//   ASSERT (intr_get_level () == INTR_OFF);
-//   struct thread * t= thread_current ();
-//   printf("before list_push_back add_timer_sleep_thread_to_blocked_list\n");
-//   list_push_back (&blocked_list, &t->elem);
-//   // thread_current ()->status = THREAD_BLOCKED;
-//   printf("after list_push_back add_timer_sleep_thread_to_blocked_list\n");
-// }
-
 /* Transitions a blocked thread T to the ready-to-run state.
    This is an error if T is not blocked.  (Use thread_yield() to
    make the running thread ready.)
@@ -256,7 +245,6 @@ thread_block (void)
 void
 thread_unblock (struct thread *t) 
 {
-  // printf("start thread_unblock\n");
   enum intr_level old_level;
 
   ASSERT (is_thread (t));
@@ -269,7 +257,6 @@ thread_unblock (struct thread *t)
   
   t->status = THREAD_READY;
   intr_set_level (old_level);
-  // printf("end thread_unblock\n");
 }
 
 /* Returns the name of the running thread. */
@@ -371,311 +358,96 @@ thread_foreach (thread_action_func *func, void *aux)
     }
 }
 
-// /* Check the blocked threads' time_wakeup and return the new earlist wakeup time. */ 
-// int64_t
-// thread_wakeup (int64_t *ticks, int64_t *earlist_wakeup_time)
-// {
-//   struct list_elem *e;
-//   ASSERT (intr_get_level () == INTR_OFF);
-
-//   // if(list_empty (&blocked_list)){
-//   //   return INT64_MAX;
-//   // }
-// 	/* This is a linked list. Be careful. */
-//   for (e = list_begin (&blocked_list); e != list_end (&blocked_list);)
-//   {
-//     struct thread *t = list_entry (e, struct thread, elem);
-//     struct list_elem *nxtelem = list_next (e);
-//     if (t->status == THREAD_BLOCKED && t->time_wakeup == *earlist_wakeup_time) {
-//       // t->time_wakeup <= *ticks
-//       printf("thread: %s\n", t->name);
-//       printf("ticks: %lld\n", *ticks);
-//       printf("wakeup_time: %lld\n", t->time_wakeup);
-      
-//       list_remove (&t->elem);
-//       thread_unblock (t);
-//     }
-//     e = nxtelem;
-//   }
-//   if (list_empty(&blocked_list))
-//   {
-//     printf("LIST EMPTY LIST EMPTY LIST EMPTY LIST EMPTY\n");
-//     printf("return INT64_MAX %" PRId64 "\n", INT64_MAX);
-//     return INT64_MAX;
-//   }
-//   struct list_elem *earlist_wakeup_thread_elem = list_min (&blocked_list, less_time_fun, 0);
-//   struct thread *earlist_wakeup_thread = list_entry (earlist_wakeup_thread_elem, struct thread, elem);
-//   printf("end threads_wakeup new_earlist_wakeup_time %" PRId64 "\n", earlist_wakeup_thread->time_wakeup);
-//   return earlist_wakeup_thread->time_wakeup;
-// }
-
-
-
-// /* Sets the current thread's priority to NEW_PRIORITY. */
-// void
-// thread_set_priority (int new_priority) 
-// {
-//   thread_current ()->priority = new_priority;
-// }
-
 /* Sets the current thread's priority to NEW_PRIORITY. */
 void
 thread_set_priority (int new_priority) 
 {
-  // thread_current ()->priority = new_priority;
   enum intr_level old_level = intr_disable ();
-  // printf("start thread_set_priority\n");
   struct thread *cur = thread_current ();
   /* Just simply set the priority. The donation mechanism only changes the donated priorty. */
   int old_priority = cur->priority;
-  cur->priority = new_priority;
-  // if (list_empty(&cur->hold_locks))
-  // {
-  //   /* If no donor threads, new priority should be simply set. 
-  //      Do nothing. */
-  //   // printf("no donor threads just set priority\n");
-  // }
-  // else
-  // {
-  //   /* Have some donor threads, need to make sure that the new priority is greater than the old priority. 
-  //      Otherwise if the new priority is less that the original priority, it breaks the donation rule. */
-  //   // printf("have donor threads probably do priority donation\n");
-  //   // I just follow other list_entry function calls, why use donor_thread_elem instead of cur->donor_thread_elem?
-  //   // struct thread *highest_priority_donor_thread = list_entry (list_begin (&cur->donor_threads), struct thread, donor_thread_elem);
-  //   // if (highest_priority_donor_thread->priority > new_priority)
-  //   struct list_elem *e;
-  //   int highest_priority_wait_thread_priority = -1;
-  //   for (e = list_begin(&cur->hold_locks); e != list_end(&cur->hold_locks); 
-	//    e = list_next(e)) 
-  //   {
-  //     struct lock *lock = list_entry(e, struct lock, thread_elem);
-      
-  //     struct list_elem *highest_priority_wait_thread_elem = list_min (&lock->semaphore.waiters, higher_priority_fun, 0);
-  //     struct thread *highest_priority_wait_thread = list_entry(highest_priority_wait_thread_elem, struct thread, elem);
-  //     if (highest_priority_wait_thread_priority < highest_priority_wait_thread->priority) {
-  //       highest_priority_wait_thread_priority = highest_priority_wait_thread->priority;
-  //     }
-  //   }
-  //   // struct list_elem *highest_priority_wait_thread_elem = list_min (&lock->semaphore.waiters, higher_priority_fun, 0);
-  //   // struct thread *highest_priority_wait_thread = list_entry(highest_priority_wait_thread_elem, struct thread, elem);
-  //   if (new_priority < highest_priority_wait_thread_priority) {
-  //     /* The new priority must be greater than the old priority, if not, use the highest donor priority.
-  //        This equals to set the new priority and perform priority donation again. 
-  //        In this situation, the new current priority must be less than the old current priority, so yield this thread. */
-  //     cur->priority = highest_priority_wait_thread_priority;
-  //     thread_yield ();
-  //   }
-  //   else if (highest_priority_wait_thread_priority < new_priority)
-  //   {
-  //     /* The new priority is greater than the old priority. */
-  //     thread_donate_priority (cur, new_priority);
-  //   }
-  // }
-  // printf("end thread_set_priority\n");
+  cur->new_priority = new_priority;
 
-  // t->old_priority = new_priority;
-  // t->priority = new_priority;
+  /* Need a new_priority because we need to keep the original priority for recover. */
+  if (!list_empty(&cur->donor_threads))
+  {
+    /* Have some donor threads, need to make sure that the new priority is greater than the possible donor priority. 
+    Otherwise if the new priority is less than the possible donor priority, it breaks the donation rule. */
+    struct thread *highest_priority_donor_thread = list_entry (list_begin (&cur->donor_threads), struct thread, donor_thread_elem);
 
-  if(cur->status == THREAD_READY) {
-    // list_remove (&cur->elem);
-    // list_push_back (&ready_list, &cur->elem);
+    if ((highest_priority_donor_thread->priority) > new_priority) {
+        cur->priority = highest_priority_donor_thread->priority;
+    }
+  }
+  else
+  {
+    cur->priority = new_priority;
+  }
+
+  if(cur->status == THREAD_READY)
+  {
     list_sort (&ready_list, higher_priority_fun, 0);
   }
 
-  thread_donate_priority (cur, -1);
+  thread_donate_priority (cur);
 
-  if(old_priority > cur->priority) {
-    thread_yield ();
+  if(old_priority > cur->priority)
+  {
+    if (!list_empty(&ready_list))
+    {
+      struct thread *next_running_thread = list_entry (list_begin (&ready_list), struct thread, elem);
+      if (cur->priority < next_running_thread->priority)
+      {
+        /* Yield for the higher priority thread in ready list. */
+        thread_yield();
+      }
+    }
   }
   intr_set_level (old_level);
 }
 
-
-/* Need to check and update everything. The previous version (pass a new set_priority value though lock holders) only allows us to set a new priority.
-    We should better use it as set_priority instead of donate_priority.
-    Since we may need to release a lock, we should better use a more general donate function.
-    Thus, we need to check all donors and donate the maximum value. */
-
-// /* Recursively donate priority. We need to use recursion to handle nested donations. */
-// void
-// thread_donate_priority (struct thread *t, int set_priority)
-// {
-//   /* Recursion ends when priority equals because we visit threads with higher priorities first. */
-//   if (t->priority == set_priority){
-//     return ;
-//   }
-
-//   /* Set current priority. */
-//   t->priority = set_priority;
-
-//   struct lock *l = t->wait_on_lock;
-//   if (l->holder)
-//   {
-//     /* Thread which holds the lock that the current thread is waiting for, this thread is a possible donee. */
-//     if (l->holder->priority >= set_priority){
-//       /* Possible donee has a higher priority (or equal), no donation needed. */
-//       return ;
-//     }
-//     l->holder->priority = set_priority;
-//     thread_donate_priority (l->holder, set_priority);
-//   }
-//   else
-//   {
-//     /* No thread holds the lock that the current thread is waiting for. */
-//     return ;
-//   }
-// }
-
-
-// bool
-// lower_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
-// {
-//   if (list_entry(a, struct thread, elem)->priority < list_entry(b, struct thread, elem)->priority)
-//   {
-//     return true;
-//   }
-//   return false;
-// }
-
-bool
-higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
-{
-  if (list_entry(a, struct thread, elem)->priority > list_entry(b, struct thread, elem)->priority)
-  {
-    return true;
-  }
-  return false;
-}
-
-int
-thread_highest_priority (struct thread *t)
-{
-  int highest_priority_of_waiting_thread = -1;
-  /* Get the highest possible priority. */
-  struct list_elem *e; 
-  for (e = list_begin(&t->hold_locks); e != list_end(&t->hold_locks); 
-	   e = list_next(e)) 
-	{
-    struct lock *lock = list_entry(e, struct lock, thread_elem);
-    
-    struct list_elem *highest_priority_wait_thread_elem = list_min (&lock->semaphore.waiters, higher_priority_fun, 0);
-    struct thread *highest_priority_wait_thread = list_entry(highest_priority_wait_thread_elem, struct thread, elem);
-    if (highest_priority_of_waiting_thread < highest_priority_wait_thread->priority) {
-      highest_priority_of_waiting_thread = highest_priority_wait_thread->priority;
-    }
-  }
-  return highest_priority_of_waiting_thread;
-}
 /* Recursively donate priority. We need to use recursion to handle nested donations. */
 void
-thread_donate_priority (struct thread *t, int set_priority)
+thread_donate_priority(struct thread *t)
 {
-  ASSERT(intr_get_level() == INTR_OFF);
-  /* Recursion ends when priority equals because we visit threads with higher priorities first. */
-  if (t->priority == set_priority){
-    return ;
-  }
-  // printf("set_priority %d\n", set_priority);
-  
-  /* Set current priority. */
-  int highest_priority_of_waiting_thread = thread_highest_priority(t);
-  if (set_priority < highest_priority_of_waiting_thread)
-  {
-    set_priority = highest_priority_of_waiting_thread;
-  }
-  if (set_priority < t->priority)
-  {
-    set_priority = t->priority;
-  }
-  t->priority = set_priority;
-
-
-  if(t->status == THREAD_READY)
-  {
-    // list_remove (&t->elem);
-    // list_push_back (&ready_list, &t->elem);
-    list_sort (&ready_list, higher_priority_fun, 0);
-  }
-  
   struct lock *l = t->wait_on_lock;
   
   /* Need to check l first and l->holder second, otherwise there might be Page Errors. */
   if (l)
   {
-    struct semaphore *sema = &l->semaphore;
-    // list_remove (&t->elem);
-    // list_push_back (&sema->waiters, &t->elem);
-    // list_insert_ordered (&l->semaphore.waiters, &t->elem,
-    //     priority_greater_or_equal, NULL);
-    // list_sort (&sema->waiters, higher_priority_fun, 0);
     if (l->holder)
     {
-      // /* Thread which holds the lock that the current thread is waiting for, this thread is a possible donee. */
-      // if (l->holder->priority >= set_priority){
-      //   /* Possible donee has a higher priority (or equal), no donation needed. 
-      //      Though no donation needed for this holder thread, we still need to donate priority since the holder's holder may need.
-      //      For each donation, we always pass and update the highest priority. */
-      //   return ;
-      // }
-      // l->holder->priority = set_priority;
-      // list_remove (&t->elem);
-      // list_push_back (&sema->waiters,  &t->elem);
-      
-      thread_donate_priority (l->holder, set_priority);
+      /* Thread which holds the lock that the current thread is waiting for, this thread is a possible donee. */
+      if (l->holder->priority >= t->priority) {
+          return;
+      }
+      l->holder->priority = t->priority;
+      thread_donate_priority (l->holder);
     }
   }
   else
   {
     /* No lock. The current thread should be already in the ready list. Sort the ready list by priorities. */
-    // list_remove (&t->elem);
-    // list_push_back (&ready_list, &t->elem);
-    // list_sort (&ready_list, higher_priority_fun, 0);
+    list_sort (&ready_list, higher_priority_fun, 0);
   }
 }
 
-// void
-// thread_donate_priority (struct thread *t, int set_priority)
-// {
-//   if (t->priority == set_priority) {
-//     return;
-//   }
+void
+remove_donor_threads_associate_with_lock (struct lock *lock)
+{
+  struct list_elem *e;
+  struct thread *cur = thread_current ();
 
-//   t->priority = set_priority;
-//   struct lock *l = t->wait_on_lock;
-
-//   if (l != NULL)
-//   {
-//     struct thread *holder = l->holder;
-//     // list_remove (&t->elem);
-//     // list_insert_ordered (&l->semaphore.waiters, &t->elem,
-//     //     priority_greater_or_equal, NULL);
-//     list_sort (&sema->waiters, higher_priority_fun, 0);
-
-//     if (eff_priority > holder->eff_priority)
-//     {
-//       thread_set_eff_priority (holder, eff_priority);
-//     }
-//     else if (eff_priority < holder->eff_priority)
-//     {
-//       int p = thread_find_max_priority (holder);
-//       if (p != holder->eff_priority)
-//       {
-//         thread_set_eff_priority (holder, p);
-//       }
-//     }
-//   }
-//   else
-//   {
-//     /* If the thread being updated is in the ready list, move it to the right
-//        priority level */
-//     if (t->elem.prev != NULL && t->elem.next != NULL)
-//     {
-//       list_remove (&t->elem);
-//       list_push_back (&ready_list[PRI_MAX- (t->eff_priority)], &t->elem);
-//     }
-//   }
-// }
-
+  for (e = list_begin (&cur->donor_threads); e != list_end (&cur->donor_threads);
+    e = list_next (e))
+  {
+    struct thread *t = list_entry (e, struct thread, donor_thread_elem);
+    if (t->wait_on_lock == lock)
+    {
+      list_remove(e);
+    }
+  }
+}
 
 /* Returns the current thread's priority. */
 int
@@ -798,13 +570,12 @@ init_thread (struct thread *t, const char *name, int priority)
   strlcpy (t->name, name, sizeof t->name);
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
-  t->old_priority = priority;
+  t->new_priority = priority;
   t->magic = THREAD_MAGIC;
+  t->wait_on_lock = NULL;
 
   old_level = intr_disable ();
-  list_init(&t->hold_locks);
   list_init(&t->donor_threads);
-  list_push_back (&t->donor_threads, &t->donor_thread_elem);
   list_push_back (&all_list, &t->allelem);
   intr_set_level (old_level);
 }
@@ -919,3 +690,4 @@ allocate_tid (void)
 /* Offset of `stack' member within `struct thread'.
    Used by switch.S, which can't figure it out on its own. */
 uint32_t thread_stack_ofs = offsetof (struct thread, stack);
+

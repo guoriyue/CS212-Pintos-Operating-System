@@ -2,6 +2,8 @@
     "C_Cpp.dimInactiveRegions": false,
     "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
-        "thread": "c"
+        "thread": "c",
+        "random": "c",
+        "thread.h": "c"
     }
 }

@@ -6,7 +6,7 @@ Kernel command line: -q run priority-donate-nest
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
-Calibrating timer...  164,000 loops/s.
+Calibrating timer...  159,000 loops/s.
 Boot complete.
 Executing 'priority-donate-nest':
 (priority-donate-nest) begin
@@ -14,12 +14,16 @@ Executing 'priority-donate-nest':
 (priority-donate-nest) Low thread should have priority 33.  Actual priority: 33.
 (priority-donate-nest) Medium thread should have priority 33.  Actual priority: 33.
 (priority-donate-nest) Medium thread got the lock.
+(priority-donate-nest) High thread got the lock.
+(priority-donate-nest) High thread finished.
+(priority-donate-nest) High thread should have just finished.
+(priority-donate-nest) Middle thread finished.
 (priority-donate-nest) Medium thread should just have finished.
-(priority-donate-nest) Low thread should have priority 31.  Actual priority: 33.
+(priority-donate-nest) Low thread should have priority 31.  Actual priority: 31.
 (priority-donate-nest) end
 Execution of 'priority-donate-nest' complete.
-Timer: 89 ticks
-Thread: 8 idle ticks, 84 kernel ticks, 0 user ticks
-Console: 855 characters output
+Timer: 114 ticks
+Thread: 12 idle ticks, 104 kernel ticks, 0 user ticks
+Console: 1061 characters output
 Keyboard: 0 keys pressed
 Powering off..

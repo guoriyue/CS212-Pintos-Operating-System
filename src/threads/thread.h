@@ -25,13 +25,11 @@ typedef int tid_t;
 #define PRI_MAX 63                      /* Highest priority. */
 
 /* A kernel thread or user process.
-
    Each thread structure is stored in its own 4 kB page.  The
    thread structure itself sits at the very bottom of the page
    (at offset 0).  The rest of the page is reserved for the
    thread's kernel stack, which grows downward from the top of
    the page (at offset 4 kB).  Here's an illustration:
-
         4 kB +---------------------------------+
              |          kernel stack           |
              |                |                |
@@ -53,22 +51,18 @@ typedef int tid_t;
              |               name              |
              |              status             |
         0 kB +---------------------------------+
-
    The upshot of this is twofold:
-
       1. First, `struct thread' must not be allowed to grow too
          big.  If it does, then there will not be enough room for
          the kernel stack.  Our base `struct thread' is only a
          few bytes in size.  It probably should stay well under 1
          kB.
-
       2. Second, kernel stacks must not be allowed to grow too
          large.  If a stack overflows, it will corrupt the thread
          state.  Thus, kernel functions should not allocate large
          structures or arrays as non-static local variables.  Use
          dynamic allocation with malloc() or palloc_get_page()
          instead.
-
    The first symptom of either of these problems will probably be
    an assertion failure in thread_current(), which checks that
    the `magic' member of the running thread's `struct thread' is
@@ -88,21 +82,19 @@ struct thread
     char name[16];                      /* Name (for debugging purposes). */
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
-    int old_priority;                   /* Old priority, we may need to recover a lower priority sometimes. */
+    int new_priority;                   /* Newly assigned priority, we may need to recover a lower priority sometimes. */
     struct list_elem allelem;           /* List element for all threads list. */
-    int64_t time_wakeup;				/* Wakeup time for thread. */
-	struct semaphore *sema;  			/* Thread's semaphore. */
+    int64_t time_wakeup;				    /* Wakeup time for thread. */
+	 struct semaphore *sema;  			    /* Thread's semaphore. */
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
     /* New elem struct for the blocked queue */
-	struct list_elem elem_sleep;
+	 struct list_elem elem_sleep;
 
     /* The lock that the thread is waiting on. */
     struct lock *wait_on_lock;
-    /* Locks that the thread holds, and also waited on by other threads, which are potential donor threads. */
-    struct list hold_locks;
    
     /* Other threads which are waiting on locks the thread holds.
        They might be donations to the thread. */
@@ -163,10 +155,7 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
-int64_t thread_wakeup(int64_t *ticks, int64_t *earlist_wakeup_time);
-bool less_time_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
-void thread_donate_priority (struct thread *t, int set_priority);
-
-bool lower_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
+void thread_donate_priority (struct thread *t);
 bool higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
+void remove_donor_threads_associate_with_lock(struct lock *lock);
 #endif /* threads/thread.h */

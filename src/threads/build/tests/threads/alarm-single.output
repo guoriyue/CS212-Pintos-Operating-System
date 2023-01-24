@@ -6,7 +6,7 @@ Kernel command line: -q run alarm-single
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
-Calibrating timer...  164,000 loops/s.
+Calibrating timer...  159,000 loops/s.
 Boot complete.
 Executing 'alarm-single':
 (alarm-single) begin
@@ -22,8 +22,8 @@ Executing 'alarm-single':
 (alarm-single) thread 4: duration=50, iteration=1, product=50
 (alarm-single) end
 Execution of 'alarm-single' complete.
-Timer: 350 ticks
-Thread: 257 idle ticks, 96 kernel ticks, 0 user ticks
+Timer: 351 ticks
+Thread: 256 idle ticks, 97 kernel ticks, 0 user ticks
 Console: 983 characters output
 Keyboard: 0 keys pressed
 Powering off..

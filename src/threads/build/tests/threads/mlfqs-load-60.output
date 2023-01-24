@@ -6,7 +6,7 @@ Kernel command line: -q -mlfqs run mlfqs-load-60
 Pintos booting with 4,096 kB RAM...
 383 pages available in kernel pool.
 383 pages available in user pool.
-Calibrating timer...  164,000 loops/s.
+Calibrating timer...  159,000 loops/s.
 Boot complete.
 Executing 'mlfqs-load-60':
 (mlfqs-load-60) begin
@@ -105,7 +105,7 @@ Executing 'mlfqs-load-60':
 (mlfqs-load-60) end
 Execution of 'mlfqs-load-60' complete.
 Timer: 18837 ticks
-Thread: 12219 idle ticks, 6621 kernel ticks, 0 user ticks
+Thread: 12123 idle ticks, 6716 kernel ticks, 0 user ticks
 Console: 5298 characters output
 Keyboard: 0 keys pressed
 Powering off..

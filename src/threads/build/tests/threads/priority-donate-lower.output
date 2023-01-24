@@ -13,12 +13,14 @@ Executing 'priority-donate-lower':
 (priority-donate-lower) Main thread should have priority 41.  Actual priority: 41.
 (priority-donate-lower) Lowering base priority...
 (priority-donate-lower) Main thread should have priority 41.  Actual priority: 41.
+(priority-donate-lower) acquire: got the lock
+(priority-donate-lower) acquire: done
 (priority-donate-lower) acquire must already have finished.
-(priority-donate-lower) Main thread should have priority 21.  Actual priority: 41.
+(priority-donate-lower) Main thread should have priority 21.  Actual priority: 21.
 (priority-donate-lower) end
 Execution of 'priority-donate-lower' complete.
-Timer: 79 ticks
-Thread: 9 idle ticks, 72 kernel ticks, 0 user ticks
-Console: 777 characters output
+Timer: 92 ticks
+Thread: 6 idle ticks, 88 kernel ticks, 0 user ticks
+Console: 861 characters output
 Keyboard: 0 keys pressed
 Powering off..
