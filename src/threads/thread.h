@@ -1,10 +1,11 @@
 #ifndef THREADS_THREAD_H
 #define THREADS_THREAD_H
-
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include "devices/timer.c"
 
+#define TIMER_FREQ
 /* States in a thread's life cycle. */
 enum thread_status
   {
