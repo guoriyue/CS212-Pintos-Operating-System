@@ -4,6 +4,8 @@
     "files.associations": {
         "thread": "c",
         "random": "c",
-        "thread.h": "c"
+        "thread.h": "c",
+        "stdint.h": "c",
+        "synch.h": "c"
     }
 }
