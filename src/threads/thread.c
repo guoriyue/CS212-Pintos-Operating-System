@@ -126,10 +126,12 @@ thread_init (void)
   initial_thread->status = THREAD_RUNNING;
   initial_thread->tid = allocate_tid ();
 
+  // initiate the priority lists 
   if (thread_mlfqs) {
     for (int i = 0; i <= PRI_MAX; i++) {
       list_init(&mlfqs_lists[i]);
     }
+    list_push_back(&mlfqs_lists[priority], &(initial_thread->mlfqs_list_elems[priority]));
   }
 }
 
@@ -174,29 +176,67 @@ thread_tick (void)
     }
   }
 
+  // Every second we update the all threads' recent_cpu value and the system's load_avg
+  if (thread_mlfqs && ((timer_ticks() % TIMER_FREQ) == 0)) {
+    size_t ready_threads = (t == idle_thread) ? list_size(&ready_list) : (list_size(&ready_list) + 1);
+    
+    // update load_avg: load_avg = (59/60)*load_avg + (1/60)*ready_threads.
+    load_avg = (((int64_t) ((59 * f)/60)) * load_avg / f) + (((1 * f)/60) * ready_threads);
+    //printf("%d\n", load_avg / f);
+
+    // update recent_cpu or current thread: recent_cpu = (2*load_avg)/(2*load_avg + 1) * recent_cpu + nice.
+    int temp11 = ((int64_t) (2 * load_avg)) * (f / (2 * load_avg + (f * 1)));
+    int temp21 = ((int64_t) temp11) * ((t->recent_cpu) / f);
+    t->recent_cpu = temp21 + (t->nice * f);
+
+    // update recent_cpu or ready threads
+    struct list_elem *e; 
+    for (e = list_begin(&ready_list); e != list_end(&ready_list); 
+	    e = list_next(e)) 
+	  {
+       struct thread *p = list_entry(e, struct thread, elem);
+       if (p != idle_thread) {
+        int temp1 = ((int64_t) (2 * load_avg)) * (f / (2 * load_avg + (f * 1)));
+        int temp2 = ((int64_t) temp1) * ((p->recent_cpu) / f);
+        p->recent_cpu = temp2 + (p->nice * f);
+       }
+    }
+
+    // update recent_cpu or blocked threads
+    /*struct list_elem *i; 
+    for (i = list_begin(&waiting_list); i != list_end(&waiting_list); 
+	    i = list_next(e)) 
+	  {
+       struct thread *r = list_entry(i, struct thread, blocked_elem);
+       if (r != idle_thread) {
+        int temp1 = ((int64_t) (2 * load_avg)) * (f / (2 * load_avg + (f * 1)));
+        int temp2 = ((int64_t) temp1) * ((r->recent_cpu) / f);
+        r->recent_cpu = temp2 + (r->nice * f);
+       }
+    }
+    */
+
+  }
+
   /* Update thread's priority value every fourth clock tick (maybe we can use if statement below). */
-  if (thread_mlfqs && (timer_ticks() % (TIMER_FREQ * 4) == 0)) {
+  if (thread_mlfqs && (timer_ticks() % 4 == 0)) {
     int old_priority = t->priority;
-    int priority = PRI_MAX - ((t->recent_cpu / f) / 4) - (t->nice * 2);
+    int priority = PRI_MAX - ((t->recent_cpu / 4) / f) - (t->nice * 2);
     priority = priority > 63 ? 63 : priority;
     priority = priority < 0 ? 0 : priority;
     t->priority = priority;
-    //list_remove(&(t->mlfqs_list_elems[old_priority]));
-    list_push_back(&mlfqs_lists[priority], &(t->mlfqs_list_elems[old_priority]));
-    // ROUND DOWN
-  }
-
-  // Every second we update the current thread's recent_cpu value and the system's load_avg
-  if (thread_mlfqs && ((timer_ticks() % TIMER_FREQ) == 0)) {
-    size_t ready_threads = (t == idle_thread) ? 0 : (list_size(&ready_list) + 1);
-    int temp1 = ((int64_t) (2 * load_avg * f)) * (f / (2 * load_avg * f + 1));
-    int temp2 = ((int64_t) temp1) * ((t->recent_cpu * f) / f);
-    t->recent_cpu = temp2 + (t->nice * f);
-    //load_avg = ((59/60) * f * load_avg) + ((1/60) * f * ready_threads);
-    load_avg = 10;
-    printf("%s%d\n", "load_avg: ", load_avg);
-    //printf("%s%d\n", "ready_threads: ", ready_threads);
-    //printf("%s%d\n", "recent_cpu: ", t->recent_cpu);
+    //struct list_elem *e; 
+    //for (e = list_begin(&mlfqs_lists[old_priority]); e != list_end(&mlfqs_lists[old_priority]); 
+	  //e = list_next(e)) 
+	  //{
+        //if (e == &(t->mlfqs_list_elems[old_priority])) {
+          //struct thread *t = list_entry(e, struct thread, mlfqs_list_elems[priority]);
+          //printf("%s%s\n", "found: ", t->name);
+          //printf("%s\n", "found");
+          //list_remove(e);
+        //}
+    //}
+    list_push_back(&mlfqs_lists[priority], &(t->mlfqs_list_elems[priority]));
   }
 
   /* Enforce preemption. */
@@ -244,14 +284,14 @@ thread_create (const char *name, int priority,
 
   /* Set priority and nice values based on scheduler type. */
   if (thread_mlfqs) {
+    intr_disable();
     t->nice = thread_current()->nice;
     t->recent_cpu = thread_current()->recent_cpu;
-    int priority = PRI_MAX - (t->recent_cpu / 4) - (t->nice * 2);
+    int priority = PRI_MAX - ((t->recent_cpu / f) / 4) - (t->nice * 2);
     priority = priority > 63 ? 63 : priority;
     priority = priority < 0 ? 0 : priority;
     t->priority = priority;
-    intr_disable();
-    list_push_back(&mlfqs_lists[priority], &(t->mlfqs_list_elems[priority]));
+    list_push_back(&mlfqs_lists[priority], &t->mlfqs_list_elems[priority]);
     intr_enable();
   }
 
@@ -530,15 +570,20 @@ void
 thread_set_nice (int nice UNUSED) 
 {
   struct thread *t = thread_current();
+
   int old_priority = t->priority;
+
+  // update nice value 
   t->nice = nice;
-  int priority = PRI_MAX - ((t->recent_cpu / f) / 4) - (t->nice * 2);
+
+  // update priority
+  int priority = PRI_MAX - ((t->recent_cpu / 4) / f) - (t->nice * 2);
   priority = priority > 63 ? 63 : priority;
   priority = priority < 0 ? 0 : priority;
   t->priority = priority;
   intr_disable();
   //list_remove(&(t->mlfqs_list_elems[old_priority]));
-  list_push_back(&mlfqs_lists[priority], &(t->mlfqs_list_elems[old_priority]));
+  list_push_back(&mlfqs_lists[priority], &(t->mlfqs_list_elems[priority]));
   intr_enable();
   for (int i = t->priority + 1; i <= PRI_MAX; i++) {
     struct list list_cur = mlfqs_lists[i];
@@ -558,8 +603,10 @@ thread_get_nice (void)
 /* Returns 100 times the system load average. */
 int
 thread_get_load_avg (void) 
-{
-  return (load_avg >= 0) ? (100 * (load_avg + f / 2) / f) : (load_avg - f / 2) / f;
+{ 
+  //intr_disable();
+  return 100 * (load_avg) / f;
+  //return (load_avg >= 0) ? (100 * (load_avg + f / 2) / f) : (load_avg - f / 2) / f;
 }
 
 /* Returns 100 times the current thread's recent_cpu value. */
@@ -567,8 +614,8 @@ int
 thread_get_recent_cpu (void) 
 {
   int cpu_rec = thread_current()->recent_cpu;
-  //return round(100 * thread_current()->recent_cpu);
-  return (cpu_rec >= 0) ? (100 * (cpu_rec + f / 2) / f) : (cpu_rec - f / 2) / f;
+  //return (cpu_rec >= 0) ? (100 * (cpu_rec + f / 2) / f) : (cpu_rec - f / 2) / f;
+  return 100 * (cpu_rec) / f;
 }
 
 /* Idle thread.  Executes when no other thread is ready to run.
