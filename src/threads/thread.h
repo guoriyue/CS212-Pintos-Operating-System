@@ -87,8 +87,8 @@ struct thread
     struct list_elem allelem;           /* List element for all threads list. */
     int64_t time_wakeup;				    /* Wakeup time for thread. */
 	 struct semaphore *sema;  			    /* Thread's semaphore. */
-    int nice;                           /* Nice value for this thread. */
-    int recent_cpu;                     /* Recent CPU time for this thread. */
+    int nice;
+    int recent_cpu;
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
@@ -96,16 +96,12 @@ struct thread
     /* New elem struct for the blocked queue */
 	 struct list_elem elem_sleep;
 
-    /* Array of list_elem structs for the 64 different priority lists (advanced scheduler). */
-    struct list_elem mlfqs_list_elems[PRI_MAX];
-
     /* The lock that the thread is waiting on. */
     struct lock *wait_on_lock;
    
     /* Other threads which are waiting on locks the thread holds.
        They might be donations to the thread. */
     struct list donor_threads;
-    
     /* I think that list_elem is just a placeholder for calling list functions. */
     struct list_elem donor_thread_elem;
     
