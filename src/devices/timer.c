@@ -104,10 +104,8 @@ timer_sleep (int64_t ticks)
   t->time_wakeup = ticks + start;
   t->sema = &sema;
   list_push_back(&blocked_list, &t->elem_sleep);
-  list_sort(&blocked_list, higher_priority_fun, 0);
-  intr_enable();
-  //printf("%s%s%s\n", "Thread ", t->name, " added to blocked list");
   sema_down(&sema);
+  intr_enable();
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
@@ -185,19 +183,17 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
+  // wake up thread
   struct list_elem *e; 
   for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
 	   e = list_next(e)) 
 	{
       
 	  struct thread *t = list_entry(e, struct thread, elem_sleep);
-      //printf("%s%s%s%"PRId64"\n", "Currently on ", t->name, " with wakeup time ", t->time_wakeup);
       if (timer_ticks() >= t->time_wakeup) 
 		 {
-			//printf("%s%s%s\n", "Thread ", t->name, "is done");
 			list_remove(e);
 			sema_up(t->sema);
-			//printf("%s%s%s\n", "Thread ", t->name, " unblocked");
 	  }
      
   }
