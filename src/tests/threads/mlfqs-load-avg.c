@@ -148,7 +148,7 @@ test_mlfqs_load_avg (void)
       timer_sleep (sleep_until - timer_ticks ());
       load_avg = thread_get_load_avg ();
       msg ("After %d seconds, load average=%d.%02d.",
-           i * 2, load_avg / 100, load_avg % 100);
+          i * 2, load_avg / 100, load_avg % 100);
     }
 }
 

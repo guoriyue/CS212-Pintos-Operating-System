@@ -1,11 +1,10 @@
 #ifndef THREADS_THREAD_H
 #define THREADS_THREAD_H
+
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
-#include "devices/timer.c"
 
-#define TIMER_FREQ
 /* States in a thread's life cycle. */
 enum thread_status
   {
@@ -85,6 +84,7 @@ struct thread
     int priority;                       /* Priority. */
     int new_priority;                   /* Newly assigned priority, we may need to recover a lower priority sometimes. */
     struct list_elem allelem;           /* List element for all threads list. */
+    struct list_elem readyelem;
     int64_t time_wakeup;				    /* Wakeup time for thread. */
 	 struct semaphore *sema;  			    /* Thread's semaphore. */
     int nice;
@@ -161,4 +161,5 @@ int thread_get_load_avg (void);
 void thread_donate_priority (struct thread *t);
 bool higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
 void remove_donor_threads_associate_with_lock(struct lock *lock);
+void compute_advanced_parameters (int64_t ticks);
 #endif /* threads/thread.h */

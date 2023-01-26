@@ -183,6 +183,8 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
+  thread_tick();
+
   // wake up thread
   struct list_elem *e; 
   for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
@@ -197,7 +199,12 @@ timer_interrupt (struct intr_frame *args UNUSED)
 	  }
      
   }
-  thread_tick();
+
+  if (thread_mlfqs)
+  {
+    compute_advanced_parameters (ticks);
+  }
+  
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
