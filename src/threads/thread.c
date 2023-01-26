@@ -121,8 +121,8 @@ thread_init (void)
   if (thread_mlfqs){
     initial_thread->nice = 0;
     initial_thread->recent_cpu = 0;
-    initial_thread->priority = PRI_MAX - (initial_thread->recent_cpu / 4) / f - (initial_thread->nice * 2);
-    priority = initial_thread->priority;
+    // initial_thread->priority = PRI_MAX - (initial_thread->recent_cpu / 4) / f - (initial_thread->nice * 2);
+    // priority = initial_thread->priority;
   }
 
   init_thread (initial_thread, "main", priority);
@@ -348,10 +348,10 @@ thread_create (const char *name, int priority,
   if (thread_mlfqs) {
     t->nice = thread_current()->nice;
     t->recent_cpu = thread_current()->recent_cpu;
-    int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
-    priority = priority > 63 ? 63 : priority;
-    priority = priority < 0 ? 0 : priority;
-    t->priority = priority;
+    // int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
+    // priority = priority > 63 ? 63 : priority;
+    // priority = priority < 0 ? 0 : priority;
+    // t->priority = priority;
   }
 
   /* Initialize thread. */
