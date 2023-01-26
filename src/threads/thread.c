@@ -638,7 +638,6 @@ void
 thread_set_nice (int nice UNUSED) 
 {
   struct thread *t = thread_current();
-  int old_priority = t->priority;
   // update nice value 
   t->nice = nice;
 
@@ -647,10 +646,6 @@ thread_set_nice (int nice UNUSED)
   priority = priority > 63 ? 63 : priority;
   priority = priority < 0 ? 0 : priority;
   t->priority = priority;
-  if (t->priority < old_priority)
-  {
-    thread_yield();
-  }
     
   struct list_elem *front;
   if (!list_empty(&ready_list))
@@ -659,6 +654,7 @@ thread_set_nice (int nice UNUSED)
     struct thread *p = list_entry(front, struct thread, elem);
     if (p->priority > priority) {
       thread_yield();
+      // intr_yield_on_return ();
     }
   }
 }
