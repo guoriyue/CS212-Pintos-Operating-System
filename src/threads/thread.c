@@ -260,8 +260,8 @@ compute_advanced_parameters (int64_t ticks)
       int temp11 = ((int64_t) (2 * load_avg)) * f;
       int temp111 = (2 * load_avg + (f * 1));
       int temp112 = temp11 / temp111;
-      int temp21 = (((int64_t) temp112) * (t->recent_cpu)) / f;
-      t->recent_cpu = temp21 + (t->nice * f);
+      int temp21 = (((int64_t) temp112) * (t1->recent_cpu)) / f;
+      t1->recent_cpu = temp21 + (t1->nice * f);
       
     }
   }
@@ -638,6 +638,7 @@ void
 thread_set_nice (int nice UNUSED) 
 {
   struct thread *t = thread_current();
+  int old_priority = t->priority;
   // update nice value 
   t->nice = nice;
 
@@ -646,6 +647,10 @@ thread_set_nice (int nice UNUSED)
   priority = priority > 63 ? 63 : priority;
   priority = priority < 0 ? 0 : priority;
   t->priority = priority;
+  if (t->priority < old_priority)
+  {
+    thread_yield();
+  }
     
   struct list_elem *front;
   if (!list_empty(&ready_list))
