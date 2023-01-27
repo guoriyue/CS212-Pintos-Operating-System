@@ -160,6 +160,8 @@ int thread_get_load_avg (void);
 
 void thread_donate_priority (struct thread *t);
 bool higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
+
+bool less_time_wakeup_fun (const struct list_elem *a, const struct list_elem *b, void *aux);
 void remove_donor_threads_associate_with_lock(struct lock *lock);
 void compute_advanced_parameters (int64_t ticks);
 #endif /* threads/thread.h */

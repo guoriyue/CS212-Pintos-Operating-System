@@ -93,6 +93,15 @@ higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void 
 }
 
 
+bool
+less_time_wakeup_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
+{
+  if (list_entry(a, struct thread, elem_sleep)->time_wakeup < list_entry(b, struct thread, elem_sleep)->time_wakeup)
+  {
+    return true;
+  }
+  return false;
+}
 /* Initializes the threading system by transforming the code
    that's currently running into a thread.  This can't work in
    general and it is possible in this case only because loader.S
@@ -175,7 +184,7 @@ void
 compute_advanced_parameters (int64_t ticks)
 {
   struct thread *t = thread_current ();
-  enum intr_level old_level = intr_disable();
+  enum intr_level old_level = intr_disable ();
 
 
 
@@ -188,7 +197,7 @@ compute_advanced_parameters (int64_t ticks)
   
   // update load_avg every second
   if (thread_mlfqs && (ticks % TIMER_FREQ) == 0) {
-    ready_threads = (t == idle_thread) ? 0 : (list_size(&ready_list) + 1);
+    ready_threads = (t == idle_thread) ? list_size(&ready_list) : (list_size(&ready_list) + 1);
     // if (t == idle_thread)
     // {
     //   ready_threads = 0;
@@ -241,6 +250,10 @@ compute_advanced_parameters (int64_t ticks)
 
     // update recent_cpu or current thread: recent_cpu = (2*load_avg)/(2*load_avg + 1) * recent_cpu + nice.
 
+    int temp11 = ((int64_t) (2 * load_avg)) * f;
+    int temp111 = (2 * load_avg + (f * 1));
+    int temp112 = temp11 / temp111;
+
     struct list_elem *e;
 
     for (e = list_begin (&all_list); e != list_end (&all_list);
@@ -257,11 +270,16 @@ compute_advanced_parameters (int64_t ticks)
       // int temp11 = ((int64_t) (2 * load_avg)) * (f / (2 * load_avg + (f * 1)));
       // int temp21 = ((int64_t) temp11) * ((t1->recent_cpu) / f);
       // t1->recent_cpu = temp21 + (t1->nice * f);
-      int temp11 = ((int64_t) (2 * load_avg)) * f;
-      int temp111 = (2 * load_avg + (f * 1));
-      int temp112 = temp11 / temp111;
+      
       int temp21 = (((int64_t) temp112) * (t1->recent_cpu)) / f;
       t1->recent_cpu = temp21 + (t1->nice * f);
+
+
+
+      // int priority = PRI_MAX - (t1->recent_cpu / 4) / f - (t1->nice * 2);
+      // // priority = priority > 63 ? 63 : priority;
+      // priority = priority < 0 ? 0 : priority;
+      // t1->priority = priority;
       
     }
   }
@@ -286,10 +304,16 @@ compute_advanced_parameters (int64_t ticks)
       }
 
       int priority = PRI_MAX - (t1->recent_cpu / 4) / f - (t1->nice * 2);
-      priority = priority > 63 ? 63 : priority;
+      // priority = priority > 63 ? 63 : priority;
       priority = priority < 0 ? 0 : priority;
       t1->priority = priority;
     }
+
+    // int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
+    // priority = priority > 63 ? 63 : priority;
+    // priority = priority < 0 ? 0 : priority;
+    // t->priority = priority;
+
     /*struct list_elem *front;
     if (!list_empty(&ready_list)) {
       front = list_front(&ready_list);
@@ -299,9 +323,8 @@ compute_advanced_parameters (int64_t ticks)
       }
     }
     */
-    list_sort (&ready_list, higher_priority_fun, 0);
   }
-  
+  // list_sort (&ready_list, higher_priority_fun, 0);
   intr_set_level(old_level);
 }
 
@@ -637,6 +660,10 @@ thread_get_priority (void)
 void
 thread_set_nice (int nice UNUSED) 
 {
+  // need to disable intr since we modify the ready list
+  enum intr_level old_level;
+  old_level = intr_disable ();
+
   struct thread *t = thread_current();
   // update nice value 
   t->nice = nice;
@@ -646,7 +673,8 @@ thread_set_nice (int nice UNUSED)
   priority = priority > 63 ? 63 : priority;
   priority = priority < 0 ? 0 : priority;
   t->priority = priority;
-    
+  list_sort (&ready_list, higher_priority_fun, 0);
+
   struct list_elem *front;
   if (!list_empty(&ready_list))
   {
@@ -657,6 +685,7 @@ thread_set_nice (int nice UNUSED)
       // intr_yield_on_return ();
     }
   }
+  intr_set_level (old_level);
 }
 
 /* Returns the current thread's nice value. */

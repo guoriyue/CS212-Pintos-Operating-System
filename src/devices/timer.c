@@ -88,6 +88,8 @@ timer_elapsed (int64_t then)
   return timer_ticks () - then;
 }
 
+
+
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
 void
@@ -103,8 +105,13 @@ timer_sleep (int64_t ticks)
   struct thread *t = thread_current();
   t->time_wakeup = ticks + start;
   t->sema = &sema;
+  // list_push_back(&blocked_list, &t->elem_sleep);
+  // implementation 2
   list_push_back(&blocked_list, &t->elem_sleep);
+  list_sort (&blocked_list, less_time_wakeup_fun, 0);
+  
   sema_down(&sema);
+  
   intr_enable();
 }
 
@@ -185,20 +192,42 @@ timer_interrupt (struct intr_frame *args UNUSED)
   ticks++;
   thread_tick();
 
-  // wake up thread
-  struct list_elem *e; 
-  for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
-	   e = list_next(e)) 
-	{
+  // // wake up thread
+  // struct list_elem *e; 
+  // for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
+	//    e = list_next(e)) 
+	// {
       
-	  struct thread *t = list_entry(e, struct thread, elem_sleep);
-      if (timer_ticks() >= t->time_wakeup) 
-		 {
-			list_remove(e);
-			sema_up(t->sema);
-	  }
-     
+	//   struct thread *t = list_entry(e, struct thread, elem_sleep);
+  //     if (timer_ticks() >= t->time_wakeup) 
+	// 	 {
+	// 		list_remove(e);
+	// 		sema_up(t->sema);
+	//   }
+  // }
+
+  // implementation 2, for sorted blocked_list
+
+  struct list_elem *e; 
+  if (!list_empty (&blocked_list))
+  {
+    for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
+	   e = list_next(e)) 
+    {
+        
+      struct thread *t = list_entry(e, struct thread, elem_sleep);
+      if (ticks >= t->time_wakeup) 
+      {
+        list_remove(e);
+        sema_up(t->sema);
+      }
+      else
+      {
+        break;
+      }
+    }
   }
+  
 
   if (thread_mlfqs)
   {

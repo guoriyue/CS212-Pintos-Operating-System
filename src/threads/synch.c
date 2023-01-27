@@ -110,7 +110,7 @@ sema_up (struct semaphore *sema)
   old_level = intr_disable ();
   if (!list_empty (&sema->waiters))
   {
-    list_sort(&sema -> waiters, higher_priority_fun, 0);
+    // list_sort(&sema -> waiters, higher_priority_fun, 0);
     struct list_elem *highest_priority_thread_elem = list_min(&sema->waiters, higher_priority_fun, 0);
     list_remove(highest_priority_thread_elem);
     struct thread *highest_priority_thread = list_entry (highest_priority_thread_elem,
@@ -118,7 +118,7 @@ sema_up (struct semaphore *sema)
     thread_unblock (highest_priority_thread); 
   }
   sema->value++;
-  // Kernel PANIC at ../../threads/thread.c:1534 in thread_yield(): assertion `!intr_context()' failed.
+  
   /* Returns true during processing of an external interrupt and false at all other times. */
   if (!intr_context ()) {
     thread_yield ();
