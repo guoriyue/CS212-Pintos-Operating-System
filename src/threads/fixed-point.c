@@ -1,3 +1,6 @@
+/* This function allows for 17.14 fixed point math by using the value f,
+defined as 1 << 14. */
+
 static int f = 1 << 14;
 
 

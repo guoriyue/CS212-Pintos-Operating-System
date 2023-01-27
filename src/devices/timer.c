@@ -20,8 +20,8 @@
 /* Number of timer ticks since OS booted. */
 static int64_t ticks;
 
-/* List of all blocked threads waiting for their semaphore to go up. */
-static struct list blocked_list;
+/* List of all sleeping threads waiting for their semaphore to go up. */
+static struct list sleeping_list;
 
 /* Number of loops per timer tick.
    Initialized by timer_calibrate(). */
@@ -40,7 +40,7 @@ timer_init (void)
 {
   pit_configure_channel (0, 2, TIMER_FREQ);
   intr_register_ext (0x20, timer_interrupt, "8254 Timer");
-  list_init(&blocked_list);
+  list_init(&sleeping_list);
 }
 
 /* Calibrates loops_per_tick, used to implement brief delays. */
@@ -99,20 +99,16 @@ timer_sleep (int64_t ticks)
 
   ASSERT (intr_get_level () == INTR_ON);
   
-  intr_disable();
+  enum intr_level old_level = intr_disable ();
   struct semaphore sema;
   sema_init(&sema, 0);
   struct thread *t = thread_current();
   t->time_wakeup = ticks + start;
   t->sema = &sema;
-  // list_push_back(&blocked_list, &t->elem_sleep);
-  // implementation 2
-  list_push_back(&blocked_list, &t->elem_sleep);
-  list_sort (&blocked_list, less_time_wakeup_fun, 0);
-  
+  list_push_back(&sleeping_list, &t->elem_sleep);
+  list_sort (&sleeping_list, less_time_wakeup_fun, 0);
   sema_down(&sema);
-  
-  intr_enable();
+  intr_set_level (old_level);
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
@@ -192,26 +188,10 @@ timer_interrupt (struct intr_frame *args UNUSED)
   ticks++;
   thread_tick();
 
-  // // wake up thread
-  // struct list_elem *e; 
-  // for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
-	//    e = list_next(e)) 
-	// {
-      
-	//   struct thread *t = list_entry(e, struct thread, elem_sleep);
-  //     if (timer_ticks() >= t->time_wakeup) 
-	// 	 {
-	// 		list_remove(e);
-	// 		sema_up(t->sema);
-	//   }
-  // }
-
-  // implementation 2, for sorted blocked_list
-
   struct list_elem *e; 
-  if (!list_empty (&blocked_list))
+  if (!list_empty (&sleeping_list))
   {
-    for (e = list_begin(&blocked_list); e != list_end(&blocked_list); 
+    for (e = list_begin(&sleeping_list); e != list_end(&sleeping_list); 
 	   e = list_next(e)) 
     {
         
@@ -221,14 +201,10 @@ timer_interrupt (struct intr_frame *args UNUSED)
         list_remove(e);
         sema_up(t->sema);
       }
-      else
-      {
-        break;
-      }
+      else break;
     }
   }
   
-
   if (thread_mlfqs)
   {
     compute_advanced_parameters (ticks);
