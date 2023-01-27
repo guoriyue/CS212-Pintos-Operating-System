@@ -8,9 +8,9 @@
 
 >> Fill in the names and email addresses of your group members.
 
-FirstName LastName <email@domain.example>
-FirstName LastName <email@domain.example>
-FirstName LastName <email@domain.example>
+Mingfei Guo <mfguo@stanford.edu>
+Caterina Zampa <cate02@stanford.edu>
+Huan Chen <hchen130@stanford.edu>
 
 ---- PRELIMINARIES ----
 
@@ -30,26 +30,80 @@ FirstName LastName <email@domain.example>
 >> `struct' member, global or static variable, `typedef', or
 >> enumeration.  Identify the purpose of each in 25 words or less.
 
+int64_t time_wakeup;
+- This variable is defined in thread.h and is specific for each thread.
+It identifies the moment in time at which the thread is supposed to 
+wake up after being called timer_sleep on. 
+
+struct semaphore *sema;  	
+- This variable is defined in thread.h and is specific for each thread. 
+It enables the interrupt handler to signal the thread when it is time 
+for it to wake up.
+
+static struct list blocked_list;
+- This global list is defined in timer.c and stores all the threads 
+that are currently sleeping (after a call to timer_sleep). The timer 
+interrupt regularly loops over it to check which threads need to be 
+woken up. 
+
+struct list_elem elem_sleep;
+- This variable is defined in thread.h and is specific for each 
+thread. It is a struct list_elem specific for the blocked_list list. 
+
+bool less_wakeup_time_fun (const struct list_elem *a, const struct 
+    list_elem *b, void *aux);
+- This function is used to sort the list_elem structs for the 
+blocked_list, according to their wake up time (the ones with the 
+smallest wake up time are at the front). 
+
 ---- ALGORITHMS ----
 
 >> A2: Briefly describe what happens in a call to timer_sleep(),
 >> including the effects of the timer interrupt handler.
+After a call to timer_sleep(), we create a semaphore for the 
+current thread, set it to down, set the wake up time for the 
+current thread and add it to blocked_list. Then, at every 
+interrupt, the interrupt handler will parse through blocked_list,
+check whether there are any threads to be woken up, and if there 
+are, call sema_up on their semaphore, which will unblock them.
+We then remove them from blocked_list. 
+
 
 >> A3: What steps are taken to minimize the amount of time spent in
 >> the timer interrupt handler?
+We keep blocked_list sorted, so that at every interrupt, the 
+interrupt handler doesn't have to parse through the entire list, 
+but can break as soon as it runs into a thread whose wake up time 
+is greater than the current time. 
 
 ---- SYNCHRONIZATION ----
 
 >> A4: How are race conditions avoided when multiple threads call
 >> timer_sleep() simultaneously?
+Since we are working on a single core chip, we know that by 
+disabling interrupts we can be sure that only one thread is 
+running. Therefore, within timer_sleep() we disable interrupts when
+we add elements to blocked_list (since it is a global shared
+variable among all threads). 
 
 >> A5: How are race conditions avoided when a timer interrupt occurs
 >> during a call to timer_sleep()?
+Since we are disabling interrupts in timer_sleep(), a timer interrupt 
+cannot occur. This is therefore not a problem. 
 
 ---- RATIONALE ----
 
 >> A6: Why did you choose this design?  In what ways is it superior to
 >> another design you considered?
+Other designs we considered were manually calling thread_block on the 
+current thread within timer_sleep. However, this didn't work, because 
+it did not allow for communication between the threads and the 
+interrupt handler. We also considered condition variables, but that 
+implementation would also have been more inefficient, because it involves
+creating locks, unlike semaphores. Semaphores ended up being the most
+efficient solution, as it is a very simple and straightforward way 
+of blocking a thread for a certain amount of time (i.e. until it receives
+the signal to wake up), which is exactly what was required for this function. 
 
              PRIORITY SCHEDULING
              ===================
@@ -94,6 +148,30 @@ FirstName LastName <email@domain.example>
 >> C1: Copy here the declaration of each new or changed `struct' or
 >> `struct' member, global or static variable, `typedef', or
 >> enumeration.  Identify the purpose of each in 25 words or less.
+
+int nice;
+- This variable is defined in thread.h and is specific for each thread. 
+It stores the nice value for the thread. 
+
+int recent_cpu;
+- This variable is defined in thread.h and is specific for each thread. 
+It stores the recent_cpu value for the thread. 
+
+void compute_advanced_parameters (int64_t ticks);
+- This function is defined in thread.c, and is called by the interrupt 
+handler. It updates the value of recent_cpu for the threads, the 
+gobal variable load_avg, and the priority for all threads whose
+recent_cpu value has changed. 
+
+static size_t ready_threads;
+- This global variable is defined in thread.c and stores the number 
+of ready threads (threads in the ready_list plus the current thread). 
+This value is used to compute the value of load_avg. 
+
+static int load_avg;
+- This global variable is defined in thread.c and stored the laod_avg
+value. It is updated every second and is used to compute the value
+of recent_cpu for the individual threads. 
 
 ---- ALGORITHMS ----
 
