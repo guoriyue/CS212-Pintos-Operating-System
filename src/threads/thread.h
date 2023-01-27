@@ -84,11 +84,10 @@ struct thread
     int priority;                       /* Priority. */
     int new_priority;                   /* Newly assigned priority, we may need to recover a lower priority sometimes. */
     struct list_elem allelem;           /* List element for all threads list. */
-   //  struct list_elem readyelem;
     int64_t time_wakeup;				    /* Wakeup time for thread. */
 	 struct semaphore *sema;  			    /* Thread's semaphore. */
-    int nice;
-    int recent_cpu;
+    int nice;                           /* Thread's nice value. */
+    int recent_cpu;                     /* Thread's recent_cpu value. */
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
@@ -102,16 +101,9 @@ struct thread
     /* Other threads which are waiting on locks the thread holds.
        They might be donations to the thread. */
     struct list donor_threads;
-    /* I think that list_elem is just a placeholder for calling list functions. */
-    struct list_elem donor_thread_elem;
-    
-   //  /* The donee threads are threads would be donated priority. 
-   //     If thread A is holding L, thread B is waiting on L, and the priority of thread B is higher than A, 
-   //     then L is B's *wait_on_lock and A is in B's donee_threads. */
-   //  struct list donee_threads;
-   //  /* List element for donee_threads, shared between thread.c and synch.c. */
-   //  struct list_elem donee_thread_elem;                    
 
+    /* I think that list_elem is just a placeholder for calling list functions. */
+    struct list_elem donor_thread_elem;                 
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */

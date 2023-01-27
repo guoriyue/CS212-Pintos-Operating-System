@@ -568,7 +568,7 @@ thread_set_nice (int nice UNUSED)
   t->nice = nice;
 
   // update priority
-  int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
+  int priority = PRI_MAX - fixedpoint_to_int(t->recent_cpu / 4) - (t->nice * 2);
   priority = priority > 63 ? 63 : priority;
   priority = priority < 0 ? 0 : priority;
   t->priority = priority;
@@ -598,7 +598,7 @@ int
 thread_get_load_avg (void) 
 {
   enum intr_level old_level = intr_disable ();
-  int load_return = ((100 * load_avg + f/2)) / f;
+  int load_return = fixedpoint_to_int(100 * load_avg);
   intr_set_level (old_level);
   return load_return;
 }
@@ -607,10 +607,8 @@ thread_get_load_avg (void)
 int
 thread_get_recent_cpu (void) 
 {
-  enum intr_level old_level = intr_disable();
   int cpu_rec = thread_current()->recent_cpu;
-  int recent_cpu_return = ((100 * cpu_rec) + f/2) / f;
-  intr_set_level(old_level);
+  int recent_cpu_return = fixedpoint_to_int(100 * cpu_rec);
   return recent_cpu_return;
 }
 
