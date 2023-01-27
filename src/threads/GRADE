@@ -1,0 +1,4 @@
+cd build && make grade
+make[1]: Entering directory '/home/mfguo/pintos/src/threads/build'
+../../tests/make-grade ../.. results ../../tests/threads/Grading | tee grade
+make[1]: Leaving directory '/home/mfguo/pintos/src/threads/build'
