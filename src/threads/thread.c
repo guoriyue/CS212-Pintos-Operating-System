@@ -628,7 +628,7 @@ thread_donate_priority(struct thread *t)
   else
   {
     /* No lock. The current thread should be already in the ready list. Sort the ready list by priorities. */
-    list_sort (&ready_list, higher_priority_fun, 0);
+    // list_sort (&ready_list, higher_priority_fun, 0);
   }
 }
 

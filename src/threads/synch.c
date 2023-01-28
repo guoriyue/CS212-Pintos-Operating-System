@@ -302,12 +302,12 @@ lock_release (struct lock *lock)
     }
 
     thread_donate_priority (cur);
-    list_sort (&sema->waiters, higher_priority_fun, 0);
     
     /* Lists are tricky.
      When we want to remove a item in list, we need to pass a list_elem which is a value of the item struct to list_remove. 
      For example, if we call list_remove (&thread_current()->allelem);, the thread will be removed from the all_list. */
-    struct list_elem *highest_priority_thread_elem = list_min (&sema->waiters, higher_priority_fun, 0);
+
+    struct list_elem *highest_priority_thread_elem = list_front (&sema->waiters);
     list_remove (highest_priority_thread_elem);
     struct thread *highest_priority_thread = list_entry (highest_priority_thread_elem, struct thread, elem);
 
