@@ -64,10 +64,7 @@ static unsigned thread_ticks;   /* # of timer ticks since last yield. */
    If true, use multi-level feedback queue scheduler.
    Controlled by kernel command-line option "-o mlfqs". */
 bool thread_mlfqs;
-bool flag = true;
 static int load_avg;
-// defined in fixed-point.c
-// static int f = 1 << 14;
 
 static void kernel_thread (thread_func *, void *aux);
 
@@ -81,7 +78,8 @@ static void schedule (void);
 void thread_schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
 
-
+/* This function is used when calling list_sort on the ready list
+to sort the threads in order of decreasing priority. */
 bool
 higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
 {
@@ -92,7 +90,8 @@ higher_priority_fun (const struct list_elem *a, const struct list_elem *b, void 
   return false;
 }
 
-
+/* This function is used when calling list_sort on the waiting list
+to sort the threads in order of increasing wakeup time. */
 bool
 less_time_wakeup_fun (const struct list_elem *a, const struct list_elem *b, void *aux)
 {
@@ -102,6 +101,7 @@ less_time_wakeup_fun (const struct list_elem *a, const struct list_elem *b, void
   }
   return false;
 }
+
 /* Initializes the threading system by transforming the code
    that's currently running into a thread.  This can't work in
    general and it is possible in this case only because loader.S
@@ -123,6 +123,8 @@ thread_init (void)
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
+
+  /* Set initial value of load_avg. */
   load_avg = 0;
 
   /* Set priority, recent_cpu and nice values based on scheduler type. */
@@ -130,8 +132,6 @@ thread_init (void)
   if (thread_mlfqs){
     initial_thread->nice = 0;
     initial_thread->recent_cpu = 0;
-    // initial_thread->priority = PRI_MAX - (initial_thread->recent_cpu / 4) / f - (initial_thread->nice * 2);
-    // priority = initial_thread->priority;
   }
 
   init_thread (initial_thread, "main", priority);
@@ -178,156 +178,71 @@ thread_tick (void)
     intr_yield_on_return ();
 }
 
-
-
+/* Update the values of recent_cpu for the relevant threads, and update load_avg. */
 void
 compute_advanced_parameters (int64_t ticks)
 {
   struct thread *t = thread_current ();
   enum intr_level old_level = intr_disable ();
 
-
-
   /* At every interrupt we increment the current thread's recent_cpu value by 1. */
   if (thread_mlfqs) {
     if (t != idle_thread) {
       t->recent_cpu = t->recent_cpu + f;
     }
-  }
   
-  // update load_avg every second
-  if (thread_mlfqs && (ticks % TIMER_FREQ) == 0) {
-    ready_threads = (t == idle_thread) ? list_size(&ready_list) : (list_size(&ready_list) + 1);
-    // if (t == idle_thread)
-    // {
-    //   ready_threads = 0;
-    // }
-    // else
-    // {
-    //   ready_threads = 1;
-    // }
-    // struct list_elem *e;
-    // for (e = list_begin (&ready_list); e != list_end (&ready_list);
-    //   e = list_next (e))
-    // {
-    //   struct thread *t = list_entry (e, struct thread, readyelem);
-    //   if (t != idle_thread)
-    //   {
-    //     ready_threads++;
-    //   }
-    // }
-    
-    // if (ready_threads == 0 && flag)
-    // {
-    //   load_avg = 0;
-    //   flag = false;
-    // } 
-    // else
-    // {
-    
-    int tempa = ((59 * f) / 60);
-    // printf("load avg before: %d, ready_threads: %d \n", load_avg, ready_threads);
-    int tempb = (((int64_t) tempa) * load_avg / f);
-    load_avg = tempb + (((1 * f)/60) * ready_threads);
+  // Update load_avg every second
+    if ((ticks % TIMER_FREQ) == 0) {
+      ready_threads = (t == idle_thread) ? list_size(&ready_list) : (list_size(&ready_list) + 1);
+      
+      // calculate load_avg with fixed point math
+      int temp_a = fixedpoint_div_fixedpoint(59, 60);
+      int temp_b = fixedpoint_mul_fixedpoint(temp_a, load_avg);
+      int temp_c = fixedpoint_div_fixedpoint(1, 60);
+      load_avg = temp_b + (temp_c * ready_threads);
 
-    // int tempa = fixedpoint_mul_fixedpoint(fixedpoint_div_int(int_to_fixedpoint(59), 60), load_avg);
-    // int tempb = fixedpoint_mul_int(fixedpoint_div_int(int_to_fixedpoint(1), 60), ready_threads);
-    // load_avg = fixedpoint_add_fixedpoint(tempa, tempb);
+      // temporary values to calculate recent_cpu using fixed point math
+      int temp_11 = int_to_fixedpoint(2 * load_avg);
+      int temp_12 = fixedpoint_add_int(2 * load_avg, 1);
+      int temp_13 = temp_11 / temp_12;
 
-    // }
-
-    // int tempa = ((59 * f)/60);
-    // // printf("load avg before: %d, ready_threads: %d \n", load_avg, ready_threads);
-    // int tempb = (((int64_t) tempa) * load_avg / f);
-    // load_avg = tempb + (((1 * f)/60) * ready_threads);
-
-
-    //load_avg = (((int64_t) ((59 * f)/60)) * load_avg / f) + (((1 * f)/60) * ready_threads);
-    //printf("%s%d%s\n", "tempa: ", tempa, " should be 1.95");
-    //printf("%s%d%s\n", "tempb: ", tempb, " should be 1");
-    // printf("%s%d\n", "ready_threads: ", ready_threads);
-    //printf("%s%d\n", "load avg after: ", load_avg);
-
-    // update recent_cpu or current thread: recent_cpu = (2*load_avg)/(2*load_avg + 1) * recent_cpu + nice.
-
-    int temp11 = ((int64_t) (2 * load_avg)) * f;
-    int temp111 = (2 * load_avg + (f * 1));
-    int temp112 = temp11 / temp111;
-
-    struct list_elem *e;
-
-    for (e = list_begin (&all_list); e != list_end (&all_list);
-      e = list_next (e))
-    {
-      /* once per second the value of recent_cpu is recalculated for every thread */
-      struct thread *t1 = list_entry(e, struct thread, allelem);
-
-      if (t1 == idle_thread)
+      struct list_elem *e;
+      for (e = list_begin (&all_list); e != list_end (&all_list);
+        e = list_next (e))
       {
-        continue;
+        /* once per second the value of recent_cpu is recalculated for every thread */
+        struct thread *t1 = list_entry(e, struct thread, allelem);
+        if (t1 == idle_thread)
+        {
+          continue;
+        }
+        // update the value of recent_cpu for all threads
+        int temp_21 = fixedpoint_mul_fixedpoint(temp_13, t1->recent_cpu);
+        t1->recent_cpu = fixedpoint_add_int(temp_21, t1->nice);
       }
+    }
 
-      // int temp11 = ((int64_t) (2 * load_avg)) * (f / (2 * load_avg + (f * 1)));
-      // int temp21 = ((int64_t) temp11) * ((t1->recent_cpu) / f);
-      // t1->recent_cpu = temp21 + (t1->nice * f);
-      
-      int temp21 = (((int64_t) temp112) * (t1->recent_cpu)) / f;
-      t1->recent_cpu = temp21 + (t1->nice * f);
+    /* Update thread's priority value every fourth clock tick (maybe we can use if statement below). */
+    if (ticks % 4 == 0) {
+      struct list_elem *e;
 
-
-
-      // int priority = PRI_MAX - (t1->recent_cpu / 4) / f - (t1->nice * 2);
-      // // priority = priority > 63 ? 63 : priority;
-      // priority = priority < 0 ? 0 : priority;
-      // t1->priority = priority;
-      
+      for (e = list_begin (&all_list); e != list_end (&all_list);
+        e = list_next (e))
+      {
+        /* once per second the value of recent_cpu is recalculated for every thread */
+        struct thread *t1 = list_entry(e, struct thread, allelem);
+        if (t1 == idle_thread)
+        {
+          continue;
+        }
+        int priority = PRI_MAX - fixedpoint_to_int(t1->recent_cpu / 4) - (t1->nice * 2);
+        priority = priority < 0 ? 0 : priority;
+        t1->priority = priority;
+      }
     }
   }
-
-  // int priority = PRI_MAX - (t1->recent_cpu / 4) / f - (t1->nice * 2);
-  // priority = priority > 63 ? 63 : priority;
-  // priority = priority < 0 ? 0 : priority;
-  // t1->priority = priority;
-
-  /* Update thread's priority value every fourth clock tick (maybe we can use if statement below). */
-  if (thread_mlfqs && (ticks % 4 == 0)) {
-    struct list_elem *e;
-
-    for (e = list_begin (&all_list); e != list_end (&all_list);
-      e = list_next (e))
-    {
-      /* once per second the value of recent_cpu is recalculated for every thread */
-      struct thread *t1 = list_entry(e, struct thread, allelem);
-      if (t1 == idle_thread)
-      {
-        continue;
-      }
-
-      int priority = PRI_MAX - (t1->recent_cpu / 4) / f - (t1->nice * 2);
-      // priority = priority > 63 ? 63 : priority;
-      priority = priority < 0 ? 0 : priority;
-      t1->priority = priority;
-    }
-
-    // int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
-    // priority = priority > 63 ? 63 : priority;
-    // priority = priority < 0 ? 0 : priority;
-    // t->priority = priority;
-
-    /*struct list_elem *front;
-    if (!list_empty(&ready_list)) {
-      front = list_front(&ready_list);
-      struct thread *p = list_entry(front, struct thread, elem);
-      if (p->priority > priority) {
-        thread_yield();
-      }
-    }
-    */
-  }
-  // list_sort (&ready_list, higher_priority_fun, 0);
   intr_set_level(old_level);
 }
-
 
 /* Prints thread statistics. */
 void
@@ -371,10 +286,6 @@ thread_create (const char *name, int priority,
   if (thread_mlfqs) {
     t->nice = thread_current()->nice;
     t->recent_cpu = thread_current()->recent_cpu;
-    // int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
-    // priority = priority > 63 ? 63 : priority;
-    // priority = priority < 0 ? 0 : priority;
-    // t->priority = priority;
   }
 
   /* Initialize thread. */
@@ -399,9 +310,8 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
   
-  /* Since current already takes cpu, if the new created thread has a higher priority, we should yield current thread. 
-     For example, in priority-donate-one, we would get This thread should have priority 32.  Actual priority: 31 if we don't yield. 
-     Here the actual priority 31 is the default thread's priority. */
+  /* Since current already takes cpu, if the new created thread has 
+  a higher priority, we should yield current thread. */
   if (priority > thread_current()->priority)
   {
     thread_yield ();
@@ -417,13 +327,11 @@ thread_create (const char *name, int priority,
 void
 thread_block (void) 
 {
-  // printf("start thread_block\n");
   ASSERT (!intr_context ());
   ASSERT (intr_get_level () == INTR_OFF);
   
   thread_current ()->status = THREAD_BLOCKED;
   schedule ();
-  // printf("end thread_block\n");
 }
 
 /* Transitions a blocked thread T to the ready-to-run state.
@@ -443,7 +351,6 @@ thread_unblock (struct thread *t)
   old_level = intr_disable ();
   ASSERT (t->status == THREAD_BLOCKED);
   list_push_back (&ready_list, &t->elem);
-  /* Ready list sorted. */
   list_sort (&ready_list, higher_priority_fun, 0);
   
   t->status = THREAD_READY;
@@ -475,12 +382,6 @@ thread_current (void)
 
   return t;
 }
-// no interupts when 
-// adding non running things in a ready list
-// thread current, both are fine
-// 
-// all thread data before assertion
-
 
 /* Returns the running thread's tid. */
 tid_t
@@ -525,9 +426,6 @@ thread_yield (void)
   {
     /* Keep ready list sorted. */
     list_push_back (&ready_list, &cur->elem);
-    if (thread_current() != idle_thread) {
-      //printf("%s%s\n", "thread has been added to ready list: ", thread_current()->name);
-    }
     list_sort (&ready_list, higher_priority_fun, 0);
   }
   cur->status = THREAD_READY;
@@ -632,6 +530,7 @@ thread_donate_priority(struct thread *t)
   }
 }
 
+/* When a thread releasing a lock, we remove threads in donor_threads that are waiting for the lock. */
 void
 remove_donor_threads_associate_with_lock (struct lock *lock)
 {
@@ -669,7 +568,7 @@ thread_set_nice (int nice UNUSED)
   t->nice = nice;
 
   // update priority
-  int priority = PRI_MAX - (t->recent_cpu / 4) / f - (t->nice * 2);
+  int priority = PRI_MAX - fixedpoint_to_int(t->recent_cpu / 4) - (t->nice * 2);
   priority = priority > 63 ? 63 : priority;
   priority = priority < 0 ? 0 : priority;
   t->priority = priority;
@@ -682,7 +581,6 @@ thread_set_nice (int nice UNUSED)
     struct thread *p = list_entry(front, struct thread, elem);
     if (p->priority > priority) {
       thread_yield();
-      // intr_yield_on_return ();
     }
   }
   intr_set_level (old_level);
@@ -699,17 +597,8 @@ thread_get_nice (void)
 int
 thread_get_load_avg (void) 
 {
-  // intr_disable();
-  enum intr_level old_level;
-
-  // ASSERT (is_thread (t));
-
-  old_level = intr_disable ();
-  int load_return = ((100 * load_avg + f/2)) / f;
-  // int load_return = fixedpoint_to_int( fixedpoint_mul_int(load_avg, 100) );
-  //  
-  // printf("load_avg: %d, f: %d, load average after: %d\n", load_avg, f, load_return);
-  // intr_enable();
+  enum intr_level old_level = intr_disable ();
+  int load_return = fixedpoint_to_int(100 * load_avg);
   intr_set_level (old_level);
   return load_return;
 }
@@ -718,10 +607,8 @@ thread_get_load_avg (void)
 int
 thread_get_recent_cpu (void) 
 {
-  enum intr_level old_level = intr_disable();
   int cpu_rec = thread_current()->recent_cpu;
-  int recent_cpu_return = ((100 * cpu_rec) + f/2) / f;
-  intr_set_level(old_level);
+  int recent_cpu_return = fixedpoint_to_int(100 * cpu_rec);
   return recent_cpu_return;
 }
 
