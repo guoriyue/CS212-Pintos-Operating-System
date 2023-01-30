@@ -132,6 +132,7 @@ thread_init (void)
   if (thread_mlfqs){
     initial_thread->nice = 0;
     initial_thread->recent_cpu = 0;
+    initial_thread->recent_changed = 0;
   }
 
   init_thread (initial_thread, "main", priority);
@@ -189,6 +190,7 @@ compute_advanced_parameters (int64_t ticks)
   if (thread_mlfqs) {
     if (t != idle_thread) {
       t->recent_cpu = t->recent_cpu + f;
+      t->recent_changed = 1;   // recent cpu changed 
     }
   
   // Update load_avg every second
@@ -219,25 +221,30 @@ compute_advanced_parameters (int64_t ticks)
         // update the value of recent_cpu for all threads
         int temp_21 = fixedpoint_mul_fixedpoint(temp_13, t1->recent_cpu);
         t1->recent_cpu = fixedpoint_add_int(temp_21, t1->nice);
+        t1->recent_changed = 1;    // recent cpu has changed 
       }
     }
 
-    /* Update thread's priority value every fourth clock tick (maybe we can use if statement below). */
+    /* Update thread's priority value every fourth clock tick. */
     if (ticks % 4 == 0) {
       struct list_elem *e;
 
       for (e = list_begin (&all_list); e != list_end (&all_list);
         e = list_next (e))
       {
-        /* once per second the value of recent_cpu is recalculated for every thread */
+        /* once per second the value of priority is recalculated for every thread */
         struct thread *t1 = list_entry(e, struct thread, allelem);
         if (t1 == idle_thread)
         {
           continue;
         }
-        int priority = PRI_MAX - fixedpoint_to_int(t1->recent_cpu / 4) - (t1->nice * 2);
-        priority = priority < 0 ? 0 : priority;
-        t1->priority = priority;
+        // updaate priority only for threads whose recent cpu value has changed 
+        if (t1->recent_changed) {
+          int priority = PRI_MAX - fixedpoint_to_int(t1->recent_cpu / 4) - (t1->nice * 2);
+          priority = priority < 0 ? 0 : priority;
+          t1->priority = priority;
+          t1->recent_changed = 0;
+        }
       }
     }
   }
@@ -286,6 +293,7 @@ thread_create (const char *name, int priority,
   if (thread_mlfqs) {
     t->nice = thread_current()->nice;
     t->recent_cpu = thread_current()->recent_cpu;
+    t->recent_changed = thread_current()->recent_changed;
   }
 
   /* Initialize thread. */
@@ -522,11 +530,6 @@ thread_donate_priority(struct thread *t)
       l->holder->priority = t->priority;
       thread_donate_priority (l->holder);
     }
-  }
-  else
-  {
-    /* No lock. The current thread should be already in the ready list. Sort the ready list by priorities. */
-    list_sort (&ready_list, higher_priority_fun, 0);
   }
 }
 
