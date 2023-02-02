@@ -11,6 +11,7 @@
         "list": "c",
         "directory.h": "c",
         "vector": "c",
-        "tss.h": "c"
+        "tss.h": "c",
+        "complex": "c"
     }
 }
