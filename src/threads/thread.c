@@ -531,14 +531,6 @@ thread_donate_priority(struct thread *t)
       thread_donate_priority (l->holder);
     }
   }
-<<<<<<< HEAD
-  else
-  {
-    /* No lock. The current thread should be already in the ready list. Sort the ready list by priorities. */
-    // list_sort (&ready_list, higher_priority_fun, 0);
-  }
-=======
->>>>>>> 211e51eb40bdc77425ec6c803b5af2313855c99c
 }
 
 /* When a thread releasing a lock, we remove threads in donor_threads that are waiting for the lock. */

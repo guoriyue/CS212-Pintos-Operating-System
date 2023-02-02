@@ -19,27 +19,53 @@
 #include "threads/vaddr.h"
 
 static thread_func start_process NO_RETURN;
-static bool load (const char *cmdline, void (**eip) (void), void **esp);
+static bool load (const char *cmdline, void (**eip) (void), void **esp, char** command_arguments, int command_arguments_number);
 
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
    before process_execute() returns.  Returns the new process's
    thread id, or TID_ERROR if the thread cannot be created. */
 tid_t
-process_execute (const char *file_name) 
+process_execute (const char *command_line) 
 {
   char *fn_copy;
   tid_t tid;
 
-  /* Make a copy of FILE_NAME.
+  /* Make a copy of command_line.
      Otherwise there's a race between the caller and load(). */
   fn_copy = palloc_get_page (0);
   if (fn_copy == NULL)
     return TID_ERROR;
-  strlcpy (fn_copy, file_name, PGSIZE);
+  strlcpy (fn_copy, command_line, PGSIZE);
+
+  /* Our own structure, good for extensibility. */
+  struct aux_args_struct aux_args;
+  char *save_ptr;
+  char *token;
+  bool first_strtok = true;
+
+  /* Get all arguments and save in vector. */
+  int i = 0;
+  for (token = strtok_r (command_line, " ", &save_ptr); token != NULL;
+    token = strtok_r (NULL, " ", &save_ptr))
+  {
+    if (first_strtok)
+    {
+      aux_args.file_name = token;
+      first_strtok = false;
+    }
+    else
+    {
+      aux_args.command_arguments[i] = token;
+      i++;
+    }
+  }
+  aux_args.command_arguments_number = i;
 
   /* Create a new thread to execute FILE_NAME. */
-  tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
+  tid = thread_create (aux_args.file_name, PRI_DEFAULT, start_process, &aux_args);
+  // thread_create (const char *name, int priority, thread_func *function, void *aux) 
+  
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy); 
   return tid;
@@ -48,9 +74,11 @@ process_execute (const char *file_name)
 /* A thread function that loads a user process and starts it
    running. */
 static void
-start_process (void *file_name_)
+start_process (void *aux_args_)
 {
-  char *file_name = file_name_;
+  /* This would get aux_args. */
+  struct aux_args_struct *aux_args = (struct aux_args_struct*) aux_args_;
+  char *file_name = aux_args->file_name;
   struct intr_frame if_;
   bool success;
 
@@ -59,7 +87,7 @@ start_process (void *file_name_)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
-  success = load (file_name, &if_.eip, &if_.esp);
+  success = load (file_name, &if_.eip, &if_.esp, aux_args->command_arguments, aux_args->command_arguments_number);
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
@@ -195,7 +223,7 @@ struct Elf32_Phdr
 #define PF_W 2          /* Writable. */
 #define PF_R 4          /* Readable. */
 
-static bool setup_stack (void **esp);
+static bool setup_stack (void **esp, char** command_arguments, int command_arguments_number);
 static bool validate_segment (const struct Elf32_Phdr *, struct file *);
 static bool load_segment (struct file *file, off_t ofs, uint8_t *upage,
                           uint32_t read_bytes, uint32_t zero_bytes,
@@ -206,7 +234,7 @@ static bool load_segment (struct file *file, off_t ofs, uint8_t *upage,
    and its initial stack pointer into *ESP.
    Returns true if successful, false otherwise. */
 bool
-load (const char *file_name, void (**eip) (void), void **esp) 
+load (const char *file_name, void (**eip) (void), void **esp, char** command_arguments, int command_arguments_number) 
 {
   struct thread *t = thread_current ();
   struct Elf32_Ehdr ehdr;
@@ -302,7 +330,7 @@ load (const char *file_name, void (**eip) (void), void **esp)
     }
 
   /* Set up stack. */
-  if (!setup_stack (esp))
+  if (!setup_stack (esp, command_arguments, command_arguments_number))
     goto done;
 
   /* Start address. */
@@ -427,19 +455,64 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 /* Create a minimal stack by mapping a zeroed page at the top of
    user virtual memory. */
 static bool
-setup_stack (void **esp) 
+setup_stack (void **esp, char** command_arguments, int command_arguments_number) 
 {
   uint8_t *kpage;
   bool success = false;
-
+  int stack_size = 0;
+  char* arg_pointer[PGSIZE / sizeof(char *)];
   kpage = palloc_get_page (PAL_USER | PAL_ZERO);
   if (kpage != NULL) 
     {
+      /* PGSIZE (1 << 12) PGBITS = 12 */
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
       if (success)
+      {
+        /* Argument passing. */
         *esp = PHYS_BASE;
+        /* Place the words at the top of the stack. */
+        for (int i=0; i < command_arguments_number; i++)
+        {
+          /* +1 for \0. */
+          int cmd_line_arg_len = sizeof(command_arguments[i]) / sizeof(char) + 1;
+          stack_size += cmd_line_arg_len;
+          *esp -= cmd_line_arg_len;
+          memcpy(*esp, command_arguments[i], cmd_line_arg_len);
+          /* Save the address. arg_pointer points to esp address. */
+          arg_pointer[i] = *esp;
+        }
+        
+        /* Round the stack pointer down to a multiple of 4 before the first push. Set 0 uint8_t. */
+        int round_bit = (4 - stack_size % 4) % 4;
+        *esp -= round_bit;
+        memset(*esp, 0, round_bit);
+
+        /* Push the address of each string plus a null pointer sentinel, on the stack, in right-to-left order. */
+        /* For esp, char[4] == char *, both -4. */
+        *esp -= 4;
+        /* Save char* in *esp. So it's like esp->char_pointer->char. */
+        *(char**)*esp = NULL;
+
+        for (int i = command_arguments_number - 1; i >= 0; i--) 
+        {
+          *esp -= 4;
+          *(char**)*esp = arg_pointer[i];
+        }
+
+        /* Push argv (the address of argv[0]) and argc. Here argc is the size of command_arguments. */
+        *esp -= 4;
+        *(char***)*esp = *esp + 4;
+        *esp -= 4;
+        *(int *)*esp = command_arguments_number;
+
+        /* Finally, push a fake "return address". */
+        *esp -= 4;
+        *(void**)*esp = NULL;
+      }
       else
+      {
         palloc_free_page (kpage);
+      }
     }
   return success;
 }
