@@ -306,7 +306,6 @@ lock_release (struct lock *lock)
     /* Lists are tricky.
      When we want to remove a item in list, we need to pass a list_elem which is a value of the item struct to list_remove. 
      For example, if we call list_remove (&thread_current()->allelem);, the thread will be removed from the all_list. */
-
     struct list_elem *highest_priority_thread_elem = list_front (&sema->waiters);
     list_remove (highest_priority_thread_elem);
     struct thread *highest_priority_thread = list_entry (highest_priority_thread_elem, struct thread, elem);

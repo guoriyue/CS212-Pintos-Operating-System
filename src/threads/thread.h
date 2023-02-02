@@ -88,11 +88,12 @@ struct thread
 	 struct semaphore *sema;  			    /* Thread's semaphore. */
     int nice;                           /* Thread's nice value. */
     int recent_cpu;                     /* Thread's recent_cpu value. */
+    bool recent_changed;                /* Flag that recent_cpu has changed. */
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
-    /* New elem struct for the blocked queue */
+    /* New elem struct for the sleeping queue */
 	 struct list_elem elem_sleep;
 
     /* The lock that the thread is waiting on. */
