@@ -315,6 +315,14 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
   sf->ebp = 0;
   
+  /* For assignment 2. */
+  t->parent = thread_current();
+  sema_init(t->sema_wait_for_child, 0);
+  t->exit_status = -2;
+  t->file_handlers = NULL;
+  t->file_handlers_number = 0;
+  list_push_back (&t->parent->children_list, &t->children_list_elem);
+
   /* Add to run queue. */
   thread_unblock (t);
   

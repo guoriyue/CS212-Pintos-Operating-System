@@ -104,7 +104,22 @@ struct thread
     struct list donor_threads;
 
     /* I think that list_elem is just a placeholder for calling list functions. */
-    struct list_elem donor_thread_elem;                 
+    struct list_elem donor_thread_elem;
+
+    /* Store the children in the parent thread, so we will be able to access in the exit() syscall. */
+    struct list children_list;
+    struct list_elem children_list_elem;  
+    
+    /* Current thread's exit status. */
+    int exit_status;
+    /* Thread's semaphore to wait for a child process. */
+    struct semaphore *sema_wait_for_child;
+    /* Save the parent thread. */
+    struct thread *parent;
+    /* File handlers. */
+    struct file **file_handlers;
+    int file_handlers_number;
+       
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */

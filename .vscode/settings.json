@@ -12,6 +12,11 @@
         "directory.h": "c",
         "vector": "c",
         "tss.h": "c",
-        "complex": "c"
+        "complex": "c",
+        "interrupt.h": "c",
+        "array": "c",
+        "bitset": "c",
+        "initializer_list": "c",
+        "utility": "c"
     }
 }

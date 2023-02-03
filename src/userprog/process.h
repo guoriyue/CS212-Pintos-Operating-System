@@ -19,8 +19,8 @@ struct aux_args_struct
     char* file_name;
     int command_arguments_number;
 
-    /* For synchronization. */
-    struct semaphore *sema;
+    /* For load synchronization. */
+    struct semaphore *sema_for_loading;
 };
 
 #endif /* userprog/process.h */

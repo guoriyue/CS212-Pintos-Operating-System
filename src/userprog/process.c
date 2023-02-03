@@ -17,7 +17,7 @@
 #include "threads/palloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
-
+#include "threads/synch.h"
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp, char** command_arguments, int command_arguments_number);
 
@@ -44,6 +44,8 @@ process_execute (const char *command_line)
   char *token;
   bool first_strtok = true;
 
+  sema_init (&aux_args.sema_for_loading, 0);
+
   /* Get all arguments and save in vector. */
   int i = 0;
   for (token = strtok_r (command_line, " ", &save_ptr); token != NULL;
@@ -65,7 +67,8 @@ process_execute (const char *command_line)
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (aux_args.file_name, PRI_DEFAULT, start_process, &aux_args);
   // thread_create (const char *name, int priority, thread_func *function, void *aux) 
-  
+  sema_down (&aux_args.sema_for_loading);
+
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy); 
   return tid;
@@ -94,6 +97,8 @@ start_process (void *aux_args_)
   if (!success) 
     thread_exit ();
 
+  sema_up(aux_args->sema_for_loading);
+
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
      threads/intr-stubs.S).  Because intr_exit takes all of its
@@ -116,6 +121,27 @@ start_process (void *aux_args_)
 int
 process_wait (tid_t child_tid UNUSED) 
 {
+  /* Waits for a child process pid and retrieves the child's exit status. thread_current () is the parent process. */
+  struct thread *cur = thread_current ();
+  struct thread *child = NULL;
+  struct list_elem *e;
+  for (e = list_begin (&cur->children_list); e != list_end (&cur->children_list);
+       e = list_next (e))
+    {
+      /* If ITD was a child of the calling process. */
+      struct thread* t = list_entry (e, struct thread, children_list_elem);
+      if (t->tid == child_tid) {
+        while (1)
+        {
+          /* Waits forever. */
+        }
+        // sema_down (t->sema_wait_for_child);
+        child = t;
+        list_remove (&child->children_list_elem);
+        return child->exit_status;
+      }
+    }
+  /* if (child == NULL) */
   return -1;
 }
 
@@ -125,12 +151,14 @@ process_exit (void)
 {
   struct thread *cur = thread_current ();
   uint32_t *pd;
+  /* Release all file handlers of the current thread. */
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   pd = cur->pagedir;
   if (pd != NULL) 
     {
+      printf("process_exit\n");
       /* Correct ordering here is crucial.  We must set
          cur->pagedir to NULL before switching page directories,
          so that a timer interrupt can't switch back to the
@@ -151,7 +179,7 @@ void
 process_activate (void)
 {
   struct thread *t = thread_current ();
-
+  printf("process_activate\n");
   /* Activate thread's page tables. */
   pagedir_activate (t->pagedir);
 
