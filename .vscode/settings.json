@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "interrupt.h": "c",
+        "gdt.h": "c",
+        "pagedir.h": "c",
+        "directory.h": "c",
+        "free-map.h": "c",
+        "thread": "cpp",
+        "synch.h": "c",
+        "process.h": "c",
+        "stdio.h": "c",
+        "file.h": "c",
+        "intr-stubs.h": "c"
+    }
+}
