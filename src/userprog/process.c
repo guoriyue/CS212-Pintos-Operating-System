@@ -322,6 +322,7 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
     }
 
   /* Read program headers. */
+  file_deny_write(file);   // deny writes to executables
   file_ofs = ehdr.e_phoff;
   for (i = 0; i < ehdr.e_phnum; i++) 
     {
