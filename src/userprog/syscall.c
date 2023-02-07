@@ -10,6 +10,8 @@
 #include "threads/synch.h"
 #include "filesys/filesys.h"
 #include "filesys/file.h"
+#include "devices/shutdown.h"
+
 static void syscall_handler (struct intr_frame *);
 
 /* Need to modify syscall function names. e.g. open -> sysopen. Otherwise may have include errors. */
@@ -56,7 +58,7 @@ syscall_handler (struct intr_frame *f UNUSED)
     int status = (int)*(esp + 1);
     sysexit (status);
   }
-  if (syscall_number == SYS_EXEC)
+  else if (syscall_number == SYS_EXEC)
   {
     char* cmd_line = (char*)*(esp + 1);
     f->eax = (uint32_t) sysexec (cmd_line);
@@ -79,7 +81,44 @@ syscall_handler (struct intr_frame *f UNUSED)
     unsigned size = (unsigned)*(esp + 3);
     f->eax = (uint32_t) syswrite (fd, buffer, size, f->esp);
   }
-
+  else if (syscall_number == SYS_HALT)
+  {
+    syshalt();
+  }
+  else if (syscall_number == SYS_CREATE)
+  {
+    char* file = (char*)*(esp + 1);
+    unsigned initial_size = (unsigned)*(esp + 2);
+    f->eax = (uint32_t) syscreate(file, initial_size, f->esp);
+  }
+  else if (syscall_number == SYS_REMOVE)
+  {
+    
+  }
+  else if (syscall_number == SYS_FILESIZE)
+  {
+    int fd = *(esp + 1);
+    f->eax = sysfilesize (fd);
+  }
+  else if (syscall_number == SYS_READ)
+  {
+    
+  }
+  else if (syscall_number == SYS_SEEK)
+  {
+    int fd = *(esp + 1);
+    unsigned position = (unsigned) *(esp + 2);
+    f->eax = sysseek (fd, position);
+  }
+  else if (syscall_number == SYS_TELL)
+  {
+    int fd = *(esp + 1);
+    f->eax = systell (fd);
+  }
+  else if (syscall_number == SYS_CLOSE)
+  {
+    
+  }
   // thread_exit ();
 }
 
@@ -147,4 +186,63 @@ tid_t sysexec (const char * cmd_line)
 {
   tid_t pid = process_execute (cmd_line);
   return pid;
+}
+
+void 
+syshalt (void) {
+  shutdown_power_off();
+}
+
+// TODO
+bool 
+syscreate (const char *file, unsigned initial_size, uint8_t *esp) {
+
+}
+
+// TODO
+bool 
+sysremove (const char *file) {
+
+}
+
+int 
+sysfilesize (int fd) {
+  struct thread *cur = thread_current ();
+  struct file *f = cur->file_handlers[fd];
+  return (int) file_length (f); 
+}
+
+// FD = 0 ??
+int 
+sysread (int fd, void *buffer, unsigned size) {
+  int ans;
+  if (fd == 0) {
+    uint8_t ans = input_getc ();
+  } else {
+    struct thread *cur = thread_current ();
+    struct file *f = cur->file_handlers[fd];
+    if (f == NULL) ans = -1;
+    else ans = file_read (f, buffer, size);
+  }
+  return ans;
+}
+
+void 
+sysseek (int fd, unsigned position) {
+  struct thread *cur = thread_current ();
+  struct file *f = cur->file_handlers[fd];
+  file_seek(f, position);
+}
+
+unsigned 
+systell (int fd) {
+  struct thread *cur = thread_current ();
+  struct file *f = cur->file_handlers[fd];
+  return file_tell(f);
+}
+
+sysclose (int fd) {
+  struct thread *cur = thread_current ();
+  struct file *f = cur->file_handlers[fd];
+  file_close (f);
 }
