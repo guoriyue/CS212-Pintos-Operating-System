@@ -12,6 +12,8 @@
 #include "filesys/file.h"
 #include "devices/shutdown.h"
 #include "threads/malloc.h"
+#include "devices/input.h"
+#include "threads/thread.h"
 
 
 // always check that buffer is valid (every syscall) - make sure pointer is valid 
@@ -93,12 +95,18 @@ syscall_handler (struct intr_frame *f UNUSED)
   {
     char* file = (char*)*(esp + 1);
     unsigned initial_size = (unsigned)*(esp + 2);
-    f->eax = (uint32_t) syscreate(file, initial_size, f->esp);
+    bool ans = syscreate(file, initial_size, f->esp);
+    if (ans == 0) {
+      thread_current()->exit_status->exit_status = -1;
+    } else {
+      thread_current()->exit_status->exit_status = 0;
+    } 
+    f->eax = (uint32_t) ans;
   }
   else if (syscall_number == SYS_REMOVE)
   {
     char* file = (char*)*(esp + 1);
-    f->eax = (uint32_t) sysremove (file)
+    f->eax = (uint32_t) sysremove (file);
   }
   else if (syscall_number == SYS_FILESIZE)
   {
@@ -110,7 +118,7 @@ syscall_handler (struct intr_frame *f UNUSED)
     int fd = *(esp + 1);
     void * buffer = (void *)*(esp + 2);
     unsigned size = (unsigned)*(esp + 3);
-    f->eax = (uint32_t) sysread (fd, buffer, size)
+    f->eax = (uint32_t) sysread (fd, buffer, size);
   }
   else if (syscall_number == SYS_SEEK)
   {
@@ -126,7 +134,7 @@ syscall_handler (struct intr_frame *f UNUSED)
   else if (syscall_number == SYS_CLOSE)
   {
     int fd = *(esp + 1);
-    sysclose (fd)
+    sysclose (fd);
   }
   // thread_exit ();
 }
@@ -149,6 +157,8 @@ sysexit (int status)
 int
 sysopen (const char *file_name, uint8_t *esp)
 {
+  if (file_name == NULL) sysexit(-1);
+  if (!valid_user_pointer (file_name, 0)) sysexit(-1);
   struct file *f = filesys_open (file_name);
   if (f)
   {
@@ -176,9 +186,9 @@ syswait (int pid)
 int
 syswrite (int fd, const void * buffer, unsigned size, uint8_t *esp)
 {
-  if (!valid_user_pointer (buffer, size))
+  if (!valid_user_pointer ((void *) buffer, size))
   {
-    return -1;
+    sysexit(-1);
   }
 
   int ans;
@@ -191,8 +201,8 @@ syswrite (int fd, const void * buffer, unsigned size, uint8_t *esp)
   {
     struct thread *cur = thread_current ();
     struct file *f = cur->file_handlers[fd];
-    if (f == NULL) ans = -1;
-    else if (file->deny_write == true) ans = 0;
+    if (f == NULL) sysexit(-1);
+    else if (f->deny_write == true) ans = 0;
     else ans = file_write (f, buffer, size);
   }
   return ans;
@@ -214,13 +224,24 @@ syshalt (void)
 bool 
 syscreate (const char *file, unsigned initial_size, uint8_t *esp) 
 {
-  return filesys_create (file, initial_size) 
+  bool ans = false;
+  if (!valid_user_pointer ((void *) file, initial_size))
+  {
+    sysexit(-1);
+  }
+
+  if (file == NULL) {
+    sysexit(-1);
+  } else {
+    ans = filesys_create (file, initial_size);
+  }
+  return ans;
 }
 
 bool 
 sysremove (const char *file) 
 {
-  return file_remove(file);
+  return filesys_remove(file);
 }
 
 int 
@@ -236,17 +257,17 @@ sysread (int fd, void *buffer, unsigned size)
 {
   if (!valid_user_pointer (buffer, size))
   {
-    return -1;
+    sysexit(-1);
   }
 
-  int ans;
+  int ans = -1;
   if (fd == 0) {
-    for (int i = 0; i < size; i++) {
+    char *input_buffer = (char *) buffer;
+    for (unsigned i = 0; i < size; i++) {
       uint8_t input_char = input_getc();
-      (char *) buffer[i] = input_char;
+      input_buffer[i] = input_char;
       ans = size; 
     }
-    uint8_t ans = input_getc ();
   } else {
     struct thread *cur = thread_current ();
     struct file *f = cur->file_handlers[fd];
