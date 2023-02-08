@@ -10,6 +10,7 @@
         "process.h": "c",
         "stdio.h": "c",
         "file.h": "c",
-        "intr-stubs.h": "c"
+        "intr-stubs.h": "c",
+        "stdint.h": "c"
     }
 }

@@ -19,11 +19,12 @@ struct aux_args_struct
     char* file_name;
     int command_arguments_number;
 
-    struct semaphore *sema_for_loading;
+    struct semaphore sema_for_loading;
     /* For palloc_free_page. */
     char* fn_copy;
     /* For load result. */
     bool success;
+    struct thread *parent;
 };
 
 /* Can't access child's thread struct in exit() because we are in kernel mode, need a new structure to record the exit status. */
@@ -31,8 +32,12 @@ struct exit_status_struct
 {
     int process_id;
     int exit_status;
-    struct semaphore *sema_wait_for_child;
+    struct semaphore sema_wait_for_child;
     struct list_elem exit_status_elem;
-    struct file *load_file_handler;
+    int terminated;
+    // int ref_counter;
+    // // int ref_counter;                    /* Reference counter for release */
+    // struct lock counter_lock;           /* Lock on accessing ref_counter */
+    // struct lock *list_lock;             /* Lock on list modification */
 };
 #endif /* userprog/process.h */

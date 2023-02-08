@@ -38,22 +38,18 @@ process_execute (const char *command_line)
   if (fn_copy == NULL)
     return TID_ERROR;
   strlcpy (fn_copy, command_line, PGSIZE);
-
-  char *tmp;
-
-  char * f = strtok_r(fn_copy, " ", &tmp);
-
   
   /* Our own structure, good for extensibility. */
-  int status = -2;
   struct aux_args_struct *aux_args = malloc(sizeof(struct aux_args_struct));
   // struct aux_args_struct aux_args;
   char *save_ptr;
   char *token;
   bool first_strtok = true;
-  struct semaphore sema;
-  sema_init (&sema, 0);
-  aux_args->sema_for_loading = &sema;
+  // struct semaphore sema;
+  // sema_init (&sema, 0);
+  // aux_args->sema_for_loading = &sema;
+
+  sema_init (&aux_args->sema_for_loading, 0);
 
   /* Get all arguments and save in array. */
   int i = 0;
@@ -75,10 +71,11 @@ process_execute (const char *command_line)
   aux_args->command_arguments_number = i;
   aux_args->success = false;
   aux_args->fn_copy = fn_copy;
+  aux_args->parent = thread_current ();
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (aux_args->file_name, PRI_DEFAULT, start_process, aux_args);
-  sema_down (aux_args->sema_for_loading);
+  sema_down (&aux_args->sema_for_loading);
 
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
@@ -107,19 +104,56 @@ start_process (void *aux_args_)
 
   if (success)
   {
-    /* If load success, add a file_handler. */
     struct thread* cur = thread_current ();
-    struct exit_status_struct *es = cur->exit_status;
-    list_push_back (&cur->parent->children_exit_status_list, &es->exit_status_elem);
+    /* A user process. */
+    cur->kernel = false;
+    // lock_acquire (&cur->list_lock);
+    // struct exit_status_struct *es = cur->exit_status;
+    // list_push_back (&cur->parent->children_exit_status_list, &es->exit_status_elem);
+    // lock_release (&cur->list_lock);
+    // struct exit_status_struct *es = cur->exit_status;
+    // /* No need to check if list_lock is NULL here since the parent process
+    //    must be waiting before the child process is loaded */
+    // lock_acquire (&cur->list_lock);
+    // list_push_back (&aux_args->parent->children_exit_status_list, &es->exit_status_elem);
+    // lock_release (&cur->list_lock);
   }
-  
-  sema_up (aux_args->sema_for_loading);
-  palloc_free_page (aux_args->fn_copy);
 
+  // /* The parent process. */
+  // palloc_free_page (aux_args->fn_copy);
+  
+  
+  palloc_free_page (aux_args->fn_copy);
   if (!success)
   {
-    thread_exit (); 
+    struct thread* cur = thread_current ();
+    lock_acquire (&cur->list_lock);
+    struct list_elem *e;
+    for (e = list_begin (&cur->parent->children_exit_status_list); e != list_end (&cur->parent->children_exit_status_list);
+        e = list_next (e))
+    {
+      /* If ITD was a child of the calling process. */
+      struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+      if (es->process_id == cur->tid) {
+        es->terminated= 1;
+        break;
+      }
+    }
+    lock_release (&cur->list_lock);
+    sema_up (&aux_args->sema_for_loading);
+    thread_exit ();
   }
+  sema_up (&aux_args->sema_for_loading);
+
+  // palloc_free_page (aux_args->fn_copy);
+  // /* If load failed, quit. */
+  // if (!success) {
+  //   // *process_arg->status = -1;
+  //   sema_up (&aux_args->sema_for_loading);
+  //   thread_exit();
+  // }
+
+  // sema_up (&aux_args->sema_for_loading);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
@@ -149,19 +183,26 @@ process_wait (tid_t child_tid UNUSED)
   int ret_exit_status = -1;
   struct list_elem *e;
 
+
+  /* Acquire the lock of the list. */
+  lock_acquire (&cur->list_lock);
   for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
        e = list_next (e))
     {
       /* If ITD was a child of the calling process. */
       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
       if (es->process_id == child_tid) {
-        sema_down (es->sema_wait_for_child);
+        sema_down (&es->sema_wait_for_child);
         ret_exit_status = es->exit_status;
+        // ASSERT(es->ref_counter == 1);
+        /* One process only wait once. */
         list_remove (&es->exit_status_elem);
         free (es);
+        lock_release (&cur->list_lock);
         return ret_exit_status;
       }
     }
+  lock_release (&cur->list_lock);
   // /* if (child == NULL) */
   // while (1)
   // {
@@ -176,6 +217,47 @@ process_exit (void)
 {
   struct thread *cur = thread_current ();
   uint32_t *pd;
+  // sema_up (cur->exit_status->sema_wait_for_child);
+  /* Free terminated children threads. */
+
+  struct list_elem *e;
+  /* Acquire the lock of the list. */
+  lock_acquire (&cur->list_lock);
+  for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+       e = list_next (e))
+    {
+      /* If ITD was a child of the calling process. */
+      struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+      if(es->terminated == 1)
+      {
+        /* list_lock is already held. Remove it directly */
+        list_remove (&es->exit_status_elem);
+        free (es);
+      }
+    }
+  
+
+  /* Free current thread. */
+  if(cur->exit_status->terminated == 1)
+  {
+    list_remove (&cur->exit_status->exit_status_elem);
+    free (cur->exit_status);
+  }
+
+  if (cur->file_handlers != NULL)
+  {
+    for (int fd = 2; fd < cur->file_handlers_number; fd++)
+    {
+      if (cur->file_handlers[fd] != NULL)
+      {
+        file_close (cur->file_handlers[fd]);
+      }
+    }
+    free (cur->file_handlers);
+  }
+
+  // // lock_release (&cur->list_lock);
+  
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */

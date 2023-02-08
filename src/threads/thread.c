@@ -72,7 +72,6 @@ static void schedule (void);
 void thread_schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
 
-static void init_child_struct(struct thread_child *thread_child, int process_id);
 /* Initializes the threading system by transforming the code
    that's currently running into a thread.  This can't work in
    general and it is possible in this case only because loader.S
@@ -202,24 +201,29 @@ thread_create (const char *name, int priority,
 
   /* For assignment 2. */
   t->parent = thread_current();
-  list_init (&t->open_files);
-  list_init (&t->children_exit_status_list);
 
-  list_init (&t->parent->open_files);
-  list_init (&t->parent->children_exit_status_list);
+
+  // list_init (&t->parent->open_files);
+  // list_init (&t->parent->children_exit_status_list);
 
   struct exit_status_struct *es = malloc(sizeof(struct exit_status_struct));
   es->process_id = t->tid;
-  struct semaphore sema;
-  sema_init (&sema, 0);
-  es->sema_wait_for_child = &sema;
-  es->load_file_handler = NULL;
+  // struct semaphore sema;
+  // sema_init (&sema, 0);
+  // es->sema_wait_for_child = &sema;
+  sema_init(&es->sema_wait_for_child, 0);
+  // es->load_file_handler = NULL;
   
   es->exit_status = -2;
+  es->terminated = -2;
+  
+  t->exit_status = es;
+
   
   list_push_back (&t->parent->children_exit_status_list, &es->exit_status_elem);
-  t->exit_status = es;
-  t->file_handlers_number = 2;
+  // t->exit_status = es;
+
+  // lock_init (&t->parent->list_lock);
 
   /* Add to run queue. */
   thread_unblock (t);
@@ -315,6 +319,7 @@ thread_exit (void)
   intr_disable ();
   list_remove (&thread_current()->allelem);
   thread_current ()->status = THREAD_DYING;
+  
   schedule ();
   NOT_REACHED ();
 }
@@ -484,8 +489,12 @@ init_thread (struct thread *t, const char *name, int priority)
   t->status = THREAD_BLOCKED;
   strlcpy (t->name, name, sizeof t->name);
   t->stack = (uint8_t *) t + PGSIZE;
-  t->priority = priority;
   t->magic = THREAD_MAGIC;
+
+  lock_init (&t->list_lock);
+  list_init (&t->children_exit_status_list);
+  t->parent = NULL;
+  t->file_handlers_number = 2;
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

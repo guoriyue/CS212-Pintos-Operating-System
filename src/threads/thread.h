@@ -108,6 +108,8 @@ struct thread
 
     /* Store the children in the parent thread, so we will be able to access in the exit() syscall. */
     struct list children_exit_status_list;
+    /* List lock for children_exit_status_list. */
+    struct lock list_lock;
 
    //  struct list_elem children_list_elem;  
     
@@ -119,7 +121,8 @@ struct thread
     /* File handlers. */
     struct file **file_handlers;
     int file_handlers_number;
-    struct list open_files;
+
+    bool kernel;
   };
 
 /* If false (default), use round-robin scheduler.
