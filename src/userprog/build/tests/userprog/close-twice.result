@@ -1,0 +1,7 @@
+FAIL
+Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc002881f 0xc002c03a 0xc010707c
+Translation of call stack:
+0xc002881f: debug_panic (.../../lib/kernel/debug.c:38)
+0xc002c03a: sysopen (...../userprog/syscall.c:258)
+0xc010707c: (unknown)
