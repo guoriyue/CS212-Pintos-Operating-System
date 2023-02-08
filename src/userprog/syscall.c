@@ -37,6 +37,15 @@ valid_user_pointer (void* user_pointer)
   return true;
 }
 
+bool
+valid_address_within_size (const void * vaddr, unsigned size)
+{
+  if (vaddr == NULL || !is_user_vaddr (vaddr) || !is_user_vaddr (vaddr + size))
+    return false;
+
+  return true;
+}
+
 int
 get_valid_argument (int* esp, int i)
 {
@@ -250,20 +259,48 @@ sysexit (int status)
 int
 sysopen (const char *file_name)
 {
+  if (!valid_address_within_size (file_name, strlen (file_name)))
+    sysexit (-1);
+  // if (!valid_user_pointer (file_name + strlen (file_name)))
+  //   sysexit (-1);
+  if (!file_name)
+    sysexit (-1);
+
   struct file *f = filesys_open (file_name);
   if (f)
   {
     struct thread* cur = thread_current ();
-    struct file** tmp = malloc ((cur->file_handlers_number + 1) * sizeof(struct file*));
-    memcpy (tmp, cur->file_handlers, cur->file_handlers_number * sizeof(struct file*));
-    free (cur->file_handlers);
+    struct file** tmp;
+    if (cur->file_handlers_number == 2)
+    {
+      // struct file** 
+      tmp = malloc ((cur->file_handlers_number + 1) * sizeof(struct file*));
+      memset (tmp, 0, 3 * sizeof(struct file*));
+      // cur->file_handlers = tmp;
+    }
+    else
+    {
+      // struct file** 
+      tmp = malloc ((cur->file_handlers_number + 1) * sizeof(struct file*));
+      memcpy (tmp, cur->file_handlers, cur->file_handlers_number * sizeof(struct file*));
+      free (cur->file_handlers);
 
+      // cur->file_handlers = tmp;
+      // cur->file_handlers[cur->file_handlers_number] = f;
+      // int ret_file_handlers_number = cur->file_handlers_number;
+      // cur->file_handlers_number++;
+      // return ret_file_handlers_number;
+    }
     cur->file_handlers = tmp;
     cur->file_handlers[cur->file_handlers_number] = f;
     int ret_file_handlers_number = cur->file_handlers_number;
     cur->file_handlers_number++;
     return ret_file_handlers_number;
   }
+  // else
+  // {
+  //   sysexit (-1);
+  // }
   return -1;
 }
 
@@ -276,6 +313,10 @@ syswait (int pid)
 int
 syswrite (int fd, const void * buffer, unsigned size)
 {
+  if (!valid_user_pointer (buffer))
+    sysexit (-1);
+  if (!valid_user_pointer (buffer + size))
+    sysexit (-1);
   if (fd == 1)
   {
     putbuf (buffer, size);
@@ -294,6 +335,11 @@ syswrite (int fd, const void * buffer, unsigned size)
 
 tid_t sysexec (const char * cmd_line)
 {
+  if (!valid_user_pointer (cmd_line))
+    sysexit (-1);
+
+  if (!valid_user_pointer (cmd_line + strlen(cmd_line)))
+    sysexit (-1);
   tid_t pid = process_execute (cmd_line);
   return pid;
 }
@@ -311,10 +357,12 @@ syscreate (const char *file, unsigned initial_size, uint8_t *esp)
 {
   bool ans = false;
   // , initial_size
-  if (!valid_user_pointer ((void *) file) || !valid_user_pointer ((void *) file + initial_size))
-  {
-    sysexit(-1);
-  }
+  // if (!valid_user_pointer ((void *) file) || !valid_user_pointer ((void *) file + initial_size))
+  // {
+  //   sysexit(-1);
+  // }
+  if (!valid_address_within_size (file, initial_size))
+    sysexit (-1);
 
   if (file == NULL) {
     sysexit(-1);
@@ -341,10 +389,12 @@ sysfilesize (int fd)
 int 
 sysread (int fd, void *buffer, unsigned size) 
 {
-  if (!valid_user_pointer (buffer) || !valid_user_pointer (buffer + size))
-  {
+  // if (!valid_user_pointer (buffer) || !valid_user_pointer (buffer + size))
+  // {
+  //   sysexit (-1);
+  // }
+  if (!valid_address_within_size (buffer, size))
     sysexit (-1);
-  }
   // for (int i=0; i <= size; i++)
   // {
   //   if (!valid_user_pointer (buffer + i))

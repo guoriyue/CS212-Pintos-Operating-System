@@ -1,5 +1,5 @@
 Copying tests/userprog/open-bad-ptr to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/9_xjxDmsVC.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/qsIKaL7n2P.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,11 +9,11 @@ Kernel command line: -q -f extract run open-bad-ptr
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  314,163,200 loops/s.
+Calibrating timer...  323,584,000 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 103 sectors (51 kB), Pintos scratch (22)
+hda3: 3 sectors (1 kB), Pintos scratch (22)
 filesys: using hda2
 scratch: using hda3
 Formatting file system...done.
@@ -22,23 +22,13 @@ Extracting ustar archive from scratch device into file system...
 Putting 'open-bad-ptr' into the file system...
 Erasing ustar archive...
 Executing 'open-bad-ptr':
-(open-bad-ptr) begin
-Page fault at 0x20101234: not present error reading page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0027842
- cr2=20101234 error=00000000
- eax=20101234 ebx=00000001 ecx=20101234 edx=c010ce5c
- esi=00000000 edi=c010705c esp=c0037f08 ebp=c010ce58
- cs=0008 ds=0010 es=0010 ss=620c
-Kernel PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002881f 0xc0027842 0x6e65706f.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 68 ticks
-Thread: 2 idle ticks, 62 kernel ticks, 4 user ticks
-hda2 (filesys): 64 reads, 210 writes
-hda3 (scratch): 102 reads, 2 writes
-Console: 1433 characters output
+load: open-bad-ptr: error loading executable
+Execution of 'open-bad-ptr' complete.
+Timer: 64 ticks
+Thread: 0 idle ticks, 64 kernel ticks, 0 user ticks
+hda2 (filesys): 28 reads, 10 writes
+hda3 (scratch): 2 reads, 2 writes
+Console: 883 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 0 page faults
 Powering off...
