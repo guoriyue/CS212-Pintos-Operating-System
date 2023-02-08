@@ -1,5 +1,5 @@
 Copying tests/userprog/write-bad-fd to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/lHnXXo0ufa.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Ofc2rv1tK3.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run write-bad-fd
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  314,163,200 loops/s.
+Calibrating timer...  367,001,600 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -23,22 +23,13 @@ Putting 'write-bad-fd' into the file system...
 Erasing ustar archive...
 Executing 'write-bad-fd':
 (write-bad-fd) begin
-Page fault at 0x4048d08: not present error reading page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002c18b
- cr2=04048d08 error=00000000
- eax=00000000 ebx=00000001 ecx=00000000 edx=00000201
- esi=bfffff8f edi=01012342 esp=bfffff90 ebp=bfffff8f
- cs=0008 ds=0010 es=0010 ss=0015
-Kernel PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002881f 0xc002c18b 0.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 70 ticks
-Thread: 7 idle ticks, 59 kernel ticks, 4 user ticks
+write-bad-fd: exit(-1)
+Execution of 'write-bad-fd' complete.
+Timer: 71 ticks
+Thread: 4 idle ticks, 66 kernel ticks, 1 user ticks
 hda2 (filesys): 63 reads, 210 writes
 hda3 (scratch): 102 reads, 2 writes
-Console: 1423 characters output
+Console: 888 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 0 page faults
 Powering off...

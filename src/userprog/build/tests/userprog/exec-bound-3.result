@@ -1,10 +1,10 @@
 FAIL
 Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002881f 0xc002c1e3 0x804a4d4
+Call stack: 0xc002881f 0xc002c290 0x804a4d4
 Translation of call stack:
 In kernel.o:
 0xc002881f: debug_panic (.../../lib/kernel/debug.c:38)
-0xc002c1e3: sysexec (...../userprog/syscall.c:341)
+0xc002c290: sysexec (...../userprog/syscall.c:302)
 In tests/userprog/exec-bound-3:
 0x0804a4d4: exec (.../../lib/user/syscall.c:81)
 Translations of user virtual addresses above are based on a guess at

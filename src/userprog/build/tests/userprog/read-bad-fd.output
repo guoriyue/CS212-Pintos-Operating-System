@@ -1,5 +1,5 @@
 Copying tests/userprog/read-bad-fd to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/livT3HvbJJ.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/E5BUZ8z686.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run read-bad-fd
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  321,536,000 loops/s.
+Calibrating timer...  314,163,200 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -24,21 +24,21 @@ Erasing ustar archive...
 Executing 'read-bad-fd':
 (read-bad-fd) begin
 Page fault at 0x804048d0: not present error reading page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002c2f7
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002c3df
  cr2=804048d0 error=00000000
- eax=00000000 ebx=20101234 ecx=bfffff8e edx=bfffff90
+ eax=00000000 ebx=20101234 ecx=00000000 edx=00000201
  esi=bfffff8f edi=00000001 esp=bfffff8f ebp=bfffff8f
  cs=0008 ds=0010 es=0010 ss=0001
 Kernel PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002881f 0xc002c2f7 0.
+Call stack: 0xc002881f 0xc002c3df 0.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 78 ticks
-Thread: 11 idle ticks, 63 kernel ticks, 4 user ticks
+Timer: 68 ticks
+Thread: 6 idle ticks, 59 kernel ticks, 3 user ticks
 hda2 (filesys): 63 reads, 210 writes
 hda3 (scratch): 102 reads, 2 writes
-Console: 1421 characters output
+Console: 1420 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off...

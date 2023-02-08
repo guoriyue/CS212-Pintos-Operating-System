@@ -1,16 +1,16 @@
 Copying tests/userprog/rox-multichild to scratch partition...
 Copying tests/userprog/child-rox to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Lvz3m1j8TW.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/4dYcHxjxVx.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg......................
+LLooaaddiinngg.....................
 Kernel command line: -q -f extract run rox-multichild
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  321,126,400 loops/s.
+Calibrating timer...  321,536,000 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -32,19 +32,19 @@ Executing 'rox-multichild':
 Page fault at 0x804b094: rights violation error writing page in kernel context.
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0027b67
  cr2=0804b094 error=00000003
- eax=c00313ca ebx=00000020 ecx=00000020 edx=00000020
- esi=0804b08b edi=c00313ca esp=c00313ca ebp=0804b094
+ eax=c003152a ebx=00000020 ecx=00000020 edx=00000020
+ esi=0804b08b edi=c003152a esp=c003152a ebp=0804b094
  cs=0008 ds=0010 es=0010 ss=0020
 Kernel PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
 Call stack: 0xc002881f 0xc0027b67 0x20636578Page fault at 0x65003520: not present error reading page in kernel context.
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002622b
  cr2=65003520 error=00000000
  eax=0000000b ebx=65003520 ecx=000007ac edx=000003d4
- esi=00000064 edi=c002f81c esp=c00312dc ebp=c010cda8
+ esi=00000064 edi=c002f97c esp=c003143c ebp=c010cda8
  cs=0008 ds=0010 es=0010 ss=6578
 Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
-Timer: 83 ticks
-Thread: 6 idle ticks, 68 kernel ticks, 9 user ticks
+Timer: 84 ticks
+Thread: 5 idle ticks, 72 kernel ticks, 7 user ticks
 hda2 (filesys): 94 reads, 447 writes
 hda3 (scratch): 219 reads, 2 writes
 Console: 1845 characters output

@@ -6,7 +6,7 @@
 
 void syscall_init (void);
 
-bool valid_user_pointer (void* user_pointer);
+bool valid_user_pointer (void* user_pointer, unsigned size);
 void sysexit (int status);
 int syswait (int pid);
 int sysopen (const char *file);

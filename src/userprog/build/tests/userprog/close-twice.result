@@ -1,11 +1,1 @@
-FAIL
-Kernel panic in run: PANIC at ../../filesys/inode.c:336 in inode_allow_write(): assertion `inode->deny_write_cnt <= inode->open_cnt' failed.
-Call stack: 0xc002881f 0x804a508
-Translation of call stack:
-In kernel.o:
-0xc002881f: debug_panic (.../../lib/kernel/debug.c:38)
-In tests/userprog/close-twice:
-0x0804a508: close (...../lib/user/syscall.c:141)
-Translations of user virtual addresses above are based on a guess at
-the binary to use.  If this guess is incorrect, then those
-translations will be misleading.
+PASS
