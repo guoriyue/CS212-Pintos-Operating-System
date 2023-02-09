@@ -22,6 +22,7 @@ static void syscall_handler (struct intr_frame *);
 struct lock syscall_lock;
 
 /* Need to modify syscall function names. e.g. open -> sysopen. Otherwise may have include errors. */
+
 bool 
 valid_user_pointer (void* user_pointer, unsigned size) 
 {
@@ -86,76 +87,105 @@ syscall_handler (struct intr_frame *f UNUSED)
   if (!get_valid_argument (esp, 0)) sysexit (-1);
   uint32_t syscall_number = (uint32_t)*esp;
   /* Use char* to get arguments. */
+  struct lock sys_lock;
+  lock_init(&sys_lock);
+  //&sys_lock->holder = thread_current();
   if (syscall_number == SYS_EXIT)
   {
     int status = (int) get_valid_argument (esp, 1);
+    //lock_acquire(sys_lock);
     sysexit (status);
+    //lock_release(sys_lock);
   }
   else if (syscall_number == SYS_EXEC)
   {
     char* cmd_line = (char*)get_valid_argument (esp, 1);
-    f->eax = (uint32_t) sysexec (cmd_line);
+    lock_acquire(&sys_lock);
+    f->eax = sysexec (cmd_line);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_WAIT)
   {
     int pid = (int)get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) syswait (pid);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_OPEN)
   {
     /* Cast warning, why integer? But we have to cast to char* anyway. */
     char* file = (char*)get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) sysopen (file);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_WRITE)
   {
     int fd = (int)get_valid_argument (esp, 1);
     void * buffer = (void *)get_valid_argument (esp, 2);
     unsigned size = (unsigned)get_valid_argument (esp, 3);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) syswrite (fd, buffer, size);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_HALT)
   {
+    lock_acquire(&sys_lock);
     syshalt();
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_CREATE)
   {
     char* file = (char*)get_valid_argument (esp, 1);
     unsigned initial_size = (unsigned)get_valid_argument (esp, 2);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) syscreate(file, initial_size, f->esp);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_REMOVE)
   {
     char* file = (char*)get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) sysremove (file);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_FILESIZE)
   {
     int fd = get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) sysfilesize (fd);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_READ)
   {
     int fd = get_valid_argument (esp, 1);
     void * buffer = (void *)get_valid_argument (esp, 2);
     unsigned size = (unsigned)get_valid_argument (esp, 3);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) sysread (fd, buffer, size);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_SEEK)
   {
     int fd = get_valid_argument (esp, 1);
     unsigned position = (unsigned) get_valid_argument (esp, 2);
+    lock_acquire(&sys_lock);
     sysseek (fd, position);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_TELL)
   {
     int fd = get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
     f->eax = (uint32_t) systell (fd);
+    lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_CLOSE)
   {
     int fd = get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
     sysclose (fd);
+    lock_release(&sys_lock);
   } else {
     sysexit (-1);
   }
@@ -205,9 +235,9 @@ sysexit (int status)
 int
 sysopen (const char *file_name)
 {
-  if (!valid_user_pointer (file_name, 0))
+  if (!valid_user_pointer ((void *) file_name, 0))
     sysexit (-1);
-  if (!valid_user_pointer (file_name, strlen (file_name)))
+  if (!valid_user_pointer ((void *) file_name, strlen (file_name)))
     sysexit (-1);
   if (!file_name)
     sysexit (-1);
@@ -219,23 +249,14 @@ sysopen (const char *file_name)
     struct file** tmp;
     if (cur->file_handlers_number == 2)
     {
-      // struct file** 
       tmp = malloc ((cur->file_handlers_number + 1) * sizeof(struct file*));
       memset (tmp, 0, 3 * sizeof(struct file*));
-      // cur->file_handlers = tmp;
     }
     else
     {
-      // struct file** 
       tmp = malloc ((cur->file_handlers_number + 1) * sizeof(struct file*));
       memcpy (tmp, cur->file_handlers, cur->file_handlers_number * sizeof(struct file*));
       free (cur->file_handlers);
-
-      // cur->file_handlers = tmp;
-      // cur->file_handlers[cur->file_handlers_number] = f;
-      // int ret_file_handlers_number = cur->file_handlers_number;
-      // cur->file_handlers_number++;
-      // return ret_file_handlers_number;
     }
     cur->file_handlers = tmp;
     cur->file_handlers[cur->file_handlers_number] = f;
@@ -243,12 +264,9 @@ sysopen (const char *file_name)
     cur->file_handlers_number++;
     return ret_file_handlers_number;
   }
-  // else
-  // {
-  //   sysexit (-1);
-  // }
   return -1;
 }
+
 
 int
 syswait (int pid)
@@ -260,9 +278,9 @@ syswait (int pid)
 int
 syswrite (int fd, const void * buffer, unsigned size)
 {
-  if (!valid_user_pointer (buffer, 0))
+  if (!valid_user_pointer ((void *) buffer, 0))
     sysexit (-1);
-  if (!valid_user_pointer (buffer, size))
+  if (!valid_user_pointer ((void *) buffer, size))
     sysexit (-1);
   if (fd == 0) sysexit(-1);
   if (!valid_user_pointer ((void *) buffer, size))
@@ -283,9 +301,19 @@ syswrite (int fd, const void * buffer, unsigned size)
   {
     struct thread *cur = thread_current ();
     struct file *f = cur->file_handlers[fd];
+    //if (f->is_rox) file_deny_write(f);
+    //printf("%s\n", f->deny_write);
     if (f == NULL) sysexit(-1);
-    else if (f->deny_write == true) ans = 0;
-    else ans = file_write (f, buffer, size);
+    //else if (f->deny_write == true) 
+    //{
+      //printf("%s\n", "try writing to executables");
+      //ans = 0;
+    //}
+    else 
+    {
+      //printf("%s\n", "normal write");
+      ans = file_write (f, buffer, size);
+    }
   }
   return ans;
   // kernel panik
@@ -294,15 +322,15 @@ syswrite (int fd, const void * buffer, unsigned size)
 tid_t 
 sysexec (const char * cmd_line)
 {
-  if (!valid_user_pointer (cmd_line, 0))
+  printf("%s%s\n", "address1: ", cmd_line);
+  if (!valid_user_pointer ((void *) cmd_line, 0))
+   printf("%s\n", "bad pointer");
     sysexit (-1);
 
-  if (!valid_user_pointer (cmd_line, strlen(cmd_line)))
+  if (!valid_user_pointer ((void *) cmd_line, strlen(cmd_line)))
+   printf("%s\n", "bad pointer");
     sysexit (-1);
-  if (!valid_user_pointer ((void *) cmd_line, 0))
-  {
-    sysexit(-1);
-  }
+
   tid_t pid = process_execute (cmd_line);
   return pid;
   // kernel panik
@@ -318,13 +346,10 @@ bool
 syscreate (const char *file, unsigned initial_size, uint8_t *esp) 
 {
   bool ans = false;
-  // , initial_size
   if (!valid_user_pointer ((void *) file, 0) || !valid_user_pointer ((void *) file, initial_size))
   {
     sysexit(-1);
   }
-  // if (!valid_address_within_size (file, initial_size))
-  //   sysexit (-1);
 
   if (file == NULL) {
     sysexit(-1);
@@ -351,18 +376,16 @@ sysfilesize (int fd)
 int 
 sysread (int fd, void *buffer, unsigned size) 
 {
+  if (fd > (thread_current()->file_handlers_number - 1)) 
+  {
+    sysexit(-1);
+  }
+  
   if (!valid_user_pointer (buffer, 0) || !valid_user_pointer (buffer, size))
   {
     sysexit (-1);
   }
-  // if (!valid_address_within_size (buffer, size))
-  //   sysexit (-1);
-  // for (int i=0; i <= size; i++)
-  // {
-  //   if (!valid_user_pointer (buffer + i))
-  //     sysexit (-1);
-  // }
-
+  if (fd == 1) sysexit (-1);
   int ans = -1;
   if (fd == 0) {
     char *input_buffer = (char *) buffer;
@@ -380,7 +403,6 @@ sysread (int fd, void *buffer, unsigned size)
   return ans;
   // kernel panik
 }
-
 void 
 sysseek (int fd, unsigned position) 
 {
