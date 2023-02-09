@@ -183,7 +183,6 @@ process_wait (tid_t child_tid UNUSED)
   int ret_exit_status = -1;
   struct list_elem *e;
 
-
   /* Acquire the lock of the list. */
   lock_acquire (&cur->list_lock);
   for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
@@ -390,6 +389,8 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
       goto done; 
     }
   
+  file_deny_write(file);   // deny writes to executables
+
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
       || memcmp (ehdr.e_ident, "\177ELF\1\1\1", 7)
@@ -404,7 +405,6 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
     }
 
   /* Read program headers. */
-  file_deny_write(file);   // deny writes to executables
   file_ofs = ehdr.e_phoff;
   for (i = 0; i < ehdr.e_phnum; i++) 
     {
@@ -473,8 +473,7 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
   success = true;
 
  done:
-  /* We arrive here whether the load is successful or not. */
-  file_close (file);
+
   return success;
 }
 
@@ -682,4 +681,4 @@ install_page (void *upage, void *kpage, bool writable)
      address, then map our page there. */
   return (pagedir_get_page (t->pagedir, upage) == NULL
           && pagedir_set_page (t->pagedir, upage, kpage, writable));
-}
+} 
