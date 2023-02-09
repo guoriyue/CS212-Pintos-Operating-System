@@ -35,9 +35,5 @@ struct exit_status_struct
     struct semaphore sema_wait_for_child;
     struct list_elem exit_status_elem;
     int terminated;
-    // int ref_counter;
-    // // int ref_counter;                    /* Reference counter for release */
-    // struct lock counter_lock;           /* Lock on accessing ref_counter */
-    // struct lock *list_lock;             /* Lock on list modification */
 };
 #endif /* userprog/process.h */

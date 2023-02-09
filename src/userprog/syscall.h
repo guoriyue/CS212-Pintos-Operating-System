@@ -22,4 +22,5 @@ void sysseek (int fd, unsigned position);
 unsigned systell (int fd);
 void sysclose (int fd);
 bool child_is_waiting (struct exit_status_struct* child_es);
+
 #endif /* userprog/syscall.h */

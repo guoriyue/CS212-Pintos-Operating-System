@@ -20,6 +20,7 @@
 #include "threads/vaddr.h"
 #include "threads/synch.h"
 #include "threads/malloc.h"
+
 static thread_func start_process NO_RETURN;
 static bool load (char *file_name, void (**eip) (void), void **esp, char** command_arguments, int command_arguments_number);
 /* Starts a new thread running a user program loaded from
@@ -53,7 +54,8 @@ process_execute (const char *command_line)
 
   /* Get all arguments and save in array. */
   int i = 0;
-  for (token = strtok_r ((char *) command_line, " ", &save_ptr); token != NULL;
+  /* ONLY USE fn_copy HERE!!!! Otherwise there's a race between the caller and load(). */
+  for (token = strtok_r ((char *) fn_copy, " ", &save_ptr); token != NULL;
     token = strtok_r (NULL, " ", &save_ptr))
   {
     if (first_strtok)
@@ -172,7 +174,6 @@ start_process (void *aux_args_)
    child of the calling process, or if process_wait() has already
    been successfully called for the given TID, returns -1
    immediately, without waiting.
-
    This function will be implemented in problem 2-2.  For now, it
    does nothing. */
 int
@@ -193,7 +194,6 @@ process_wait (tid_t child_tid UNUSED)
       if (es->process_id == child_tid) {
         sema_down (&es->sema_wait_for_child);
         ret_exit_status = es->exit_status;
-        // ASSERT(es->ref_counter == 1);
         /* One process only wait once. */
         list_remove (&es->exit_status_elem);
         free (es);
@@ -528,15 +528,11 @@ validate_segment (const struct Elf32_Phdr *phdr, struct file *file)
 /* Loads a segment starting at offset OFS in FILE at address
    UPAGE.  In total, READ_BYTES + ZERO_BYTES bytes of virtual
    memory are initialized, as follows:
-
         - READ_BYTES bytes at UPAGE must be read from FILE
           starting at offset OFS.
-
         - ZERO_BYTES bytes at UPAGE + READ_BYTES must be zeroed.
-
    The pages initialized by this function must be writable by the
    user process if WRITABLE is true, read-only otherwise.
-
    Return true if successful, false if a memory allocation error
    or disk read error occurs. */
 static bool

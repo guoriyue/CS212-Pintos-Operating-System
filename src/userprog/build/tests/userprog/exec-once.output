@@ -1,6 +1,6 @@
 Copying tests/userprog/exec-once to scratch partition...
 Copying tests/userprog/child-simple to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/xUqMR4OM9J.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/FvOQ1PHAXf.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run exec-once
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  326,041,600 loops/s.
+Calibrating timer...  287,948,800 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -25,22 +25,16 @@ Putting 'child-simple' into the file system...
 Erasing ustar archive...
 Executing 'exec-once':
 (exec-once) begin
-Page fault at 0x804aefd: not present error reading page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0027842
- cr2=0804aefd error=00000000
- eax=0804aefd ebx=00000001 ecx=0804aefd edx=c0114df8
- esi=00000000 edi=c010705c esp=c0037f28 ebp=c0114df4
- cs=0008 ds=0010 es=0010 ss=620c
-Kernel PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002881f 0xc0027842 0x63657865.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 76 ticks
-Thread: 9 idle ticks, 63 kernel ticks, 4 user ticks
-hda2 (filesys): 88 reads, 410 writes
+(child-simple) run
+child-simple: exit(81)
+(exec-once) end
+exec-once: exit(0)
+Execution of 'exec-once' complete.
+Timer: 74 ticks
+Thread: 8 idle ticks, 63 kernel ticks, 3 user ticks
+hda2 (filesys): 122 reads, 410 writes
 hda3 (scratch): 201 reads, 2 writes
-Console: 1468 characters output
+Console: 976 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 0 page faults
 Powering off...

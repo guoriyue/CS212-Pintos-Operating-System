@@ -1,15 +1,15 @@
 Copying tests/userprog/args-many to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/APlXv1et13.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/0Fvfk2sb3r.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg.....................
+LLooaaddiinngg......................
 Kernel command line: -q -f extract run 'args-many a b c d e f g h i j k l m n o p q r s t u v'
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  325,632,000 loops/s.
+Calibrating timer...  261,734,400 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -50,12 +50,12 @@ Executing 'args-many a b c d e f g h i j k l m n o p q r s t u v':
 (args) argv[23] = null
 (args) end
 args-many: exit(0)
-Execution of 'args-many' complete.
-Timer: 74 ticks
-Thread: 4 idle ticks, 62 kernel ticks, 8 user ticks
+Execution of 'args-many a b c d e f g h i j k l m n o p q r s t u v' complete.
+Timer: 73 ticks
+Thread: 6 idle ticks, 59 kernel ticks, 8 user ticks
 hda2 (filesys): 63 reads, 208 writes
 hda3 (scratch): 101 reads, 2 writes
-Console: 1509 characters output
+Console: 1553 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

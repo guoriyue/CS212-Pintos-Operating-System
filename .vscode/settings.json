@@ -12,6 +12,8 @@
         "file.h": "c",
         "intr-stubs.h": "c",
         "stdint.h": "c",
-        "off_t.h": "c"
+        "off_t.h": "c",
+        "syn-read.h": "c",
+        "malloc.h": "c"
     }
 }

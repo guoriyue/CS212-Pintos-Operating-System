@@ -19,7 +19,6 @@
 // always check that buffer is valid (every syscall) - make sure pointer is valid 
 
 static void syscall_handler (struct intr_frame *);
-struct lock syscall_lock;
 
 /* Need to modify syscall function names. e.g. open -> sysopen. Otherwise may have include errors. */
 
@@ -301,9 +300,13 @@ syswrite (int fd, const void * buffer, unsigned size)
   {
     struct thread *cur = thread_current ();
     struct file *f = cur->file_handlers[fd];
+    if (fd >= cur->file_handlers_number)
+    {
+      sysexit(-1);
+    }
     //if (f->is_rox) file_deny_write(f);
     //printf("%s\n", f->deny_write);
-    if (f == NULL) sysexit(-1);
+    // if (f == NULL) sysexit(-1);
     //else if (f->deny_write == true) 
     //{
       //printf("%s\n", "try writing to executables");
@@ -322,14 +325,20 @@ syswrite (int fd, const void * buffer, unsigned size)
 tid_t 
 sysexec (const char * cmd_line)
 {
-  printf("%s%s\n", "address1: ", cmd_line);
+  // printf("%s%s\n", "address1: ", cmd_line);
   if (!valid_user_pointer ((void *) cmd_line, 0))
-   printf("%s\n", "bad pointer");
     sysexit (-1);
 
   if (!valid_user_pointer ((void *) cmd_line, strlen(cmd_line)))
-   printf("%s\n", "bad pointer");
     sysexit (-1);
+
+  // char* save_ptr;
+  // char* file_name = strtok_r ((const char *) cmd_line, " ", &save_ptr);
+  // struct file *file = filesys_open (file_name);
+  // if (file == NULL) 
+  // {
+  //   return -1; 
+  // }
 
   tid_t pid = process_execute (cmd_line);
   return pid;

@@ -1,6 +1,6 @@
 Copying tests/userprog/wait-killed to scratch partition...
 Copying tests/userprog/child-bad to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/DLgycS3DG2.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/nEi9XSpaYt.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run wait-killed
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  326,860,800 loops/s.
+Calibrating timer...  327,680,000 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -25,22 +25,17 @@ Putting 'child-bad' into the file system...
 Erasing ustar archive...
 Executing 'wait-killed':
 (wait-killed) begin
-Page fault at 0x804af0d: not present error reading page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0027842
- cr2=0804af0d error=00000000
- eax=0804af0d ebx=00000001 ecx=0804af0d edx=c0114df8
- esi=00000000 edi=c010705c esp=c0037f28 ebp=c0114df4
- cs=0008 ds=0010 es=0010 ss=620c
-Kernel PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002881f 0xc0027842 0x74696177.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 73 ticks
-Thread: 2 idle ticks, 68 kernel ticks, 3 user ticks
-hda2 (filesys): 88 reads, 412 writes
+(child-bad) begin
+child-bad: exit(-1)
+(wait-killed) wait(exec()) = -1
+(wait-killed) end
+wait-killed: exit(0)
+Execution of 'wait-killed' complete.
+Timer: 80 ticks
+Thread: 11 idle ticks, 67 kernel ticks, 2 user ticks
+hda2 (filesys): 122 reads, 412 writes
 hda3 (scratch): 202 reads, 2 writes
-Console: 1473 characters output
+Console: 1016 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 0 page faults
 Powering off...
