@@ -24,7 +24,6 @@ struct aux_args_struct
     char* fn_copy;
     /* For load result. */
     bool success;
-    struct thread *parent;
 };
 
 /* Can't access child's thread struct in exit() because we are in kernel mode, need a new structure to record the exit status. */

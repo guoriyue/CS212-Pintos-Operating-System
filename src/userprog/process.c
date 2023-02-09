@@ -73,7 +73,6 @@ process_execute (const char *command_line)
   aux_args->command_arguments_number = i;
   aux_args->success = false;
   aux_args->fn_copy = fn_copy;
-  aux_args->parent = thread_current ();
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (aux_args->file_name, PRI_DEFAULT, start_process, aux_args);
@@ -81,7 +80,14 @@ process_execute (const char *command_line)
 
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
-  return aux_args->success ? tid : TID_ERROR;
+  int ret = TID_ERROR;
+  if (aux_args->success)
+  {
+    ret = tid;
+  }
+  // return aux_args->success ? tid : TID_ERROR;
+  free (aux_args);
+  return ret;
 }
 
 /* A thread function that loads a user process and starts it
@@ -656,6 +662,7 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
         palloc_free_page (kpage);
       }
     }
+  free (arg_pointer);
   return success;
 }
 

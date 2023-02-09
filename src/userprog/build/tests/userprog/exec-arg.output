@@ -1,6 +1,6 @@
 Copying tests/userprog/exec-arg to scratch partition...
 Copying tests/userprog/child-args to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/_RUJkEbscK.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/PlqRzNyRjZ.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -36,7 +36,7 @@ child-args: exit(0)
 exec-arg: exit(0)
 Execution of 'exec-arg' complete.
 Timer: 75 ticks
-Thread: 7 idle ticks, 65 kernel ticks, 4 user ticks
+Thread: 7 idle ticks, 63 kernel ticks, 5 user ticks
 hda2 (filesys): 124 reads, 410 writes
 hda3 (scratch): 201 reads, 2 writes
 Console: 1065 characters output
