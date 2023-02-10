@@ -165,8 +165,25 @@ child process's exit_status.
 >> paragraphs, describe the strategy or strategies you adopted for
 >> managing these issues.  Give an example.
 
+In the implementation, the system call will first call the valid_user_pointer to check
+the validility of the buffer. If the buffer is invalid, the process will terminate. If it is 
+valid, then the process will continue to execute. 
 
+When an error is detected, the sysexit function will be called. In this function, it uses the 
+lock and it will call child_is_waiting to check whether its parent process is waiting for it, 
+if so, it will up the semaphore, so that the parent process will resume running. After this, 
+the process will call thread_exit(), in the thread_exit(), process_exit() is called, in this call, 
+the resources of the current thread will be freed, including the file descriptor and
+page directory. Then in the thread_exit call, the thread will be set to be THREAD_DYING and schedule
+to another thread. 
 
+For example, in the syswrite system call, the call will first check the validility of the buffer, fd 
+and whether it is the standard input rather than the standard output, if not valid, then the process
+will be terminated by calling sysexit. What happens after calling the sysexit is as shown in the above paragraph. 
+In sysexit, the thread_exit() is called after checking whether its parent process is waiting for it, if so, 
+it will up the semaphore, so that the parent process will resume runing. And then, called thread_exit(), 
+process_exit is later called inside it, and the resources of the current thread will be freed, including 
+the file descriptor and page directory. Finally, the thread will be set to THREAD_DYING and scheduled to another thread.
 
 ---- SYNCHRONIZATION ----
 
@@ -189,8 +206,11 @@ return value, the process_execute function uses the return value of thread_creat
 >> terminates without waiting, before C exits?  After C exits?  Are
 >> there any special cases?
 
-
-
+To ensure proper synchronization and avoid race conditions,
+before C exists, we check whether the child_tid is equal to es->process_id,
+if C does not exist, P will not wait for C. After C exists, P will use a 
+semaphore to wait for C and when C finishes running, it will up the semaphore 
+so that P can resume running. 
 
 ---- RATIONALE ----
 
