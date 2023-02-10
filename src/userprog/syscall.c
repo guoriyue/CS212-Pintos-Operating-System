@@ -143,7 +143,7 @@ syscall_handler (struct intr_frame *f UNUSED)
     char* file = (char*)get_valid_argument (esp, 1);
     unsigned initial_size = (unsigned)get_valid_argument (esp, 2);
     
-    f->eax = (uint32_t) syscreate(file, initial_size, f->esp);
+    f->eax = (uint32_t) syscreate(file, initial_size);
     lock_release(&sys_lock);
   }
   else if (syscall_number == SYS_REMOVE)

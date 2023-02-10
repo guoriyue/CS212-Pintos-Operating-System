@@ -1,6 +1,6 @@
 Copying tests/userprog/close-normal to scratch partition...
 Copying ../../tests/userprog/sample.txt to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/N2yOQINOAT.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/XKLx9YLNjU.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run close-normal
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,680,000 loops/s.
+Calibrating timer...  281,804,800 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -30,8 +30,8 @@ Executing 'close-normal':
 (close-normal) end
 close-normal: exit(0)
 Execution of 'close-normal' complete.
-Timer: 72 ticks
-Thread: 3 idle ticks, 66 kernel ticks, 3 user ticks
+Timer: 70 ticks
+Thread: 0 idle ticks, 68 kernel ticks, 3 user ticks
 hda2 (filesys): 92 reads, 216 writes
 hda3 (scratch): 104 reads, 2 writes
 Console: 1018 characters output

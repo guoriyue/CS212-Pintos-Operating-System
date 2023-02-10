@@ -12,8 +12,8 @@ pass tests/userprog/halt
 pass tests/userprog/exit
 pass tests/userprog/create-normal
 pass tests/userprog/create-empty
-FAIL tests/userprog/create-null
-FAIL tests/userprog/create-bad-ptr
+pass tests/userprog/create-null
+pass tests/userprog/create-bad-ptr
 pass tests/userprog/create-long
 pass tests/userprog/create-exists
 pass tests/userprog/create-bound
@@ -56,8 +56,8 @@ pass tests/userprog/wait-bad-pid
 pass tests/userprog/multi-recurse
 pass tests/userprog/multi-child-fd
 pass tests/userprog/rox-simple
-FAIL tests/userprog/rox-child
-FAIL tests/userprog/rox-multichild
+pass tests/userprog/rox-child
+pass tests/userprog/rox-multichild
 pass tests/userprog/bad-read
 pass tests/userprog/bad-write
 pass tests/userprog/bad-read2

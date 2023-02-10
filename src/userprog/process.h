@@ -15,7 +15,7 @@ struct aux_args_struct
     // struct list *cmd_line_args;
     // struct list_elem cmd_line_elem;
 
-    char* command_arguments[PGSIZE / sizeof(char *)];
+    char* command_arguments[(PGSIZE / sizeof(char *)-8)/2];
     char* file_name;
     int command_arguments_number;
 

@@ -598,8 +598,8 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
   bool success = false;
   int stack_size = 0;
   // char* arg_pointer[PGSIZE / sizeof(char *)];
-  char** arg_pointer = malloc (PGSIZE / sizeof(char *) * sizeof (char*));
-  memset(arg_pointer, 0, PGSIZE / sizeof(char *) * sizeof (char*));
+  char** arg_pointer = malloc (((PGSIZE / sizeof(char *)-8)/2 ) * sizeof (char*));
+  memset(arg_pointer, 0, ((PGSIZE / sizeof(char *)-8)/2 ) * sizeof (char*));
   kpage = palloc_get_page (PAL_USER | PAL_ZERO);
   if (kpage != NULL) 
     {
