@@ -14,7 +14,7 @@ int syswrite (int fd, const void * buffer, unsigned size);
 tid_t sysexec (const char * cmd_line);
 int get_valid_argument (int* esp, int i);
 void syshalt (void);
-bool syscreate (const char *file, unsigned initial_size, uint8_t *esp);
+bool syscreate (const char *file, unsigned initial_size);
 bool sysremove (const char *file);
 int sysfilesize (int fd);
 int sysread (int fd, void *buffer, unsigned size);

@@ -8,9 +8,9 @@
 
 >> Fill in the names and email addresses of your group members.
 
-FirstName LastName <email@domain.example>
-FirstName LastName <email@domain.example>
-FirstName LastName <email@domain.example>
+Caterina Zampa <cate02@stanford.edu>
+Huan Chen <hchen130@stanford.edu>
+Mingfei Guo <mfguo@stanford.edu>
 
 ---- PRELIMINARIES ----
 
@@ -30,19 +30,56 @@ FirstName LastName <email@domain.example>
 >> `struct' member, global or static variable, `typedef', or
 >> enumeration.  Identify the purpose of each in 25 words or less.
 
+A aux_args_struct is a data structure to keep track of the command line arguments,
+and use semaphore to provide lock.
+struct aux_args_struct
+{
+    // /* Use a struct for a list and a list_elem. */
+
+    char* command_arguments[PGSIZE / sizeof(char *)];
+    char* file_name;
+    int command_arguments_number;
+
+    struct semaphore sema_for_loading;
+    /* For palloc_free_page. */
+    char* fn_copy;
+    /* For load result. */
+    bool success;
+    struct thread *parent;
+};
+
+
+
 ---- ALGORITHMS ----
 
 >> A2: Briefly describe how you implemented argument parsing.  How do
 >> you arrange for the elements of argv[] to be in the right order?
 >> How do you avoid overflowing the stack page?
 
+argv[] is arranged in the way that it uses a variable first_strtok to note 
+whether the element is program name or simpily the arguments. 
+
+To keep it in the right order, an array command_argument is used to keep track of the order.
+
+To avoid the overflow in the stack page, in the data structure aux_args_struct, 
+single page size is used to limit the length of command line arguments.
+
+
+
 ---- RATIONALE ----
 
 >> A3: Why does Pintos implement strtok_r() but not strtok()?
 
+The main difference between strtok_r() and strtok() is that in strtok_r(), 
+it has one addition argument save_ptr used to keep track of tokenizer's 
+position. It enables multiple threads to call the strtok_r() while still be thread safe.
+
 >> A4: In Pintos, the kernel separates commands into a executable name
 >> and arguments.  In Unix-like systems, the shell does this
 >> separation.  Identify at least two advantages of the Unix approach.
+
+(1) It is more flexible in the Unix approach, users can use different shells with different separations
+(2) It is safer to use the shell to separate the command arguments as the user does not directly work with the kernel 
 
                  SYSTEM CALLS
                  ============
@@ -57,10 +94,32 @@ FirstName LastName <email@domain.example>
 >> Are file descriptors unique within the entire OS or just within a
 >> single process?
 
+When opening files, it will return a nonnegative integer handle called the "file descriptor" (fd) or -1 
+if the file could not be opened. File descriptors are unique within a single process. 
+
 ---- ALGORITHMS ----
 
 >> B3: Describe your code for reading and writing user data from the
 >> kernel.
+To read and write user data from the kernel, we use the read and write system call. 
+
+Both the read and write system call will take file descriptor, buffer and size as the argument.
+
+For read, it will first check the validility of the file descriptor and buffer. 
+If the fd is out of the range ofthe file_handlers_number or the buffer is not 
+valid or the fd is for standard ouput, it will terminate the current user program. 
+If the fd is standard input, it will call input_getc to read in the char and 
+save it in the buffer. Rather, the current thread will read it into the buffer.
+
+For write, it will first check the validility of the file descriptor and buffer. 
+If the buffer is invalid, or the fd is for standard input or out of the range of 
+the file_handlers_number, it will terminate the current user program. If the 
+fd is for the standard output, it will call the putbuf to write into the buffer. 
+Rather, the current thread will write it into the buffer. 
+
+For read, it will return the number of bytes it reads and for write, it will return the number 
+of bytes it writes.
+
 
 >> B4: Suppose a system call causes a full page (4,096 bytes) of data
 >> to be copied from user space into the kernel.  What is the least
@@ -69,8 +128,28 @@ FirstName LastName <email@domain.example>
 >> for a system call that only copies 2 bytes of data?  Is there room
 >> for improvement in these numbers, and how much?
 
+The least possible number of inspections of the page table is 1, and the 
+greatest possible number of inspections of the page table is 4,096. 1 can 
+be achieved if each time more than 4.096 bytes can be achieved, and 4,096 
+will be achieved, if each time only 1 byte can be achieved. For a system 
+call that only copies 2 bytes of data, the least number of inspections is 
+still 1 and the greatest possible number of inspections of the page table is 2. 
+Yes, one inspection can not only copy the data needed now, but also data that 
+will be further used, so we can achieve less inspections.
+
 >> B5: Briefly describe your implementation of the "wait" system call
 >> and how it interacts with process termination.
+
+The implementation of syswait directly calls the process_wait() function and returns 
+the return value of the process_wait() function. In the process_wait() function, the 
+current process simply goes through all the children process, if the child process matches 
+the tid in process_wait, then down the semaphore, until the child process exits. 
+
+When the child process exits, it will call child_is_waiting to check whether its parent 
+process is waiting for it, if so, it will up the semaphore, so that the parent process will 
+resume running. To keep track of the child's exit status, the parent process will return the 
+child process's exit_status.
+
 
 >> B6: Any access to user program memory at a user-specified address
 >> can fail due to a bad pointer value.  Such accesses must cause the
@@ -86,6 +165,9 @@ FirstName LastName <email@domain.example>
 >> paragraphs, describe the strategy or strategies you adopted for
 >> managing these issues.  Give an example.
 
+
+
+
 ---- SYNCHRONIZATION ----
 
 >> B7: The "exec" system call returns -1 if loading the new executable
@@ -93,12 +175,22 @@ FirstName LastName <email@domain.example>
 >> loading.  How does your code ensure this?  How is the load
 >> success/failure status passed back to the thread that calls "exec"?
 
+The sysexec calls the process_execute, and in the process_execute, after creating
+the new thread, the parent process will downs the new process's semaphore, it will 
+wait until the new process has finished loading. When the new process finishes the loading, 
+it will up the semaphore, so that the process calls "exec" will return. To determine the 
+return value, the process_execute function uses the return value of thread_create to keep track.
+
+
 >> B8: Consider parent process P with child process C.  How do you
 >> ensure proper synchronization and avoid race conditions when P
 >> calls wait(C) before C exits?  After C exits?  How do you ensure
 >> that all resources are freed in each case?  How about when P
 >> terminates without waiting, before C exits?  After C exits?  Are
 >> there any special cases?
+
+
+
 
 ---- RATIONALE ----
 

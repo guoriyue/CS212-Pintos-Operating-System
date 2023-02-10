@@ -390,7 +390,7 @@ syshalt (void)
 }
 
 bool 
-syscreate (const char *file, unsigned initial_size, uint8_t *esp) 
+syscreate (const char *file, unsigned initial_size) 
 {
 
   bool ans = false;
@@ -405,7 +405,7 @@ syscreate (const char *file, unsigned initial_size, uint8_t *esp)
     if (!valid_user_pointer (++ret, 0))
       sysexit (-1);
   }
-  
+
   if (file == NULL) {
     sysexit(-1);
   } else {
@@ -500,6 +500,4 @@ sysclose (int fd)
   struct file *f = cur->file_handlers[fd];
   file_close (f);
   cur->file_handlers_number--;
-  // close and free stuff
-  // kernel panik
 }

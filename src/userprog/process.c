@@ -261,6 +261,7 @@ process_exit (void)
     free (cur->file_handlers);
   }
 
+  file_close(cur->exec_file); // close executable of process (which allows write)
   // // lock_release (&cur->list_lock);
   
 
@@ -396,6 +397,7 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
     }
   
   file_deny_write(file);   // deny writes to executables
+  t->exec_file = file;
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
