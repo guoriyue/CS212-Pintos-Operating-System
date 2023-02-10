@@ -1,5 +1,5 @@
 Copying tests/userprog/no-vm/multi-oom to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/9icU_ibfVL.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/VubFq1c8W_.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run multi-oom
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  325,632,000 loops/s.
+Calibrating timer...  327,680,000 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -2522,13 +2522,13 @@ multi-oom: exit(51)
 multi-oom: exit(51)
 multi-oom: exit(51)
 multi-oom: exit(51)
-multi-oom: exit(51)
 (multi-oom) success. program forked 10 times.
 (multi-oom) end
 multi-oom: exit(51)
+multi-oom: exit(51)
 Execution of 'multi-oom' complete.
-Timer: 6717 ticks
-Thread: 2110 idle ticks, 168 kernel ticks, 4439 user ticks
+Timer: 5760 ticks
+Thread: 1395 idle ticks, 168 kernel ticks, 4197 user ticks
 hda2 (filesys): 251201 reads, 246 writes
 hda3 (scratch): 120 reads, 2 writes
 Console: 102705 characters output

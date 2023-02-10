@@ -68,6 +68,8 @@ get_valid_argument (int* esp, int i)
   if (!valid_user_pointer ((int *)((char*)(esp + i) + 3), 0))
     sysexit (-1);
 
+  char* arg = *(esp + i);
+
   return *(esp + i);
 }
 
@@ -98,8 +100,9 @@ syscall_handler (struct intr_frame *f UNUSED)
   }
   else if (syscall_number == SYS_EXEC)
   {
-    char* cmd_line = (char*)get_valid_argument (esp, 1);
     lock_acquire(&sys_lock);
+    char* cmd_line = (char*) get_valid_argument (esp, 1);
+    
     f->eax = sysexec (cmd_line);
     lock_release(&sys_lock);
   }
@@ -325,12 +328,32 @@ syswrite (int fd, const void * buffer, unsigned size)
 tid_t 
 sysexec (const char * cmd_line)
 {
-  // printf("%s%s\n", "address1: ", cmd_line);
+  
+  // // printf("%s%s\n", "address1: ", cmd_line);
   if (!valid_user_pointer ((void *) cmd_line, 0))
     sysexit (-1);
 
-  if (!valid_user_pointer ((void *) cmd_line, strlen(cmd_line)))
-    sysexit (-1);
+  // if (!valid_user_pointer ((void *) cmd_line, strlen(cmd_line)))
+  //   sysexit (-1);
+  char* ret = cmd_line;
+  while (*ret) {
+    if (!valid_user_pointer (++ret, 0))
+      sysexit (-1);
+  }
+  // int i = 1;
+  // do
+  // {
+  //   if (!valid_user_pointer ((char*)cmd_line, i))
+  //     sysexit (-1);
+  //   i++;
+  // } while (cmd_line[i]);
+  
+  // printf ("valid_user_pointer %d\n", valid_user_pointer ((void *) cmd_line, strlen(cmd_line)));
+  // for (int i=0; i<= strlen(cmd_line); i++)
+  // {
+  //   if (!valid_user_pointer ((void *) cmd_line, i))
+  //     sysexit (-1);
+  // }
 
   // char* save_ptr;
   // char* file_name = strtok_r ((const char *) cmd_line, " ", &save_ptr);
@@ -371,6 +394,11 @@ syscreate (const char *file, unsigned initial_size, uint8_t *esp)
 bool 
 sysremove (const char *file) 
 {
+  char* ret = file;
+  while (*ret) {
+    if (!valid_user_pointer (++ret, 0))
+      sysexit (-1);
+  }
   return filesys_remove(file);
 }
 

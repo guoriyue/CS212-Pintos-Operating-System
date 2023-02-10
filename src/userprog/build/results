@@ -45,7 +45,7 @@ pass tests/userprog/exec-once
 pass tests/userprog/exec-arg
 pass tests/userprog/exec-bound
 pass tests/userprog/exec-bound-2
-FAIL tests/userprog/exec-bound-3
+pass tests/userprog/exec-bound-3
 pass tests/userprog/exec-multiple
 pass tests/userprog/exec-missing
 pass tests/userprog/exec-bad-ptr
