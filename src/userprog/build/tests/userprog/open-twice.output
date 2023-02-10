@@ -1,6 +1,6 @@
 Copying tests/userprog/open-twice to scratch partition...
 Copying ../../tests/userprog/sample.txt to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/JIOLMglYwx.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Shh4NiVVZR.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run open-twice
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  323,993,600 loops/s.
+Calibrating timer...  320,716,800 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -30,8 +30,8 @@ Executing 'open-twice':
 (open-twice) end
 open-twice: exit(0)
 Execution of 'open-twice' complete.
-Timer: 69 ticks
-Thread: 3 idle ticks, 66 kernel ticks, 0 user ticks
+Timer: 71 ticks
+Thread: 5 idle ticks, 64 kernel ticks, 2 user ticks
 hda2 (filesys): 101 reads, 218 writes
 hda3 (scratch): 105 reads, 2 writes
 Console: 1011 characters output

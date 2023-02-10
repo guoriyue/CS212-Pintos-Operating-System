@@ -1,6 +1,6 @@
 Copying tests/userprog/exec-multiple to scratch partition...
 Copying tests/userprog/child-simple to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/m003wzj3ee.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/y6JwsCg9Ph.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run exec-multiple
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  325,222,400 loops/s.
+Calibrating timer...  312,115,200 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -36,11 +36,11 @@ child-simple: exit(81)
 (exec-multiple) end
 exec-multiple: exit(0)
 Execution of 'exec-multiple' complete.
-Timer: 78 ticks
-Thread: 3 idle ticks, 71 kernel ticks, 4 user ticks
+Timer: 79 ticks
+Thread: 11 idle ticks, 64 kernel ticks, 5 user ticks
 hda2 (filesys): 228 reads, 410 writes
 hda3 (scratch): 201 reads, 2 writes
-Console: 1130 characters output
+Console: 1131 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

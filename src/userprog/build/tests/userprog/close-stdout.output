@@ -1,15 +1,15 @@
 Copying tests/userprog/close-stdout to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/iBZrnG6tox.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/T4eBUTrf9c.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
-PPiiLLoo  hhddaa11
-
+PPiiLLoo  hhddaa1
+1
 LLooaaddiinngg.....................
 Kernel command line: -q -f extract run close-stdout
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  324,812,800 loops/s.
+Calibrating timer...  327,680,000 loops/s.
 hda: 5,040 sectors (2 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 182 sectors (91 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -25,8 +25,8 @@ Executing 'close-stdout':
 (close-stdout) begin
 close-stdout: exit(-1)
 Execution of 'close-stdout' complete.
-Timer: 70 ticks
-Thread: 5 idle ticks, 64 kernel ticks, 1 user ticks
+Timer: 68 ticks
+Thread: 0 idle ticks, 67 kernel ticks, 2 user ticks
 hda2 (filesys): 61 reads, 208 writes
 hda3 (scratch): 101 reads, 2 writes
 Console: 888 characters output

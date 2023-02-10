@@ -1,6 +1,6 @@
 Copying tests/userprog/wait-killed to scratch partition...
 Copying tests/userprog/child-bad to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/5MXxTvgxx_.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Tu2DxAnusZ.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -31,11 +31,11 @@ child-bad: exit(-1)
 (wait-killed) end
 wait-killed: exit(0)
 Execution of 'wait-killed' complete.
-Timer: 82 ticks
-Thread: 12 idle ticks, 68 kernel ticks, 2 user ticks
+Timer: 78 ticks
+Thread: 6 idle ticks, 69 kernel ticks, 3 user ticks
 hda2 (filesys): 122 reads, 412 writes
 hda3 (scratch): 202 reads, 2 writes
-Console: 1016 characters output
+Console: 1015 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

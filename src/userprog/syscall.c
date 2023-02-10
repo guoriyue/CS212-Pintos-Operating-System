@@ -115,9 +115,10 @@ syscall_handler (struct intr_frame *f UNUSED)
   }
   else if (syscall_number == SYS_OPEN)
   {
+    lock_acquire(&sys_lock);
     /* Cast warning, why integer? But we have to cast to char* anyway. */
     char* file = (char*)get_valid_argument (esp, 1);
-    lock_acquire(&sys_lock);
+    
     f->eax = (uint32_t) sysopen (file);
     lock_release(&sys_lock);
   }
@@ -138,9 +139,10 @@ syscall_handler (struct intr_frame *f UNUSED)
   }
   else if (syscall_number == SYS_CREATE)
   {
+    lock_acquire(&sys_lock);
     char* file = (char*)get_valid_argument (esp, 1);
     unsigned initial_size = (unsigned)get_valid_argument (esp, 2);
-    lock_acquire(&sys_lock);
+    
     f->eax = (uint32_t) syscreate(file, initial_size, f->esp);
     lock_release(&sys_lock);
   }
@@ -243,6 +245,19 @@ sysopen (const char *file_name)
     sysexit (-1);
   if (!file_name)
     sysexit (-1);
+
+  char* ret = file_name;
+  while (*ret) {
+    if (ret + 1)
+    {
+      if (!valid_user_pointer (++ret, 0))
+        sysexit (-1);
+    }
+    else
+    {
+      sysexit (-1);
+    }
+  }
   
   struct file *f = filesys_open (file_name);
   if (f)
@@ -377,12 +392,20 @@ syshalt (void)
 bool 
 syscreate (const char *file, unsigned initial_size, uint8_t *esp) 
 {
+
   bool ans = false;
   if (!valid_user_pointer ((void *) file, 0) || !valid_user_pointer ((void *) file, initial_size))
   {
     sysexit(-1);
   }
 
+
+  char* ret = file;
+  while (*ret) {
+    if (!valid_user_pointer (++ret, 0))
+      sysexit (-1);
+  }
+  
   if (file == NULL) {
     sysexit(-1);
   } else {
