@@ -223,10 +223,10 @@ sysexit (int status)
     cur->exit_status->exit_status = status;
     sema_up (&cur->exit_status->sema_wait_for_child);
   }
-  else
-  {
-    cur->exit_status->terminated = 1;
-  }
+  // else
+  // {
+  //   cur->exit_status->terminated = 1;
+  // }
   lock_release (&cur->list_lock);
   if (!cur->kernel)
   {

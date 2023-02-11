@@ -240,6 +240,7 @@ process_exit (void)
         free (es);
       }
     }
+  lock_release (&cur->list_lock);
   
 
   /* Free current thread. */
@@ -247,6 +248,20 @@ process_exit (void)
   {
     list_remove (&cur->exit_status->exit_status_elem);
     free (cur->exit_status);
+
+    lock_acquire (&cur->list_lock);
+    for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+        e = list_next (e))
+      {
+        /* If ITD was a child of the calling process. */
+        struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+      
+        /* list_lock is already held. Remove it directly */
+        list_remove (&es->exit_status_elem);
+        free (es);
+      
+      }
+    lock_release (&cur->list_lock);
   }
 
   if (cur->file_handlers != NULL)

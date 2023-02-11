@@ -168,6 +168,7 @@ struct exit_status_struct *exit_status;
 struct file **file_handlers;
 int file_handlers_number;
 bool kernel;
+struct thread *parent;
 
 (1) children_exit_status_list: the list used to store the exit_status_struct
 of the child processes.
@@ -177,6 +178,7 @@ avoid race condition.
 (4) file_handlers: the array to save file handlers.
 (5) file_handlers_number: the number of file handlers.
 (6) kernel: the flag to indicate whether the current thread is a kernel thread.
+(7) parent: the pointer to the parent thread, used to maintain the exit status list.
 
 in file.h:
 
@@ -216,7 +218,8 @@ or the buffer is not valid or the fd is for standard ouput, it will
 terminate the current user program.  If the fd is standard input 0,
 it will call input_getc to read in the char and save it in the buffer.
 Rather, we will get the file pointer from the file_handlers array
-using the fd and call file_read to read in the data from the file.
+using the fd and call file_read to read in the data from the file
+into the buffer.
 
 We valid the buffer using valid_user_pointer function. It will check:
 (1) the pointer is not NULL.
@@ -224,14 +227,13 @@ We valid the buffer using valid_user_pointer function. It will check:
 (above PHYS_BASE).
 (3) the pointer or pointer + size points to unmapped virtual memory.
 
-For write, it will first check the validility of the file descriptor and buffer. 
-If the buffer is invalid, or the fd is for standard input or out of the range of 
-the file_handlers_number, it will terminate the current user program. If the 
-fd is for the standard output, it will call the putbuf to write into the buffer. 
-Rather, the current thread will write it into the buffer. 
-
-For read, it will return the number of bytes it reads and for write, it
-will return the number of bytes it writes.
+For write, it will first check the validility of the file descriptor and
+buffer. If the buffer is invalid, or the fd is for standard input or out
+of the range of the file_handlers_number, it will terminate the current
+user program. If the fd is for the standard output, it will call the 
+putbuf to write into the buffer. Rather, we will get the file pointer
+from the file_handlers array using the fd and call file_write to write
+from buffer into the file.
 
 >> B4: Suppose a system call causes a full page (4,096 bytes) of data
 >> to be copied from user space into the kernel.  What is the least
@@ -240,28 +242,54 @@ will return the number of bytes it writes.
 >> for a system call that only copies 2 bytes of data?  Is there room
 >> for improvement in these numbers, and how much?
 
-The least possible number of inspections of the page table is 1, and the 
-greatest possible number of inspections of the page table is 4,096. 1 can 
-be achieved if each time more than 4.096 bytes can be achieved, and 4,096 
-will be achieved, if each time only 1 byte can be achieved. For a system 
-call that only copies 2 bytes of data, the least number of inspections is 
-still 1 and the greatest possible number of inspections of the page table is 2. 
-Yes, one inspection can not only copy the data needed now, but also data that 
-will be further used, so we can achieve less inspections.
+The normal case is that the data is in one page, therefore we only need
+to check the start of the data to make sure it is mapped.
+
+The greatest possible number of inspections case is that the data 
+spans two pages, therefore we need to check both the start and 
+the end of the data to make sure both of them are mapped.
+
+For a system call that only copies 2 bytes of data, the least number
+of inspections is 2 because these two bytes could also span two pages.
+
+Theoretically, we need to check the start and end of the data to make
+sure they are mapped. One possible improvement is that we can check
+the start and end of only in page fault because we can assume that
+in most cases, the data is in one page. If it is mapped normally,
+we don't need to check twice. So only when page fault happens, we
+need to check twice.
+
 
 >> B5: Briefly describe your implementation of the "wait" system call
 >> and how it interacts with process termination.
 
-The implementation of syswait directly calls the process_wait() function and returns 
-the return value of the process_wait() function. In the process_wait() function, the 
-current process simply goes through all the children process, if the child process matches 
-the tid in process_wait, then down the semaphore, until the child process exits. 
+The implementation of syswait directly calls the process_wait() function
+and returns the exit_status in process_wait() function. -1 will be returned
+if it was terminated by the kernel or can't find a valid child process.
+In the process_wait() function, the current process simply goes through 
+all the child exit status, if the child exit status matches the tid in 
+process_wait, then down the semaphore, until the child process exits. 
 
-When the child process exits, it will call child_is_waiting to check whether its parent 
-process is waiting for it, if so, it will up the semaphore, so that the parent process will 
-resume running. To keep track of the child's exit status, the parent process will return the 
-child process's exit_status.
+For example, let's say process A is waiting for child process B.
+A will check the exit_status of B is in A's child_exit_status list
+or not. If true, A will confirm that B is a child process of A, and
+down the semaphore, and wait for B to exit. Else, A will return -1.
+Once process A is waiting for process B, it will remove B from process
+A's child_exit_status list, since one child can be only waited once.
+If B has already exited, A will call sema_down on sema_wait_for_child
+in the exit_status of B.
 
+When the child process exits, it will call child_is_waiting to check 
+whether its parent process is waiting for it, if so, it will up the
+semaphore, so that the parent process will resume running.
+
+If success, A will call sema_down and delete the exit_status of B
+from A's child_exit_status list. If not, we will label the child
+process as terminated, which will be freed in process_exit() function.
+Also, we label fail load as terminated. All the terminated child
+processes will be freed in process_exit() function when the parent
+process exits. So no matter the parent process exits before or after
+the child process, the program will work correctly.
 
 >> B6: Any access to user program memory at a user-specified address
 >> can fail due to a bad pointer value.  Such accesses must cause the
@@ -277,25 +305,61 @@ child process's exit_status.
 >> paragraphs, describe the strategy or strategies you adopted for
 >> managing these issues.  Give an example.
 
-In the implementation, the system call will first call the valid_user_pointer to check
-the validility of the buffer. If the buffer is invalid, the process will terminate. If it is 
-valid, then the process will continue to execute. 
+At the beginning of syscall_handler, we first check the validility
+of the stack pointer. If the stack pointer is invalid, the process
+will terminate. Then we will check the validility of arguments by
+dereferencing the pointer.
 
-When an error is detected, the sysexit function will be called. In this function, it uses the 
-lock and it will call child_is_waiting to check whether its parent process is waiting for it, 
-if so, it will up the semaphore, so that the parent process will resume running. After this, 
-the process will call thread_exit(), in the thread_exit(), process_exit() is called, in this call, 
-the resources of the current thread will be freed, including the file descriptor and
-page directory. Then in the thread_exit call, the thread will be set to be THREAD_DYING and schedule
-to another thread. 
+In the implementation, when dereferencing a pointer, we call the 
+valid_user_pointer to check the validility of the pointer. 
+If the pointer is invalid, the process will terminate. If it is 
+valid, then the process will continue to execute. In valid_user_pointer
+we check whether the pointer is NULL, in kernel address space, and
+whether it is already mapped. We also check whether the pointer + size
+is in kernel address space.
 
-For example, in the syswrite system call, the call will first check the validility of the buffer, fd 
-and whether it is the standard input rather than the standard output, if not valid, then the process
-will be terminated by calling sysexit. What happens after calling the sysexit is as shown in the above paragraph. 
-In sysexit, the thread_exit() is called after checking whether its parent process is waiting for it, if so, 
-it will up the semaphore, so that the parent process will resume runing. And then, called thread_exit(), 
-process_exit is later called inside it, and the resources of the current thread will be freed, including 
-the file descriptor and page directory. Finally, the thread will be set to THREAD_DYING and scheduled to another thread.
+For char* pointer, we also check all the characters in the string
+one by one. If any of the characters is not valid, then the process
+will terminate.
+
+Also, for those with file descriptors, we check whether the file
+descriptor is in the range of file descriptor number or is a reserved
+number. If not, then the process will terminate.
+
+TODO TODO TODO: check free and add write enable
+
+When an error is detected, the sysexit function will be called. 
+In this function, it uses the lock and it will call child_is_waiting 
+to check whether its parent process is waiting for it, 
+if so, it will up the semaphore, so that the parent process 
+will resume running. After this, the process will call thread_exit(), 
+in the thread_exit(), process_exit() is called, in this call, 
+the resources of the current thread will be freed, including the 
+file descriptor and page directory to prevent memory leakage. 
+Then in the thread_exit call, the thread will be set to be THREAD_DYING 
+and schedule to another thread.
+
+(1) First we free the terminated child process's exit_status structure.
+    We loop through the child_exit_status list of the current process,
+    if it is terminated, we free it and remove it from the list.
+(2) We close current thread's exit_status structure, if current thread
+    is terminated.
+(3) Then we close all the opened files of the process free the file
+    descriptor array in thread.
+(4) Then we close the executable file of the process.
+
+For example, in the syswrite system call, the call will first check
+the validility of the buffer, fd and whether it is the standard input
+rather than the standard output, if not valid, then the process
+will be terminated by calling sysexit. What happens after calling
+the sysexit is as shown in the above paragraph.  In sysexit, the 
+thread_exit() is called after checking whether its parent process is 
+waiting for it, if so, it will up the semaphore, so that the parent 
+process will resume runing. And then, called thread_exit(), 
+process_exit is later called inside it, and the resources of the current
+thread will be freed, including the file descriptor and page directory. 
+Finally, the thread will be set to THREAD_DYING and scheduled to 
+another thread.
 
 ---- SYNCHRONIZATION ----
 

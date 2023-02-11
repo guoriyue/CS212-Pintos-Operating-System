@@ -115,6 +115,9 @@ struct thread
     
     /* Current thread's exit status. */
     struct exit_status_struct *exit_status;
+
+    struct thread *parent;
+    
     /* File handlers. */
     struct file **file_handlers;
     int file_handlers_number;
