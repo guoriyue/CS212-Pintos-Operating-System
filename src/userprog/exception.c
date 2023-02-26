@@ -92,8 +92,8 @@ kill (struct intr_frame *f)
       printf ("%s: dying due to interrupt %#04x (%s).\n",
               thread_name (), f->vec_no, intr_name (f->vec_no));
       intr_dump_frame (f);
-      sysexit(-1);
-      //thread_exit (); 
+      /* Kill user process. */
+      sysexit(-1);  
 
     case SEL_KCSEG:
       /* Kernel's code segment, which indicates a kernel bug.
@@ -130,8 +130,6 @@ page_fault (struct intr_frame *f)
   bool write;        /* True: access was write, false: access was read. */
   bool user;         /* True: access by user, false: access by kernel. */
   void *fault_addr;  /* Fault address. */
-
-  struct thread *cur = thread_current();
 
   /* Obtain faulting address, the virtual address that was
      accessed to cause the fault.  It may point to code or to
