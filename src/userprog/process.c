@@ -16,13 +16,15 @@
 #include "threads/init.h"
 #include "threads/interrupt.h"
 #include "threads/palloc.h"
+#include "threads/malloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 #include "threads/synch.h"
 #include "threads/malloc.h"
 
 static thread_func start_process NO_RETURN;
-static bool load (char *file_name, void (**eip) (void), void **esp, char** command_arguments, int command_arguments_number);
+static bool load (char *file_name, void (**eip) (void), void **esp, 
+            char** command_arguments, int command_arguments_number);
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
    before process_execute() returns.  Returns the new process's
@@ -40,16 +42,11 @@ process_execute (const char *command_line)
     return TID_ERROR;
   strlcpy (fn_copy, command_line, PGSIZE);
   
-  /* Our own structure, good for extensibility. */
+  /* Our own structure for arguments, good for extensibility. */
   struct aux_args_struct *aux_args = malloc(sizeof(struct aux_args_struct));
-  // struct aux_args_struct aux_args;
   char *save_ptr;
   char *token;
   bool first_strtok = true;
-  // struct semaphore sema;
-  // sema_init (&sema, 0);
-  // aux_args->sema_for_loading = &sema;
-
   sema_init (&aux_args->sema_for_loading, 0);
 
   /* Get all arguments and save in array. */
@@ -85,7 +82,6 @@ process_execute (const char *command_line)
   {
     ret = tid;
   }
-  // return aux_args->success ? tid : TID_ERROR;
   free (aux_args);
   return ret;
 }
@@ -95,7 +91,6 @@ process_execute (const char *command_line)
 static void
 start_process (void *aux_args_)
 {
-  // printf ("start_process start_process start_process start_process\n");
   /* This would get aux_args. */
   struct aux_args_struct *aux_args = (struct aux_args_struct*) aux_args_;
   char *file_name = aux_args->file_name;
@@ -107,7 +102,8 @@ start_process (void *aux_args_)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
-  success = load (file_name, &if_.eip, &if_.esp, aux_args->command_arguments, aux_args->command_arguments_number);
+  success = load (file_name, &if_.eip, &if_.esp, aux_args->command_arguments, 
+                                  aux_args->command_arguments_number);
   aux_args->success = success;
 
   if (success)
@@ -115,21 +111,7 @@ start_process (void *aux_args_)
     struct thread* cur = thread_current ();
     /* A user process. */
     cur->kernel = false;
-    // lock_acquire (&cur->list_lock);
-    // struct exit_status_struct *es = cur->exit_status;
-    // list_push_back (&cur->parent->children_exit_status_list, &es->exit_status_elem);
-    // lock_release (&cur->list_lock);
-    // struct exit_status_struct *es = cur->exit_status;
-    // /* No need to check if list_lock is NULL here since the parent process
-    //    must be waiting before the child process is loaded */
-    // lock_acquire (&cur->list_lock);
-    // list_push_back (&aux_args->parent->children_exit_status_list, &es->exit_status_elem);
-    // lock_release (&cur->list_lock);
-  }
-
-  // /* The parent process. */
-  // palloc_free_page (aux_args->fn_copy);
-  
+  } 
   
   palloc_free_page (aux_args->fn_copy);
   if (!success)
@@ -137,8 +119,9 @@ start_process (void *aux_args_)
     struct thread* cur = thread_current ();
     lock_acquire (&cur->list_lock);
     struct list_elem *e;
-    for (e = list_begin (&cur->parent->children_exit_status_list); e != list_end (&cur->parent->children_exit_status_list);
-        e = list_next (e))
+    for (e = list_begin (&cur->parent->children_exit_status_list); 
+         e != list_end (&cur->parent->children_exit_status_list);
+         e = list_next (e))
     {
       /* If ITD was a child of the calling process. */
       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
@@ -153,16 +136,6 @@ start_process (void *aux_args_)
   }
   sema_up (&aux_args->sema_for_loading);
 
-  // palloc_free_page (aux_args->fn_copy);
-  // /* If load failed, quit. */
-  // if (!success) {
-  //   // *process_arg->status = -1;
-  //   sema_up (&aux_args->sema_for_loading);
-  //   thread_exit();
-  // }
-
-  // sema_up (&aux_args->sema_for_loading);
-
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
      threads/intr-stubs.S).  Because intr_exit takes all of its
@@ -172,7 +145,6 @@ start_process (void *aux_args_)
   asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&if_) : "memory");
   NOT_REACHED ();
 }
-
 
 /* Waits for thread TID to die and returns its exit status.  If
    it was terminated by the kernel (i.e. killed due to an
@@ -185,17 +157,19 @@ start_process (void *aux_args_)
 int
 process_wait (tid_t child_tid UNUSED) 
 {
-  /* Waits for a child process pid and retrieves the child's exit status. thread_current () is the parent process. */
+  /* Waits for a child process pid and retrieves the child's exit status. 
+  thread_current () is the parent process. */
   struct thread *cur = thread_current ();
   int ret_exit_status = -1;
   struct list_elem *e;
 
   /* Acquire the lock of the list. */
   lock_acquire (&cur->list_lock);
-  for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+  for (e = list_begin (&cur->children_exit_status_list); 
+      e != list_end (&cur->children_exit_status_list);
        e = list_next (e))
     {
-      /* If ITD was a child of the calling process. */
+      /* If TID was a child of the calling process. */
       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
       if (es->process_id == child_tid) {
         sema_down (&es->sema_wait_for_child);
@@ -208,11 +182,6 @@ process_wait (tid_t child_tid UNUSED)
       }
     }
   lock_release (&cur->list_lock);
-  // /* if (child == NULL) */
-  // while (1)
-  // {
-  //   /* Waits forever. */
-  // }
   return -1;
 }
 
@@ -220,82 +189,84 @@ process_wait (tid_t child_tid UNUSED)
 void
 process_exit (void)
 {
-  struct thread *cur = thread_current ();
-  uint32_t *pd;
-  // sema_up (cur->exit_status->sema_wait_for_child);
-  /* Free terminated children threads. */
+ struct thread *cur = thread_current ();
+ uint32_t *pd;
+ /* Free terminated children threads. */
 
-  struct list_elem *e;
-  /* Acquire the lock of the list. */
-  lock_acquire (&cur->list_lock);
-  for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+
+ struct list_elem *e;
+ /* Acquire the lock of the list. */
+ lock_acquire (&cur->list_lock);
+ for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+      e = list_next (e))
+   {
+     /* If ITD was a child of the calling process. */
+     struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+     if(es->terminated == 1)
+     {
+       /* list_lock is already held. Remove it directly */
+       list_remove (&es->exit_status_elem);
+       free (es);
+     }
+   }
+ lock_release (&cur->list_lock);
+
+
+ /* Free current thread. */
+ if(cur->exit_status->terminated == 1)
+ {
+   list_remove (&cur->exit_status->exit_status_elem);
+   free (cur->exit_status);
+
+
+   lock_acquire (&cur->list_lock);
+   for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
        e = list_next (e))
-    {
-      /* If ITD was a child of the calling process. */
-      struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
-      if(es->terminated == 1)
-      {
-        /* list_lock is already held. Remove it directly */
-        list_remove (&es->exit_status_elem);
-        free (es);
-      }
-    }
-  lock_release (&cur->list_lock);
-  
+     {
+       /* If ITD was a child of the calling process. */
+       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+    
+       /* list_lock is already held. Remove it directly */
+       list_remove (&es->exit_status_elem);
+       free (es);
+    
+     }
+   lock_release (&cur->list_lock);
+ }
 
-  /* Free current thread. */
-  if(cur->exit_status->terminated == 1)
-  {
-    list_remove (&cur->exit_status->exit_status_elem);
-    free (cur->exit_status);
 
-    lock_acquire (&cur->list_lock);
-    for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
-        e = list_next (e))
-      {
-        /* If ITD was a child of the calling process. */
-        struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
-      
-        /* list_lock is already held. Remove it directly */
-        list_remove (&es->exit_status_elem);
-        free (es);
-      
-      }
-    lock_release (&cur->list_lock);
-  }
+ if (cur->file_handlers != NULL)
+ {
+   for (int fd = 2; fd < cur->file_handlers_number; fd++)
+   {
+     if (cur->file_handlers[fd] != NULL)
+     {
+       file_close (cur->file_handlers[fd]);
+     }
+   }
+   free (cur->file_handlers);
+ }
 
-  if (cur->file_handlers != NULL)
-  {
-    for (int fd = 2; fd < cur->file_handlers_number; fd++)
-    {
-      if (cur->file_handlers[fd] != NULL)
-      {
-        file_close (cur->file_handlers[fd]);
-      }
-    }
-    free (cur->file_handlers);
-  }
+ /* Close executable of process (which allows write). */
+ file_close(cur->exec_file); 
 
-  file_close(cur->exec_file); // close executable of process (which allows write)
-  // // lock_release (&cur->list_lock);
-  
 
-  /* Destroy the current process's page directory and switch back
-     to the kernel-only page directory. */
-  pd = cur->pagedir;
-  if (pd != NULL) 
-    {
-      /* Correct ordering here is crucial.  We must set
-         cur->pagedir to NULL before switching page directories,
-         so that a timer interrupt can't switch back to the
-         process page directory.  We must activate the base page
-         directory before destroying the process's page
-         directory, or our active page directory will be one
-         that's been freed (and cleared). */
-      cur->pagedir = NULL;
-      pagedir_activate (NULL);
-      pagedir_destroy (pd);
-    }
+ /* Destroy the current process's page directory and switch back
+    to the kernel-only page directory. */
+ pd = cur->pagedir;
+ if (pd != NULL)
+   {
+     /* Correct ordering here is crucial.  We must set
+        cur->pagedir to NULL before switching page directories,
+        so that a timer interrupt can't switch back to the
+        process page directory.  We must activate the base page
+        directory before destroying the process's page
+        directory, or our active page directory will be one
+        that's been freed (and cleared). */
+     cur->pagedir = NULL;
+     pagedir_activate (NULL);
+     pagedir_destroy (pd);
+   }
 }
 
 /* Sets up the CPU for running user code in the current
@@ -376,7 +347,8 @@ struct Elf32_Phdr
 #define PF_W 2          /* Writable. */
 #define PF_R 4          /* Readable. */
 
-static bool setup_stack (void **esp, char* file_name, char** command_arguments, int command_arguments_number);
+static bool setup_stack (void **esp, char* file_name, char** command_arguments, 
+                              int command_arguments_number);
 static bool validate_segment (const struct Elf32_Phdr *, struct file *);
 static bool load_segment (struct file *file, off_t ofs, uint8_t *upage,
                           uint32_t read_bytes, uint32_t zero_bytes,
@@ -387,9 +359,9 @@ static bool load_segment (struct file *file, off_t ofs, uint8_t *upage,
    and its initial stack pointer into *ESP.
    Returns true if successful, false otherwise. */
 bool
-load (char *file_name, void (**eip) (void), void **esp, char** command_arguments, int command_arguments_number)
+load (char *file_name, void (**eip) (void), void **esp, char** command_arguments, 
+                                          int command_arguments_number)
 {
-  // printf ("start load start load start load start load\n");
   struct thread *t = thread_current ();
   struct Elf32_Ehdr ehdr;
   struct file *file = NULL;
@@ -404,6 +376,8 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
   process_activate ();
 
   file = filesys_open (file_name);
+  /* Save executable file to thread specific variable. */
+  t->exec_file = file;
   
   if (file == NULL) 
     {
@@ -411,8 +385,8 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
       goto done; 
     }
   
-  file_deny_write(file);   // deny writes to executables
-  t->exec_file = file;
+  /* Deny writes to executables. */
+  file_deny_write(file);   
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
@@ -608,13 +582,14 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 static bool
 setup_stack (void **esp, char* file_name, char** command_arguments, int command_arguments_number)
 {
-  // printf ("setup_stack setup_stack setup_stack setup_stack\n");
   uint8_t *kpage;
   bool success = false;
   int stack_size = 0;
-  // char* arg_pointer[PGSIZE / sizeof(char *)];
-  char** arg_pointer = malloc (((PGSIZE / sizeof(char *)-8)/2 ) * sizeof (char*));
-  memset(arg_pointer, 0, ((PGSIZE / sizeof(char *)-8)/2 ) * sizeof (char*));
+
+  char** arg_pointer = malloc ((((PGSIZE / sizeof(char *) - 8) / 2) 
+                            * sizeof(char *) - 8) * sizeof (char*));
+  memset(arg_pointer, 0, ((((PGSIZE / sizeof(char *) - 8) / 2) 
+                            * sizeof(char *) - 8) * sizeof (char*)));
   kpage = palloc_get_page (PAL_USER | PAL_ZERO);
   if (kpage != NULL) 
     {
@@ -643,12 +618,14 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
         memcpy(*esp, file_name, file_name_len);
         char* file_name_address = *esp;
 
-        /* Round the stack pointer down to a multiple of 4 before the first push. Set 0 uint8_t. */
+        /* Round the stack pointer down to a multiple of 4 before the 
+        first push. Set 0 uint8_t. */
         int round_bit = (4 - stack_size % 4) % 4;
         *esp -= round_bit;
         memset(*esp, 0, round_bit);
 
-        /* Push the address of each string plus a null pointer sentinel, on the stack, in right-to-left order. */
+        /* Push the address of each string plus a null pointer sentinel, 
+          on the stack, in right-to-left order. */
         /* For esp, char[4] == char *, both -4. */
         *esp -= sizeof (char *);
         /* Save char* in *esp. So it's like esp->char_pointer->char. */
@@ -663,7 +640,8 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
         *esp -= sizeof (char *);
         *(char**)*esp = file_name_address;
 
-        /* Push argv (the address of argv[0]) and argc. Here argc is the size of command_arguments. */
+        /* Push argv (the address of argv[0]) and argc. Here 
+          argc is the size of command_arguments. */
         *esp -= sizeof (char **);
         *((char **)*esp) = *esp + sizeof (char **);
         // *(char***)*esp = *esp + sizeof (char **);
