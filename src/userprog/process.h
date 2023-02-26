@@ -11,11 +11,8 @@ void process_activate (void);
 
 struct aux_args_struct
 {
-    // /* Use a struct for a list and a list_elem. */
-    // struct list *cmd_line_args;
-    // struct list_elem cmd_line_elem;
-
-    char* command_arguments[(PGSIZE / sizeof(char *)-8)/2];
+    char* command_arguments[(((PGSIZE / sizeof(char *) - 8) / 2)
+                             * sizeof(char *) - 8) / sizeof(char *)];
     char* file_name;
     int command_arguments_number;
 
@@ -26,7 +23,8 @@ struct aux_args_struct
     bool success;
 };
 
-/* Can't access child's thread struct in exit() because we are in kernel mode, need a new structure to record the exit status. */
+/* Can't access child's thread struct in exit() because we are 
+    in kernel mode, need a new structure to record the exit status. */
 struct exit_status_struct
 {
     int process_id;
@@ -35,4 +33,5 @@ struct exit_status_struct
     struct list_elem exit_status_elem;
     int terminated;
 };
+
 #endif /* userprog/process.h */
