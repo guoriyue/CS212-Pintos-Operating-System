@@ -5,6 +5,7 @@
 #include <list.h>
 #include <stdint.h>
 #include "threads/synch.h"
+#include "filesys/file.h"
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -90,33 +91,31 @@ struct thread
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
     struct list_elem allelem;           /* List element for all threads list. */
-  struct file *exec_file;             /* Executable of the current process. */
+    struct file *exec_file;             /* Executable of the current process. */
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
-    /* Owned by userprog/process.c. Not sure why we get the error field not defined. */
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
 #endif
 
-
-
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
 
 
-    /* Store the children in the parent thread, so we will be able to access in the exit() syscall. */
+    /* Store the children in the parent thread, 
+      so we will be able to access in the exit() syscall. */
     struct list children_exit_status_list;
+
     /* List lock for children_exit_status_list. */
     struct lock list_lock;
-
-   //  struct list_elem children_list_elem;  
     
     /* Current thread's exit status. */
     struct exit_status_struct *exit_status;
 
+   /* Parent thread of the thread. */
     struct thread *parent;
     
     /* File handlers. */
