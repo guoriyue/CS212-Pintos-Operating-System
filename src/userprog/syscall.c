@@ -16,17 +16,16 @@
 #include "threads/thread.h"
 
 
-// always check that buffer is valid (every syscall) - make sure pointer is valid 
-
 static void syscall_handler (struct intr_frame *);
 
-/* Need to modify syscall function names. e.g. open -> sysopen. Otherwise may have include errors. */
-
+/* This function checks whether a user pointer passed into a function
+  as a parameter (for a syscall) is actually valid (i.e. not null,
+  not in kernel memory, and mapped). */
 bool 
 valid_user_pointer (void* user_pointer, unsigned size) 
 {
   struct thread *cur = thread_current ();
-  /* The user can pass a null pointer, a pointer to unmapped virtual memory, or a pointer to kernel virtual address space (above PHYS_BASE). */
+  /* Null pointer. */
   if (user_pointer == NULL)
   {
     return false;
@@ -36,7 +35,8 @@ valid_user_pointer (void* user_pointer, unsigned size)
   {
     return false;
   }
-  /* Pointer of end of buffer to kernel virtual address space (above PHYS_BASE). */
+  /* Pointer of end of buffer to kernel virtual 
+    address space (above PHYS_BASE). */
   if (!is_user_vaddr ((void *) (user_pointer + size)))
   {
     return false;
@@ -46,10 +46,11 @@ valid_user_pointer (void* user_pointer, unsigned size)
   {
     return false;
   }
-
   return true;
 }
 
+/* This function makes sure that the command line arguments 
+  passed in are valid. */
 int
 get_valid_argument (int* esp, int i)
 {
@@ -68,8 +69,6 @@ get_valid_argument (int* esp, int i)
   if (!valid_user_pointer ((int *)((char*)(esp + i) + 3), 0))
     sysexit (-1);
 
-  char* arg = *(esp + i);
-
   return *(esp + i);
 }
 
@@ -79,10 +78,12 @@ syscall_init (void)
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
 }
 
+/* Call the respective syscall based on the syscall number. 
+  Make sure it is called in a critical section to avoid 
+  race conditions. */
 static void
 syscall_handler (struct intr_frame *f UNUSED) 
 {
-  // printf ("system call! system call! system call!\n");
   /* System call number is pushed onto stack as uint32_t. */
   int* esp = f->esp;
   if (!get_valid_argument (esp, 0)) sysexit (-1);
@@ -90,19 +91,15 @@ syscall_handler (struct intr_frame *f UNUSED)
   /* Use char* to get arguments. */
   struct lock sys_lock;
   lock_init(&sys_lock);
-  //&sys_lock->holder = thread_current();
   if (syscall_number == SYS_EXIT)
   {
     int status = (int) get_valid_argument (esp, 1);
-    //lock_acquire(sys_lock);
     sysexit (status);
-    //lock_release(sys_lock);
   }
   else if (syscall_number == SYS_EXEC)
   {
     lock_acquire(&sys_lock);
     char* cmd_line = (char*) get_valid_argument (esp, 1);
-    
     f->eax = sysexec (cmd_line);
     lock_release(&sys_lock);
   }
@@ -116,7 +113,6 @@ syscall_handler (struct intr_frame *f UNUSED)
   else if (syscall_number == SYS_OPEN)
   {
     lock_acquire(&sys_lock);
-    /* Cast warning, why integer? But we have to cast to char* anyway. */
     char* file = (char*)get_valid_argument (esp, 1);
     
     f->eax = (uint32_t) sysopen (file);
@@ -195,13 +191,16 @@ syscall_handler (struct intr_frame *f UNUSED)
   }
 }
 
+/* If a child process is in its parent's child_exit_status list, the parent is 
+  still waiting for it, which means we need to call sema_up and resume the parent 
+  process. */
 bool
 child_is_waiting (struct exit_status_struct* child_es)
 {
   struct thread *cur = thread_current ();
-  /* No need to acquire lock because we call this in cur->list_lock. */
   struct list_elem *e;
-  for (e = list_begin (&cur->parent->children_exit_status_list); e != list_end (&cur->parent->children_exit_status_list);
+  for (e = list_begin (&cur->parent->children_exit_status_list); 
+      e != list_end (&cur->parent->children_exit_status_list);
        e = list_next (e))
     {
       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
@@ -223,14 +222,13 @@ sysexit (int status)
     cur->exit_status->exit_status = status;
     sema_up (&cur->exit_status->sema_wait_for_child);
   }
-  // else
-  // {
-  //   cur->exit_status->terminated = 1;
-  // }
+  else
+  {
+    cur->exit_status->terminated = 1;
+  }
   lock_release (&cur->list_lock);
   if (!cur->kernel)
   {
-    /* Whenever a user process terminates, because it called exit or for any other reason, print the process's name and exit code. */
     printf ("%s: exit(%d)\n", thread_current ()->name, status);
   }
   thread_exit ();
@@ -246,7 +244,7 @@ sysopen (const char *file_name)
   if (!file_name)
     sysexit (-1);
 
-  char* ret = file_name;
+  char* ret = (char *) file_name;
   while (*ret) {
     if (ret + 1)
     {
@@ -284,14 +282,12 @@ sysopen (const char *file_name)
   return -1;
 }
 
-
 int
 syswait (int pid)
 {
    return process_wait (pid);
 }
 
-// could check here whether file is executable and deny writes (if other implementation doesn't work)
 int
 syswrite (int fd, const void * buffer, unsigned size)
 {
@@ -322,65 +318,28 @@ syswrite (int fd, const void * buffer, unsigned size)
     {
       sysexit(-1);
     }
-    //if (f->is_rox) file_deny_write(f);
-    //printf("%s\n", f->deny_write);
-    // if (f == NULL) sysexit(-1);
-    //else if (f->deny_write == true) 
-    //{
-      //printf("%s\n", "try writing to executables");
-      //ans = 0;
-    //}
     else 
     {
-      //printf("%s\n", "normal write");
       ans = file_write (f, buffer, size);
     }
   }
   return ans;
-  // kernel panik
 }
 
 tid_t 
 sysexec (const char * cmd_line)
 {
-  
-  // // printf("%s%s\n", "address1: ", cmd_line);
   if (!valid_user_pointer ((void *) cmd_line, 0))
     sysexit (-1);
 
-  // if (!valid_user_pointer ((void *) cmd_line, strlen(cmd_line)))
-  //   sysexit (-1);
-  char* ret = cmd_line;
+  char* ret = (char *) cmd_line;
   while (*ret) {
     if (!valid_user_pointer (++ret, 0))
       sysexit (-1);
   }
-  // int i = 1;
-  // do
-  // {
-  //   if (!valid_user_pointer ((char*)cmd_line, i))
-  //     sysexit (-1);
-  //   i++;
-  // } while (cmd_line[i]);
-  
-  // printf ("valid_user_pointer %d\n", valid_user_pointer ((void *) cmd_line, strlen(cmd_line)));
-  // for (int i=0; i<= strlen(cmd_line); i++)
-  // {
-  //   if (!valid_user_pointer ((void *) cmd_line, i))
-  //     sysexit (-1);
-  // }
-
-  // char* save_ptr;
-  // char* file_name = strtok_r ((const char *) cmd_line, " ", &save_ptr);
-  // struct file *file = filesys_open (file_name);
-  // if (file == NULL) 
-  // {
-  //   return -1; 
-  // }
 
   tid_t pid = process_execute (cmd_line);
   return pid;
-  // kernel panik
 }
 
 void 
@@ -394,13 +353,14 @@ syscreate (const char *file, unsigned initial_size)
 {
 
   bool ans = false;
-  if (!valid_user_pointer ((void *) file, 0) || !valid_user_pointer ((void *) file, initial_size))
+  if (!valid_user_pointer ((void *) file, 0) || 
+      !valid_user_pointer ((void *) file, initial_size))
   {
     sysexit(-1);
   }
 
 
-  char* ret = file;
+  char* ret = (char *) file;
   while (*ret) {
     if (!valid_user_pointer (++ret, 0))
       sysexit (-1);
@@ -417,7 +377,7 @@ syscreate (const char *file, unsigned initial_size)
 bool 
 sysremove (const char *file) 
 {
-  char* ret = file;
+  char* ret = (char *) file;
   while (*ret) {
     if (!valid_user_pointer (++ret, 0))
       sysexit (-1);
@@ -441,7 +401,8 @@ sysread (int fd, void *buffer, unsigned size)
     sysexit(-1);
   }
   
-  if (!valid_user_pointer (buffer, 0) || !valid_user_pointer (buffer, size))
+  if (!valid_user_pointer (buffer, 0) || 
+      !valid_user_pointer (buffer, size))
   {
     sysexit (-1);
   }
@@ -461,7 +422,6 @@ sysread (int fd, void *buffer, unsigned size)
     else ans = file_read (f, buffer, size);
   }
   return ans;
-  // kernel panik
 }
 void 
 sysseek (int fd, unsigned position) 
