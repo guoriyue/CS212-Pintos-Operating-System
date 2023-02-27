@@ -1,0 +1,28 @@
+FAIL
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (args) begin
+  (args) argc = 2
+  (args) argv[0] = 'args-single'
+  (args) argv[1] = 'onearg'
+  (args) argv[2] = null
+  (args) end
+  args-single: exit(0)
+Differences in `diff -u' format:
+- (args) begin
+- (args) argc = 2
+- (args) argv[0] = 'args-single'
+- (args) argv[1] = 'onearg'
+- (args) argv[2] = null
+- (args) end
+- args-single: exit(0)
++ start page_fault
++ Page fault at 0x8048800: not present error reading page in user context.
++ args-single: dying due to interrupt 0x0e (#PF Page-Fault Exception).
++ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048800
++  cr2=08048800 error=00000004
++  eax=00000000 ebx=00000000 ecx=00000000 edx=00000000
++  esi=00000000 edi=00000000 esp=bfffffd4 ebp=00000000
++  cs=001b ds=0023 es=0023 ss=0023
++ args-single: exit(-1)
