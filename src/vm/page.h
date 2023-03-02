@@ -1,0 +1,76 @@
+#include <inttypes.h>
+#include <round.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <list.h>
+/* Need typedef and repeat name. */
+typedef enum page_location
+{
+    MAP_MEMORY,
+    // in memory mapped
+    SWAP_BLOCK,
+    // in swap block
+    FILE_SYSTEM,
+    // in file system
+} page_location;
+
+struct supplementary_page_table_entry
+{
+    struct lock page_lock;
+    page_location location;
+    void* pid;
+    void* fid;
+<<<<<<< HEAD
+    void* sid;
+=======
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
+    bool writable;
+    struct list_elem supplementary_page_table_entry_elem;
+    // uint32_t *pte;
+
+    size_t page_read_bytes;
+    size_t page_zero_bytes;
+
+    struct file *file;
+<<<<<<< HEAD
+    int32_t file_ofs; // int32_t
+    uint32_t **pagedir;
+=======
+    off_t file_ofs;
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
+};
+
+struct supplementary_page_table_entry* supplementary_page_table_entry_create
+(void* pid,
+bool writable,
+page_location location,
+size_t page_read_bytes,
+size_t page_zero_bytes,
+struct file* file,
+<<<<<<< HEAD
+int32_t file_ofs);
+=======
+off_t file_ofs);
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
+
+void supplementary_page_table_entry_insert (struct supplementary_page_table_entry* e);
+void load_page_from_swap_block (struct supplementary_page_table_entry* spte);
+void load_page_from_map_memory (struct supplementary_page_table_entry* spte);
+void load_page_from_file_system (struct supplementary_page_table_entry* spte);
+struct supplementary_page_table_entry* supplementary_page_table_entry_find
+(void* vaddr);
+
+bool
+install_page_copy (void *upage, void *kpage, bool writable);
+<<<<<<< HEAD
+
+void
+evict_page_map(struct supplementary_page_table_entry* spte);
+void 
+evict_page_file (struct supplementary_page_table_entry* spte);
+void
+evict_page_swap (struct supplementary_page_table_entry* spte);
+=======
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
