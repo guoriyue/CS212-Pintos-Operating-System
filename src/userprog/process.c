@@ -566,7 +566,10 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
           return false;
       }
       supplementary_page_table_entry_insert (spte);
+<<<<<<< HEAD
       
+=======
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 
       /* Advance. */
       read_bytes -= page_read_bytes;
@@ -579,6 +582,10 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
   return true;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 /* Create a minimal stack by mapping a zeroed page at the top of
    user virtual memory. */
 static bool

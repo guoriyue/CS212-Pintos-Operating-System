@@ -126,6 +126,10 @@ struct thread
 
     bool kernel;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
     
     struct lock supplementary_page_table_lock;
     struct list supplementary_page_table;
