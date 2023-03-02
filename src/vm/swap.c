@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include <inttypes.h>
 #include <round.h>
 #include <stdio.h>
@@ -67,6 +66,3 @@ swap_block_read (void *kaddr, uint32_t slot)
     swap_table.swap_slots[swap_table.swap_slot_current] = slot;
     lock_release (&swap_table.swap_table_lock);
 }
-=======
-#include "vm/swap.h"
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f

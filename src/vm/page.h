@@ -22,10 +22,7 @@ struct supplementary_page_table_entry
     page_location location;
     void* pid;
     void* fid;
-<<<<<<< HEAD
     void* sid;
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
     bool writable;
     struct list_elem supplementary_page_table_entry_elem;
     // uint32_t *pte;
@@ -34,12 +31,8 @@ struct supplementary_page_table_entry
     size_t page_zero_bytes;
 
     struct file *file;
-<<<<<<< HEAD
     int32_t file_ofs; // int32_t
     uint32_t **pagedir;
-=======
-    off_t file_ofs;
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 };
 
 struct supplementary_page_table_entry* supplementary_page_table_entry_create
@@ -49,11 +42,7 @@ page_location location,
 size_t page_read_bytes,
 size_t page_zero_bytes,
 struct file* file,
-<<<<<<< HEAD
 int32_t file_ofs);
-=======
-off_t file_ofs);
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 
 void supplementary_page_table_entry_insert (struct supplementary_page_table_entry* e);
 void load_page_from_swap_block (struct supplementary_page_table_entry* spte);
@@ -64,7 +53,6 @@ struct supplementary_page_table_entry* supplementary_page_table_entry_find
 
 bool
 install_page_copy (void *upage, void *kpage, bool writable);
-<<<<<<< HEAD
 
 void
 evict_page_map(struct supplementary_page_table_entry* spte);
@@ -72,5 +60,3 @@ void
 evict_page_file (struct supplementary_page_table_entry* spte);
 void
 evict_page_swap (struct supplementary_page_table_entry* spte);
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f

@@ -11,11 +11,7 @@
 #include "userprog/pagedir.h"
 #include "vm/page.h"
 #include "vm/frame.h"
-<<<<<<< HEAD
 // #include "vm/swap.h"
-=======
-#include "vm/swap.h"
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 
 /* Number of page faults processed. */
 static long long page_fault_cnt;
@@ -162,7 +158,6 @@ page_fault (struct intr_frame *f)
   write = (f->error_code & PF_W) != 0;
   user = (f->error_code & PF_U) != 0;
 
-<<<<<<< HEAD
   if (fault_addr == NULL) {
    kill (f);
   }
@@ -170,24 +165,10 @@ page_fault (struct intr_frame *f)
   if (!is_user_vaddr (fault_addr)) {
    // thread_exit ();
    kill (f);
-=======
-  if(!is_user_vaddr (fault_addr)) {
-   thread_exit ();
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
   }
   // printf ("supplementary_page_table_entry_find page_fault\n");
   // bad read
   if (not_present && user) {
-<<<<<<< HEAD
-=======
-   // printf ("Page working at %p: %s working %s page in %s context.\n",
-   //             fault_addr,
-   //             not_present ? "not present" : "rights violation",
-   //             write ? "writing" : "reading",
-   //             user ? "user" : "kernel");
-   // kill(f);
-   // Locate the page that faulted.
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 
    struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (fault_addr);
 
@@ -218,7 +199,6 @@ page_fault (struct intr_frame *f)
       {
          sysexit (-1);
       }
-<<<<<<< HEAD
       // if (!success) {
       //       sysexit (-1);
       //   } else {
@@ -245,41 +225,6 @@ page_fault (struct intr_frame *f)
 
    return ;
   }
-=======
-   }
-   else
-   {
-      printf ("stack_growth\n");
-      // printf ("null spte\n");
-      /* Grow stack. */
-      if ((fault_addr == f->esp - 4 || fault_addr == f->esp - 32)
-         && (uint32_t) fault_addr >= (uint32_t) (PHYS_BASE - 8 * 1024 * 1024) // 8 MB stack size
-         && (uint32_t) fault_addr <= (uint32_t) PHYS_BASE)
-      {
-         // printf ("stack_growth\n");
-         stack_growth (fault_addr);
-      }
-      
-   }
-
-
-   return ;
-  }
-//   else
-//   {
-//       // printf ("Page fault at %p: %s error %s page in %s context.\n",
-//       //          fault_addr,
-//       //          not_present ? "not present" : "rights violation",
-//       //          write ? "writing" : "reading",
-//       //          user ? "user" : "kernel");
-//       kill (f);
-//       // sysexit(-1);
-//   }
-
-
-
-  // printf ("done supplementary_page_table_entry_find page_fault\n");
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 
   printf ("Page fault at %p: %s error %s page in %s context.\n",
           fault_addr,
@@ -292,10 +237,7 @@ page_fault (struct intr_frame *f)
 void
 stack_growth (void *fault_addr)
 {
-<<<<<<< HEAD
    // printf ("stack_growth start\n");
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
    void* spid = pg_round_down (fault_addr);
    bool writable = true;
 
@@ -313,20 +255,14 @@ stack_growth (void *fault_addr)
       file,
       file_ofs
    );
-<<<<<<< HEAD
    // printf ("stack_growth reach here\n");
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
    if (spte == NULL) {
       sysexit (-1);
       return ;
    }
    supplementary_page_table_entry_insert (spte);
 
-<<<<<<< HEAD
    // frame_handler_palloc(true, spte, false, true);
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
    void* kaddr = palloc_get_page (PAL_USER | PAL_ZERO);
    struct frame_table_entry fte;
    if (kaddr)
@@ -336,12 +272,8 @@ stack_growth (void *fault_addr)
    }
    else
    {
-<<<<<<< HEAD
       printf ("eviction need!\n");
       fte.frame = frame_table_evict();
-=======
-      printf ("eviction\n");
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
    }
    memset (fte.frame, 0, PGSIZE);
 
