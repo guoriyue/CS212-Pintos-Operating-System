@@ -4,7 +4,8 @@ userprog/exception.o: ../../userprog/exception.c \
  ../../lib/stdbool.h ../../lib/stddef.h ../../lib/kernel/stdio.h \
  ../../userprog/gdt.h ../../threads/loader.h ../../threads/interrupt.h \
  ../../threads/thread.h ../../lib/kernel/list.h ../../threads/synch.h \
- ../../filesys/file.h ../../filesys/off_t.h ../../threads/vaddr.h \
+ ../../filesys/file.h ../../filesys/off_t.h ../../vm/mmap.h \
+ ../../lib/kernel/hash.h ../../lib/kernel/list.h ../../threads/vaddr.h \
  ../../threads/palloc.h ../../userprog/syscall.h ../../userprog/pagedir.h \
  ../../vm/page.h ../../lib/round.h ../../lib/stdlib.h ../../lib/string.h \
- ../../vm/frame.h ../../vm/swap.h
+ ../../vm/frame.h

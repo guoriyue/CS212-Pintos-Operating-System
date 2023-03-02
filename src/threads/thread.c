@@ -15,6 +15,8 @@
 #ifdef USERPROG
 #include "userprog/process.h"
 #endif
+#include "vm/mmap.h"
+#include <hash.h>
 
 /* Random value for struct thread's `magic' member.
    Used to detect stack overflow.  See the big comment at the top
@@ -212,6 +214,11 @@ thread_create (const char *name, int priority,
 
   
   list_push_back (&t->parent->children_exit_status_list, &es->exit_status_elem);
+
+  /* For assignment 3. */
+
+  list_init (&t->supplementary_page_table);
+  lock_init (&t->supplementary_page_table_lock);
 
   /* Add to run queue. */
   thread_unblock (t);

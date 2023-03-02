@@ -1,5 +1,14 @@
 FAIL
-Kernel panic in run: PANIC at ../../lib/kernel/list.c:171 in list_insert(): assertion `is_interior (before) || is_tail (before)' failed.
-Call stack: 0xc002885f
-Translation of call stack:
-0xc002885f: debug_panic (.../../lib/kernel/debug.c:38)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (read-boundary) begin
+  (read-boundary) open "sample.txt"
+  (read-boundary) end
+  read-boundary: exit(0)
+Differences in `diff -u' format:
+  (read-boundary) begin
+  (read-boundary) open "sample.txt"
+- (read-boundary) end
+- read-boundary: exit(0)
++ read-boundary: exit(-1)

@@ -11,6 +11,7 @@ struct frame_table_entry
 {
   uint32_t *frame;
   struct lock frame_lock;
+  struct supplementary_page_table_entry *spte;
 };
 
 struct frame_table
@@ -18,6 +19,7 @@ struct frame_table
   size_t frame_table_entry_number;
   struct frame_table_entry *frame_table_entry;
   uint8_t* base;
+  struct lock frame_table_lock;
 };
 
 struct frame_table *frame_table;

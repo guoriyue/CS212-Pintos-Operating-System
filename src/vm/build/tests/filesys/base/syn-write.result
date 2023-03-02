@@ -1,1 +1,2 @@
-PASS
+FAIL
+run: ((null)) open "stuff": FAILED

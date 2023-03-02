@@ -34,4 +34,7 @@ struct exit_status_struct
     int terminated;
 };
 
+
+// static bool install_page (void *upage, void *kpage, bool writable);
+
 #endif /* userprog/process.h */

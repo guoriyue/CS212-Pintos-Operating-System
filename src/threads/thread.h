@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include "threads/synch.h"
 #include "filesys/file.h"
-
+#include "vm/mmap.h"
+#include <hash.h>
 /* States in a thread's life cycle. */
 enum thread_status
   {
@@ -124,7 +125,6 @@ struct thread
     int file_handlers_number;
 
     bool kernel;
-
 
     
     struct lock supplementary_page_table_lock;

@@ -1,5 +1,16 @@
 {
     "files.associations": {
-        "pagedir.h": "c"
+        "pagedir.h": "c",
+        "syscall.h": "c",
+        "process.h": "c",
+        "inttypes.h": "c",
+        "malloc.h": "c",
+        "swap.h": "c",
+        "list.h": "c",
+        "synch.h": "c",
+        "page.h": "c",
+        "stdbool.h": "c",
+        "vaddr.h": "c",
+        "block.h": "c"
     }
 }
