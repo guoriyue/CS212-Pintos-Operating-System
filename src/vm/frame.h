@@ -29,3 +29,7 @@ size_t frame_table_scan (struct frame_table *f, size_t start, size_t cnt);
 bool frame_table_empty (struct frame_table *f, size_t start, size_t cnt);
 uint32_t
 frame_table_get_id (void* kaddr);
+struct frame_table_entry* frame_table_evict (void);
+void
+frame_table_entry_free (struct supplementary_page_table_entry* spte);
+void clock_algorithm (void);

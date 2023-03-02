@@ -11,6 +11,7 @@
         "page.h": "c",
         "stdbool.h": "c",
         "vaddr.h": "c",
-        "block.h": "c"
+        "block.h": "c",
+        "palloc.h": "c"
     }
 }

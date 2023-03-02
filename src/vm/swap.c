@@ -16,7 +16,7 @@ swap_table_init (void)
     swap_table.max_swap_slots_number_per_page = (PGSIZE / BLOCK_SECTOR_SIZE);
     swap_table.swap_slots_number = block_size (swap_table.swap_block) / swap_table.max_swap_slots_number_per_page;
     swap_table.swap_slots = malloc (swap_table.swap_slots_number * sizeof(uint32_t));
-    for (int i = 0; i < swap_table.swap_slots_number; i++)
+    for (uint32_t i = 0; i < swap_table.swap_slots_number; i++)
     {
         swap_table.swap_slots[i] = i;
     }
@@ -29,7 +29,7 @@ uint32_t
 swap_block_write (void *kaddr)
 {
     uint32_t slot;
-
+    ASSERT (&swap_table.swap_table_lock != NULL);
     lock_acquire (&swap_table.swap_table_lock);
     if (swap_table.swap_slot_current >= swap_table.swap_slots_number)
     {
@@ -38,11 +38,11 @@ swap_block_write (void *kaddr)
     slot = swap_table.swap_slots[swap_table.swap_slot_current];
     swap_table.swap_slot_current++;
     
-    for (int i = 0; i < swap_table.max_swap_slots_number_per_page; i++)
+    for (uint32_t i = 0; i < swap_table.max_swap_slots_number_per_page; i++)
     {
         block_sector_t sector = slot * swap_table.max_swap_slots_number_per_page + i;
         void *buffer = kaddr + i * BLOCK_SECTOR_SIZE;
-        block_write (swap_table.swap_slots, sector, buffer);
+        block_write (swap_table.swap_block, sector, buffer);
     }
     lock_release (&swap_table.swap_table_lock);
     return slot;
@@ -54,12 +54,13 @@ void
 swap_block_read (void *kaddr, uint32_t slot)
 {
     block_sector_t sector;
+    ASSERT (&swap_table.swap_table_lock != NULL);
     lock_acquire (&swap_table.swap_table_lock);
-    for (int i = 0; i < swap_table.max_swap_slots_number_per_page; i++)
+    for (uint32_t i = 0; i < swap_table.max_swap_slots_number_per_page; i++)
     {
         block_sector_t sector = slot * swap_table.max_swap_slots_number_per_page + i;
         void *buffer = kaddr + i * BLOCK_SECTOR_SIZE;
-        block_read (swap_table.swap_slots, sector, buffer);
+        block_read (swap_table.swap_block, sector, buffer);
     }
     
     swap_table.swap_slot_current--;

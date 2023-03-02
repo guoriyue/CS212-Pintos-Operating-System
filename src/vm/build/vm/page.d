@@ -6,4 +6,5 @@ vm/page.o: ../../vm/page.c ../../lib/inttypes.h ../../lib/stdint.h \
  ../../filesys/off_t.h ../../vm/mmap.h ../../lib/kernel/hash.h \
  ../../lib/kernel/list.h ../../threads/pte.h ../../threads/vaddr.h \
  ../../threads/loader.h ../../threads/palloc.h ../../vm/page.h \
- ../../vm/frame.h ../../userprog/syscall.h ../../userprog/pagedir.h
+ ../../vm/frame.h ../../vm/swap.h ../../devices/block.h \
+ ../../userprog/syscall.h ../../userprog/pagedir.h

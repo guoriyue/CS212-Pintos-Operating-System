@@ -10,6 +10,7 @@
 #include "threads/palloc.h"
 #include "vm/page.h"
 #include "vm/frame.h"
+#include "vm/swap.h"
 #include "filesys/file.h"
 #include "userprog/syscall.h"
 #include "userprog/pagedir.h"
@@ -39,13 +40,14 @@ off_t file_ofs)
   spte->file = file;
   spte->file_ofs = file_ofs;
 
-  spte->pagedir = &thread_current()->pagedir;
+  spte->pagedir = thread_current()->pagedir;
 
   return spte;
 }
 
 void supplementary_page_table_entry_insert (struct supplementary_page_table_entry* spte)
 {
+  ASSERT (&spte->page_lock != NULL);
   lock_acquire (&spte->page_lock);
   list_push_back (&thread_current ()->supplementary_page_table, &spte->supplementary_page_table_entry_elem);
   lock_release (&spte->page_lock);
@@ -98,7 +100,7 @@ void load_page_from_file_system (struct supplementary_page_table_entry* spte)
   else
   {
     printf ("eviction need!\n");
-    fte.frame = frame_table_evict();
+    fte.frame = frame_table_evict ();
   }
 
   /* All zero page. */
@@ -157,12 +159,13 @@ evict_page_swap (struct supplementary_page_table_entry* spte)
 {
   struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
   uint32_t sid = swap_block_write (fte.frame);
-  spte->sid = sid;
+  spte->sid = &sid;
 }
 
 void 
 evict_page_file (struct supplementary_page_table_entry* spte)
 {
+  ASSERT (&spte->page_lock != NULL);
   lock_acquire (&spte->page_lock);
   uint32_t* pagedir = spte->pagedir;
   // struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
@@ -178,14 +181,16 @@ evict_page_file (struct supplementary_page_table_entry* spte)
 void
 evict_page_map(struct supplementary_page_table_entry* spte)
 {
+  ASSERT (&spte->page_lock != NULL);
   lock_acquire (&spte->page_lock);
   if (pagedir_is_dirty (spte->pagedir, spte->pid))
   {
     pagedir_set_dirty (spte->pagedir, spte->pid, false);
     struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
+    ASSERT (&fte.frame_lock != NULL);
     lock_acquire (&fte.frame_lock);
     file_write_at (spte->file, fte.frame, spte->page_read_bytes, spte->file_ofs);
-    lock_acquire (&fte.frame_lock);
+    lock_release (&fte.frame_lock);
   }
   lock_release (&spte->page_lock);
 }

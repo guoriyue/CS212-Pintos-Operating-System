@@ -32,7 +32,7 @@ struct supplementary_page_table_entry
 
     struct file *file;
     int32_t file_ofs; // int32_t
-    uint32_t **pagedir;
+    uint32_t *pagedir;
 };
 
 struct supplementary_page_table_entry* supplementary_page_table_entry_create
