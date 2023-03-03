@@ -21,20 +21,17 @@ page_location location,
 size_t page_read_bytes,
 size_t page_zero_bytes,
 struct file* file,
-off_t file_ofs)
+off_t file_ofs,
+struct thread *thread)
 {
   struct supplementary_page_table_entry* spte = malloc (sizeof(struct supplementary_page_table_entry));
   lock_init (&spte->page_lock);
   
   spte->pid = pid;
-<<<<<<< HEAD
-  spte->sid = NULL; 
-  spte->fid = NULL; 
-
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
   spte->writable = writable;
   spte->location = location;
+  spte->mmap_dirty = false;
+  spte->thread = thread_current();
 
   spte->page_read_bytes = page_read_bytes;
   spte->page_zero_bytes = page_zero_bytes;
@@ -42,11 +39,6 @@ off_t file_ofs)
   spte->file = file;
   spte->file_ofs = file_ofs;
 
-<<<<<<< HEAD
-  spte->pagedir = &thread_current()->pagedir;
-
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
   return spte;
 }
 
@@ -74,6 +66,21 @@ struct supplementary_page_table_entry* supplementary_page_table_entry_find
   return NULL;
 }
 
+void clear_supplementary_page_table (void)
+{
+  struct thread* cur = thread_current ();
+  struct list_elem *e;
+  for (e = list_begin (&cur->supplementary_page_table); e != list_end (&cur->supplementary_page_table);
+      e = list_next (e))
+  {
+    struct supplementary_page_table_entry* spte = list_entry (e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
+    if (spte->location == MAP_MEMORY) {
+      mapid_t mapping = (int)spte->pid >> 12;
+      sysmunmap(mapping);
+    }
+  }
+}
+
 void load_page_from_map_memory (struct supplementary_page_table_entry* spte)
 {
   // void* kaddr = palloc_get_page (PAL_USER);
@@ -97,42 +104,26 @@ void load_page_from_file_system (struct supplementary_page_table_entry* spte)
 
   if (kaddr)
   {
-<<<<<<< HEAD
-    spte->fid = (void*) frame_table_get_id (kaddr);
-    // Obtain a frame to store the page.
-    fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-=======
     // printf ("valid kaddr\n");
     spte->fid = (void*) frame_table_get_id (kaddr);
     // Obtain a frame to store the page.
     fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
     // printf ("frame id %d\n", (uint32_t) spte->fid);
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
   }
   else
   {
     printf ("eviction need!\n");
-<<<<<<< HEAD
-    fte.frame = frame_table_evict();
-=======
     // fte = frame_table_evict ();
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
   }
 
   /* All zero page. */
   if (spte->page_zero_bytes == PGSIZE)
   {
-<<<<<<< HEAD
-    memset (fte.frame, 0, PGSIZE);
-    if (install_page_copy (spte->pid, fte.frame, spte->writable))
-    {
-=======
     // printf ("all zero\n");
     memset (fte.frame, 0, PGSIZE);
     if (install_page_copy (spte->pid, fte.frame, spte->writable))
     {
       // printf ("++++1success map\n");
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
     }
     return ;
   }
@@ -145,23 +136,14 @@ void load_page_from_file_system (struct supplementary_page_table_entry* spte)
   {
     memset (fte.frame + spte->page_read_bytes, 0, PGSIZE - spte->page_read_bytes);
   }
-<<<<<<< HEAD
-  if (read_bytes != spte->page_read_bytes)
-  {
-=======
   // printf ("after read\n");
   if (read_bytes != spte->page_read_bytes)
   {
     // thread_exit();
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
     palloc_free_page (kaddr);
     sysexit (-1);
   }
 
-<<<<<<< HEAD
-  if (install_page_copy (spte->pid, fte.frame, spte->writable))
-  {
-=======
   // // Update the page table entry to point the virtual address to the new 
   // // physical address
   // struct thread *cur = thread_current ();
@@ -178,7 +160,6 @@ void load_page_from_file_system (struct supplementary_page_table_entry* spte)
   {
     // printf ("success map\n");
     // printf ("++++2success map\n");
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
   }
   else
   {
@@ -202,45 +183,29 @@ install_page_copy (void *upage, void *kpage, bool writable)
      address, then map our page there. */
   return (pagedir_get_page (t->pagedir, upage) == NULL
           && pagedir_set_page (t->pagedir, upage, kpage, writable));
-<<<<<<< HEAD
-} 
-
-void
-evict_page_swap (struct supplementary_page_table_entry* spte)
-{
-  struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-  uint32_t sid = swap_block_write (fte.frame);
-  spte->sid = sid;
 }
 
-void 
-evict_page_file (struct supplementary_page_table_entry* spte)
+
+bool supplementary_page_table_entry_find_between
+(void *start, void *end)
 {
-  lock_acquire (&spte->page_lock);
-  uint32_t* pagedir = spte->pagedir;
-  // struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-  
-  if (pagedir_is_dirty (spte->pagedir, spte->fid))
-  {
-    spte->location = SWAP_BLOCK;
-    evict_page_swap (spte);
-  }
-  lock_release (&spte->page_lock);
+    struct thread* cur = thread_current ();
+    //void* pid_target = pg_round_down (start);
+    //void* pid_end = pg_round_down (end);
+    struct list_elem *e;
+    for (e = list_begin (&cur->supplementary_page_table); e != list_end (&cur->supplementary_page_table);
+        e = list_next (e))
+    {
+      struct supplementary_page_table_entry* spte = list_entry (e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
+      int spte_size = file_length(spte->file);
+      if ((end >= spte->pid) && (end <= (void *)((int)spte->pid + spte_size))) {
+        return true;
+      }
+
+      if ((start >= spte->pid) && (start <= (void *)((int)spte->pid + spte_size))) {
+        return true;
+      }
+    }
+    return false;
 }
 
-void
-evict_page_map(struct supplementary_page_table_entry* spte)
-{
-  lock_acquire (&spte->page_lock);
-  if (pagedir_is_dirty (spte->pagedir, spte->pid))
-  {
-    pagedir_set_dirty (spte->pagedir, spte->pid, false);
-    struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-    lock_acquire (&fte.frame_lock);
-    file_write_at (spte->file, fte.frame, spte->page_read_bytes, spte->file_ofs);
-    lock_acquire (&fte.frame_lock);
-  }
-  lock_release (&spte->page_lock);
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
-}
