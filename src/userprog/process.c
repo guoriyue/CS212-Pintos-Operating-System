@@ -21,7 +21,9 @@
 #include "threads/vaddr.h"
 #include "threads/synch.h"
 #include "threads/malloc.h"
-
+#include "vm/frame.h"
+#include "vm/page.h"
+#include "vm/swap.h"
 static thread_func start_process NO_RETURN;
 static bool load (char *file_name, void (**eip) (void), void **esp, 
             char** command_arguments, int command_arguments_number);
@@ -193,7 +195,7 @@ process_exit (void)
  uint32_t *pd;
  /* Free terminated children threads. */
 
-
+ clear_supplementary_page_table ();
  struct list_elem *e;
  /* Acquire the lock of the list. */
  lock_acquire (&cur->list_lock);
@@ -373,6 +375,8 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
   t->pagedir = pagedir_create ();
   if (t->pagedir == NULL) 
     goto done;
+  
+
   process_activate ();
 
   file = filesys_open (file_name);
@@ -470,7 +474,7 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
   success = true;
 
  done:
-
+  // printf ("done load\n");
   return success;
 }
 
@@ -548,34 +552,34 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
          and zero the final PAGE_ZERO_BYTES bytes. */
       size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
       size_t page_zero_bytes = PGSIZE - page_read_bytes;
-
-      /* Get a page of memory. */
-      uint8_t *kpage = palloc_get_page (PAL_USER);
-      if (kpage == NULL)
-        return false;
-
-      /* Load this page. */
-      if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
-        {
-          palloc_free_page (kpage);
-          return false; 
-        }
-      memset (kpage + page_read_bytes, 0, page_zero_bytes);
-
-      /* Add the page to the process's address space. */
-      if (!install_page (upage, kpage, writable)) 
-        {
-          palloc_free_page (kpage);
-          return false; 
-        }
+      void* spid = pg_round_down (upage);
+      struct thread *thread = thread_current(); // for inherit
+      struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
+        spid,
+        writable,
+        FILE_SYSTEM,
+        page_read_bytes,
+        page_zero_bytes,
+        file,
+        ofs,
+        thread
+      );
+      if (spte == NULL) {
+          return false;
+      }
+      supplementary_page_table_entry_insert (spte);
 
       /* Advance. */
       read_bytes -= page_read_bytes;
       zero_bytes -= page_zero_bytes;
       upage += PGSIZE;
+      // DONT FORGET TO UPDATE OFFSET
+      ofs += page_read_bytes;
     }
+  // printf ("load segment return\n");
   return true;
 }
+
 
 /* Create a minimal stack by mapping a zeroed page at the top of
    user virtual memory. */
@@ -597,6 +601,24 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
       if (success)
       {
+
+        // Add first page to supplementary page table
+        struct file *file = filesys_open (file_name);
+        struct supplementary_page_table_entry* spte_null = supplementary_page_table_entry_create (
+        ((uint8_t *) PHYS_BASE) - PGSIZE,
+        true,
+        FILE_SYSTEM,
+        0,
+        PGSIZE,
+        file,
+        0,
+        thread_current()
+        );
+        if (spte_null == NULL) {
+            return false;
+        }
+        supplementary_page_table_entry_insert (spte_null);
+
         /* Argument passing. */
         *esp = PHYS_BASE;
 
