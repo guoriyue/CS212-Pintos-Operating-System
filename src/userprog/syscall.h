@@ -1,6 +1,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "threads/thread.h"
+#include "lib/user/syscall.h"
+
 #ifndef USERPROG_SYSCALL_H
 #define USERPROG_SYSCALL_H
 
@@ -22,5 +24,7 @@ int sysread (int fd, void *buffer, unsigned size);
 void sysseek (int fd, unsigned position);
 unsigned systell (int fd);
 void sysclose (int fd);
+mapid_t sysmmap (int fd, void *addr);
+void sysmunmap (mapid_t mapping);
 
 #endif /* userprog/syscall.h */
