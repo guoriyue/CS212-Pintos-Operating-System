@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include "threads/synch.h"
 #include "filesys/file.h"
-
+#include "vm/mmap.h"
+#include <hash.h>
 /* States in a thread's life cycle. */
 enum thread_status
   {
@@ -101,6 +102,7 @@ struct thread
     uint32_t *pagedir;                  /* Page directory. */
 #endif
 
+
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
 
@@ -111,6 +113,9 @@ struct thread
 
     /* List lock for children_exit_status_list. */
     struct lock list_lock;
+
+    struct lock spte_table_lock;
+    struct lock pagedir_lock;
     
     /* Current thread's exit status. */
     struct exit_status_struct *exit_status;
@@ -123,6 +128,9 @@ struct thread
     int file_handlers_number;
 
     bool kernel;
+
+    struct lock supplementary_page_table_lock;
+    struct list supplementary_page_table;
   };
 
 /* If false (default), use round-robin scheduler.
