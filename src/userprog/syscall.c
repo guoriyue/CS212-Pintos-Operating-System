@@ -1,7 +1,9 @@
 #include "userprog/syscall.h"
 #include "userprog/pagedir.h"
 #include "userprog/process.h"
+#include "userprog/exception.h"
 #include <stdio.h>
+#include <round.h>
 #include <syscall-nr.h>
 #include <string.h>
 #include "threads/interrupt.h"
@@ -12,9 +14,13 @@
 #include "filesys/file.h"
 #include "devices/shutdown.h"
 #include "threads/malloc.h"
+#include "threads/palloc.h"
 #include "devices/input.h"
 #include "threads/thread.h"
-
+#include "lib/user/syscall.h"
+#include "vm/frame.h"
+#include "vm/page.h"
+#include "vm/swap.h"
 
 static void syscall_handler (struct intr_frame *);
 
@@ -186,7 +192,24 @@ syscall_handler (struct intr_frame *f UNUSED)
     lock_acquire(&sys_lock);
     sysclose (fd);
     lock_release(&sys_lock);
-  } else {
+  } 
+  else if (syscall_number == SYS_MMAP)
+  {
+    int fd = get_valid_argument (esp, 1);
+    void * addr = (void *)get_valid_argument (esp, 2);
+    lock_acquire(&sys_lock);
+    f->eax = (uint32_t) sysmmap (fd, addr);
+    lock_release(&sys_lock);
+    
+  } 
+  else if (syscall_number == SYS_MUNMAP)
+  {
+    mapid_t mapping = (mapid_t) get_valid_argument (esp, 1);
+    lock_acquire(&sys_lock);
+    sysmunmap (mapping);
+    lock_release(&sys_lock);
+  } 
+  else {
     sysexit (-1);
   }
 }
@@ -237,7 +260,7 @@ sysexit (int status)
 int
 sysopen (const char *file_name)
 {
-  if (!valid_user_pointer ((void *) file_name, 0))
+  if (!valid_user_pointer ((void *) file_name, 0)) 
     sysexit (-1);
   if (!valid_user_pointer ((void *) file_name, strlen (file_name)))
     sysexit (-1);
@@ -256,7 +279,6 @@ sysopen (const char *file_name)
       sysexit (-1);
     }
   }
-  
   struct file *f = filesys_open (file_name);
   if (f)
   {
@@ -400,7 +422,6 @@ sysread (int fd, void *buffer, unsigned size)
   {
     sysexit(-1);
   }
-  
   if (!valid_user_pointer (buffer, 0) || 
       !valid_user_pointer (buffer, size))
   {
@@ -460,4 +481,68 @@ sysclose (int fd)
   struct file *f = cur->file_handlers[fd];
   file_close (f);
   cur->file_handlers_number--;
+}
+
+mapid_t 
+sysmmap (int fd, void *addr)
+{
+  if (fd > (thread_current()->file_handlers_number - 1)) return -1;
+  if (fd == 0) return -1;   // stdin not mappable
+  if (fd == 1) return -1;   // stdout not mappable
+  if (sysfilesize(fd) == 0) sysexit(-1);  // file size 0 bytes
+  if ((int) addr % PGSIZE != 0) return -1;    // addr not page aligned
+  if (addr == NULL) return -1;
+
+  struct file *f = thread_current()->file_handlers[fd];
+  struct file *f_reopened = file_reopen(f);
+  //void* spid = pg_round_down (addr);
+  void* spid = addr;
+  bool writable = true; 
+  page_location location = MAP_MEMORY;
+  int file_size = sysfilesize(fd);
+  size_t page_read_bytes = sysfilesize(fd);
+  size_t page_zero_bytes = ((size_t) ROUND_UP(file_size, PGSIZE)) - ((size_t) file_size);
+  struct thread *thread = thread_current(); // for inherit
+  struct supplementary_page_table_entry *spte = supplementary_page_table_entry_create
+    (spid, writable, location, page_read_bytes,
+    page_zero_bytes, f_reopened, 0, thread);
+  struct supplementary_page_table_entry* spte_temp = supplementary_page_table_entry_find
+    (addr);
+
+  if (spte_temp != NULL) return -1; // address mapped already (stack/code/data)
+  if (supplementary_page_table_entry_find_between (spid, (void *)((int)spid + file_size))) return -1;
+  supplementary_page_table_entry_insert (spte);
+  mapid_t mid = (int)spid >> 12;
+  return mid;
+}
+
+void 
+sysmunmap (mapid_t mapping)
+{
+  //void *vaddr = (void *)mapping << 12;
+  //struct supplementary_page_table_entry *spte = supplementary_page_table_entry_find
+    //(vaddr);
+  void *uaddr;
+  //if (spte == NULL) sysexit(-1); // unmapping an unmapped file
+  struct list_elem *e;
+  struct thread *cur = thread_current();
+  lock_acquire (&cur->supplementary_page_table_lock);
+  for (e = list_begin (&cur->supplementary_page_table); 
+       e != list_end (&cur->supplementary_page_table);
+       e = list_next (e))
+    {
+      struct supplementary_page_table_entry* spte = 
+        list_entry (e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
+      if ((((int)spte->pid) >> 12) == mapping) {
+        uaddr = spte->pid;
+        if (pagedir_is_dirty(cur->pagedir, uaddr)) {
+          file_write_at(spte->file, uaddr, PGSIZE, spte->file_ofs);
+        }
+        pagedir_clear_page(cur->pagedir, uaddr);
+        list_remove(&spte->supplementary_page_table_entry_elem);
+        //free(spte); 
+        break;
+      }
+    }
+  lock_release (&cur->supplementary_page_table_lock);
 }
