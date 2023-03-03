@@ -195,7 +195,7 @@ process_exit (void)
  uint32_t *pd;
  /* Free terminated children threads. */
 
-
+ clear_supplementary_page_table ();
  struct list_elem *e;
  /* Acquire the lock of the list. */
  lock_acquire (&cur->list_lock);
@@ -553,6 +553,7 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
       size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
       size_t page_zero_bytes = PGSIZE - page_read_bytes;
       void* spid = pg_round_down (upage);
+      struct thread *thread = thread_current(); // for inherit
       struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
         spid,
         writable,
@@ -560,16 +561,13 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
         page_read_bytes,
         page_zero_bytes,
         file,
-        ofs
+        ofs,
+        thread
       );
       if (spte == NULL) {
           return false;
       }
       supplementary_page_table_entry_insert (spte);
-<<<<<<< HEAD
-      
-=======
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 
       /* Advance. */
       read_bytes -= page_read_bytes;
@@ -582,10 +580,7 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
   return true;
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
 /* Create a minimal stack by mapping a zeroed page at the top of
    user virtual memory. */
 static bool
@@ -606,6 +601,24 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
       if (success)
       {
+
+        // Add first page to supplementary page table
+        struct file *file = filesys_open (file_name);
+        struct supplementary_page_table_entry* spte_null = supplementary_page_table_entry_create (
+        ((uint8_t *) PHYS_BASE) - PGSIZE,
+        true,
+        FILE_SYSTEM,
+        0,
+        PGSIZE,
+        file,
+        0,
+        thread_current()
+        );
+        if (spte_null == NULL) {
+            return false;
+        }
+        supplementary_page_table_entry_insert (spte_null);
+
         /* Argument passing. */
         *esp = PHYS_BASE;
 
