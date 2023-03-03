@@ -113,6 +113,9 @@ struct thread
 
     /* List lock for children_exit_status_list. */
     struct lock list_lock;
+
+    struct lock spte_table_lock;
+    struct lock pagedir_lock;
     
     /* Current thread's exit status. */
     struct exit_status_struct *exit_status;
@@ -126,11 +129,6 @@ struct thread
 
     bool kernel;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 45860a9dc820e02aa24dc9bdb7c15b0e081ccb8f
-    
     struct lock supplementary_page_table_lock;
     struct list supplementary_page_table;
   };
