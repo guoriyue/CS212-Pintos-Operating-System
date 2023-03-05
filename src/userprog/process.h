@@ -31,14 +31,11 @@ struct exit_status_struct
     int exit_status;
     struct semaphore sema_wait_for_child;
     struct list_elem exit_status_elem;
-    // int terminated;
-    // struct lock es_lock;
     bool child_terminated;
     bool parent_terminated;
     bool has_been_waited_on;
 };
 
 
-// static bool install_page (void *upage, void *kpage, bool writable);
 void notify_children_parent_is_terminated (void);
 #endif /* userprog/process.h */

@@ -17,6 +17,7 @@
         "thread.h": "c",
         "mmap.h": "c",
         "filesys.h": "c",
-        "frame.h": "c"
+        "frame.h": "c",
+        "file.h": "c"
     }
 }

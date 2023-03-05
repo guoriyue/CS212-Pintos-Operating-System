@@ -129,20 +129,9 @@ struct thread
     
     struct lock supplementary_page_table_lock;
     struct list supplementary_page_table;
-   //  struct supp_pagedir *supp_pagedir;
 
     /* pagedir lock */
     struct lock pagedir_lock;
-   //  /* spte table lock */
-   //  struct lock spte_table_lock;
-   //  /* Supplementary Page Table */
-   //  struct hash spte_table;
-
-   //  /* Next mapid_t to use */
-   //  mapid_t mapid_counter;
-
-   //  /* List of mmapped files */
-   //  struct list mmapped_files;
   };
 
 /* If false (default), use round-robin scheduler.

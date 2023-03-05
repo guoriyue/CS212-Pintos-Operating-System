@@ -31,7 +31,6 @@ struct pool
     struct lock lock;                   /* Mutual exclusion. */
     struct bitmap *used_map;            /* Bitmap of free pages. */
     uint8_t *base;                      /* Base of pool. */
-    // struct frame_table frame_table;
   };
 
 /* Two pools: one for kernel data, one for user pages. */
@@ -63,10 +62,6 @@ palloc_init (size_t user_page_limit)
 
   // for assignment 3
   frame_table_init (user_pages, user_pool.base);
-  // init_frame_table (user_pages, user_pool.base);
-
-  // swap_init();
-  // supp_pagedir_init();
 }
 
 /* Obtains and returns a group of PAGE_CNT contiguous free pages.
@@ -78,46 +73,6 @@ palloc_init (size_t user_page_limit)
 void *
 palloc_get_multiple (enum palloc_flags flags, size_t page_cnt)
 {
-  // struct pool *pool = flags & PAL_USER ? &user_pool : &kernel_pool;
-  // void *pages;
-  // // size_t page_idx;
-  // struct frame_table *f;
-  // size_t frame_table_entry_idx;
-
-  // if (page_cnt == 0)
-  //   return NULL;
-
-  // lock_acquire (&pool->lock);
-  // // page_idx = bitmap_scan_and_flip (pool->used_map, 0, page_cnt, false);
-  // frame_table_entry_idx = frame_table_scan (f, 0, page_cnt);
-  // lock_release (&pool->lock);
-
-
-  // if (frame_table_entry_idx != FRAME_TABLE_ERROR)
-  // {
-  //   pages = pool->base + PGSIZE * frame_table_entry_idx;
-  // }
-  // else
-  // {
-  //   pages = NULL;
-  // }
-
-  // if (pages != NULL) 
-  // {
-  //   if (flags & PAL_USER)
-  //   {
-  //     frame_table_set_multiple
-  //   }
-  //   else
-  //   {
-  //     /* Kernel. */
-  //   }
-  // }
-  // else 
-  // {
-  //   if (flags & PAL_ASSERT)
-  //     PANIC ("palloc_get: out of pages");
-  // }
 
   struct pool *pool = flags & PAL_USER ? &user_pool : &kernel_pool;
   void *pages;
