@@ -7,7 +7,7 @@
 #include <list.h>
 #include "threads/thread.h"
 #include "filesys/off_t.h"
-
+// #include "vm/frame.h"
 // #include <list.h>
 // #include "threads/thread.h"
 // #include <hash.h>
@@ -61,7 +61,7 @@ struct supplementary_page_table_entry
     struct lock pagedir_lock;
     struct thread* owner_thread; /* needed to access pd */
    //  void* page_id;
-    struct frame_table_entry* frame; /* the physical frame of the page if it is memory */
+   //  struct frame_table_entry* frame; /* the physical frame of the page if it is memory */
     
    //  bool is_writeable;   /*true if the page can be written to */
    //  bool is_loaded;      /*true if the page is currently loaded in memory */
@@ -74,16 +74,28 @@ struct supplementary_page_table_entry
    //  uint32_t swap_index; /* index into the swap sector */
 };
 
-// // struct supplementary_page_table_entry* supplementary_page_table_entry_create
-// // (void* pid,
-// // bool writable,
-// // page_location location,
-// // size_t page_read_bytes,
-// // size_t page_zero_bytes,
-// // struct file* file,
-// // int32_t file_ofs);
+// void load_swap_page (struct supplementary_page_table_entry* spte);
+// void load_file_page (struct supplementary_page_table_entry* spte);
+// void load_mmaped_page (struct supplementary_page_table_entry* spte);
+// bool frame_lock_try_aquire (struct frame_table_entry* frame);//, struct supplementary_page_table_entry* page_try_pin);
+// bool frame_lock_try_aquire (struct supplementary_page_table_entry* page_try_pin);
 
-// // void supplementary_page_table_entry_insert (struct supplementary_page_table_entry* e);
+struct supplementary_page_table_entry* supplementary_page_table_entry_create
+(void* pid,
+bool writable,
+page_location location,
+size_t page_read_bytes,
+size_t page_zero_bytes,
+struct file* file,
+int32_t file_ofs,
+bool in_physical_memory);
+void free_supplementary_page_table (struct list* supplementary_page_table);
+void free_supplementary_page_table_entry (struct list_elem* e);
+void supplementary_page_table_entry_insert (struct supplementary_page_table_entry* e);
+void evict_page_from_file_system (struct supplementary_page_table_entry* spte);
+void evict_page_from_swap_block (struct supplementary_page_table_entry* spte);
+void evict_page_from_map_memory (struct supplementary_page_table_entry* spte);
+
 // // void load_page_from_swap_block (struct supplementary_page_table_entry* spte);
 // // void load_page_from_map_memory (struct supplementary_page_table_entry* spte);
 // // void load_page_from_file_system (struct supplementary_page_table_entry* spte);
@@ -259,7 +271,7 @@ void supplementary_page_table_entry_insert (struct supplementary_page_table_entr
     otherwise, it is read-only.
     UPAGE must not already be mapped.
     KPAGE should probably be a page obtained from the user pool
-    with palloc_get_page().
+    with palloc_get_page ().
     Returns true on success, false if UPAGE is already mapped or
     if memory allocation fails.
  --------------------------------------------------------------------
@@ -273,14 +285,15 @@ bool install_page_copy (void *upage, void *kpage, bool writable);
     upage to kpage.
  --------------------------------------------------------------------
  */
-void clear_page(void* upage, struct thread* t);
-
+void clear_page_copy (void* upage, struct thread* t);
+bool
+stack_growth (void *fault_addr);
 /*
  --------------------------------------------------------------------
  DESCRIPTION: checks to ensure that a stack access is valid.
  --------------------------------------------------------------------
  */
-bool is_valid_stack_access(void* esp, void* user_virtual_address);
+// bool is_valid_stack_access(void* esp, void* user_virtual_address);
 
 /*
  --------------------------------------------------------------------
@@ -293,7 +306,7 @@ bool is_valid_stack_access(void* esp, void* user_virtual_address);
     stack page of a process.
  --------------------------------------------------------------------
  */
-bool grow_stack(void* page_id);
+// bool grow_stack(void* page_id);
 
 /*
  --------------------------------------------------------------------
@@ -302,14 +315,21 @@ bool grow_stack(void* page_id);
     aquires the lock on the frame the page resides in. 
  --------------------------------------------------------------------
  */
-void pin_page(void* virtual_address);
+void pin_page (void* virtual_address);
 
 /*
  --------------------------------------------------------------------
  DESCRIPTION: unpins a page by releasing the frame lock
  --------------------------------------------------------------------
  */
-void un_pin_page(void* virtual_address);
+void unpin_page (void* virtual_address);
+
+
+
+
+void evict_page_from_swap_block (struct supplementary_page_table_entry* spte);
+void evict_page_from_file_system (struct supplementary_page_table_entry* spte);
+void evict_page_from_map_memory (struct supplementary_page_table_entry* spte);
 
 // struct list_elem *munmap_state(struct mmap_state *mmap_s, struct thread *t);
 

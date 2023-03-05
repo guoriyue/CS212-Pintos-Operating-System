@@ -128,177 +128,6 @@ kill (struct intr_frame *f)
    can find more information about both of these in the
    description of "Interrupt 14--Page Fault Exception (#PF)" in
    [IA32-v3a] section 5.15 "Exception and Interrupt Reference". */
-// static void
-// page_fault (struct intr_frame *f) 
-// {
-//   // printf ("start page_fault\n");
-//   bool not_present;  /* True: not-present page, false: writing r/o page. */
-//   bool write;        /* True: access was write, false: access was read. */
-//   bool user;         /* True: access by user, false: access by kernel. */
-//   void *fault_addr;  /* Fault address. */
-
-//   /* Obtain faulting address, the virtual address that was
-//      accessed to cause the fault.  It may point to code or to
-//      data.  It is not necessarily the address of the instruction
-//      that caused the fault (that's f->eip).
-//      See [IA32-v2a] "MOV--Move to/from Control Registers" and
-//      [IA32-v3a] 5.15 "Interrupt 14--Page Fault Exception
-//      (#PF)". */
-//   asm ("movl %%cr2, %0" : "=r" (fault_addr));
-
-//   /* Turn interrupts back on (they were only off so that we could
-//      be assured of reading CR2 before it changed). */
-//   intr_enable ();
-
-//   /* Count page faults. */
-//   page_fault_cnt++;
-
-//   /* Determine cause. */
-//   not_present = (f->error_code & PF_P) == 0;
-//   write = (f->error_code & PF_W) != 0;
-//   user = (f->error_code & PF_U) != 0;
-
-//   if (fault_addr == NULL) {
-//    kill (f);
-//   }
-
-//   if (!is_user_vaddr (fault_addr)) {
-//    // thread_exit ();
-//    kill (f);
-//   }
-//   // printf ("supplementary_page_table_entry_find page_fault\n");
-//   // bad read
-//   if (not_present && user) {
-
-//    struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (fault_addr);
-
-//    /* Kernel address. */
-//    void* kaddr = palloc_get_page (PAL_USER);
-//    struct frame_table_entry* fte;
-
-//    if (kaddr)
-//    {
-//       spte->fid = (void*) frame_table_get_id (kaddr);
-//       // Obtain a frame to store the page.
-//       fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
-//       // ASSERT (&fte.spte == NULL);
-//       // ASSERT (&fte.spte != NULL);
-//       // ASSERT (&fte.spte->page_lock == NULL);
-//    }
-//    else
-//    {
-//       // printf ("eviction need!\n");
-//       frame_table->frame_table_entry[(uint32_t) spte->fid] = *(evict_frame());
-//       // frame_table_evict ();
-//       fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
-
-//       // ASSERT (&fte.spte->page_lock != NULL);
-//    }
-
-//    if (spte)
-//    {
-//       if (spte->location == MAP_MEMORY)
-//       {
-//          // printf ("load_page_from_map_memory\n");
-//          lock_acquire (&spte->page_lock);
-//          load_page_from_map_memory (spte, fte);
-//          // lock_release (&spte->page_lock);
-//       }
-//       else if (spte->location == SWAP_BLOCK)
-//       {
-//          // printf ("load_page_from_swap_block\n");
-//          lock_acquire (&spte->page_lock);
-//          load_page_from_swap_block (spte, fte);
-//          // lock_release (&spte->page_lock);
-//       }
-//       else if (spte->location == FILE_SYSTEM)
-//       {
-//          // printf ("load_page_from_file_system\n");
-//          lock_acquire (&spte->page_lock);
-//          load_page_from_file_system (spte, fte);
-//          // lock_release (&spte->page_lock);
-//       }
-//       else
-//       {
-//          sysexit (-1);
-//       }
-//       bool success = install_page_copy(spte->pid, spte->frame->frame, spte->writeable);
-//       if (success)
-//       {
-//          fte->spte = spte;
-//          spte->in_physical_memory = true;
-
-
-//          //   if (install_page_copy (spte->pid, fte.frame, spte->writeable))
-// //   {
-// //     return ;
-// //     // // printf ("successfully install\n");
-// //     // fte.spte = spte;
-// //     // spte->in_physical_memory = true;
-// //     // ASSERT (&fte.spte != NULL);
-// //     // ASSERT (&fte.spte->page_lock != NULL);
-// //   }
-// //   else
-// //   {
-// //     return ;
-// //     // fte.spte = NULL;
-// //     // palloc_free_page (kaddr);
-// //     // sysexit (-1);
-// //     // return ;
-// //   }
-
-        
-//       } else {
-//          spte->frame = NULL;
-//         fte->spte = NULL;
-//         spte->in_physical_memory = false;
-//         palloc_free_page(kaddr);
-//         lock_release(&fte->frame_lock);
-//         lock_release(&spte->page_lock);
-        
-//          sysexit (-1);
-//       }
-//       lock_release(&spte->page_lock);
-//    }
-//    else
-//    {
-//       // /* Grow stack. */
-//       // // printf ("stack_growth out if fault_addr %d f->esp %d PHYS_BASE %d\n", (uint32_t)fault_addr, (uint32_t)f->esp, (uint32_t)PHYS_BASE);
-//       // if ((fault_addr == f->esp - 4 || fault_addr == f->esp - 32
-//       //    || fault_addr >= f->esp) // SUB $n, %esp instruction, and then use a MOV ..., m(%esp) instruction to write to a stack location within the allocated space that is m bytes above the current stack pointer.
-//       //    && (uint32_t) fault_addr >= (uint32_t) (PHYS_BASE - 8 * 1024 * 1024) // 8 MB stack size
-//       //    && (uint32_t) fault_addr <= (uint32_t) PHYS_BASE)
-//       // {
-//       //    // printf ("stack_growth in if\n");
-//       //    stack_growth (fault_addr);
-//       // }
-//       // else
-//       // {
-//       //    sysexit (-1);
-//       // }
-//       bool success;
-//       if (is_valid_stack_access(f->esp, fault_addr)) {
-//          void* next_stack_page = (void*)pg_round_down(fault_addr);
-//          success = grow_stack(next_stack_page);
-//       }
-//       if (!success) {
-//          sysexit (-1);
-//       } else {
-//          return;
-//       }
-//    }
-
-//    return ;
-//   }
-
-//   printf ("Page fault at %p: %s error %s page in %s context.\n",
-//           fault_addr,
-//           not_present ? "not present" : "rights violation",
-//           write ? "writing" : "reading",
-//           user ? "user" : "kernel");
-//   kill (f);
-// }
-
 static void
 page_fault (struct intr_frame *f) 
 {
@@ -337,36 +166,184 @@ page_fault (struct intr_frame *f)
    // thread_exit ();
    kill (f);
   }
+  // printf ("supplementary_page_table_entry_find page_fault\n");
+  // bad read
+  if (not_present && user) {
 
-  //LP Project 3 code
-    if (not_present && user) {
-      //   struct supplementary_page_table_entry* spte = find_spte(fault_addr, thread_current());
-        struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find(fault_addr);
-        bool success = false;
-        if (spte != NULL) {
-            lock_acquire(&spte->page_lock);
-             success = frame_handler_palloc(false, spte, false, false);
-        } else {
-            if (is_valid_stack_access(f->esp, fault_addr)) {
-                void* next_stack_page = (void*)pg_round_down(fault_addr);
-                success = grow_stack(next_stack_page);
-            }
-        }
-        if (!success) {
-            // thread_current()->vital_info->exit_status = -1;
-            // if (thread_current()->is_running_user_program) {
-            //     printf("%s: exit(%d)\n", thread_name(), -1);
-            // }
-            // thread_exit ();
-            sysexit (-1);
-        } else {
-            return;
-        }
-    }
-    //END LP Poject 3 code
-    
-  printf ("end here\n");
-  /* User segfault Code should never get here*/    
+   struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (fault_addr);
+   // lock_acquire (&spte->page_lock);
+
+
+   bool success = false;
+   if (spte)
+   {
+      lock_acquire (&spte->page_lock);
+      /* Kernel address. */
+      lock_acquire(&frame_table->frame_table_lock);
+      void* kaddr = palloc_get_page (PAL_USER);
+      struct frame_table_entry* fte;
+      
+      if (kaddr)
+      {
+         spte->fid = (void*) frame_table_get_id (kaddr);
+         // // Obtain a frame to store the page.
+         // fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+         // fte = frame_table + get_frame_index(kaddr);
+         // spte->fid = frame_table_get_id(kaddr);
+         fte = &frame_table->frame_table_entry[frame_table_get_id(kaddr)];
+         lock_acquire(&fte->frame_lock);
+         lock_release(&frame_table->frame_table_lock);
+         // ASSERT (&fte.spte == NULL);
+         // ASSERT (&fte.spte != NULL);
+         // ASSERT (&fte.spte->page_lock == NULL);
+      }
+      else
+      {
+         // printf ("eviction need!\n");
+         fte = frame_table_evict ();
+         spte->fid = frame_table_find_id (fte);
+         // frame_table->frame_table_entry[(uint32_t) spte->fid] = *fte;
+         // frame_table->frame_table_entry[(uint32_t) spte->fid] = *(evict_frame());
+         // // frame_table_evict ();
+         // fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+
+         // ASSERT (&fte.spte->page_lock != NULL);
+      }
+
+      // spte->frame = fte;
+      
+
+      if (spte->location == MAP_MEMORY)
+      {
+         // printf ("load_page_from_map_memory\n");
+         // lock_acquire (&spte->page_lock);
+         load_page_from_map_memory (spte, fte);
+         // lock_release (&spte->page_lock);
+      }
+      else if (spte->location == SWAP_BLOCK)
+      {
+         // printf ("load_page_from_swap_block\n");
+         // lock_acquire (&spte->page_lock);
+         load_page_from_swap_block (spte, fte);
+         // lock_release (&spte->page_lock);
+      }
+      else if (spte->location == FILE_SYSTEM)
+      {
+         // printf ("load_page_from_file_system\n");
+         // lock_acquire (&spte->page_lock);
+         load_page_from_file_system (spte, fte);
+         // load_file_page (spte);
+         // lock_release (&spte->page_lock);
+      }
+      else
+      {
+         sysexit (-1);
+      }
+
+      // switch (spte->location) {
+      //       case SWAP_BLOCK:
+      //           load_swap_page(spte);
+      //           break;
+      //       case FILE_SYSTEM:
+      //           load_file_page(spte);
+      //           break;
+      //       case MAP_MEMORY:
+      //           load_mmaped_page(spte);
+      //           break;
+      //       default:
+      //           // thread_current()->vital_info->exit_status = -1;
+      //           // if (thread_current()->is_running_user_program) {
+      //           //     printf("%s: exit(%d)\n", thread_name(), -1);
+      //           // }
+      //           // thread_exit();
+      //           sysexit(-1);
+      //           break;
+      //   }
+      // success = install_page_copy(spte->pid, spte->frame->frame, spte->writeable);
+      success = install_page_copy(spte->pid, fte->frame, spte->writeable);
+      if (!success)
+      {
+      //   spte->frame = NULL;
+        spte->fid = NULL;
+        fte->spte = NULL;
+        spte->in_physical_memory = false;
+        palloc_free_page(kaddr);
+        lock_release(&fte->frame_lock);
+        lock_release(&spte->page_lock);
+        
+         sysexit (-1);
+         
+
+         //   if (install_page_copy (spte->pid, fte.frame, spte->writeable))
+//   {
+//     return ;
+//     // // printf ("successfully install\n");
+//     // fte.spte = spte;
+//     // spte->in_physical_memory = true;
+//     // ASSERT (&fte.spte != NULL);
+//     // ASSERT (&fte.spte->page_lock != NULL);
+//   }
+//   else
+//   {
+//     return ;
+//     // fte.spte = NULL;
+//     // palloc_free_page (kaddr);
+//     // sysexit (-1);
+//     // return ;
+//   }
+
+        
+      } else {
+
+         fte->spte = spte;
+         spte->in_physical_memory = true;
+
+      lock_release(&fte->frame_lock);
+      lock_release(&spte->page_lock);
+         return;
+        
+      }
+
+      // lock_acquire(&spte->page_lock);
+      // success = frame_handler_palloc(false, spte, false, false);
+      // if (!success) {
+      //    sysexit (-1);
+      // } else {
+      //    return;
+      // }
+   }
+   else
+   {
+      /* Grow stack. */
+      // printf ("stack_growth out if fault_addr %d f->esp %d PHYS_BASE %d\n", (uint32_t)fault_addr, (uint32_t)f->esp, (uint32_t)PHYS_BASE);
+      if ((fault_addr == f->esp - 4 || fault_addr == f->esp - 32
+         || fault_addr >= f->esp) // SUB $n, %esp instruction, and then use a MOV ..., m(%esp) instruction to write to a stack location within the allocated space that is m bytes above the current stack pointer.
+         && (uint32_t) fault_addr >= (uint32_t) (PHYS_BASE - 8 * 1024 * 1024) // 8 MB stack size
+         && (uint32_t) fault_addr <= (uint32_t) PHYS_BASE)
+      {
+         // printf ("stack_growth in if\n");
+         success = stack_growth (fault_addr);
+         // void* next_stack_page = (void*)pg_round_down(fault_addr);
+         // success = grow_stack(next_stack_page);
+      }
+      else
+      {
+         sysexit (-1);
+      }
+      // if (is_valid_stack_access(f->esp, fault_addr)) {
+      //    void* next_stack_page = (void*)pg_round_down(fault_addr);
+      //    success = grow_stack(next_stack_page);
+      // }
+      if (!success) {
+         sysexit (-1);
+      } else {
+         return;
+      }
+   }
+
+   return ;
+  }
+
   printf ("Page fault at %p: %s error %s page in %s context.\n",
           fault_addr,
           not_present ? "not present" : "rights violation",
@@ -374,6 +351,82 @@ page_fault (struct intr_frame *f)
           user ? "user" : "kernel");
   kill (f);
 }
+
+// static void
+// page_fault (struct intr_frame *f) 
+// {
+//   // printf ("start page_fault\n");
+//   bool not_present;  /* True: not-present page, false: writing r/o page. */
+//   bool write;        /* True: access was write, false: access was read. */
+//   bool user;         /* True: access by user, false: access by kernel. */
+//   void *fault_addr;  /* Fault address. */
+
+//   /* Obtain faulting address, the virtual address that was
+//      accessed to cause the fault.  It may point to code or to
+//      data.  It is not necessarily the address of the instruction
+//      that caused the fault (that's f->eip).
+//      See [IA32-v2a] "MOV--Move to/from Control Registers" and
+//      [IA32-v3a] 5.15 "Interrupt 14--Page Fault Exception
+//      (#PF)". */
+//   asm ("movl %%cr2, %0" : "=r" (fault_addr));
+
+//   /* Turn interrupts back on (they were only off so that we could
+//      be assured of reading CR2 before it changed). */
+//   intr_enable ();
+
+//   /* Count page faults. */
+//   page_fault_cnt++;
+
+//   /* Determine cause. */
+//   not_present = (f->error_code & PF_P) == 0;
+//   write = (f->error_code & PF_W) != 0;
+//   user = (f->error_code & PF_U) != 0;
+
+//   if (fault_addr == NULL) {
+//    kill (f);
+//   }
+
+//   if (!is_user_vaddr (fault_addr)) {
+//    // thread_exit ();
+//    kill (f);
+//   }
+
+//   //LP Project 3 code
+//     if (not_present && user) {
+//       //   struct supplementary_page_table_entry* spte = find_spte(fault_addr, thread_current());
+//         struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find(fault_addr);
+//         bool success = false;
+//         if (spte != NULL) {
+//             lock_acquire(&spte->page_lock);
+//             success = frame_handler_palloc(false, spte, false, false);
+//         } else {
+//             if (is_valid_stack_access(f->esp, fault_addr)) {
+//                 void* next_stack_page = (void*)pg_round_down(fault_addr);
+//                 success = grow_stack(next_stack_page);
+//             }
+//         }
+//         if (!success) {
+//             // thread_current()->vital_info->exit_status = -1;
+//             // if (thread_current()->is_running_user_program) {
+//             //     printf("%s: exit(%d)\n", thread_name(), -1);
+//             // }
+//             // thread_exit ();
+//             sysexit (-1);
+//         } else {
+//             return;
+//         }
+//     }
+//     //END LP Poject 3 code
+    
+//   printf ("end here\n");
+//   /* User segfault Code should never get here*/    
+//   printf ("Page fault at %p: %s error %s page in %s context.\n",
+//           fault_addr,
+//           not_present ? "not present" : "rights violation",
+//           write ? "writing" : "reading",
+//           user ? "user" : "kernel");
+//   kill (f);
+// }
 
 // static void
 // page_fault (struct intr_frame *f) 

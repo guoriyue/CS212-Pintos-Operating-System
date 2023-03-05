@@ -110,14 +110,8 @@
 #include <string.h>
 #include "userprog/syscall.h"
 
-static void load_swap_page(struct supplementary_page_table_entry* spte);
-static void load_file_page(struct supplementary_page_table_entry* spte);
-static void load_mmaped_page(struct supplementary_page_table_entry* spte);
-static void evict_swap_page(struct supplementary_page_table_entry* spte);
-static void evict_file_page(struct supplementary_page_table_entry* spte);
-static void evict_mmaped_page(struct supplementary_page_table_entry* spte);
 
-static void free_hash_entry(struct hash_elem* e, void* aux UNUSED);
+// static void free_hash_entry(struct hash_elem* e, void* aux UNUSED);
 
 
 static void
@@ -127,8 +121,8 @@ assert_spte_consistency(struct supplementary_page_table_entry* spte)
     ASSERT (spte->location == SWAP_BLOCK ||
             spte->page_read_bytes + spte->page_zero_bytes == PGSIZE);
 
-    ASSERT (spte->frame == NULL ||
-            spte->frame->frame >= PHYS_BASE);
+    // ASSERT (spte->frame == NULL ||
+    //         spte->frame->frame >= PHYS_BASE);
 
 }
 
@@ -155,14 +149,15 @@ struct supplementary_page_table_entry* create_spte_and_add_to_table(page_locatio
     spte->pid = page_id;
     spte->writeable = is_writeable;
     spte->in_physical_memory = is_loaded;
-    spte->frame = NULL;
+    // spte->frame = NULL;
     spte->file = file_ptr;
     spte->file_ofs = offset;
     spte->page_read_bytes = read_bytes;
     spte->page_zero_bytes = zero_bytes;
     spte->sid = NULL; 
+    spte->fid = NULL; 
     lock_init(&spte->page_lock);
-    // lock_acquire(&spte->page_lock);
+    // lock_acquire (&spte->page_lock);
     // struct hash* target_table = &thread_current()->spte_table;
     // struct supplementary_page_table_entry* outcome = hash_entry(hash_insert(target_table, &spte->elem), struct supplementary_page_table_entry, elem);
     // if (outcome != NULL) {
@@ -187,7 +182,8 @@ page_location location,
 size_t page_read_bytes,
 size_t page_zero_bytes,
 struct file* file,
-off_t file_ofs)
+off_t file_ofs,
+bool in_physical_memory)
 {
   struct supplementary_page_table_entry* spte = malloc (sizeof(struct supplementary_page_table_entry));
   lock_init (&spte->page_lock);
@@ -198,6 +194,7 @@ off_t file_ofs)
 
   spte->writeable = writeable;
   spte->location = location;
+  spte->in_physical_memory = in_physical_memory;
 
   spte->page_read_bytes = page_read_bytes;
   spte->page_zero_bytes = page_zero_bytes;
@@ -206,6 +203,10 @@ off_t file_ofs)
   spte->file_ofs = file_ofs;
 
   spte->pagedir = thread_current()->pagedir;
+  spte->pagedir_lock = thread_current()->pagedir_lock;
+
+  spte->owner_thread = thread_current();
+
 
   return spte;
 }
@@ -329,9 +330,11 @@ void supplementary_page_table_entry_insert (struct supplementary_page_table_entr
  DESCRIPTION: loads a page from swap to physical memory
  --------------------------------------------------------------------
  */
-static void load_swap_page(struct supplementary_page_table_entry* spte) {
+void load_swap_page (struct supplementary_page_table_entry* spte) {
     assert_spte_consistency(spte);
-    swap_block_read(spte->frame->frame, (uint32_t) spte->sid);
+    struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    swap_block_read(fte->frame, (uint32_t) spte->sid);
+    // swap_block_read(spte->frame->frame, (uint32_t) spte->sid);
     assert_spte_consistency(spte);
 }
 
@@ -342,18 +345,23 @@ static void load_swap_page(struct supplementary_page_table_entry* spte) {
     locks the frame, so we do not need to pin here.
  --------------------------------------------------------------------
  */
-static void load_file_page(struct supplementary_page_table_entry* spte) {
+void load_file_page (struct supplementary_page_table_entry* spte) {
     assert_spte_consistency(spte);
     // printf ("start load_file_page\n");
+
+    struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
     if (spte->page_zero_bytes == PGSIZE) {
-        memset(spte->frame->frame, 0, PGSIZE);
+        memset(fte->frame, 0, PGSIZE);
+        // memset(spte->frame->frame, 0, PGSIZE);
         return;
     }
-    lock_acquire(&file_system_lock);
+    lock_acquire (&file_system_lock);
     // printf ("start load_file_page\n");
-    uint32_t bytes_read = file_read_at (spte->file, spte->frame->frame, spte->page_read_bytes, spte->file_ofs);
+    uint32_t bytes_read = file_read_at (spte->file, fte->frame, spte->page_read_bytes, spte->file_ofs);
+    
+    // uint32_t bytes_read = file_read_at (spte->file, spte->frame->frame, spte->page_read_bytes, spte->file_ofs);
     // printf ("end load_file_page\n");
-    lock_release(&file_system_lock);
+    lock_release (&file_system_lock);
     if (bytes_read != spte->page_read_bytes) {
         // thread_current()->vital_info->exit_status = -1;
         // if (thread_current()->is_running_user_program) {
@@ -363,7 +371,8 @@ static void load_file_page(struct supplementary_page_table_entry* spte) {
         sysexit(-1);
     }
     if (spte->page_read_bytes != PGSIZE) {
-        memset (spte->frame->frame + spte->page_read_bytes, 0, spte->page_zero_bytes);
+        // memset (spte->frame->frame + spte->page_read_bytes, 0, spte->page_zero_bytes);
+        memset (fte->frame + spte->page_read_bytes, 0, spte->page_zero_bytes);
     }
 
     assert_spte_consistency(spte);
@@ -374,9 +383,9 @@ static void load_file_page(struct supplementary_page_table_entry* spte) {
  DESCRIPTION: loads a memory mapped page into memory
  --------------------------------------------------------------------
  */
-static void load_mmaped_page(struct supplementary_page_table_entry* spte) {
+void load_mmaped_page (struct supplementary_page_table_entry* spte) {
     /* No difference between loading mmapped pages and file pages in */
-    return load_file_page(spte);
+    return load_file_page (spte);
 }
 
 /*
@@ -391,17 +400,17 @@ static void load_mmaped_page(struct supplementary_page_table_entry* spte) {
  */
 bool load_page_into_physical_memory(struct supplementary_page_table_entry* spte, bool is_fresh_stack_page) {
     assert_spte_consistency(spte);
-    ASSERT(lock_held_by_current_thread(&spte->frame->frame_lock));
+    // ASSERT(lock_held_by_current_thread(&spte->frame->frame_lock));
     if (is_fresh_stack_page == false) {
         switch (spte->location) {
             case SWAP_BLOCK:
-                load_swap_page(spte);
+                load_swap_page (spte);
                 break;
             case FILE_SYSTEM:
-                load_file_page(spte);
+                load_file_page (spte);
                 break;
             case MAP_MEMORY:
-                load_mmaped_page(spte);
+                load_mmaped_page (spte);
                 break;
             default:
                 // thread_current()->vital_info->exit_status = -1;
@@ -413,7 +422,9 @@ bool load_page_into_physical_memory(struct supplementary_page_table_entry* spte,
                 break;
         }
     }
-    bool success = install_page_copy(spte->pid, spte->frame->frame, spte->writeable);
+    // bool success = install_page_copy(spte->pid, spte->frame->frame, spte->writeable);
+    struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    bool success = install_page_copy(spte->pid, fte->frame, spte->writeable);
     assert_spte_consistency(spte);
     return success;
 }
@@ -424,9 +435,11 @@ bool load_page_into_physical_memory(struct supplementary_page_table_entry* spte,
     frame to a swap slot
  --------------------------------------------------------------------
  */
-static void evict_swap_page(struct supplementary_page_table_entry* spte) {
+void evict_page_from_swap_block (struct supplementary_page_table_entry* spte) {
     assert_spte_consistency(spte);
-    uint32_t swap_index = swap_block_write(spte->frame->frame);
+    struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    // uint32_t swap_index = swap_block_write(spte->frame->frame);
+    uint32_t swap_index = swap_block_write(fte->frame);
     spte->sid = swap_index;
     assert_spte_consistency(spte);
 }
@@ -439,15 +452,17 @@ static void evict_swap_page(struct supplementary_page_table_entry* spte) {
     it as always dirty, which means it will forever more be a swap. 
  --------------------------------------------------------------------
  */
-static void evict_file_page(struct supplementary_page_table_entry* spte) {
+void evict_page_from_file_system (struct supplementary_page_table_entry* spte) {
     assert_spte_consistency(spte);
-    lock_acquire(&spte->owner_thread->pagedir_lock);
+    lock_acquire (&spte->owner_thread->pagedir_lock);
     uint32_t* pagedir = spte->owner_thread->pagedir;
-    bool dirty = pagedir_is_dirty(pagedir, spte->frame->spte->pid);
-    lock_release(&spte->owner_thread->pagedir_lock);
+    struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    bool dirty = pagedir_is_dirty(pagedir, fte->spte->pid);
+    // bool dirty = pagedir_is_dirty(pagedir, spte->frame->spte->pid);
+    lock_release (&spte->owner_thread->pagedir_lock);
     if (dirty) {
         spte->location = SWAP_BLOCK;
-        evict_swap_page(spte);
+        evict_page_from_swap_block (spte);
     }
     assert_spte_consistency(spte);
 }
@@ -460,22 +475,25 @@ static void evict_file_page(struct supplementary_page_table_entry* spte) {
     that subsequent checks will only write if dirty again. 
  --------------------------------------------------------------------
  */
-static void evict_mmaped_page(struct supplementary_page_table_entry* spte) {
+void evict_page_from_map_memory (struct supplementary_page_table_entry* spte) {
     assert_spte_consistency(spte);
 
     uint32_t* pagedir = spte->owner_thread->pagedir;
-    lock_acquire(&spte->owner_thread->pagedir_lock);
+    lock_acquire (&spte->owner_thread->pagedir_lock);
     void *page_id = spte->pid;
     bool dirty = pagedir_is_dirty(pagedir, page_id);
     if (dirty) {
         pagedir_set_dirty(pagedir, page_id, false);
-        lock_release(&spte->owner_thread->pagedir_lock);
-        lock_acquire(&file_system_lock);
-        file_write_at (spte->file, spte->frame->frame, spte->page_read_bytes,
+        lock_release (&spte->owner_thread->pagedir_lock);
+        lock_acquire (&file_system_lock);
+        struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+        file_write_at (spte->file, fte->frame, spte->page_read_bytes,
                        spte->file_ofs);
-        lock_release(&file_system_lock);
+        // file_write_at (spte->file, spte->frame->frame, spte->page_read_bytes,
+        //                spte->file_ofs);
+        lock_release (&file_system_lock);
     } else {
-        lock_release(&spte->owner_thread->pagedir_lock);
+        lock_release (&spte->owner_thread->pagedir_lock);
     }
 
     assert_spte_consistency(spte);
@@ -491,36 +509,36 @@ static void evict_mmaped_page(struct supplementary_page_table_entry* spte) {
 // munmap_state(struct mmap_state *mmap_s, struct thread *t)
 // {
 //     void *page;
-//     lock_acquire(&file_system_lock);
+//     lock_acquire (&file_system_lock);
 //     int size = file_length(mmap_s->fp);
-//     lock_release(&file_system_lock);
+//     lock_release (&file_system_lock);
     
 //     /* Write back dirty pages, and free all pages in use */
 //     for (page = mmap_s->vaddr; page < mmap_s->vaddr + size; page += PGSIZE)
 //     {
 //         struct supplementary_page_table_entry *entry = find_spte(page, t);
 //         ASSERT (entry != NULL);
-//         lock_acquire(&entry->page_lock);
+//         lock_acquire (&entry->page_lock);
 //         if (entry->in_physical_memory == true) {
 //             if (lock_held_by_current_thread(&entry->frame->frame_lock) == false) {
-//                 lock_acquire(&entry->frame->frame_lock);
+//                 lock_acquire (&entry->frame->frame_lock);
 //             }
-//             clear_page(entry->pid, entry->owner_thread);
-//             evict_mmaped_page(entry);
+//             clear_page_copy (entry->pid, entry->owner_thread);
+//             evict_page_from_map_memory (entry);
 //             entry->in_physical_memory = false;
-//             palloc_free_page(entry->frame->frame);
-//             lock_release(&entry->frame->frame_lock);
+//             palloc_free_page (entry->frame->frame);
+//             lock_release (&entry->frame->frame_lock);
 //             entry->frame->spte = NULL;
 //             entry->frame = NULL;
 //         }
-//         lock_release(&entry->page_lock);
+//         lock_release (&entry->page_lock);
 //         hash_delete(&t->spte_table, &entry->elem);
 //         free(entry);
 //     }
 
-//     lock_acquire(&file_system_lock);
+//     lock_acquire (&file_system_lock);
 //     file_close(mmap_s->fp);
-//     lock_release(&file_system_lock);
+//     lock_release (&file_system_lock);
     
 //     struct list_elem *next = list_remove(&mmap_s->elem);
 //     free(mmap_s);
@@ -534,31 +552,31 @@ static void evict_mmaped_page(struct supplementary_page_table_entry* spte) {
     physcial frame by calling page_dir_clear_page
  --------------------------------------------------------------------
  */
-bool evict_page_from_physical_memory(struct supplementary_page_table_entry* spte) {
-    assert_spte_consistency(spte);
-    clear_page(spte->pid, spte->owner_thread);
-    switch (spte->location) {
-        case SWAP_BLOCK:
-            evict_swap_page(spte);
-            break;
-        case FILE_SYSTEM:
-            evict_file_page(spte);
-            break;
-        case MAP_MEMORY:
-            evict_mmaped_page(spte);
-            break;
-        default:
-            sysexit(-1);
-            // thread_current()->vital_info->exit_status = -1;
-            // if (thread_current()->is_running_user_program) {
-            //     printf("%s: exit(%d)\n", thread_name(), -1);
-            // }
-            // thread_exit();
-            break;
-    }
-    assert_spte_consistency(spte);
-    return true;
-}
+// bool evict_page_from_physical_memory(struct supplementary_page_table_entry* spte) {
+//     assert_spte_consistency(spte);
+//     clear_page_copy (spte->pid, spte->owner_thread);
+//     switch (spte->location) {
+//         case SWAP_BLOCK:
+//             evict_page_from_swap_block (spte);
+//             break;
+//         case FILE_SYSTEM:
+//             evict_page_from_file_system (spte);
+//             break;
+//         case MAP_MEMORY:
+//             evict_page_from_map_memory (spte);
+//             break;
+//         default:
+//             sysexit(-1);
+//             // thread_current()->vital_info->exit_status = -1;
+//             // if (thread_current()->is_running_user_program) {
+//             //     printf("%s: exit(%d)\n", thread_name(), -1);
+//             // }
+//             // thread_exit();
+//             break;
+//     }
+//     assert_spte_consistency(spte);
+//     return true;
+// }
 
 
 struct supplementary_page_table_entry* supplementary_page_table_entry_find
@@ -607,10 +625,10 @@ struct supplementary_page_table_entry* supplementary_page_table_entry_find
     down virtual address, ie the page number. 
  --------------------------------------------------------------------
  */
-static unsigned hash_func(const struct hash_elem* e, void* aux UNUSED) {
-    struct supplementary_page_table_entry* spte = hash_entry(e, struct supplementary_page_table_entry, elem);
-    return hash_int((uint32_t)spte->pid);
-}
+// static unsigned hash_func(const struct hash_elem* e, void* aux UNUSED) {
+//     struct supplementary_page_table_entry* spte = hash_entry(e, struct supplementary_page_table_entry, elem);
+//     return hash_int((uint32_t)spte->pid);
+// }
 
 /*
  --------------------------------------------------------------------
@@ -619,12 +637,12 @@ static unsigned hash_func(const struct hash_elem* e, void* aux UNUSED) {
     than or equal to b.
  --------------------------------------------------------------------
  */
-static bool less_func(const struct hash_elem *a, const struct hash_elem *b, void *aux UNUSED) {
-    struct supplementary_page_table_entry* A_spte = hash_entry(a, struct supplementary_page_table_entry, elem);
-    struct supplementary_page_table_entry* B_spte = hash_entry(b, struct supplementary_page_table_entry, elem);
-    if ((uint32_t)A_spte->pid < (uint32_t)B_spte->pid) return true;
-    return false;
-}
+// static bool less_func(const struct hash_elem *a, const struct hash_elem *b, void *aux UNUSED) {
+//     struct supplementary_page_table_entry* A_spte = hash_entry(a, struct supplementary_page_table_entry, elem);
+//     struct supplementary_page_table_entry* B_spte = hash_entry(b, struct supplementary_page_table_entry, elem);
+//     if ((uint32_t)A_spte->pid < (uint32_t)B_spte->pid) return true;
+//     return false;
+// }
 
 /*
  --------------------------------------------------------------------
@@ -635,15 +653,15 @@ static bool less_func(const struct hash_elem *a, const struct hash_elem *b, void
  --------------------------------------------------------------------
  */
 
-static void free_supplementary_page_table_entry(struct list_elem* e) {
+void free_supplementary_page_table_entry (struct list_elem* e) {
     struct supplementary_page_table_entry* spte = list_entry(e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
-    lock_acquire(&spte->page_lock);
+    lock_acquire (&spte->page_lock);
     if (spte->in_physical_memory) {
-        clear_page(spte->pid, spte->owner_thread);
-        frame_handler_palloc_free(spte);
+        clear_page_copy (spte->pid, spte->owner_thread);
+        frame_table_entry_free (spte);
         spte->in_physical_memory = false;
     }
-    lock_release(&spte->page_lock);
+    lock_release (&spte->page_lock);
     // free_spte(spte);
     free(spte);
 }
@@ -670,7 +688,7 @@ static void free_supplementary_page_table_entry(struct list_elem* e) {
 //  IMPLIMENTATION NOTES:
 //  --------------------------------------------------------------------
 //  */
-void free_supplementary_page_table(struct list* supplementary_page_table) {
+void free_supplementary_page_table (struct list* supplementary_page_table) {
 
     while (!list_empty (supplementary_page_table)) 
     {
@@ -716,10 +734,10 @@ void free_supplementary_page_table(struct list* supplementary_page_table) {
 bool install_page_copy(void *upage, void *kpage, bool writeable) {
     struct thread *t = thread_current ();
     
-    lock_acquire(&t->pagedir_lock);
+    lock_acquire (&t->pagedir_lock);
     bool result = (pagedir_get_page (t->pagedir, upage) == NULL
             && pagedir_set_page (t->pagedir, upage, kpage, writeable));
-    lock_release(&t->pagedir_lock);
+    lock_release (&t->pagedir_lock);
     return result;
 }
 
@@ -730,17 +748,25 @@ bool install_page_copy(void *upage, void *kpage, bool writeable) {
     must check for this case.
  --------------------------------------------------------------------
  */
-void clear_page(void* upage, struct thread* t) {
-    lock_acquire(&t->pagedir_lock);
+// void clear_page_copy (void* upage, struct thread* t) {
+//     lock_acquire (&t->pagedir_lock);
+//     if (t->pagedir != NULL) {
+//         pagedir_clear_page (t->pagedir, upage);
+//     }
+//     lock_release (&t->pagedir_lock);
+// }
+
+void clear_page_copy (void* upage, struct thread* t) {
+    lock_acquire (&t->pagedir_lock);
     if (t->pagedir != NULL) {
-        pagedir_clear_page(t->pagedir, upage);
+        pagedir_clear_page (t->pagedir, upage);
     }
-    lock_release(&t->pagedir_lock);
+    lock_release (&t->pagedir_lock);
 }
 
-#define PUSHA_BYTE_DEPTH 32
-#define PUSH_BYTE_DEPTH 4
-#define MAX_STACK_SIZE_IN_BYTES 8392000
+// #define PUSHA_BYTE_DEPTH 32
+// #define PUSH_BYTE_DEPTH 4
+// #define MAX_STACK_SIZE_IN_BYTES 8392000
 /*
  --------------------------------------------------------------------
  IMPLIMENTATION NOTES:
@@ -748,27 +774,27 @@ void clear_page(void* upage, struct thread* t) {
     address.
  --------------------------------------------------------------------
  */
-bool is_valid_stack_access(void* esp, void* user_virtual_address) {
-    uint32_t stack_bottom_limit = (uint32_t)(PHYS_BASE - MAX_STACK_SIZE_IN_BYTES);
-    if ((uint32_t)user_virtual_address < stack_bottom_limit) {
-        return false;
-    }
-    if ((uint32_t)user_virtual_address >= (uint32_t)PHYS_BASE) {
-        return false;
-    }
-    if ((uint32_t)user_virtual_address >= (uint32_t)esp) {
-        return true;
-    }
-    void* acceptable_depth_pushA = (void*)((char*)esp - PUSHA_BYTE_DEPTH);
-    if ((uint32_t)user_virtual_address == (uint32_t)acceptable_depth_pushA) {
-        return true;
-    }
-    void* acceptable_depth_push = (void*)((char*)esp - PUSH_BYTE_DEPTH);
-    if ((uint32_t)user_virtual_address == (uint32_t)acceptable_depth_push) {
-        return true;
-    }
-    return false;
-}
+// bool is_valid_stack_access(void* esp, void* user_virtual_address) {
+//     uint32_t stack_bottom_limit = (uint32_t)(PHYS_BASE - MAX_STACK_SIZE_IN_BYTES);
+//     if ((uint32_t)user_virtual_address < stack_bottom_limit) {
+//         return false;
+//     }
+//     if ((uint32_t)user_virtual_address >= (uint32_t)PHYS_BASE) {
+//         return false;
+//     }
+//     if ((uint32_t)user_virtual_address >= (uint32_t)esp) {
+//         return true;
+//     }
+//     void* acceptable_depth_pushA = (void*)((char*)esp - PUSHA_BYTE_DEPTH);
+//     if ((uint32_t)user_virtual_address == (uint32_t)acceptable_depth_pushA) {
+//         return true;
+//     }
+//     void* acceptable_depth_push = (void*)((char*)esp - PUSH_BYTE_DEPTH);
+//     if ((uint32_t)user_virtual_address == (uint32_t)acceptable_depth_push) {
+//         return true;
+//     }
+//     return false;
+// }
 
 /*
  --------------------------------------------------------------------
@@ -780,49 +806,100 @@ bool is_valid_stack_access(void* esp, void* user_virtual_address) {
     frame gets allocated.
  --------------------------------------------------------------------
  */
-bool grow_stack(void* page_id) {
-    struct supplementary_page_table_entry* spte = create_spte_and_add_to_table(SWAP_BLOCK, page_id, true, true, NULL, 0, 0, 0);
-    if (spte == NULL) {
-        return false;
-    }
-    bool outcome = frame_handler_palloc(true, spte, false, true);
-    return outcome;
-}
+// bool grow_stack(void* page_id) {
+//     struct supplementary_page_table_entry* spte = create_spte_and_add_to_table(SWAP_BLOCK, page_id, true, true, NULL, 0, 0, 0);
+//     if (spte == NULL) {
+//         return false;
+//     }
+//     bool outcome = frame_handler_palloc(true, spte, false, true);
+//     return outcome;
+// }
 
 
 
 
-// void
-// stack_growth (void *fault_addr)
-// {
-//    // printf ("stack_growth start\n");
-//    void* spid = pg_round_down (fault_addr);
-//    bool writeable = true;
+bool
+stack_growth (void *fault_addr)
+{
+    // void* next_stack_page = (void*)pg_round_down(fault_addr);
+    // return grow_stack(next_stack_page);
 
-//    size_t page_read_bytes = 0;
-//    size_t page_zero_bytes = 0;
+   // printf ("stack_growth start\n");
+   void* spid = pg_round_down (fault_addr);
+   bool writeable = true;
 
-//    struct file *file = NULL;
-//    off_t file_ofs = 0;
-//    struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
-//       spid,
-//       writeable,
-//       SWAP_BLOCK,
-//       page_read_bytes,
-//       page_zero_bytes,
-//       file,
-//       file_ofs
-//    );
-//    // printf ("stack_growth reach here\n");
-//    if (spte == NULL) {
-//       sysexit (-1);
-//       return ;
-//    }
-//    supplementary_page_table_entry_insert (spte);
+   size_t page_read_bytes = 0;
+   size_t page_zero_bytes = 0;
 
+   struct file *file = NULL;
+   off_t file_ofs = 0;
+   struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
+      spid,
+      writeable,
+      SWAP_BLOCK,
+      page_read_bytes,
+      page_zero_bytes,
+      file,
+      file_ofs,
+      true
+   );
+   // printf ("stack_growth reach here\n");
+   if (spte == NULL) {
+    //   sysexit (-1);
+      return false;
+   }
+
+
+
+   supplementary_page_table_entry_insert (spte);
+//    lock_release (&spte->page_lock);
+
+    // bool outcome = frame_handler_palloc(true, spte, false, true);
+    // return outcome;
+
+//    bool outcome = frame_handler_palloc(true, spte, false, true);
+// return outcome;
+
+
+
+    // lock_acquire (&spte->page_lock);
+      /* Kernel address. */
+      lock_acquire (&frame_table->frame_table_lock);
+    //   void* kaddr = palloc_get_page (PAL_USER);
+      void* kaddr = palloc_get_page (PAL_USER | PAL_ZERO);
+      struct frame_table_entry* fte;
+      
+      if (kaddr)
+      {
+         spte->fid = (void*) frame_table_get_id (kaddr);
+         // // Obtain a frame to store the page.
+         // fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+         // fte = frame_table + get_frame_index(kaddr);
+         fte = &frame_table->frame_table_entry[frame_table_get_id(kaddr)];
+         lock_acquire (&fte->frame_lock);
+         lock_release (&frame_table->frame_table_lock);
+         // ASSERT (&fte.spte == NULL);
+         // ASSERT (&fte.spte != NULL);
+         // ASSERT (&fte.spte->page_lock == NULL);
+      }
+      else
+      {
+         // printf ("eviction need!\n");
+         fte = frame_table_evict ();
+         spte->fid = frame_table_find_id (fte);
+         // frame_table->frame_table_entry[(uint32_t) spte->fid] = *fte;
+         // frame_table->frame_table_entry[(uint32_t) spte->fid] = *(evict_frame());
+         // // frame_table_evict ();
+         // fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+
+         // ASSERT (&fte.spte->page_lock != NULL);
+      }
+
+    //   spte->frame = fte;
+bool success = false;
 //    // frame_handler_palloc(true, spte, false, true);
 //    void* kaddr = palloc_get_page (PAL_USER | PAL_ZERO);
-//    struct frame_table_entry fte;
+//    struct frame_table_entry* fte;
 //    if (kaddr)
 //    {
 //       spte->fid = (void*) frame_table_get_id (kaddr);
@@ -832,23 +909,54 @@ bool grow_stack(void* page_id) {
 //    }
 //    else
 //    {
-//       printf ("stack growth eviction need!\n");
-//       frame_table->frame_table_entry[(uint32_t) spte->fid] = frame_table_evict ();
-//       fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
+//     fte = evict_frame ();
+//     //   printf ("stack growth eviction need!\n");
+//     //   frame_table->frame_table_entry[(uint32_t) spte->fid] = frame_table_evict ();
+//     //   fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
 //       // ASSERT (&fte.spte != NULL);
 //       // ASSERT (&fte.spte->page_lock != NULL);
 //    }
-//    memset (fte.frame, 0, PGSIZE);
+//    spte->frame = fte;
+   memset (fte->frame, 0, PGSIZE);
 
-//    // struct thread *cur = thread_current ();
-//    // bool success = false;
-//    // if (pagedir_get_page (cur->pagedir, spte->pid) == NULL)
-//    // {
-//    //    if (pagedir_set_page (cur->pagedir, spte->pid, fte.frame, spte->writeable))
-//    //    {
-//    //       success = true;
-//    //    }
-//    // }
+// struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    //    success = install_page_copy(spte->pid, spte->frame->frame, spte->writeable);
+    success = install_page_copy(spte->pid, fte->frame, spte->writeable);
+      if (!success)
+      {
+        // spte->frame = NULL;
+        spte->fid = NULL;
+        fte->spte = NULL;
+        spte->in_physical_memory = false;
+        palloc_free_page (kaddr);
+        lock_release (&fte->frame_lock);
+        lock_release (&spte->page_lock);
+        
+        //  sysexit (-1);
+         
+        // return false;
+      } else {
+
+         fte->spte = spte;
+         spte->in_physical_memory = true;
+
+        lock_release (&fte->frame_lock);
+        lock_release (&spte->page_lock);
+        //  return true;
+        
+      }
+      return success;
+
+
+   // struct thread *cur = thread_current ();
+   // bool success = false;
+   // if (pagedir_get_page (cur->pagedir, spte->pid) == NULL)
+   // {
+   //    if (pagedir_set_page (cur->pagedir, spte->pid, fte.frame, spte->writeable))
+   //    {
+   //       success = true;
+   //    }
+   // }
 
 //    if (install_page_copy (spte->pid, fte.frame, spte->writeable))
 //    {
@@ -864,7 +972,7 @@ bool grow_stack(void* page_id) {
 //       palloc_free_page (kaddr);
 //       sysexit (-1);
 //    }
-// }
+}
 
 /*
  --------------------------------------------------------------------
@@ -879,27 +987,207 @@ bool grow_stack(void* page_id) {
     we have to hunt down the new frame.
  --------------------------------------------------------------------
  */
-void pin_page(void* virtual_address) {
+
+
+void pin_frame (struct supplementary_page_table_entry* spte) {
+     lock_acquire (&frame_table->frame_table_lock);
+      void* kaddr = palloc_get_page (PAL_USER);
+      struct frame_table_entry* fte;
+      
+      if (kaddr)
+      {
+         spte->fid = (void*) frame_table_get_id (kaddr);
+         // // Obtain a frame to store the page.
+         // fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+         // fte = frame_table + get_frame_index(kaddr);
+         fte = &frame_table->frame_table_entry[frame_table_get_id(kaddr)];
+         lock_acquire (&fte->frame_lock);
+         lock_release (&frame_table->frame_table_lock);
+         // ASSERT (&fte.spte == NULL);
+         // ASSERT (&fte.spte != NULL);
+         // ASSERT (&fte.spte->page_lock == NULL);
+      }
+      else
+      {
+         // printf ("eviction need!\n");
+         fte = frame_table_evict ();
+         spte->fid = frame_table_find_id (fte);
+         // frame_table->frame_table_entry[(uint32_t) spte->fid] = *fte;
+         // frame_table->frame_table_entry[(uint32_t) spte->fid] = *(evict_frame());
+         // // frame_table_evict ();
+         // fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+
+         // ASSERT (&fte.spte->page_lock != NULL);
+      }
+
+    //   spte->frame = fte;
+
+      if (spte->location == MAP_MEMORY)
+      {
+         // printf ("load_page_from_map_memory\n");
+         // lock_acquire (&spte->page_lock);
+         load_page_from_map_memory (spte, fte);
+         // lock_release (&spte->page_lock);
+      }
+      else if (spte->location == SWAP_BLOCK)
+      {
+         // printf ("load_page_from_swap_block\n");
+         // lock_acquire (&spte->page_lock);
+         load_page_from_swap_block (spte, fte);
+         // lock_release (&spte->page_lock);
+      }
+      else if (spte->location == FILE_SYSTEM)
+      {
+         // printf ("load_page_from_file_system\n");
+         // lock_acquire (&spte->page_lock);
+         load_page_from_file_system (spte, fte);
+         // load_file_page (spte);
+         // lock_release (&spte->page_lock);
+      }
+      else
+      {
+         sysexit (-1);
+      }
+
+      // switch (spte->location) {
+      //       case SWAP_BLOCK:
+      //           load_swap_page(spte);
+      //           break;
+      //       case FILE_SYSTEM:
+      //           load_file_page(spte);
+      //           break;
+      //       case MAP_MEMORY:
+      //           load_mmaped_page(spte);
+      //           break;
+      //       default:
+      //           // thread_current()->vital_info->exit_status = -1;
+      //           // if (thread_current()->is_running_user_program) {
+      //           //     printf("%s: exit(%d)\n", thread_name(), -1);
+      //           // }
+      //           // thread_exit();
+      //           sysexit(-1);
+      //           break;
+      //   }
+    //   struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    //   bool success = install_page_copy(spte->pid, spte->frame->frame, spte->writeable);
+    bool success = install_page_copy(spte->pid, fte->frame, spte->writeable);
+      if (!success)
+      {
+        // spte->frame = NULL;
+        spte->fid = NULL;
+
+        fte->spte = NULL;
+        spte->in_physical_memory = false;
+        palloc_free_page(kaddr);
+        lock_release (&fte->frame_lock);
+        lock_release (&spte->page_lock);
+        
+         sysexit (-1);
+         
+         
+
+         //   if (install_page_copy (spte->pid, fte.frame, spte->writeable))
+//   {
+//     return ;
+//     // // printf ("successfully install\n");
+//     // fte.spte = spte;
+//     // spte->in_physical_memory = true;
+//     // ASSERT (&fte.spte != NULL);
+//     // ASSERT (&fte.spte->page_lock != NULL);
+//   }
+//   else
+//   {
+//     return ;
+//     // fte.spte = NULL;
+//     // palloc_free_page (kaddr);
+//     // sysexit (-1);
+//     // return ;
+//   }
+
+        
+      } else {
+
+         fte->spte = spte;
+         spte->in_physical_memory = true;
+
+    //   lock_release (&fte->frame_lock);
+      lock_release (&spte->page_lock);
+         return;
+        
+      }
+
+    // lock_acquire (&frame_table->frame_table_lock);
+    // void* physical_memory_addr = palloc_get_page (PAL_USER);
+    
+    // struct frame_table_entry* frame;
+    // if (physical_memory_addr != NULL) {
+    //     // frame = frame_table + get_frame_index(physical_memory_addr);
+    //     frame = &frame_table->frame_table_entry[frame_table_get_id(physical_memory_addr)];
+    //     lock_acquire (&frame->frame_lock);
+    //     lock_release (&frame_table->frame_table_lock);
+    //     ASSERT(frame->spte == NULL)
+    // } else {
+    //     frame = evict_frame(); //aquires frame lock and releases frame_table->frame_table_lock
+    // }
+    
+    // spte->frame = frame;
+    
+    // bool success = load_page_into_physical_memory(spte, is_fresh_stack_page);
+    
+    // if (!success) {
+    //     barrier();
+    //     spte->frame = NULL;
+    //     frame->spte = NULL;
+    //     spte->in_physical_memory = false;
+    //     palloc_free_page(physical_memory_addr);
+    //     lock_release (&frame->frame_lock);
+    //     lock_release (&spte->page_lock);
+    //     return false;
+    // } else {
+    //     // printf ("successfully install\n");
+    //     frame->spte = spte;
+    //     spte->in_physical_memory = true;
+    // }
+  
+    // lock_release (&spte->page_lock);
+    // return success;
+}
+
+
+
+
+void pin_page (void* virtual_address) {
     struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (virtual_address);
     // struct supplementary_page_table_entry* spte = find_spte(virtual_address, thread_current());
-    lock_acquire(&spte->page_lock);
-    if (spte->in_physical_memory != true) {
-        frame_handler_palloc(false, spte, true, false);
-    } else {
-        lock_release(&spte->page_lock);
-        lock_acquire(&spte->page_lock);
-        bool success = aquire_frame_lock(spte->frame, spte);
-        if (success) {
-            lock_release(&spte->page_lock);
+    lock_acquire (&spte->page_lock);
+    if (spte->in_physical_memory != true)
+    {
+        pin_frame (spte);
+        // frame_handler_palloc(false, spte, true, false);
+    } else
+    {
+        lock_release (&spte->page_lock);
+        lock_acquire (&spte->page_lock);
+        // bool success = ;
+        struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+        // if (frame_lock_try_aquire (spte->frame, spte))
+         if (frame_lock_try_aquire (fte, spte))
+        {
+            lock_release (&spte->page_lock);
             return;
-        } else {
-            if (spte->in_physical_memory != true) {
-                frame_handler_palloc(false, spte, true, false);
+        }
+        else
+        {
+            if (spte->in_physical_memory != true)
+            {
+                pin_frame (spte);
+                // frame_handler_palloc(false, spte, true, false);
                 return;
             } else {
                 if (spte->in_physical_memory == true) {
-                    frame_handler_palloc_free(spte);
-                    frame_handler_palloc(false, spte, true, false);
+                    frame_table_entry_free (spte);
+                    pin_frame (spte);
+                    // frame_handler_palloc(false, spte, true, false);
                     return;
                 }
             }
@@ -912,13 +1200,16 @@ void pin_page(void* virtual_address) {
  IMPLIMENTATION NOTES:
  --------------------------------------------------------------------
  */
-void un_pin_page(void* virtual_address) {
+void unpin_page (void* virtual_address)
+{
     struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (virtual_address);
     // struct supplementary_page_table_entry* spte = find_spte(virtual_address, thread_current());
-    lock_acquire(&spte->page_lock);
-    ASSERT(lock_held_by_current_thread(&spte->frame->frame_lock));
-    lock_release(&spte->frame->frame_lock);
-    lock_release(&spte->page_lock);
+    lock_acquire (&spte->page_lock);
+    // ASSERT(lock_held_by_current_thread(&spte->frame->frame_lock));
+    // lock_release (&spte->frame->frame_lock);
+    struct frame_table_entry* fte = &(frame_table->frame_table_entry[(uint32_t) spte->fid]);
+    lock_release (&fte->frame_lock);
+    lock_release (&spte->page_lock);
 }
 
 
@@ -1036,12 +1327,12 @@ void un_pin_page(void* virtual_address) {
 // #include <string.h>
 // #include "userprog/syscall.h"
 
-// static void load_swap_page(struct supplementary_page_table_entry* spte);
-// static void load_file_page(struct supplementary_page_table_entry* spte);
-// static void load_mmaped_page(struct supplementary_page_table_entry* spte);
-// static void evict_swap_page(struct supplementary_page_table_entry* spte);
-// static void evict_file_page(struct supplementary_page_table_entry* spte);
-// static void evict_mmaped_page(struct supplementary_page_table_entry* spte);
+// static void load_swap_page (struct supplementary_page_table_entry* spte);
+// static void load_file_page (struct supplementary_page_table_entry* spte);
+// static void load_mmaped_page (struct supplementary_page_table_entry* spte);
+// static void evict_page_from_swap_block (struct supplementary_page_table_entry* spte);
+// static void evict_page_from_file_system (struct supplementary_page_table_entry* spte);
+// static void evict_page_from_map_memory (struct supplementary_page_table_entry* spte);
 
 // static void free_hash_entry(struct hash_elem* e, void* aux UNUSED);
 
@@ -1088,7 +1379,7 @@ void un_pin_page(void* virtual_address) {
 //     spte->page_zero_bytes = zero_bytes;
 //     spte->sid = NULL; 
 //     lock_init(&spte->page_lock);
-//     // lock_acquire(&spte->page_lock);
+//     // lock_acquire (&spte->page_lock);
 //     // struct hash* target_table = &thread_current()->spte_table;
 //     // struct supplementary_page_table_entry* outcome = hash_entry(hash_insert(target_table, &spte->elem), struct supplementary_page_table_entry, elem);
 //     // if (outcome != NULL) {
@@ -1169,92 +1460,6 @@ void un_pin_page(void* virtual_address) {
 // // }
 
 
-// void load_page_from_map_memory (struct supplementary_page_table_entry* spte, struct frame_table_entry* fte)
-// {
-//   // void* kaddr = palloc_get_page (PAL_USER);
-//   // spte->fid = frame_table_get_id (kaddr);
-//   // struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-//   load_page_from_file_system (spte, fte);
-// }
-
-// void load_page_from_swap_block (struct supplementary_page_table_entry* spte, struct frame_table_entry* fte)
-// {
-// //       void* kaddr = palloc_get_page (PAL_USER);
-// //   struct frame_table_entry fte;
-
-// //   if (kaddr)
-// //   {
-// //     spte->fid = (void*) frame_table_get_id (kaddr);
-// //     // Obtain a frame to store the page.
-// //     fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-// //     // ASSERT (&fte.spte == NULL);
-// //     // ASSERT (&fte.spte != NULL);
-// //     ASSERT (&fte.spte->page_lock == NULL);
-// //   }
-// //   else
-// //   {
-// //     // printf ("eviction need!\n");
-// //     frame_table->frame_table_entry[(uint32_t) spte->fid] = evict_frame();
-// //     // frame_table_evict ();
-// //     fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-
-// //     // ASSERT (&fte.spte->page_lock != NULL);
-// //   }
-
-//   swap_block_read(spte->frame->frame, (uint32_t) spte->sid);
-// //   void* kaddr = palloc_get_page (PAL_USER);
-// //   spte->fid = (void*) frame_table_get_id (kaddr);
-// //   struct frame_table_entry fte = frame_table->frame_table_entry[(uint32_t) spte->fid];
-// }
-
-// void load_page_from_file_system (struct supplementary_page_table_entry* spte, struct frame_table_entry* fte)
-// {
-
-
-//   /* All zero page. */
-//   if (spte->page_zero_bytes == PGSIZE)
-//   {
-//     memset (fte->frame, 0, PGSIZE);
-//     // if (install_page_copy (spte->pid, fte.frame, spte->writeable))
-//     // {
-//     //     return ;
-//     // }
-//     return ;
-//   }
-
-  
-//   // Fetch data into the frame.
-//   uint32_t read_bytes = file_read_at (spte->file, fte->frame, spte->page_read_bytes, spte->file_ofs);
-
-//   if (spte->page_read_bytes != PGSIZE)
-//   {
-//     memset (fte->frame + spte->page_read_bytes, 0, PGSIZE - spte->page_read_bytes);
-//   }
-//   if (read_bytes != spte->page_read_bytes)
-//   {
-//     // palloc_free_page (kaddr);
-//     sysexit (-1);
-//   }
-
-//   return ;
-// //   if (install_page_copy (spte->pid, fte.frame, spte->writeable))
-// //   {
-// //     return ;
-// //     // // printf ("successfully install\n");
-// //     // fte.spte = spte;
-// //     // spte->in_physical_memory = true;
-// //     // ASSERT (&fte.spte != NULL);
-// //     // ASSERT (&fte.spte->page_lock != NULL);
-// //   }
-// //   else
-// //   {
-// //     return ;
-// //     // fte.spte = NULL;
-// //     // palloc_free_page (kaddr);
-// //     // sysexit (-1);
-// //     // return ;
-// //   }
-// }
 
 
 
@@ -1263,7 +1468,7 @@ void un_pin_page(void* virtual_address) {
 //  DESCRIPTION: loads a page from swap to physical memory
 //  --------------------------------------------------------------------
 //  */
-// static void load_swap_page(struct supplementary_page_table_entry* spte) {
+// static void load_swap_page (struct supplementary_page_table_entry* spte) {
 //     assert_spte_consistency(spte);
 //     swap_block_read(spte->frame->frame, (uint32_t) spte->sid);
 //     assert_spte_consistency(spte);
@@ -1276,18 +1481,18 @@ void un_pin_page(void* virtual_address) {
 //     locks the frame, so we do not need to pin here.
 //  --------------------------------------------------------------------
 //  */
-// static void load_file_page(struct supplementary_page_table_entry* spte) {
+// static void load_file_page (struct supplementary_page_table_entry* spte) {
 //     assert_spte_consistency(spte);
 //     // printf ("start load_file_page\n");
 //     if (spte->page_zero_bytes == PGSIZE) {
 //         memset(spte->frame->frame, 0, PGSIZE);
 //         return;
 //     }
-//     lock_acquire(&file_system_lock);
+//     lock_acquire (&file_system_lock);
 //     // printf ("start load_file_page\n");
 //     uint32_t bytes_read = file_read_at (spte->file, spte->frame->frame, spte->page_read_bytes, spte->file_ofs);
 //     // printf ("end load_file_page\n");
-//     lock_release(&file_system_lock);
+//     lock_release (&file_system_lock);
 //     if (bytes_read != spte->page_read_bytes) {
 //         // thread_current()->vital_info->exit_status = -1;
 //         // if (thread_current()->is_running_user_program) {
@@ -1308,9 +1513,9 @@ void un_pin_page(void* virtual_address) {
 //  DESCRIPTION: loads a memory mapped page into memory
 //  --------------------------------------------------------------------
 //  */
-// static void load_mmaped_page(struct supplementary_page_table_entry* spte) {
+// static void load_mmaped_page (struct supplementary_page_table_entry* spte) {
 //     /* No difference between loading mmapped pages and file pages in */
-//     return load_file_page(spte);
+//     return load_file_page (spte);
 // }
 
 // /*
@@ -1329,13 +1534,13 @@ void un_pin_page(void* virtual_address) {
 //     if (is_fresh_stack_page == false) {
 //         switch (spte->location) {
 //             case SWAP_BLOCK:
-//                 load_swap_page(spte);
+//                 load_swap_page (spte);
 //                 break;
 //             case FILE_SYSTEM:
-//                 load_file_page(spte);
+//                 load_file_page (spte);
 //                 break;
 //             case MAP_MEMORY:
-//                 load_mmaped_page(spte);
+//                 load_mmaped_page (spte);
 //                 break;
 //             default:
 //                 // thread_current()->vital_info->exit_status = -1;
@@ -1358,7 +1563,7 @@ void un_pin_page(void* virtual_address) {
 //     frame to a swap slot
 //  --------------------------------------------------------------------
 //  */
-// static void evict_swap_page(struct supplementary_page_table_entry* spte) {
+// static void evict_page_from_swap_block (struct supplementary_page_table_entry* spte) {
 //     assert_spte_consistency(spte);
 //     uint32_t swap_index = swap_block_write(spte->frame->frame);
 //     spte->sid = swap_index;
@@ -1373,15 +1578,15 @@ void un_pin_page(void* virtual_address) {
 //     it as always dirty, which means it will forever more be a swap. 
 //  --------------------------------------------------------------------
 //  */
-// static void evict_file_page(struct supplementary_page_table_entry* spte) {
+// static void evict_page_from_file_system (struct supplementary_page_table_entry* spte) {
 //     assert_spte_consistency(spte);
-//     lock_acquire(&spte->owner_thread->pagedir_lock);
+//     lock_acquire (&spte->owner_thread->pagedir_lock);
 //     uint32_t* pagedir = spte->owner_thread->pagedir;
 //     bool dirty = pagedir_is_dirty(pagedir, spte->frame->spte->pid);
-//     lock_release(&spte->owner_thread->pagedir_lock);
+//     lock_release (&spte->owner_thread->pagedir_lock);
 //     if (dirty) {
 //         spte->location = SWAP_BLOCK;
-//         evict_swap_page(spte);
+//         evict_page_from_swap_block (spte);
 //     }
 //     assert_spte_consistency(spte);
 // }
@@ -1394,22 +1599,22 @@ void un_pin_page(void* virtual_address) {
 //     that subsequent checks will only write if dirty again. 
 //  --------------------------------------------------------------------
 //  */
-// static void evict_mmaped_page(struct supplementary_page_table_entry* spte) {
+// static void evict_page_from_map_memory (struct supplementary_page_table_entry* spte) {
 //     assert_spte_consistency(spte);
 
 //     uint32_t* pagedir = spte->owner_thread->pagedir;
-//     lock_acquire(&spte->owner_thread->pagedir_lock);
+//     lock_acquire (&spte->owner_thread->pagedir_lock);
 //     void *page_id = spte->pid;
 //     bool dirty = pagedir_is_dirty(pagedir, page_id);
 //     if (dirty) {
 //         pagedir_set_dirty(pagedir, page_id, false);
-//         lock_release(&spte->owner_thread->pagedir_lock);
-//         lock_acquire(&file_system_lock);
+//         lock_release (&spte->owner_thread->pagedir_lock);
+//         lock_acquire (&file_system_lock);
 //         file_write_at (spte->file, spte->frame->frame, spte->page_read_bytes,
 //                        spte->file_ofs);
-//         lock_release(&file_system_lock);
+//         lock_release (&file_system_lock);
 //     } else {
-//         lock_release(&spte->owner_thread->pagedir_lock);
+//         lock_release (&spte->owner_thread->pagedir_lock);
 //     }
 
 //     assert_spte_consistency(spte);
@@ -1425,36 +1630,36 @@ void un_pin_page(void* virtual_address) {
 // // munmap_state(struct mmap_state *mmap_s, struct thread *t)
 // // {
 // //     void *page;
-// //     lock_acquire(&file_system_lock);
+// //     lock_acquire (&file_system_lock);
 // //     int size = file_length(mmap_s->fp);
-// //     lock_release(&file_system_lock);
+// //     lock_release (&file_system_lock);
     
 // //     /* Write back dirty pages, and free all pages in use */
 // //     for (page = mmap_s->vaddr; page < mmap_s->vaddr + size; page += PGSIZE)
 // //     {
 // //         struct supplementary_page_table_entry *entry = find_spte(page, t);
 // //         ASSERT (entry != NULL);
-// //         lock_acquire(&entry->page_lock);
+// //         lock_acquire (&entry->page_lock);
 // //         if (entry->in_physical_memory == true) {
 // //             if (lock_held_by_current_thread(&entry->frame->frame_lock) == false) {
-// //                 lock_acquire(&entry->frame->frame_lock);
+// //                 lock_acquire (&entry->frame->frame_lock);
 // //             }
-// //             clear_page(entry->pid, entry->owner_thread);
-// //             evict_mmaped_page(entry);
+// //             clear_page_copy (entry->pid, entry->owner_thread);
+// //             evict_page_from_map_memory (entry);
 // //             entry->in_physical_memory = false;
-// //             palloc_free_page(entry->frame->frame);
-// //             lock_release(&entry->frame->frame_lock);
+// //             palloc_free_page (entry->frame->frame);
+// //             lock_release (&entry->frame->frame_lock);
 // //             entry->frame->spte = NULL;
 // //             entry->frame = NULL;
 // //         }
-// //         lock_release(&entry->page_lock);
+// //         lock_release (&entry->page_lock);
 // //         hash_delete(&t->spte_table, &entry->elem);
 // //         free(entry);
 // //     }
 
-// //     lock_acquire(&file_system_lock);
+// //     lock_acquire (&file_system_lock);
 // //     file_close(mmap_s->fp);
-// //     lock_release(&file_system_lock);
+// //     lock_release (&file_system_lock);
     
 // //     struct list_elem *next = list_remove(&mmap_s->elem);
 // //     free(mmap_s);
@@ -1470,16 +1675,16 @@ void un_pin_page(void* virtual_address) {
 //  */
 // bool evict_page_from_physical_memory(struct supplementary_page_table_entry* spte) {
 //     assert_spte_consistency(spte);
-//     clear_page(spte->pid, spte->owner_thread);
+//     clear_page_copy (spte->pid, spte->owner_thread);
 //     switch (spte->location) {
 //         case SWAP_BLOCK:
-//             evict_swap_page(spte);
+//             evict_page_from_swap_block (spte);
 //             break;
 //         case FILE_SYSTEM:
-//             evict_file_page(spte);
+//             evict_page_from_file_system (spte);
 //             break;
 //         case MAP_MEMORY:
-//             evict_mmaped_page(spte);
+//             evict_page_from_map_memory (spte);
 //             break;
 //         default:
 //             sysexit(-1);
@@ -1571,13 +1776,13 @@ void un_pin_page(void* virtual_address) {
 
 // static void free_supplementary_page_table_entry(struct list_elem* e) {
 //     struct supplementary_page_table_entry* spte = list_entry(e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
-//     lock_acquire(&spte->page_lock);
+//     lock_acquire (&spte->page_lock);
 //     if (spte->in_physical_memory) {
-//         clear_page(spte->pid, spte->owner_thread);
+//         clear_page_copy (spte->pid, spte->owner_thread);
 //         frame_handler_palloc_free(spte);
 //         spte->in_physical_memory = false;
 //     }
-//     lock_release(&spte->page_lock);
+//     lock_release (&spte->page_lock);
 //     // free_spte(spte);
 //     free(spte);
 // }
@@ -1650,10 +1855,10 @@ void un_pin_page(void* virtual_address) {
 // bool install_page_copy(void *upage, void *kpage, bool writeable) {
 //     struct thread *t = thread_current ();
     
-//     lock_acquire(&t->pagedir_lock);
+//     lock_acquire (&t->pagedir_lock);
 //     bool result = (pagedir_get_page (t->pagedir, upage) == NULL
 //             && pagedir_set_page (t->pagedir, upage, kpage, writeable));
-//     lock_release(&t->pagedir_lock);
+//     lock_release (&t->pagedir_lock);
 //     return result;
 // }
 
@@ -1664,12 +1869,12 @@ void un_pin_page(void* virtual_address) {
 //     must check for this case.
 //  --------------------------------------------------------------------
 //  */
-// void clear_page(void* upage, struct thread* t) {
-//     lock_acquire(&t->pagedir_lock);
+// void clear_page_copy (void* upage, struct thread* t) {
+//     lock_acquire (&t->pagedir_lock);
 //     if (t->pagedir != NULL) {
-//         pagedir_clear_page(t->pagedir, upage);
+//         pagedir_clear_page (t->pagedir, upage);
 //     }
-//     lock_release(&t->pagedir_lock);
+//     lock_release (&t->pagedir_lock);
 // }
 
 // #define PUSHA_BYTE_DEPTH 32
@@ -1814,18 +2019,18 @@ void un_pin_page(void* virtual_address) {
 //     we have to hunt down the new frame.
 //  --------------------------------------------------------------------
 //  */
-// void pin_page(void* virtual_address) {
+// void pin_page (void* virtual_address) {
 //     struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (virtual_address);
 //     // struct supplementary_page_table_entry* spte = find_spte(virtual_address, thread_current());
-//     lock_acquire(&spte->page_lock);
+//     lock_acquire (&spte->page_lock);
 //     if (spte->in_physical_memory != true) {
 //         frame_handler_palloc(false, spte, true, false);
 //     } else {
-//         lock_release(&spte->page_lock);
-//         lock_acquire(&spte->page_lock);
+//         lock_release (&spte->page_lock);
+//         lock_acquire (&spte->page_lock);
 //         bool success = aquire_frame_lock(spte->frame, spte);
 //         if (success) {
-//             lock_release(&spte->page_lock);
+//             lock_release (&spte->page_lock);
 //             return;
 //         } else {
 //             if (spte->in_physical_memory != true) {
@@ -1847,13 +2052,13 @@ void un_pin_page(void* virtual_address) {
 //  IMPLIMENTATION NOTES:
 //  --------------------------------------------------------------------
 //  */
-// void un_pin_page(void* virtual_address) {
+// void unpin_page (void* virtual_address) {
 //     struct supplementary_page_table_entry* spte = supplementary_page_table_entry_find (virtual_address);
 //     // struct supplementary_page_table_entry* spte = find_spte(virtual_address, thread_current());
-//     lock_acquire(&spte->page_lock);
+//     lock_acquire (&spte->page_lock);
 //     ASSERT(lock_held_by_current_thread(&spte->frame->frame_lock));
-//     lock_release(&spte->frame->frame_lock);
-//     lock_release(&spte->page_lock);
+//     lock_release (&spte->frame->frame_lock);
+//     lock_release (&spte->page_lock);
 // }
 
 

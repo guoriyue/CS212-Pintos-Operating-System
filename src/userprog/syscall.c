@@ -19,7 +19,7 @@
 static void check_usr_ptr (const void* u_ptr, void* esp);
 static void check_usr_string (const char* str, void* esp);
 static void check_usr_buffer (const void* buffer, unsigned length, void* esp, bool check_writable);
-static bool pinning_file (const char* filename);
+static bool pinning_file (const char* filename, bool get_length);
 // static uint32_t read_frame(struct intr_frame* f, int byteOffset);
 // static int add_to_open_file_list(struct file* fp);
 static void select_pinning_page (const void* begin, unsigned length, bool pinning);
@@ -69,7 +69,7 @@ static unsigned pinning_len(const char* string) {
  --------------------------------------------------------------------
  */
 // #define MAX_FILENAME_LENGTH 14
-static bool pinning_file (const char* filename)
+static bool pinning_file (const char* filename, bool get_length)
 {
   // if (str_len > 14) {
   //   return false;
@@ -89,6 +89,10 @@ static bool pinning_file (const char* filename)
     if (*str == '\0') break;
     str_len++;
     str = (char*)str + 1;
+  }
+  if (get_length)
+  {
+    return str_len;
   }
   // if (str_len > 14) {
   //     last_page = NULL;
@@ -169,10 +173,14 @@ static void check_usr_ptr (const void* ptr, void* esp)
   } 
   if (supplementary_page_table_entry_find ((void*)ptr) == NULL)
   {
-    if (is_valid_stack_access (esp, (void*)ptr))
+    // if (is_valid_stack_access (esp, (void*)ptr))
+    if ((ptr == esp - 4 || ptr == esp - 32
+         || ptr >= esp) // SUB $n, %esp instruction, and then use a MOV ..., m(%esp) instruction to write to a stack location within the allocated space that is m bytes above the current stack pointer.
+         && (uint32_t) ptr >= (uint32_t) (PHYS_BASE - 8 * 1024 * 1024) // 8 MB stack size
+         && (uint32_t) ptr <= (uint32_t) PHYS_BASE)
     {
       void* new_stack_page = pg_round_down (ptr);
-      grow_stack (new_stack_page);
+      stack_growth (new_stack_page);
     }
     else
     {
@@ -232,7 +240,7 @@ static void check_usr_string (const char* str, void* esp)
     address is the offset of the address in the page.
  NOTE: if we ever encounter length being less than distance to 
     next page, we have covered all of the necessary pages.
- NOTE: if pinning is true, we pin, otherwise, we un_pin
+ NOTE: if pinning is true, we pin, otherwise, we unpin
  NOTE: must be called first with pin, then unpin!
 
 
@@ -250,7 +258,7 @@ static void select_pinning_page (const void* begin, unsigned length, bool pinnin
   }
   else
   {
-    un_pin_page (curr_page);
+    unpin_page (curr_page);
   }
   while (length > PGSIZE)
   {
@@ -262,7 +270,7 @@ static void select_pinning_page (const void* begin, unsigned length, bool pinnin
     }
     else
     {
-      un_pin_page (curr_page);
+      unpin_page (curr_page);
     }
     length -= PGSIZE;
   }
@@ -275,7 +283,7 @@ static void select_pinning_page (const void* begin, unsigned length, bool pinnin
     }
     else
     {
-      un_pin_page (last_page);
+      unpin_page (last_page);
     }
   }
 }
@@ -352,11 +360,11 @@ syscall_handler (struct intr_frame *f UNUSED)
 {
   /* System call number is pushed onto stack as uint32_t. */
   int* esp = f->esp;
-  // if (!get_valid_argument (esp, 0)) sysexit (-1);
+  if (!get_valid_argument (esp, 0)) sysexit (-1);
   uint32_t syscall_number = (uint32_t)*esp;
   /* Use char* to get arguments. */
-  struct lock file_system_lock;
-  lock_init(&file_system_lock);
+  struct lock syscall_system_lock;
+  lock_init(&syscall_system_lock);
   if (syscall_number == SYS_EXIT)
   {
     int status = (int) get_valid_argument (esp, 1);
@@ -364,94 +372,94 @@ syscall_handler (struct intr_frame *f UNUSED)
   }
   else if (syscall_number == SYS_EXEC)
   {
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     char* cmd_line = (char*) get_valid_argument (esp, 1);
     f->eax = sysexec (cmd_line, esp);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_WAIT)
   {
     int pid = (int)get_valid_argument (esp, 1);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     f->eax = (uint32_t) syswait (pid);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_OPEN)
   {
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     char* file = (char*)get_valid_argument (esp, 1);
     
     f->eax = (uint32_t) sysopen (file, esp);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_WRITE)
   {
     int fd = (int)get_valid_argument (esp, 1);
     void * buffer = (void *)get_valid_argument (esp, 2);
     unsigned size = (unsigned)get_valid_argument (esp, 3);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     f->eax = (uint32_t) syswrite (fd, buffer, size, esp);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_HALT)
   {
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     syshalt();
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_CREATE)
   {
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     char* file = (char*)get_valid_argument (esp, 1);
     unsigned initial_size = (unsigned)get_valid_argument (esp, 2);
     
     f->eax = (uint32_t) syscreate(file, initial_size, esp);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_REMOVE)
   {
     char* file = (char*)get_valid_argument (esp, 1);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     f->eax = (uint32_t) sysremove (file, esp);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_FILESIZE)
   {
     int fd = get_valid_argument (esp, 1);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     f->eax = (uint32_t) sysfilesize (fd);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_READ)
   {
     int fd = get_valid_argument (esp, 1);
     void * buffer = (void *)get_valid_argument (esp, 2);
     unsigned size = (unsigned)get_valid_argument (esp, 3);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     f->eax = (uint32_t) sysread (fd, buffer, size, esp);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_SEEK)
   {
     int fd = get_valid_argument (esp, 1);
     unsigned position = (unsigned) get_valid_argument (esp, 2);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     sysseek (fd, position);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_TELL)
   {
     int fd = get_valid_argument (esp, 1);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     f->eax = (uint32_t) systell (fd);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   else if (syscall_number == SYS_CLOSE)
   {
     int fd = get_valid_argument (esp, 1);
-    lock_acquire(&file_system_lock);
+    lock_acquire(&syscall_system_lock);
     sysclose (fd);
-    lock_release(&file_system_lock);
+    lock_release(&syscall_system_lock);
   }
   // else if (syscall_number == SYS_MMAP)
   // {
@@ -1363,14 +1371,16 @@ int
 sysopen (const char *file, void* esp) {
     // printf ("sysopen begin\n");
     check_usr_string(file, esp);
-    pinning_file (file);
+    pinning_file (file, false);
     // if (!pinning_file(file)) {
     //   // printf ("sysopen return 111\n");
     //     return -1;
     // }
     // lock_acquire(&file_system_lock);
     unsigned length = strlen(file);
+    lock_acquire(&file_system_lock);
     struct file* f = filesys_open(file);
+    lock_release(&file_system_lock);
     select_pinning_page (file, length, false);
 
     // lock_release(&file_system_lock);
@@ -1500,7 +1510,9 @@ syswrite (int fd, const void *buffer, unsigned length, void* esp) {
     {
 
       struct file *f = cur->file_handlers[fd];
+      lock_acquire(&file_system_lock);
       ans = file_write (f, buffer, length);
+      lock_release(&file_system_lock);
     }
   }
   select_pinning_page (buffer, length, false);
@@ -1584,13 +1596,15 @@ syshalt (void)
 
 bool syscreate (const char *file, unsigned initial_size, void* esp) {
     check_usr_string(file, esp);
-    pinning_file (file);
+    pinning_file (file, false);
     // if (!pinning_file(file)) {
     //     return false;
     // }
-    // lock_acquire(&file_system_lock);
+    // 
     unsigned length = strlen(file);
+    lock_acquire(&file_system_lock);
     bool outcome = filesys_create(file, initial_size);
+    lock_release(&file_system_lock);
     select_pinning_page (file, length, false);
     // lock_release(&file_system_lock);
     
@@ -1610,17 +1624,19 @@ bool syscreate (const char *file, unsigned initial_size, void* esp) {
 bool 
 sysremove (const char *file, void* esp) {
     check_usr_string(file, esp);
-    pinning_file (file);
+    pinning_file (file, false);
     // if (!pinning_file(file)) {
     //     // return -1;
     //     return false;
     // }
     
-    // lock_acquire(&file_system_lock);
+    
     unsigned length = strlen(file);
+    lock_acquire(&file_system_lock);
     bool outcome = filesys_remove(file);
+        lock_release(&file_system_lock);
     select_pinning_page (file, length, false);
-    // lock_release(&file_system_lock);
+
     
     return outcome;
 }
@@ -1701,7 +1717,12 @@ sysread (int fd, void *buffer, unsigned length, void* esp) {
   {
     struct file *f = cur->file_handlers[fd];
     if (f == NULL) ans = -1;
-    else ans = file_read (f, buffer, length);
+    else 
+    {
+      lock_acquire(&file_system_lock);
+      ans = file_read (f, buffer, length);
+      lock_release(&file_system_lock);
+    }
   }
   select_pinning_page (buffer, length, false);
   return ans;

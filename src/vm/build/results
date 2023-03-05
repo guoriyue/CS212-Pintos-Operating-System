@@ -3,11 +3,11 @@ pass tests/userprog/args-single
 pass tests/userprog/args-multiple
 pass tests/userprog/args-many
 pass tests/userprog/args-dbl-space
-FAIL tests/userprog/sc-bad-sp
+pass tests/userprog/sc-bad-sp
 pass tests/userprog/sc-bad-arg
 pass tests/userprog/sc-boundary
 pass tests/userprog/sc-boundary-2
-FAIL tests/userprog/sc-boundary-3
+pass tests/userprog/sc-boundary-3
 pass tests/userprog/halt
 pass tests/userprog/exit
 pass tests/userprog/create-normal
@@ -51,7 +51,7 @@ pass tests/userprog/exec-missing
 pass tests/userprog/exec-bad-ptr
 pass tests/userprog/wait-simple
 pass tests/userprog/wait-twice
-FAIL tests/userprog/wait-killed
+pass tests/userprog/wait-killed
 pass tests/userprog/wait-bad-pid
 pass tests/userprog/multi-recurse
 pass tests/userprog/multi-child-fd
@@ -76,8 +76,8 @@ pass tests/vm/pt-grow-stk-sc
 pass tests/vm/page-linear
 pass tests/vm/page-parallel
 pass tests/vm/page-merge-seq
-FAIL tests/vm/page-merge-par
-FAIL tests/vm/page-merge-stk
+pass tests/vm/page-merge-par
+pass tests/vm/page-merge-stk
 FAIL tests/vm/page-merge-mm
 pass tests/vm/page-shuffle
 FAIL tests/vm/mmap-read

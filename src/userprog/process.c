@@ -210,7 +210,7 @@ process_wait (tid_t child_tid UNUSED)
         /* One process only wait once. */
         list_remove (&es->exit_status_elem);
         
-        // free (es);
+        free (es);
         lock_release (&cur->list_lock);
         return ret_exit_status;
       }
@@ -226,23 +226,38 @@ void notify_children_parent_is_terminated (void)
     struct list_elem *e;
     // lock_acquire (&file_system_lock);
     lock_acquire(&cur->list_lock);
-    if (!list_empty(&cur->children_exit_status_list))
+    while (!list_empty(&cur->children_exit_status_list))
     {
-    for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
-      e = list_next (e))
-   {
-        struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
-
-        // lock_acquire(&es->es_lock);
-        if (es->child_terminated) {
+      e = list_pop_front (&cur->children_exit_status_list);
+      struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+      if (es->child_terminated) {
             // lock_release(&es->es_lock);
-            // free(es);
+            // list_remove (&es->exit_status_elem);
+            free (es);
         } else {
             es->parent_terminated = true;
             // lock_release(&es->es_lock);
         }
+
+  //   for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+  //     e = list_next (e))
+  //  {
+  //       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+
+  //       // lock_acquire(&es->es_lock);
+  //       if (es->child_terminated) {
+  //           // lock_release(&es->es_lock);
+  //           list_remove (&es->exit_status_elem);
+  //           free(es);
+  //       } else {
+  //           es->parent_terminated = true;
+  //           // lock_release(&es->es_lock);
+  //       }
+  //   }
     }
-    }
+
+
+
     lock_release(&cur->list_lock);
 
 }
@@ -251,7 +266,7 @@ void notify_children_parent_is_terminated (void)
 void
 process_exit (void)
 {
-// enum intr_level old_level = intr_disable();
+enum intr_level old_level = intr_disable();
  struct thread *cur = thread_current ();
  uint32_t *pd;
  /* Free terminated children threads. */
@@ -275,12 +290,12 @@ process_exit (void)
   // lock_release (&file_system_lock);
   notify_children_parent_is_terminated();
 
-  lock_release (&file_system_lock);
+  // lock_release (&file_system_lock);
 
 
-  enum intr_level old_level = intr_disable();
+  // enum intr_level old_level = intr_disable();
 
-       lock_acquire (&file_system_lock);
+      //  lock_acquire (&file_system_lock);
    if (cur->file_handlers != NULL)
  {
    for (int fd = 2; fd < cur->file_handlers_number; fd++)
@@ -288,6 +303,7 @@ process_exit (void)
      if (cur->file_handlers[fd] != NULL)
      {
        file_close (cur->file_handlers[fd]);
+      //  free (cur->file_handlers[fd]);
       //  lock_release(&file_system_lock);
      }
    }
@@ -660,109 +676,110 @@ validate_segment (const struct Elf32_Phdr *phdr, struct file *file)
    user process if WRITABLE is true, read-only otherwise.
    Return true if successful, false if a memory allocation error
    or disk read error occurs. */
-// static bool
-// load_segment (struct file *file, off_t ofs, uint8_t *upage,
-//               uint32_t read_bytes, uint32_t zero_bytes, bool writable) 
-// {
-//   ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
-//   ASSERT (pg_ofs (upage) == 0);
-//   ASSERT (ofs % PGSIZE == 0);
-
-//   file_seek (file, ofs);
-//   while (read_bytes > 0 || zero_bytes > 0) 
-//     {
-//       /* Calculate how to fill this page.
-//          We will read PAGE_READ_BYTES bytes from FILE
-//          and zero the final PAGE_ZERO_BYTES bytes. */
-//       size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
-//       size_t page_zero_bytes = PGSIZE - page_read_bytes;
-//       void* spid = pg_round_down (upage);
-//       struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
-//         spid,
-//         writable,
-//         FILE_SYSTEM,
-//         page_read_bytes,
-//         page_zero_bytes,
-//         file,
-//         ofs
-//       );
-//       if (spte == NULL) {
-//           return false;
-//       }
-//       supplementary_page_table_entry_insert (spte);
-//       // lock_release(&spte->page_lock);
-      
-
-//       /* Advance. */
-//       read_bytes -= page_read_bytes;
-//       zero_bytes -= page_zero_bytes;
-//       upage += PGSIZE;
-//       // DONT FORGET TO UPDATE OFFSET
-//       ofs += page_read_bytes;
-//     }
-//   // printf ("load segment return\n");
-//   return true;
-// }
-
-
 static bool
 load_segment (struct file *file, off_t ofs, uint8_t *upage,
-              uint32_t read_bytes, uint32_t zero_bytes, bool writable)
+              uint32_t read_bytes, uint32_t zero_bytes, bool writable) 
 {
-    ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
-    ASSERT (pg_ofs (upage) == 0);
-    ASSERT (ofs % PGSIZE == 0);
-    
-    file_seek (file, ofs);
-    while (read_bytes > 0 || zero_bytes > 0)
+  ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
+  ASSERT (pg_ofs (upage) == 0);
+  ASSERT (ofs % PGSIZE == 0);
+
+  file_seek (file, ofs);
+  while (read_bytes > 0 || zero_bytes > 0) 
     {
-        /* Calculate how to fill this page.
+      /* Calculate how to fill this page.
          We will read PAGE_READ_BYTES bytes from FILE
          and zero the final PAGE_ZERO_BYTES bytes. */
-        size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
-        size_t page_zero_bytes = PGSIZE - page_read_bytes;
-        
-        //LP Project 3 addition
-        void* spte_id = (void*)pg_round_down(upage);
-        struct supplementary_page_table_entry* spte = create_spte_and_add_to_table(FILE_SYSTEM, spte_id, writable, false, file, ofs, page_read_bytes, page_zero_bytes);
-        // printf ("add here %d\n", (int) spte_id);
-        if (spte == NULL) {
-            return false;
-        }
-        lock_release(&spte->page_lock);
-        //End LP Project 3 addition
-        
-        
-        /* Get a page of memory. */
-       /* uint8_t *kpage = palloc_get_page (PAL_USER);
-        if (kpage == NULL)
-            return false;*/
-        
-        /* Load this page. */
-        /*if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
-        {
-            palloc_free_page (kpage);
-            return false;
-        }
-        memset (kpage + page_read_bytes, 0, page_zero_bytes); */
-        
-        /* Add the page to the process's address space. */
-       /* if (!install_page (upage, kpage, writable))
-        {
-            palloc_free_page (kpage);
-            return false;
-        }*/
-        
-        
-        
-        /* Advance. */
-        read_bytes -= page_read_bytes;
-        zero_bytes -= page_zero_bytes;
-        ofs += page_read_bytes;
-        upage += PGSIZE;
+      size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
+      size_t page_zero_bytes = PGSIZE - page_read_bytes;
+      void* spid = pg_round_down (upage);
+      struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
+        spid,
+        writable,
+        FILE_SYSTEM,
+        page_read_bytes,
+        page_zero_bytes,
+        file,
+        ofs,
+        false
+      );
+      if (spte == NULL) {
+          return false;
+      }
+      supplementary_page_table_entry_insert (spte);
+      lock_release(&spte->page_lock);
+      
+
+      /* Advance. */
+      read_bytes -= page_read_bytes;
+      zero_bytes -= page_zero_bytes;
+      upage += PGSIZE;
+      // DONT FORGET TO UPDATE OFFSET
+      ofs += page_read_bytes;
     }
-    return true;
+  // printf ("load segment return\n");
+  return true;
 }
+
+
+// static bool
+// load_segment (struct file *file, off_t ofs, uint8_t *upage,
+//               uint32_t read_bytes, uint32_t zero_bytes, bool writable)
+// {
+//     ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
+//     ASSERT (pg_ofs (upage) == 0);
+//     ASSERT (ofs % PGSIZE == 0);
+    
+//     file_seek (file, ofs);
+//     while (read_bytes > 0 || zero_bytes > 0)
+//     {
+//         /* Calculate how to fill this page.
+//          We will read PAGE_READ_BYTES bytes from FILE
+//          and zero the final PAGE_ZERO_BYTES bytes. */
+//         size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
+//         size_t page_zero_bytes = PGSIZE - page_read_bytes;
+        
+//         //LP Project 3 addition
+//         void* spte_id = (void*)pg_round_down(upage);
+//         struct supplementary_page_table_entry* spte = create_spte_and_add_to_table(FILE_SYSTEM, spte_id, writable, false, file, ofs, page_read_bytes, page_zero_bytes);
+//         // printf ("add here %d\n", (int) spte_id);
+//         if (spte == NULL) {
+//             return false;
+//         }
+//         lock_release(&spte->page_lock);
+//         //End LP Project 3 addition
+        
+        
+//         /* Get a page of memory. */
+//        /* uint8_t *kpage = palloc_get_page (PAL_USER);
+//         if (kpage == NULL)
+//             return false;*/
+        
+//         /* Load this page. */
+//         /*if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
+//         {
+//             palloc_free_page (kpage);
+//             return false;
+//         }
+//         memset (kpage + page_read_bytes, 0, page_zero_bytes); */
+        
+//         /* Add the page to the process's address space. */
+//        /* if (!install_page (upage, kpage, writable))
+//         {
+//             palloc_free_page (kpage);
+//             return false;
+//         }*/
+        
+        
+        
+//         /* Advance. */
+//         read_bytes -= page_read_bytes;
+//         zero_bytes -= page_zero_bytes;
+//         ofs += page_read_bytes;
+//         upage += PGSIZE;
+//     }
+//     return true;
+// }
 
 /* Create a minimal stack by mapping a zeroed page at the top of
    user virtual memory. */
@@ -778,7 +795,7 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
   bool success = false;
   int stack_size = 0;
   void* upage = (void*)(((uint8_t *) PHYS_BASE) - PGSIZE);
-  success = grow_stack(upage);
+  success = stack_growth (upage);
   char** arg_pointer = malloc ((((PGSIZE / sizeof(char *) - 8) / 2) 
                             * sizeof(char *) - 8) * sizeof (char*));
   memset(arg_pointer, 0, ((((PGSIZE / sizeof(char *) - 8) / 2) 

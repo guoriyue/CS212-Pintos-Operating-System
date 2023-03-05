@@ -29,12 +29,19 @@ struct frame_table *frame_table;
 
 void
 frame_table_init (size_t frame_table_entry_number, uint8_t* frame_table_base);
-struct frame_table_entry* evict_frame(void);
+struct frame_table_entry* frame_table_evict(void);
 // // void frame_table_init (size_t frame_table_entry_number, uint8_t* frame_table_base);
 // // size_t frame_table_scan (struct frame_table *f, size_t start, size_t cnt);
 // // bool frame_table_empty (struct frame_table *f, size_t start, size_t cnt);
 uint32_t
 frame_table_get_id (void* kaddr);
+uint32_t
+frame_table_find_id (struct frame_table_entry* fte);
+bool frame_lock_try_aquire (struct frame_table_entry* frame, struct supplementary_page_table_entry* page_try_pin);
+
+void load_page_from_file_system (struct supplementary_page_table_entry* spte, struct frame_table_entry* fte);
+void load_page_from_swap_block (struct supplementary_page_table_entry* spte, struct frame_table_entry* fte);
+void load_page_from_map_memory (struct supplementary_page_table_entry* spte, struct frame_table_entry* fte);
 // // struct frame_table_entry frame_table_evict (void);
 // // void
 // // frame_table_entry_free (struct supplementary_page_table_entry* spte);
@@ -104,7 +111,7 @@ bool frame_handler_palloc(bool zeros, struct supplementary_page_table_entry* spt
     frame cleanup...
  --------------------------------------------------------------------
  */
-bool frame_handler_palloc_free(struct supplementary_page_table_entry* spte);
+bool frame_table_entry_free (struct supplementary_page_table_entry* spte);
 
 /*
  --------------------------------------------------------------------
@@ -124,7 +131,7 @@ bool frame_handler_palloc_free(struct supplementary_page_table_entry* spte);
     and so we do not want to pin this page.
  --------------------------------------------------------------------
  */
-bool aquire_frame_lock(struct frame_table_entry* frame, struct supplementary_page_table_entry* page_trying_to_pin);
+// bool aquire_frame_lock(struct frame_table_entry* frame, struct supplementary_page_table_entry* page_trying_to_pin);
 
 
 // #endif /* __VM_FRAME_H */
