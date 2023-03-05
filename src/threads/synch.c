@@ -194,6 +194,10 @@ lock_acquire (struct lock *lock)
 {
   ASSERT (lock != NULL);
   ASSERT (!intr_context ());
+  if (lock_held_by_current_thread (lock))
+  {
+    ASSERT (!lock_held_by_current_thread (lock));
+  }
   ASSERT (!lock_held_by_current_thread (lock));
 
   sema_down (&lock->semaphore);
@@ -229,6 +233,11 @@ void
 lock_release (struct lock *lock) 
 {
   ASSERT (lock != NULL);
+  if (!lock_held_by_current_thread (lock))
+  {
+    // just for dbeug
+    lock->holder = NULL;
+  }
   ASSERT (lock_held_by_current_thread (lock));
 
   lock->holder = NULL;
@@ -241,6 +250,10 @@ lock_release (struct lock *lock)
 bool
 lock_held_by_current_thread (const struct lock *lock) 
 {
+  // if (lock == NULL)
+  // {
+  //   lock = NULL;
+  // }
   ASSERT (lock != NULL);
 
   return lock->holder == thread_current ();

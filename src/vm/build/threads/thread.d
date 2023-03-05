@@ -7,4 +7,5 @@ threads/thread.o: ../../threads/thread.c ../../threads/thread.h \
  ../../lib/string.h ../../threads/flags.h ../../threads/interrupt.h \
  ../../threads/intr-stubs.h ../../threads/palloc.h ../../threads/switch.h \
  ../../threads/vaddr.h ../../threads/loader.h ../../threads/malloc.h \
- ../../userprog/process.h
+ ../../userprog/process.h ../../vm/page.h ../../lib/inttypes.h \
+ ../../lib/round.h ../../lib/stdlib.h

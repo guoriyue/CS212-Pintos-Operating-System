@@ -12,6 +12,11 @@
         "stdbool.h": "c",
         "vaddr.h": "c",
         "block.h": "c",
-        "palloc.h": "c"
+        "palloc.h": "c",
+        "hash.h": "c",
+        "thread.h": "c",
+        "mmap.h": "c",
+        "filesys.h": "c",
+        "frame.h": "c"
     }
 }

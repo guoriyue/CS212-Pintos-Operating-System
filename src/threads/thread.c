@@ -15,7 +15,7 @@
 #ifdef USERPROG
 #include "userprog/process.h"
 #endif
-#include "vm/mmap.h"
+#include "vm/page.h"
 #include <hash.h>
 
 /* Random value for struct thread's `magic' member.
@@ -208,7 +208,11 @@ thread_create (const char *name, int priority,
   sema_init(&es->sema_wait_for_child, 0);
   
   es->exit_status = -2;
-  es->terminated = -2;
+  // es->terminated = -2;
+  // lock_init(&es->es_lock);
+  es->child_terminated = false;
+  es->parent_terminated = false;
+  es->has_been_waited_on = false;
   
   t->exit_status = es;
 
@@ -217,8 +221,11 @@ thread_create (const char *name, int priority,
 
   /* For assignment 3. */
 
-  list_init (&t->supplementary_page_table);
-  lock_init (&t->supplementary_page_table_lock);
+  // list_init (&t->supplementary_page_table);
+  // lock_init (&t->supplementary_page_table_lock);
+  // init_spte_table (&t->spte_table);
+  // t->mapid_cnt = 0;
+  // list_init(&t->mmapped_files);
 
   /* Add to run queue. */
   thread_unblock (t);
@@ -491,7 +498,12 @@ init_thread (struct thread *t, const char *name, int priority)
   t->parent = NULL;
   t->file_handlers_number = 2;
 
+  // for assignment 3
   list_init (&t->supplementary_page_table);
+  lock_init(&t->supplementary_page_table_lock);
+  // lock_init(&t->spte_table_lock);
+  lock_init(&t->pagedir_lock);
+  lock_init(&file_system_lock);
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

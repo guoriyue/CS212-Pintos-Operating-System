@@ -74,9 +74,11 @@ process_execute (const char *command_line)
   aux_args->fn_copy = fn_copy;
 
   /* Create a new thread to execute FILE_NAME. */
+  // lock_acquire(&file_system_lock);
   tid = thread_create (aux_args->file_name, PRI_DEFAULT, start_process, aux_args);
+  // lock_release(&file_system_lock);
   sema_down (&aux_args->sema_for_loading);
-
+  
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
   int ret = TID_ERROR;
@@ -84,7 +86,9 @@ process_execute (const char *command_line)
   {
     ret = tid;
   }
+  lock_acquire(&file_system_lock);
   free (aux_args);
+  lock_release(&file_system_lock);
   return ret;
 }
 
@@ -93,19 +97,26 @@ process_execute (const char *command_line)
 static void
 start_process (void *aux_args_)
 {
+  // for assignment 3
+  // struct thread *t = thread_current();
+  
+  // init_spte_table (&t->spte_table);
+  // t->mapid_counter = 0;
+  // list_init(&t->mmapped_files);
   /* This would get aux_args. */
   struct aux_args_struct *aux_args = (struct aux_args_struct*) aux_args_;
   char *file_name = aux_args->file_name;
   struct intr_frame if_;
   bool success;
-
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
+  lock_acquire(&file_system_lock);
   success = load (file_name, &if_.eip, &if_.esp, aux_args->command_arguments, 
                                   aux_args->command_arguments_number);
+  lock_release(&file_system_lock);
   aux_args->success = success;
 
   if (success)
@@ -114,29 +125,36 @@ start_process (void *aux_args_)
     /* A user process. */
     cur->kernel = false;
   } 
-  
+  lock_acquire(&file_system_lock);
   palloc_free_page (aux_args->fn_copy);
+  lock_release(&file_system_lock);
   if (!success)
   {
-    struct thread* cur = thread_current ();
-    lock_acquire (&cur->list_lock);
-    struct list_elem *e;
-    for (e = list_begin (&cur->parent->children_exit_status_list); 
-         e != list_end (&cur->parent->children_exit_status_list);
-         e = list_next (e))
-    {
-      /* If ITD was a child of the calling process. */
-      struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
-      if (es->process_id == cur->tid) {
-        es->terminated= 1;
-        break;
-      }
-    }
-    lock_release (&cur->list_lock);
+    // struct thread* cur = thread_current ();
+    // lock_acquire (&cur->list_lock);
+    // struct list_elem *e;
+    // for (e = list_begin (&cur->parent->children_exit_status_list); 
+    //      e != list_end (&cur->parent->children_exit_status_list);
+    //      e = list_next (e))
+    // {
+    //   /* If ITD was a child of the calling process. */
+    //   struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+    //   // if (es->process_id == cur->tid) {
+    //   //   es->terminated= 1;
+    //   //   break;
+    //   // }
+    // }
+    // lock_release (&cur->list_lock);
     sema_up (&aux_args->sema_for_loading);
-    thread_exit ();
+    // kill ();
+    sysexit (-1);
+    // lock_acquire(&file_system_lock);
+    // thread_current()->exit_status->exit_status = -1;
+    // thread_exit ();
+    // lock_release(&file_system_lock);
   }
   sema_up (&aux_args->sema_for_loading);
+  // lock_release(&file_system_lock);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
@@ -166,6 +184,8 @@ process_wait (tid_t child_tid UNUSED)
   struct list_elem *e;
 
   /* Acquire the lock of the list. */
+  // lock_acquire (&es->es_lock);
+  // lock_acquire (&file_system_lock);
   lock_acquire (&cur->list_lock);
   for (e = list_begin (&cur->children_exit_status_list); 
       e != list_end (&cur->children_exit_status_list);
@@ -174,83 +194,176 @@ process_wait (tid_t child_tid UNUSED)
       /* If TID was a child of the calling process. */
       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
       if (es->process_id == child_tid) {
-        sema_down (&es->sema_wait_for_child);
+
+
+        if (es->has_been_waited_on) return -1;
+          es->has_been_waited_on = true;
+        if (!es->child_terminated) {
+            // lock_release(&es->es_lock);
+            sema_down(&es->sema_wait_for_child);
+        } else {
+            // lock_release(&es->es_lock);
+        }
+
+        // sema_down (&es->sema_wait_for_child);
         ret_exit_status = es->exit_status;
         /* One process only wait once. */
         list_remove (&es->exit_status_elem);
-        free (es);
+        
+        // free (es);
         lock_release (&cur->list_lock);
         return ret_exit_status;
       }
     }
   lock_release (&cur->list_lock);
+  // lock_release (&file_system_lock);
   return -1;
+}
+
+void notify_children_parent_is_terminated (void)
+{
+    struct thread* cur = thread_current();
+    struct list_elem *e;
+    // lock_acquire (&file_system_lock);
+    lock_acquire(&cur->list_lock);
+    if (!list_empty(&cur->children_exit_status_list))
+    {
+    for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+      e = list_next (e))
+   {
+        struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+
+        // lock_acquire(&es->es_lock);
+        if (es->child_terminated) {
+            // lock_release(&es->es_lock);
+            // free(es);
+        } else {
+            es->parent_terminated = true;
+            // lock_release(&es->es_lock);
+        }
+    }
+    }
+    lock_release(&cur->list_lock);
+
 }
 
 /* Free the current process's resources. */
 void
 process_exit (void)
 {
+// enum intr_level old_level = intr_disable();
  struct thread *cur = thread_current ();
  uint32_t *pd;
  /* Free terminated children threads. */
 
 
- struct list_elem *e;
- /* Acquire the lock of the list. */
- lock_acquire (&cur->list_lock);
- for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
-      e = list_next (e))
-   {
-     /* If ITD was a child of the calling process. */
-     struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
-     if(es->terminated == 1)
-     {
-       /* list_lock is already held. Remove it directly */
-       list_remove (&es->exit_status_elem);
-       free (es);
-     }
-   }
- lock_release (&cur->list_lock);
+  // lock_acquire(&cur->exit_status->es_lock);
+  lock_acquire (&file_system_lock);
+  lock_acquire(&cur->list_lock);
+  if (cur->exit_status->parent_terminated) {
+      // lock_release(&cur->exit_status->es_lock);
+
+      free(cur->exit_status);
+      lock_release(&cur->list_lock);
+  } else {
+      cur->exit_status->child_terminated = true;
+      // lock_release(&cur->exit_status->es_lock);
+      
+      sema_up(&cur->exit_status->sema_wait_for_child);
+      lock_release(&cur->list_lock);
+  }
+  // lock_release (&file_system_lock);
+  notify_children_parent_is_terminated();
+
+  lock_release (&file_system_lock);
 
 
- /* Free current thread. */
- if(cur->exit_status->terminated == 1)
- {
-   list_remove (&cur->exit_status->exit_status_elem);
-   free (cur->exit_status);
+  enum intr_level old_level = intr_disable();
 
-
-   lock_acquire (&cur->list_lock);
-   for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
-       e = list_next (e))
-     {
-       /* If ITD was a child of the calling process. */
-       struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
-    
-       /* list_lock is already held. Remove it directly */
-       list_remove (&es->exit_status_elem);
-       free (es);
-    
-     }
-   lock_release (&cur->list_lock);
- }
-
-
- if (cur->file_handlers != NULL)
+       lock_acquire (&file_system_lock);
+   if (cur->file_handlers != NULL)
  {
    for (int fd = 2; fd < cur->file_handlers_number; fd++)
    {
      if (cur->file_handlers[fd] != NULL)
      {
        file_close (cur->file_handlers[fd]);
+      //  lock_release(&file_system_lock);
      }
    }
+  //  lock_acquire(&file_system_lock);
    free (cur->file_handlers);
+  //  lock_release(&file_system_lock);
  }
+  
+  // lock_acquire (&file_system_lock);
+  file_close(cur->exec_file);
+  lock_release(&file_system_lock);
 
- /* Close executable of process (which allows write). */
- file_close(cur->exec_file); 
+  intr_set_level(old_level);
+
+
+//  struct list_elem *e;
+//  /* Acquire the lock of the list. */
+//  lock_acquire (&cur->list_lock);
+//  for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+//       e = list_next (e))
+//    {
+//      /* If ITD was a child of the calling process. */
+//      struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+//      if(es->terminated == 1)
+//      {
+//        /* list_lock is already held. Remove it directly */
+//        list_remove (&es->exit_status_elem);
+//        free (es);
+//      }
+//    }
+//  lock_release (&cur->list_lock);
+
+
+//  /* Free current thread. */
+//  if(cur->exit_status->terminated == 1)
+//  {
+//    list_remove (&cur->exit_status->exit_status_elem);
+//    free (cur->exit_status);
+
+
+//    lock_acquire (&cur->list_lock);
+//    for (e = list_begin (&cur->children_exit_status_list); e != list_end (&cur->children_exit_status_list);
+//        e = list_next (e))
+//      {
+//        /* If ITD was a child of the calling process. */
+//        struct exit_status_struct* es = list_entry (e, struct exit_status_struct, exit_status_elem);
+    
+//        /* list_lock is already held. Remove it directly */
+//        list_remove (&es->exit_status_elem);
+//        free (es);
+    
+//      }
+//    lock_release (&cur->list_lock);
+//  }
+
+
+//  lock_acquire (&file_system_lock);
+
+//  if (cur->file_handlers != NULL)
+//  {
+//    for (int fd = 2; fd < cur->file_handlers_number; fd++)
+//    {
+//      if (cur->file_handlers[fd] != NULL)
+//      {
+//        file_close (cur->file_handlers[fd]);
+//      }
+//    }
+//    free (cur->file_handlers);
+//  }
+//   lock_release(&file_system_lock);
+
+//  /* Close executable of process (which allows write). */
+//  // inode_allow_write error
+//  file_close(cur->exec_file);
+
+// lock_release(&file_system_lock);
 
 
  /* Destroy the current process's page directory and switch back
@@ -269,6 +382,7 @@ process_exit (void)
      pagedir_activate (NULL);
      pagedir_destroy (pd);
    }
+  //  intr_set_level(old_level);
 }
 
 /* Sets up the CPU for running user code in the current
@@ -389,8 +503,9 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
       goto done; 
     }
   
-  /* Deny writes to executables. */
-  file_deny_write(file);   
+  // // for assignment 3
+  // /* Deny writes to executables. */
+  // file_deny_write(file);   
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
@@ -475,6 +590,15 @@ load (char *file_name, void (**eip) (void), void **esp, char** command_arguments
 
  done:
   // printf ("done load\n");
+  // for assignment 3
+  if (success)
+  {
+    file_deny_write(file);
+  }
+  else
+  {
+    file_close (file);
+  }
   return success;
 }
 
@@ -536,47 +660,108 @@ validate_segment (const struct Elf32_Phdr *phdr, struct file *file)
    user process if WRITABLE is true, read-only otherwise.
    Return true if successful, false if a memory allocation error
    or disk read error occurs. */
-static bool
-load_segment (struct file *file, off_t ofs, uint8_t *upage,
-              uint32_t read_bytes, uint32_t zero_bytes, bool writable) 
-{
-  ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
-  ASSERT (pg_ofs (upage) == 0);
-  ASSERT (ofs % PGSIZE == 0);
+// static bool
+// load_segment (struct file *file, off_t ofs, uint8_t *upage,
+//               uint32_t read_bytes, uint32_t zero_bytes, bool writable) 
+// {
+//   ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
+//   ASSERT (pg_ofs (upage) == 0);
+//   ASSERT (ofs % PGSIZE == 0);
 
-  file_seek (file, ofs);
-  while (read_bytes > 0 || zero_bytes > 0) 
-    {
-      /* Calculate how to fill this page.
-         We will read PAGE_READ_BYTES bytes from FILE
-         and zero the final PAGE_ZERO_BYTES bytes. */
-      size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
-      size_t page_zero_bytes = PGSIZE - page_read_bytes;
-      void* spid = pg_round_down (upage);
-      struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
-        spid,
-        writable,
-        FILE_SYSTEM,
-        page_read_bytes,
-        page_zero_bytes,
-        file,
-        ofs
-      );
-      if (spte == NULL) {
-          return false;
-      }
-      supplementary_page_table_entry_insert (spte);
+//   file_seek (file, ofs);
+//   while (read_bytes > 0 || zero_bytes > 0) 
+//     {
+//       /* Calculate how to fill this page.
+//          We will read PAGE_READ_BYTES bytes from FILE
+//          and zero the final PAGE_ZERO_BYTES bytes. */
+//       size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
+//       size_t page_zero_bytes = PGSIZE - page_read_bytes;
+//       void* spid = pg_round_down (upage);
+//       struct supplementary_page_table_entry* spte = supplementary_page_table_entry_create (
+//         spid,
+//         writable,
+//         FILE_SYSTEM,
+//         page_read_bytes,
+//         page_zero_bytes,
+//         file,
+//         ofs
+//       );
+//       if (spte == NULL) {
+//           return false;
+//       }
+//       supplementary_page_table_entry_insert (spte);
+//       // lock_release(&spte->page_lock);
       
 
-      /* Advance. */
-      read_bytes -= page_read_bytes;
-      zero_bytes -= page_zero_bytes;
-      upage += PGSIZE;
-      // DONT FORGET TO UPDATE OFFSET
-      ofs += page_read_bytes;
+//       /* Advance. */
+//       read_bytes -= page_read_bytes;
+//       zero_bytes -= page_zero_bytes;
+//       upage += PGSIZE;
+//       // DONT FORGET TO UPDATE OFFSET
+//       ofs += page_read_bytes;
+//     }
+//   // printf ("load segment return\n");
+//   return true;
+// }
+
+
+static bool
+load_segment (struct file *file, off_t ofs, uint8_t *upage,
+              uint32_t read_bytes, uint32_t zero_bytes, bool writable)
+{
+    ASSERT ((read_bytes + zero_bytes) % PGSIZE == 0);
+    ASSERT (pg_ofs (upage) == 0);
+    ASSERT (ofs % PGSIZE == 0);
+    
+    file_seek (file, ofs);
+    while (read_bytes > 0 || zero_bytes > 0)
+    {
+        /* Calculate how to fill this page.
+         We will read PAGE_READ_BYTES bytes from FILE
+         and zero the final PAGE_ZERO_BYTES bytes. */
+        size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
+        size_t page_zero_bytes = PGSIZE - page_read_bytes;
+        
+        //LP Project 3 addition
+        void* spte_id = (void*)pg_round_down(upage);
+        struct supplementary_page_table_entry* spte = create_spte_and_add_to_table(FILE_SYSTEM, spte_id, writable, false, file, ofs, page_read_bytes, page_zero_bytes);
+        // printf ("add here %d\n", (int) spte_id);
+        if (spte == NULL) {
+            return false;
+        }
+        lock_release(&spte->page_lock);
+        //End LP Project 3 addition
+        
+        
+        /* Get a page of memory. */
+       /* uint8_t *kpage = palloc_get_page (PAL_USER);
+        if (kpage == NULL)
+            return false;*/
+        
+        /* Load this page. */
+        /*if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
+        {
+            palloc_free_page (kpage);
+            return false;
+        }
+        memset (kpage + page_read_bytes, 0, page_zero_bytes); */
+        
+        /* Add the page to the process's address space. */
+       /* if (!install_page (upage, kpage, writable))
+        {
+            palloc_free_page (kpage);
+            return false;
+        }*/
+        
+        
+        
+        /* Advance. */
+        read_bytes -= page_read_bytes;
+        zero_bytes -= page_zero_bytes;
+        ofs += page_read_bytes;
+        upage += PGSIZE;
     }
-  // printf ("load segment return\n");
-  return true;
+    return true;
 }
 
 /* Create a minimal stack by mapping a zeroed page at the top of
@@ -584,23 +769,32 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 static bool
 setup_stack (void **esp, char* file_name, char** command_arguments, int command_arguments_number)
 {
-  uint8_t *kpage;
+  // void* upage = (void*)(((uint8_t *) PHYS_BASE) - PGSIZE);
+  // bool success = grow_stack(upage);
+  // if (success) {
+  //     *esp = PHYS_BASE;
+  // }
+  // uint8_t *kpage;
   bool success = false;
   int stack_size = 0;
-
+  void* upage = (void*)(((uint8_t *) PHYS_BASE) - PGSIZE);
+  success = grow_stack(upage);
   char** arg_pointer = malloc ((((PGSIZE / sizeof(char *) - 8) / 2) 
                             * sizeof(char *) - 8) * sizeof (char*));
   memset(arg_pointer, 0, ((((PGSIZE / sizeof(char *) - 8) / 2) 
                             * sizeof(char *) - 8) * sizeof (char*)));
-  kpage = palloc_get_page (PAL_USER | PAL_ZERO);
-  if (kpage != NULL) 
+  // kpage = palloc_get_page (PAL_USER | PAL_ZERO);
+
+  // if (kpage != NULL) 
+  if (success)
     {
+      *esp = PHYS_BASE;
       /* PGSIZE (1 << 12) PGBITS = 12 */
-      success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
-      if (success)
-      {
+      // success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
+      // if (success)
+      // {
         /* Argument passing. */
-        *esp = PHYS_BASE;
+        // *esp = PHYS_BASE;
 
         /* Place the words at the top of the stack. */
         for (int i = command_arguments_number - 1; i >= 0; i--)
@@ -653,15 +847,30 @@ setup_stack (void **esp, char* file_name, char** command_arguments, int command_
         /* Finally, push a fake "return address". */
         *esp -= sizeof (void *);
         *(void**)*esp = NULL;
-      }
-      else
-      {
-        palloc_free_page (kpage);
-      }
+      // }
+      // else
+      // {
+      //   palloc_free_page (kpage);
+      // }
     }
+  // lock_acquire(&file_system_lock);
   free (arg_pointer);
+  // lock_release(&file_system_lock);
   return success;
 }
+
+
+// static bool
+// setup_stack (void **esp)
+// {
+//     void* upage = (void*)(((uint8_t *) PHYS_BASE) - PGSIZE);
+//     bool success = grow_stack(upage);
+//     if (success) {
+//         *esp = PHYS_BASE;
+//     }
+//     return success;
+// }
+
 
 /* Adds a mapping from user virtual address UPAGE to kernel
    virtual address KPAGE to the page table.

@@ -13,4 +13,5 @@ threads/init.o: ../../threads/init.c ../../threads/init.h \
  ../../vm/mmap.h ../../lib/kernel/hash.h ../../lib/kernel/list.h \
  ../../userprog/process.h ../../userprog/exception.h ../../userprog/gdt.h \
  ../../userprog/syscall.h ../../userprog/tss.h ../../devices/block.h \
- ../../devices/ide.h ../../filesys/filesys.h ../../filesys/fsutil.h
+ ../../devices/ide.h ../../filesys/filesys.h ../../filesys/fsutil.h \
+ ../../vm/swap.h

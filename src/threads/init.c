@@ -37,6 +37,7 @@
 #include "filesys/filesys.h"
 #include "filesys/fsutil.h"
 #endif
+#include "vm/swap.h"
 
 /* Page directory with kernel mappings only. */
 uint32_t *init_page_dir;
@@ -126,9 +127,10 @@ main (void)
   locate_block_devices ();
   filesys_init (format_filesys);
 #endif
-
   printf ("Boot complete.\n");
   
+  // for assignment 3
+  swap_table_init ();
   /* Run actions specified on kernel command line. */
   run_actions (argv);
 

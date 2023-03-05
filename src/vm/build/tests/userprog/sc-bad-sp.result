@@ -1,1 +1,5 @@
-PASS
+FAIL
+Kernel panic in run: PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc00288df
+Translation of call stack:
+0xc00288df: debug_panic (.../../lib/kernel/debug.c:38)
