@@ -1,5 +1,5 @@
 Copying tests/userprog/bad-write to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/uBRNWkO6o9.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/rJnDqiicbx.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run bad-write
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  340,787,200 loops/s.
+Calibrating timer...  332,595,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -33,8 +33,8 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x80480a3
  cs=001b ds=0023 es=0023 ss=0023
 bad-write: exit(-1)
 Execution of 'bad-write' complete.
-Timer: 80 ticks
-Thread: 9 idle ticks, 66 kernel ticks, 5 user ticks
+Timer: 72 ticks
+Thread: 7 idle ticks, 63 kernel ticks, 3 user ticks
 hda2 (filesys): 59 reads, 208 writes
 hda3 (scratch): 101 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

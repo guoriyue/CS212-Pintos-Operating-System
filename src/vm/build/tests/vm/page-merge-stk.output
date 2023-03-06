@@ -1,6 +1,6 @@
 Copying tests/vm/page-merge-stk to scratch partition...
 Copying tests/vm/child-qsort to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/aAoqhFG8P7.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/mFgAv8yq4P.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run page-merge-stk
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  310,476,800 loops/s.
+Calibrating timer...  335,462,400 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -33,8 +33,8 @@ Executing 'page-merge-stk':
 child-qsort: exit(72)
 (page-merge-stk) sort chunk 2
 child-qsort: exit(72)
-(page-merge-stk) sort chunk 3
 child-qsort: exit(72)
+(page-merge-stk) sort chunk 3
 (page-merge-stk) sort chunk 4
 child-qsort: exit(72)
 (page-merge-stk) sort chunk 5
@@ -58,8 +58,8 @@ child-qsort: exit(72)
 (page-merge-stk) end
 page-merge-stk: exit(0)
 Execution of 'page-merge-stk' complete.
-Timer: 696 ticks
-Thread: 344 idle ticks, 75 kernel ticks, 277 user ticks
+Timer: 592 ticks
+Thread: 261 idle ticks, 70 kernel ticks, 261 user ticks
 hda2 (filesys): 4841 reads, 6634 writes
 hda3 (scratch): 225 reads, 2 writes
 hda4 (swap): 1408 reads, 2624 writes

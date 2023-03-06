@@ -304,8 +304,6 @@ void pin_page(void *virtual_address)
     }
     else
     {
-        lock_release(&spte->page_lock);
-        lock_acquire(&spte->page_lock);
         struct frame_table_entry *fte = &(frame_table->frame_table_entry[(uint32_t)spte->fid]);
         if (frame_lock_try_aquire(fte, spte))
         {

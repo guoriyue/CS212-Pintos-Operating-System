@@ -1,5 +1,5 @@
 Copying tests/filesys/base/sm-random to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/FgteInABdc.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/2NgGaBAf8d.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run sm-random
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  333,824,000 loops/s.
+Calibrating timer...  330,956,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -33,12 +33,12 @@ Executing 'sm-random':
 (sm-random) end
 sm-random: exit(0)
 Execution of 'sm-random' complete.
-Timer: 94 ticks
-Thread: 20 idle ticks, 65 kernel ticks, 9 user ticks
+Timer: 91 ticks
+Thread: 19 idle ticks, 62 kernel ticks, 10 user ticks
 hda2 (filesys): 341 reads, 360 writes
 hda3 (scratch): 110 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 1147 characters output
+Console: 1148 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...

@@ -1,5 +1,5 @@
 Copying tests/userprog/exec-bad-ptr to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/ie6OkBK2KC.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/0pxvcg4zzp.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run exec-bad-ptr
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,270,400 loops/s.
+Calibrating timer...  301,056,000 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -27,12 +27,12 @@ Executing 'exec-bad-ptr':
 (exec-bad-ptr) begin
 exec-bad-ptr: exit(-1)
 Execution of 'exec-bad-ptr' complete.
-Timer: 76 ticks
-Thread: 10 idle ticks, 63 kernel ticks, 3 user ticks
+Timer: 70 ticks
+Thread: 7 idle ticks, 61 kernel ticks, 2 user ticks
 hda2 (filesys): 59 reads, 208 writes
 hda3 (scratch): 101 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 983 characters output
+Console: 982 characters output
 Keyboard: 0 keys pressed
 Exception: 4 page faults
 Powering off...

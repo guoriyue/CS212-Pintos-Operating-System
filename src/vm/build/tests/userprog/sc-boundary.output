@@ -1,5 +1,5 @@
 Copying tests/userprog/sc-boundary to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Qy98A9uJIh.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/tJU2eIgzY9.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run sc-boundary
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  332,185,600 loops/s.
+Calibrating timer...  336,691,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -27,12 +27,12 @@ Executing 'sc-boundary':
 (sc-boundary) begin
 sc-boundary: exit(42)
 Execution of 'sc-boundary' complete.
-Timer: 76 ticks
-Thread: 11 idle ticks, 62 kernel ticks, 3 user ticks
+Timer: 71 ticks
+Thread: 8 idle ticks, 62 kernel ticks, 2 user ticks
 hda2 (filesys): 60 reads, 216 writes
 hda3 (scratch): 105 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 977 characters output
+Console: 976 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...

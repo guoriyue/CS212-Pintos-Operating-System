@@ -1,6 +1,6 @@
 Copying tests/vm/mmap-overlap to scratch partition...
 Copying tests/vm/zeros to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/rO6cLRwsFu.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/vHXVTwh4ve.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run mmap-overlap
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  319,078,400 loops/s.
+Calibrating timer...  339,148,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -31,12 +31,12 @@ Executing 'mmap-overlap':
 (mmap-overlap) mmap "zeros"
 mmap-overlap: exit(-1)
 Execution of 'mmap-overlap' complete.
-Timer: 80 ticks
-Thread: 10 idle ticks, 68 kernel ticks, 3 user ticks
+Timer: 74 ticks
+Thread: 6 idle ticks, 66 kernel ticks, 2 user ticks
 hda2 (filesys): 92 reads, 244 writes
 hda3 (scratch): 118 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 1084 characters output
+Console: 1083 characters output
 Keyboard: 0 keys pressed
 Exception: 5 page faults
 Powering off...

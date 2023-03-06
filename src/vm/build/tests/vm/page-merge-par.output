@@ -1,6 +1,6 @@
 Copying tests/vm/page-merge-par to scratch partition...
 Copying tests/vm/child-sort to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/i2wyPm1jZx.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/PJ8XHhpqt2.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run page-merge-par
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  333,824,000 loops/s.
+Calibrating timer...  314,982,400 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 192 sectors (96 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -58,8 +58,8 @@ child-sort: exit(123)
 (page-merge-par) end
 page-merge-par: exit(0)
 Execution of 'page-merge-par' complete.
-Timer: 647 ticks
-Thread: 352 idle ticks, 71 kernel ticks, 224 user ticks
+Timer: 565 ticks
+Thread: 271 idle ticks, 75 kernel ticks, 220 user ticks
 hda2 (filesys): 4833 reads, 6618 writes
 hda3 (scratch): 217 reads, 2 writes
 hda4 (swap): 1408 reads, 2624 writes
