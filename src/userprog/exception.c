@@ -11,7 +11,7 @@
 #include "userprog/pagedir.h"
 #include "vm/page.h"
 #include "vm/frame.h"
-// #include "vm/swap.h"
+#include "vm/swap.h"
 
 /* Number of page faults processed. */
 static long long page_fault_cnt;
@@ -169,8 +169,8 @@ page_fault(struct intr_frame *f)
     }
     if (not_present && user)
     {
-
-      struct supplementary_page_table_entry *spte = supplementary_page_table_entry_find(fault_addr);
+      struct supplementary_page_table_entry *spte = 
+         supplementary_page_table_entry_find(fault_addr);
 
       bool success = false;
       if (spte)
@@ -236,8 +236,8 @@ page_fault(struct intr_frame *f)
       else
       {
          /* Grow stack. */
-         if ((fault_addr == f->esp - 4 || fault_addr == f->esp - 32 || fault_addr >= f->esp) // SUB $n, %esp instruction, and then use a MOV ..., m(%esp) instruction to write to a stack location within the allocated space that is m bytes above the current stack pointer.
-             && (uint32_t)fault_addr >= (uint32_t)(PHYS_BASE - 8 * 1024 * 1024)              // 8 MB stack size
+         if ((fault_addr == f->esp - 4 || fault_addr == f->esp - 32 || fault_addr >= f->esp) 
+             && (uint32_t)fault_addr >= (uint32_t)(PHYS_BASE - 8 * 1024 * 1024)              
              && (uint32_t)fault_addr <= (uint32_t)PHYS_BASE)
          {
             success = stack_growth(fault_addr);

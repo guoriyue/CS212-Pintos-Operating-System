@@ -1,17 +1,18 @@
-#include <stdbool.h>
+#include <inttypes.h>
+#include <round.h>
 #include <stdio.h>
-#include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include "threads/synch.h"
 #include "threads/thread.h"
-#include "threads/malloc.h"
+#include "threads/pte.h"
 #include "threads/palloc.h"
-#include "threads/vaddr.h"
+#include "vm/page.h"
+#include "vm/frame.h"
+#include "filesys/file.h"
 #include "userprog/syscall.h"
 #include "userprog/pagedir.h"
-#include "filesys/file.h"
-#include "vm/page.h"
-#include "vm/swap.h"
-#include "vm/frame.h"
 
 struct supplementary_page_table_entry 
 *supplementary_page_table_entry_create(void *pid,
@@ -23,7 +24,8 @@ struct file *file,
 off_t file_ofs,
 bool in_physical_memory)
 {
-    struct supplementary_page_table_entry *spte = malloc(sizeof(struct supplementary_page_table_entry));
+    struct supplementary_page_table_entry *spte = 
+            malloc(sizeof(struct supplementary_page_table_entry));
     lock_init(&spte->page_lock);
 
     spte->pid = pid;
@@ -40,9 +42,6 @@ bool in_physical_memory)
     spte->file = file;
     spte->file_ofs = file_ofs;
 
-    spte->pagedir = thread_current()->pagedir;
-    spte->pagedir_lock = thread_current()->pagedir_lock;
-
     spte->owner_thread = thread_current();
 
     return spte;
@@ -50,11 +49,10 @@ bool in_physical_memory)
 
 void supplementary_page_table_entry_insert(struct supplementary_page_table_entry *spte)
 {
-    ASSERT(&spte->page_lock != NULL);
-    lock_acquire(&spte->page_lock);
     struct thread *cur = thread_current();
     lock_acquire(&cur->supplementary_page_table_lock);
-    list_push_back(&thread_current()->supplementary_page_table, &spte->supplementary_page_table_entry_elem);
+    list_push_back(&thread_current()->supplementary_page_table, 
+            &spte->supplementary_page_table_entry_elem);
     lock_release(&cur->supplementary_page_table_lock);
 }
 
@@ -108,10 +106,13 @@ struct supplementary_page_table_entry *supplementary_page_table_entry_find(void 
     void *pid = pg_round_down(vaddr);
     lock_acquire(&cur->supplementary_page_table_lock);
     struct list_elem *e;
-    for (e = list_begin(&cur->supplementary_page_table); e != list_end(&cur->supplementary_page_table);
+    for (e = list_begin(&cur->supplementary_page_table); 
+         e != list_end(&cur->supplementary_page_table);
          e = list_next(e))
     {
-        struct supplementary_page_table_entry *spte = list_entry(e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
+        struct supplementary_page_table_entry *spte = 
+            list_entry(e, struct supplementary_page_table_entry, 
+                supplementary_page_table_entry_elem);
         if (spte->pid == pid)
         {
             lock_release(&cur->supplementary_page_table_lock);
@@ -124,7 +125,9 @@ struct supplementary_page_table_entry *supplementary_page_table_entry_find(void 
 
 void free_supplementary_page_table_entry(struct list_elem *e)
 {
-    struct supplementary_page_table_entry *spte = list_entry(e, struct supplementary_page_table_entry, supplementary_page_table_entry_elem);
+    struct supplementary_page_table_entry *spte = 
+        list_entry(e, struct supplementary_page_table_entry, 
+            supplementary_page_table_entry_elem);
     lock_acquire(&spte->page_lock);
     if (spte->in_physical_memory)
     {
@@ -152,7 +155,8 @@ bool install_page_copy(void *upage, void *kpage, bool writeable)
     struct thread *t = thread_current();
 
     lock_acquire(&t->pagedir_lock);
-    bool result = (pagedir_get_page(t->pagedir, upage) == NULL && pagedir_set_page(t->pagedir, upage, kpage, writeable));
+    bool result = (pagedir_get_page(t->pagedir, upage) == NULL 
+            && pagedir_set_page(t->pagedir, upage, kpage, writeable));
     lock_release(&t->pagedir_lock);
     return result;
 }
@@ -191,6 +195,7 @@ bool stack_growth(void *fault_addr)
         return false;
     }
 
+    lock_acquire(&spte->page_lock);
     supplementary_page_table_entry_insert(spte);
     /* Kernel address. */
     lock_acquire(&frame_table->frame_table_lock);
@@ -296,7 +301,8 @@ void pin_frame(struct supplementary_page_table_entry *spte)
 
 void pin_page(void *virtual_address)
 {
-    struct supplementary_page_table_entry *spte = supplementary_page_table_entry_find(virtual_address);
+    struct supplementary_page_table_entry *spte = 
+            supplementary_page_table_entry_find(virtual_address);
     lock_acquire(&spte->page_lock);
     if (spte->in_physical_memory != true)
     {
@@ -332,9 +338,56 @@ void pin_page(void *virtual_address)
 
 void unpin_page(void *virtual_address)
 {
-    struct supplementary_page_table_entry *spte = supplementary_page_table_entry_find(virtual_address);
+    struct supplementary_page_table_entry *spte = 
+            supplementary_page_table_entry_find(virtual_address);
     lock_acquire(&spte->page_lock);
     struct frame_table_entry *fte = &(frame_table->frame_table_entry[(uint32_t)spte->fid]);
     lock_release(&fte->frame_lock);
     lock_release(&spte->page_lock);
+}
+
+bool supplementary_page_table_entry_find_between
+(struct file *file, void *start, void *end)
+{
+    struct thread* cur = thread_current ();
+    struct list_elem *e;
+    for (e = list_begin (&cur->supplementary_page_table); 
+         e != list_end (&cur->supplementary_page_table);
+        e = list_next (e))
+    {
+      struct supplementary_page_table_entry* spte = 
+            list_entry (e, struct supplementary_page_table_entry, 
+                supplementary_page_table_entry_elem);
+      if (spte->file) {
+        int spte_size = file_length(spte->file);
+        if ((end >= spte->pid) && (end <= (void *)((int)spte->pid + spte_size))
+            && (spte->file != file)) {
+            return true;
+        }
+
+        if ((start >= spte->pid) && (start <= (void *)((int)spte->pid + spte_size))
+            && (spte->file != file)) {
+            return true;
+        }
+      }
+    }
+    return false;
+}
+
+void clear_supplementary_page_table (void)
+{
+  struct thread* cur = thread_current ();
+  struct list_elem *e;
+  for (e = list_begin (&cur->supplementary_page_table); 
+        e != list_end (&cur->supplementary_page_table);
+      e = list_next (e))
+  {
+    struct supplementary_page_table_entry* spte = 
+        list_entry (e, struct supplementary_page_table_entry, 
+            supplementary_page_table_entry_elem);
+    if (spte->location == MAP_MEMORY) {
+      mapid_t mapping = (int)spte->pid >> 12;
+      sysmunmap(mapping);
+    }
+  }
 }

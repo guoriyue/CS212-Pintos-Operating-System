@@ -213,6 +213,7 @@ void notify_children_parent_is_terminated(void)
 /* Free the current process's resources. */
 void process_exit(void)
 {
+    clear_supplementary_page_table ();
     enum intr_level old_level = intr_disable();
     struct thread *cur = thread_current();
     uint32_t *pd;
@@ -572,6 +573,8 @@ load_segment(struct file *file, off_t ofs, uint8_t *upage,
     {
           return false;
     }
+
+    lock_acquire(&spte->page_lock);
     supplementary_page_table_entry_insert(spte);
     lock_release(&spte->page_lock);
 

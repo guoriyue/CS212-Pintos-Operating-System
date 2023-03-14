@@ -1,22 +1,31 @@
 #include "userprog/syscall.h"
 #include "userprog/pagedir.h"
 #include "userprog/process.h"
+#include "userprog/exception.h"
 #include <stdio.h>
+#include <round.h>
 #include <syscall-nr.h>
 #include <string.h>
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 #include "threads/synch.h"
-#include "threads/malloc.h"
 #include "filesys/filesys.h"
 #include "filesys/file.h"
 #include "devices/shutdown.h"
+#include "threads/malloc.h"
+#include "threads/palloc.h"
 #include "devices/input.h"
+#include "threads/thread.h"
+#include "lib/user/syscall.h"
+#include "vm/frame.h"
 #include "vm/page.h"
+#include "vm/swap.h"
+
 static void check_usr_ptr(const void *u_ptr, void *esp);
 static void check_usr_string(const char *str, void *esp);
-static void check_usr_buffer(const void *buffer, unsigned length, void *esp, bool check_writable);
+static void check_usr_buffer(const void *buffer, unsigned length, 
+        void *esp, bool check_writable);
 static bool pinning_file(const char *filename, bool get_length);
 static void select_pinning_page(const void *begin, unsigned length, bool pinning);
 static unsigned pinning_len(const char *string);
@@ -106,10 +115,10 @@ static void check_usr_ptr(const void *ptr, void *esp)
   {
     sysexit(-1);
   }
-  if (supplementary_page_table_entry_find((void *)ptr) == NULL)
+  if (supplementary_page_table_entry_find((void *)ptr) == false)
   {
-    if ((ptr == esp - 4 || ptr == esp - 32 || ptr >= esp)           // SUB $n, %esp instruction, and then use a MOV ..., m(%esp) instruction to write to a stack location within the allocated space that is m bytes above the current stack pointer.
-        && (uint32_t)ptr >= (uint32_t)(PHYS_BASE - 8 * 1024 * 1024) // 8 MB stack size
+    if ((ptr == esp - 4 || ptr == esp - 32 || ptr >= esp)           
+        && (uint32_t)ptr >= (uint32_t)(PHYS_BASE - 8 * 1024 * 1024)
         && (uint32_t)ptr <= (uint32_t)PHYS_BASE)
     {
       void *new_stack_page = pg_round_down(ptr);
@@ -213,7 +222,6 @@ bool valid_user_pointer(void *user_pointer, unsigned size)
   passed in are valid. */
 int get_valid_argument(int *esp, int i)
 {
-
   /* Validation. */
   if (!valid_user_pointer(esp, 0))
     sysexit(-1);
@@ -346,6 +354,22 @@ syscall_handler(struct intr_frame *f UNUSED)
     sysclose(fd);
     lock_release(&syscall_system_lock);
   }
+  else if (syscall_number == SYS_MMAP)
+  {
+    int fd = get_valid_argument (esp, 1);
+    void * addr = (void *)get_valid_argument (esp, 2);
+    lock_acquire(&syscall_system_lock);
+    f->eax = (uint32_t) sysmmap (fd, addr);
+    lock_release(&syscall_system_lock);
+    
+  } 
+  else if (syscall_number == SYS_MUNMAP)
+  {
+    mapid_t mapping = (mapid_t) get_valid_argument (esp, 1);
+    lock_acquire(&syscall_system_lock);
+    sysmunmap (mapping);
+    lock_release(&syscall_system_lock);
+  } 
   else
   {
     sysexit(-1);
@@ -437,8 +461,6 @@ int syswrite(int fd, const void *buffer, unsigned length, void *esp)
 tid_t sysexec(const char *command_line, void *esp)
 {
   check_usr_string(command_line, esp);
-  struct thread *curr_thread = thread_current();
-
   unsigned length = pinning_len(command_line);
 
   int pid = process_execute(command_line);
@@ -573,4 +595,86 @@ void sysclose(int fd)
   struct file *f = cur->file_handlers[fd];
   file_close(f);
   cur->file_handlers_number--;
+}
+
+
+mapid_t 
+sysmmap (int fd, void *addr)
+{
+  if (!is_user_vaddr (addr)) sysexit(-1);
+  if (fd > (thread_current()->file_handlers_number - 1)) return -1;
+  if (fd == 0) return -1;   // stdin not mappable
+  if (fd == 1) return -1;   // stdout not mappable
+  if (sysfilesize(fd) == 0) sysexit(-1);  // file size 0 bytes
+  if ((int) addr % PGSIZE != 0) return -1;    // addr not page aligned
+  if (addr == NULL) return -1;
+
+  struct file *f = thread_current()->file_handlers[fd];
+  struct file *f_reopened = file_reopen(f);
+  void* spid = addr;
+  bool writable = true; 
+  page_location location = MAP_MEMORY;
+  int file_size = sysfilesize(fd);
+  size_t bytes_left = file_size;
+  int offset_file = 0;
+  while (bytes_left > 0) {
+    size_t page_read_bytes = bytes_left >= PGSIZE ? PGSIZE : bytes_left;
+    size_t page_zero_bytes = ((size_t) ROUND_UP(page_read_bytes, PGSIZE)) 
+                              - ((size_t) page_read_bytes);
+    bytes_left -= page_read_bytes;
+    struct supplementary_page_table_entry *spte = 
+          supplementary_page_table_entry_create
+      (spid + offset_file , writable, location, page_read_bytes,
+      page_zero_bytes, f_reopened, offset_file, true);
+    struct supplementary_page_table_entry* spte_temp = 
+          supplementary_page_table_entry_find (addr);
+    if ((spte_temp != NULL) && (spte->file != spte_temp->file)) {
+      return -1; // address mapped already (stack/code/data)
+    }
+    if (supplementary_page_table_entry_find_between
+        (spte->file, spid, (void *)((int)spid + file_size))) {
+      return -1;
+    }
+    lock_acquire(&spte->page_lock);
+    supplementary_page_table_entry_insert (spte);
+    lock_release(&spte->page_lock);
+    offset_file += PGSIZE;
+  }
+  mapid_t mid = (int)spid >> 12;
+  return mid;
+}
+
+void 
+sysmunmap (mapid_t mapping)
+{
+  void *uaddr;
+  struct list_elem *e;
+  struct thread *cur = thread_current();
+  int first = 0;
+  lock_acquire (&cur->supplementary_page_table_lock);
+  for (e = list_begin (&cur->supplementary_page_table); 
+       e != list_end (&cur->supplementary_page_table);
+       e = list_next (e))
+    {
+      struct supplementary_page_table_entry* spte = 
+        list_entry (e, struct supplementary_page_table_entry, 
+              supplementary_page_table_entry_elem);
+      struct file *first_file;
+      if ((first == 0) && (((int)spte->pid) >> 12) == mapping) {
+        first_file = spte->file;
+      }
+      if (((first == 0) && (((int)spte->pid) >> 12) == mapping) || 
+          ((first == 1) && (spte->file == first_file))) {
+        uaddr = spte->pid;
+        first = 1;
+        if (spte->file) {
+          if (pagedir_is_dirty(cur->pagedir, uaddr)) {
+            file_write_at(spte->file, uaddr, PGSIZE, spte->file_ofs);
+          }
+        }
+        pagedir_clear_page(cur->pagedir, uaddr);
+        list_remove(&spte->supplementary_page_table_entry_elem);
+      }
+    }
+  lock_release (&cur->supplementary_page_table_lock);
 }

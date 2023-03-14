@@ -6,4 +6,5 @@ vm/frame.o: ../../vm/frame.c ../../vm/frame.h ../../lib/inttypes.h \
  ../../threads/vaddr.h ../../threads/loader.h ../../threads/malloc.h \
  ../../threads/palloc.h ../../threads/thread.h ../../filesys/file.h \
  ../../filesys/off_t.h ../../vm/mmap.h ../../lib/kernel/hash.h \
- ../../lib/kernel/list.h ../../userprog/pagedir.h ../../vm/page.h
+ ../../lib/kernel/list.h ../../userprog/pagedir.h ../../vm/page.h \
+ ../../userprog/syscall.h ../../lib/user/syscall.h

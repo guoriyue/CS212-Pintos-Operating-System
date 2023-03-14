@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include <list.h>
+#include "filesys/file.h"
+#include "threads/malloc.h"
 #include "threads/thread.h"
 #include "filesys/off_t.h"
 
@@ -17,6 +19,9 @@ typedef enum page_location
    // in swap block
    FILE_SYSTEM,
    // in file system
+   STACK,
+   // stack
+
 } page_location;
 
 struct supplementary_page_table_entry
@@ -33,8 +38,6 @@ struct supplementary_page_table_entry
    size_t page_zero_bytes;
    struct file *file;
    int32_t file_ofs;
-   uint32_t *pagedir;
-   struct lock pagedir_lock;
    struct thread *owner_thread; /* need to access pagedir */
 };
 
@@ -54,6 +57,9 @@ void evict_page_from_swap_block(struct supplementary_page_table_entry *spte);
 void evict_page_from_map_memory(struct supplementary_page_table_entry *spte);
 void pin_page(void *virtual_address);
 void unpin_page(void *virtual_address);
+bool supplementary_page_table_entry_find_between (struct file *file, void *start, void *end);
+void clear_supplementary_page_table (void);
+struct supplementary_page_table_entry* supplementary_page_table_entry_find (void* vaddr);
 
 bool install_page_copy(void *upage, void *kpage, bool writable);
 

@@ -5,6 +5,6 @@ userprog/pagedir.o: ../../userprog/pagedir.c ../../userprog/pagedir.h \
  ../../threads/palloc.h ../../vm/page.h ../../lib/inttypes.h \
  ../../lib/round.h ../../lib/stdio.h ../../lib/stdarg.h \
  ../../lib/kernel/stdio.h ../../lib/stdlib.h ../../lib/kernel/list.h \
- ../../threads/thread.h ../../threads/synch.h ../../filesys/file.h \
- ../../filesys/off_t.h ../../vm/mmap.h ../../lib/kernel/hash.h \
- ../../lib/kernel/list.h
+ ../../filesys/file.h ../../filesys/off_t.h ../../threads/malloc.h \
+ ../../threads/thread.h ../../threads/synch.h ../../vm/mmap.h \
+ ../../lib/kernel/hash.h ../../lib/kernel/list.h

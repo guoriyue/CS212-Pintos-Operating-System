@@ -11,6 +11,7 @@
 #include "threads/thread.h"
 #include "userprog/pagedir.h"
 #include "vm/page.h"
+#include "userprog/syscall.h"
 
 static uint32_t clock_hand = 0;
 
@@ -132,7 +133,6 @@ struct frame_table_entry *frame_table_evict(void)
             {
                 if (fte->spte == NULL || fte->spte->owner_thread->pagedir == NULL)
                 {
-                    // lock_acquire(&frame_table->frame_table_lock);
                     lock_release(&fte->frame_lock);
                     clock_algorithm();
 

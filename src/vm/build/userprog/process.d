@@ -7,7 +7,7 @@ userprog/process.o: ../../userprog/process.c ../../userprog/process.h \
  ../../lib/round.h ../../lib/stdio.h ../../lib/stdarg.h \
  ../../lib/kernel/stdio.h ../../lib/stdlib.h ../../lib/string.h \
  ../../userprog/gdt.h ../../userprog/pagedir.h ../../userprog/syscall.h \
- ../../userprog/tss.h ../../filesys/directory.h ../../devices/block.h \
- ../../filesys/filesys.h ../../threads/flags.h ../../threads/init.h \
- ../../threads/interrupt.h ../../threads/palloc.h ../../threads/malloc.h \
- ../../vm/frame.h ../../vm/page.h ../../vm/swap.h
+ ../../lib/user/syscall.h ../../userprog/tss.h ../../filesys/directory.h \
+ ../../devices/block.h ../../filesys/filesys.h ../../threads/flags.h \
+ ../../threads/init.h ../../threads/interrupt.h ../../threads/palloc.h \
+ ../../threads/malloc.h ../../vm/frame.h ../../vm/page.h ../../vm/swap.h
