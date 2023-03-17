@@ -1,0 +1,88 @@
+Copying tests/filesys/base/lg-random to scratch partition...
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/F6tbDnQpDT.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
+Booting from Hard Disk...
+PPiiLLoo  hhddaa1
+1
+LLooaaddiinngg.......................
+Kernel command line: -q -f extract run lg-random
+Pintos booting with 3,968 kB RAM...
+367 pages available in kernel pool.
+367 pages available in user pool.
+Calibrating timer...  155,443,200 loops/s.
+hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
+hda1: 202 sectors (101 kB), Pintos OS kernel (20)
+hda2: 4,096 sectors (2 MB), Pintos file system (21)
+hda3: 111 sectors (55 kB), Pintos scratch (22)
+hda4: 8,192 sectors (4 MB), Pintos swap (23)
+filesys: using hda2
+scratch: using hda3
+swap: using hda4
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch device into file system...
+Putting 'lg-random' into the file system...
+Erasing ustar archive...
+Executing 'lg-random':
+(lg-random) begin
+(lg-random) create "bazzle"
+(lg-random) open "bazzle"
+(lg-random) write "bazzle" in random order
+(lg-random) read "bazzle" in random order
+(lg-random) 129 bytes read starting at offset 64000 in "bazzle" differ from expected.
+(lg-random) Showing first differing 64 bytes.
+(lg-random) Data actually read:
+0000fa00  58 52 6d c1 c6 0b 82 32-82 86 42 a9 a5 92 58 4d |XRm....2..B...XM|
+0000fa10  a8 ad 46 81 a5 dc 0f fb-2d 1f f2 73 d4 24 0d 6c |..F.....-..s.$.l|
+0000fa20  79 9e 42 64 44 84 b9 0e-fc fe eb 8c 1a 1e 13 b0 |y.BdD...........|
+0000fa30  51 3a 61 e6 fe fd 81 b9-14 59 c4 cd 75 04 69 5d |Q:a......Y..u.i]|
+(lg-random) Expected data:
+0000fa00  23 4e ff c4 b5 27 61 4f-49 a2 05 09 13 91 29 cd |#N...'aOI.....).|
+0000fa10  82 71 43 92 8b 5b e2 f4-bd 43 c8 f3 c4 3e f4 b7 |.qC..[...C...>..|
+0000fa20  8e 33 d2 e2 47 7f af 50-44 b1 ac a3 7a 8c 3b 97 |.3..G..PD...z.;.|
+0000fa30  35 48 55 0a f7 ce 27 10-7a 9f f2 3a e6 1d 23 ac |5HU...'.z..:..#.|
+(lg-random) 129 bytes read starting at offset 64000 in "bazzle" differ from expected: FAILED
+lg-random: exit(1)
+Execution of 'lg-random' complete.
+Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=4294967295, size=4096)
+
+Call stack: 0xc002892f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
+c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
+Booting from Hard Disk...
+PPiiLLoo  hhddaa1
+1
+LLooaaddiinngg........................
+Kernel command line: -q -f extract run lg-random
+Pintos booting with 3,968 kB RAM...
+367 pages available in kernel pool.
+367 pages available in user pool.
+Calibrating timer...  200,908,800 loops/s.
+hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
+hda1: 202 sectors (101 kB), Pintos OS kernel (20)
+hda2: 4,096 sectors (2 MB), Pintos file system (21)
+hda3: 111 sectors (55 kB), Pintos scratch (22)
+hda4: 8,192 sectors (4 MB), Pintos swap (23)
+filesys: using hda2
+scratch: using hda3
+swap: using hda4
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch device into file system...
+Erasing ustar archive...
+Executing 'lg-random':
+load: lg-random: open failed
+lg-random: exit(-1)
+Execution of 'lg-random' complete.
+Timer: 60 ticks
+Thread: 0 idle ticks, 60 kernel ticks, 0 user ticks
+hda2 (filesys): 0 reads, 4 writes
+hda3 (scratch): 1 reads, 2 writes
+hda4 (swap): 0 reads, 0 writes
+Console: 927 characters output
+Keyboard: 0 keys pressed
+Exception: 0 page faults
+Powering off...

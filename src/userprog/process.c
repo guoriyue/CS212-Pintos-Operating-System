@@ -111,6 +111,7 @@ start_process (void *aux_args_)
   lock_release(&file_system_lock);
   aux_args->success = success;
 
+
   if (success)
   {
     struct thread* cur = thread_current ();

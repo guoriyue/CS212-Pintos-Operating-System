@@ -17,6 +17,8 @@
 #endif
 #include "vm/page.h"
 #include <hash.h>
+#include "filesys/cache.h"
+#include "filesys/directory.h"
 
 /* Random value for struct thread's `magic' member.
    Used to detect stack overflow.  See the big comment at the top
@@ -115,6 +117,7 @@ thread_start (void)
 
   /* Start preemptive thread scheduling. */
   intr_enable ();
+  
 
   /* Wait for the idle thread to initialize idle_thread. */
   sema_down (&idle_started);
@@ -217,7 +220,6 @@ thread_create (const char *name, int priority,
   
   list_push_back (&t->parent->children_exit_status_list, &es->exit_status_elem);
 
-
   /* Add to run queue. */
   thread_unblock (t);
 
@@ -310,9 +312,11 @@ thread_exit (void)
      and schedule another process.  That process will destroy us
      when it calls thread_schedule_tail(). */
   intr_disable ();
+
   list_remove (&thread_current()->allelem);
   thread_current ()->status = THREAD_DYING;
   
+
   schedule ();
   NOT_REACHED ();
 }
@@ -494,6 +498,7 @@ init_thread (struct thread *t, const char *name, int priority)
   lock_init(&t->supplementary_page_table_lock);
   lock_init(&t->pagedir_lock);
   lock_init(&file_system_lock);
+
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

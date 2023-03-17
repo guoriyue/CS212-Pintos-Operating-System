@@ -36,9 +36,10 @@
 #include "devices/ide.h"
 #include "filesys/filesys.h"
 #include "filesys/fsutil.h"
+
 #endif
 #include "vm/swap.h"
-
+#include "filesys/cache.h"
 /* Page directory with kernel mappings only. */
 uint32_t *init_page_dir;
 
@@ -123,6 +124,14 @@ main (void)
 
 #ifdef FILESYS
   /* Initialize file system. */
+  // init cache
+  cache_init ();
+
+  thread_create ("cache_flush_function", PRI_DEFAULT, 
+  cache_flush_function, NULL);
+  thread_create ("cache_read_ahead_function", PRI_DEFAULT, 
+  cache_read_ahead_function, NULL);
+
   ide_init ();
   locate_block_devices ();
   filesys_init (format_filesys);

@@ -1,0 +1,2 @@
+qemu-system-i386: -drive file=tmp.dsk,format=raw,index=1,media=disk: Could not open 'tmp.dsk': No such file or directory
+command failed

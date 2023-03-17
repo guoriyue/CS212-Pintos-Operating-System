@@ -18,6 +18,11 @@
         "mmap.h": "c",
         "filesys.h": "c",
         "frame.h": "c",
-        "file.h": "c"
+        "file.h": "c",
+        "cache.h": "c",
+        "debug.h": "c",
+        "inode.h": "c",
+        "free-map.h": "c",
+        "timer.h": "c"
     }
 }

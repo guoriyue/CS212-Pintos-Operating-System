@@ -19,5 +19,12 @@ off_t inode_write_at (struct inode *, const void *, off_t size, off_t offset);
 void inode_deny_write (struct inode *);
 void inode_allow_write (struct inode *);
 off_t inode_length (const struct inode *);
-
+void inode_unlock(struct inode *inode);
+void inode_lock(struct inode *inode);
+void dir_unlock(struct inode *inode);
+void dir_lock(struct inode *inode);
+bool inode_is_dir(struct inode *inode);
+int inode_open_cnt(struct inode *inode);
+struct inode *
+open_inode_find (block_sector_t sector);
 #endif /* filesys/inode.h */

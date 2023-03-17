@@ -95,7 +95,8 @@ static void check_usr_buffer(const void *buffer, unsigned length, void *esp, boo
     if (curr_offset >= length)
       break;
     check_usr_ptr((const void *)((char *)buffer + curr_offset), esp);
-    struct supplementary_page_table_entry *spte = supplementary_page_table_entry_find((void *)((char *)buffer + curr_offset));
+    struct supplementary_page_table_entry *spte = supplementary_page_table_entry_find
+    ((void *)((char *)buffer + curr_offset));
     if (spte->writeable == false)
     {
       sysexit(-1);

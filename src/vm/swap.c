@@ -13,7 +13,8 @@ void swap_table_init(void)
     swap_table.swap_block = block_get_role(BLOCK_SWAP);
 
     swap_table.max_swap_slots_number_per_page = (PGSIZE / BLOCK_SECTOR_SIZE);
-    swap_table.swap_slots_number = block_size(swap_table.swap_block) / swap_table.max_swap_slots_number_per_page;
+    swap_table.swap_slots_number = block_size(swap_table.swap_block) 
+    / swap_table.max_swap_slots_number_per_page;
     swap_table.swap_slots = malloc(swap_table.swap_slots_number * sizeof(uint32_t));
     for (uint32_t i = 0; i < swap_table.swap_slots_number; i++)
     {
