@@ -448,8 +448,8 @@ int syswrite(int fd, const void *buffer, unsigned length, void *esp)
     }
     else
     {
-
       struct file *f = cur->file_handlers[fd];
+      f->is_bitmap = false;
       lock_acquire(&file_system_lock);
       ans = file_write(f, buffer, length);
       lock_release(&file_system_lock);
@@ -567,7 +567,7 @@ void sysseek(int fd, unsigned position)
   }
   struct thread *cur = thread_current();
   struct file *f = cur->file_handlers[fd];
-  file_seek(f, position);
+  file_seek (f, position);
 }
 
 unsigned

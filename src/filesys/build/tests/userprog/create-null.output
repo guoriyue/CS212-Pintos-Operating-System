@@ -1,5 +1,5 @@
 Copying tests/userprog/create-null to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/UdalDNikBJ.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/UHmkujGXdr.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run create-null
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  223,641,600 loops/s.
+Calibrating timer...  326,451,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -27,12 +27,12 @@ Executing 'create-null':
 (create-null) begin
 create-null: exit(-1)
 Execution of 'create-null' complete.
-Timer: 200 ticks
-Thread: 0 idle ticks, 197 kernel ticks, 4 user ticks
+Timer: 78 ticks
+Thread: 0 idle ticks, 77 kernel ticks, 2 user ticks
 hda2 (filesys): 30 reads, 208 writes
 hda3 (scratch): 102 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 979 characters output
+Console: 977 characters output
 Keyboard: 0 keys pressed
 Exception: 4 page faults
 Powering off...

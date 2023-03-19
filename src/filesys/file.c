@@ -85,6 +85,17 @@ file_read_at (struct file *file, void *buffer, off_t size, off_t file_ofs)
   return inode_read_at (file->inode, buffer, size, file_ofs);
 }
 
+/* If we seek past EOF we have to zero out all bytes in between. */
+void
+file_seek_past_write (struct file *file)
+{
+  size_t size_zeros = file->pos - file_length(file);
+  char *zeros = malloc(size_zeros * sizeof(char));
+  memset(zeros, 0, size_zeros);
+  inode_write_at(file->inode, zeros, size_zeros, file_length(file), file->is_bitmap);
+  free(zeros);
+}
+
 /* Writes SIZE bytes from BUFFER into FILE,
    starting at the file's current position.
    Returns the number of bytes actually written,
@@ -95,7 +106,10 @@ file_read_at (struct file *file, void *buffer, off_t size, off_t file_ofs)
 off_t
 file_write (struct file *file, const void *buffer, off_t size) 
 {
-  off_t bytes_written = inode_write_at (file->inode, buffer, size, file->pos);
+  if (file->pos > file_length(file)) {
+    file_seek_past_write (file);
+  }
+  off_t bytes_written = inode_write_at (file->inode, buffer, size, file->pos, file->is_bitmap);
   file->pos += bytes_written;
   return bytes_written;
 }
@@ -111,7 +125,10 @@ off_t
 file_write_at (struct file *file, const void *buffer, off_t size,
                off_t file_ofs) 
 {
-  return inode_write_at (file->inode, buffer, size, file_ofs);
+  if (file->pos > file_length(file)) {
+    file_seek_past_write (file);
+  }
+  return inode_write_at (file->inode, buffer, size, file_ofs, file->is_bitmap);
 }
 
 /* Prevents write operations on FILE's underlying inode

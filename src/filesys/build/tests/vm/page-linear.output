@@ -1,5 +1,5 @@
 Copying tests/vm/page-linear to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/g3eRyURfZJ.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Ea0BpKMcKs.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run page-linear
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  189,440,000 loops/s.
+Calibrating timer...  327,680,000 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -33,12 +33,12 @@ Executing 'page-linear':
 (page-linear) end
 page-linear: exit(0)
 Execution of 'page-linear' complete.
-Timer: 1099 ticks
-Thread: 0 idle ticks, 628 kernel ticks, 471 user ticks
+Timer: 911 ticks
+Thread: 0 idle ticks, 562 kernel ticks, 349 user ticks
 hda2 (filesys): 32 reads, 220 writes
 hda3 (scratch): 108 reads, 2 writes
 hda4 (swap): 16440 reads, 17648 writes
-Console: 1162 characters output
+Console: 1161 characters output
 Keyboard: 0 keys pressed
 Exception: 2587 page faults
 Powering off...

@@ -1,15 +1,15 @@
 Copying tests/filesys/base/lg-seq-block to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/KI2qRxG2gL.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/3YtY2nH6Rv.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run lg-seq-block
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  127,590,400 loops/s.
+Calibrating timer...  327,270,400 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -26,11 +26,79 @@ Erasing ustar archive...
 Executing 'lg-seq-block':
 (lg-seq-block) begin
 (lg-seq-block) create "noodle"
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
 (lg-seq-block) open "noodle"
 (lg-seq-block) writing "noodle"
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
 (lg-seq-block) close "noodle"
 (lg-seq-block) open "noodle" for verification
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=4294967295, size=4096)
+Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=3221465240, size=4096)
 
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
@@ -46,7 +114,7 @@ Kernel command line: -q -f extract run lg-seq-block
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  311,296,000 loops/s.
+Calibrating timer...  340,787,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -63,8 +131,8 @@ Executing 'lg-seq-block':
 load: lg-seq-block: open failed
 lg-seq-block: exit(-1)
 Execution of 'lg-seq-block' complete.
-Timer: 64 ticks
-Thread: 0 idle ticks, 63 kernel ticks, 1 user ticks
+Timer: 62 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 0 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

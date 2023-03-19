@@ -1,16 +1,16 @@
 Copying tests/vm/page-merge-par to scratch partition...
 Copying tests/vm/child-sort to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/9pu2gj74GY.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/eyHWfhxNAO.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run page-merge-par
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  323,993,600 loops/s.
+Calibrating timer...  324,812,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -29,13 +29,174 @@ Executing 'page-merge-par':
 (page-merge-par) begin
 (page-merge-par) init
 (page-merge-par) sort chunk 0
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=4294967295, size=4096)
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Doubly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=2867634488, size=4096)
 
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
+Kernel PANIC recursion at ../../devices/block.c:112 in check_sector().
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -62,8 +223,8 @@ Executing 'page-merge-par':
 load: page-merge-par: open failed
 page-merge-par: exit(-1)
 Execution of 'page-merge-par' complete.
-Timer: 74 ticks
-Thread: 0 idle ticks, 73 kernel ticks, 1 user ticks
+Timer: 62 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

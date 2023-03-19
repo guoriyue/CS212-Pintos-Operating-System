@@ -1,15 +1,15 @@
 Copying tests/filesys/base/lg-create to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/HmZ0MRAmly.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/MZ95FYoN4K.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run lg-create
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  265,420,800 loops/s.
+Calibrating timer...  326,451,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -26,8 +26,32 @@ Erasing ustar archive...
 Executing 'lg-create':
 (lg-create) begin
 (lg-create) create "blargle"
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
 (lg-create) open "blargle" for verification
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=4294967295, size=4096)
+byte to sector for singly indirect block
+Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=3221465240, size=4096)
 
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
@@ -43,7 +67,7 @@ Kernel command line: -q -f extract run lg-create
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  216,268,800 loops/s.
+Calibrating timer...  325,632,000 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -60,8 +84,8 @@ Executing 'lg-create':
 load: lg-create: open failed
 lg-create: exit(-1)
 Execution of 'lg-create' complete.
-Timer: 72 ticks
-Thread: 0 idle ticks, 73 kernel ticks, 0 user ticks
+Timer: 60 ticks
+Thread: 0 idle ticks, 60 kernel ticks, 0 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

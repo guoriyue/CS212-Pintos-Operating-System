@@ -52,6 +52,8 @@ struct read_ahead_pair
 
 void cache_init (void);
 
+void cache_write (block_sector_t sector, const void *buffer,
+                                off_t start, off_t length); 
 
 void cache_read (block_sector_t sector, void *buffer,
                                 off_t start, off_t length);

@@ -1,15 +1,15 @@
 Copying tests/vm/pt-grow-bad to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/HCyoILD_P5.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/j9XeXioxJW.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run pt-grow-bad
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  275,251,200 loops/s.
+Calibrating timer...  327,270,400 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -27,12 +27,12 @@ Executing 'pt-grow-bad':
 (pt-grow-bad) begin
 pt-grow-bad: exit(-1)
 Execution of 'pt-grow-bad' complete.
-Timer: 179 ticks
-Thread: 0 idle ticks, 176 kernel ticks, 3 user ticks
+Timer: 78 ticks
+Thread: 0 idle ticks, 75 kernel ticks, 3 user ticks
 hda2 (filesys): 30 reads, 206 writes
 hda3 (scratch): 101 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 979 characters output
+Console: 977 characters output
 Keyboard: 0 keys pressed
 Exception: 5 page faults
 Powering off...

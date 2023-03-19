@@ -1,5 +1,169 @@
 FAIL
-Kernel panic in run: PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=4294967295, size=4096)
-Call stack: 0xc002892f
-Translation of call stack:
-0xc002892f: debug_panic (.../../lib/kernel/debug.c:38)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (mmap-shuffle) begin
+  (mmap-shuffle) create "buffer"
+  (mmap-shuffle) open "buffer"
+  (mmap-shuffle) mmap "buffer"
+  (mmap-shuffle) init: cksum=3115322833
+  (mmap-shuffle) shuffle 0: cksum=1691062564
+  (mmap-shuffle) shuffle 1: cksum=1973575879
+  (mmap-shuffle) shuffle 2: cksum=1647619479
+  (mmap-shuffle) shuffle 3: cksum=96566261
+  (mmap-shuffle) shuffle 4: cksum=3885786467
+  (mmap-shuffle) shuffle 5: cksum=3022003332
+  (mmap-shuffle) shuffle 6: cksum=3614934266
+  (mmap-shuffle) shuffle 7: cksum=2704001777
+  (mmap-shuffle) shuffle 8: cksum=735775156
+  (mmap-shuffle) shuffle 9: cksum=1864109763
+  (mmap-shuffle) end
+Differences in `diff -u' format:
+  (mmap-shuffle) begin
+  (mmap-shuffle) create "buffer"
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Singly indirect block
++ Doubly indirect block
+  (mmap-shuffle) open "buffer"
+  (mmap-shuffle) mmap "buffer"
+- (mmap-shuffle) init: cksum=3115322833
+- (mmap-shuffle) shuffle 0: cksum=1691062564
+- (mmap-shuffle) shuffle 1: cksum=1973575879
+- (mmap-shuffle) shuffle 2: cksum=1647619479
+- (mmap-shuffle) shuffle 3: cksum=96566261
+- (mmap-shuffle) shuffle 4: cksum=3885786467
+- (mmap-shuffle) shuffle 5: cksum=3022003332
+- (mmap-shuffle) shuffle 6: cksum=3614934266
+- (mmap-shuffle) shuffle 7: cksum=2704001777
+- (mmap-shuffle) shuffle 8: cksum=735775156
+- (mmap-shuffle) shuffle 9: cksum=1864109763
+- (mmap-shuffle) end
+
+(Process exit codes are excluded for matching purposes.)

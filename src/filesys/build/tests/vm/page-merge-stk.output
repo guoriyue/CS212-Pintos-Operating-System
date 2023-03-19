@@ -1,16 +1,16 @@
 Copying tests/vm/page-merge-stk to scratch partition...
 Copying tests/vm/child-qsort to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/IuT3OXb1xI.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/Z2Yu4ubr98.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run page-merge-stk
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  258,867,200 loops/s.
+Calibrating timer...  326,860,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -29,7 +29,168 @@ Executing 'page-merge-stk':
 (page-merge-stk) begin
 (page-merge-stk) init
 (page-merge-stk) sort chunk 0
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=4294967295, size=4096)
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Singly indirect block
+Doubly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+byte to sector for singly indirect block
+Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=2867634488, size=4096)
 
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
@@ -45,7 +206,7 @@ Kernel command line: -q -f extract run page-merge-stk
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,680,000 loops/s.
+Calibrating timer...  325,632,000 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -62,8 +223,8 @@ Executing 'page-merge-stk':
 load: page-merge-stk: open failed
 page-merge-stk: exit(-1)
 Execution of 'page-merge-stk' complete.
-Timer: 65 ticks
-Thread: 0 idle ticks, 64 kernel ticks, 1 user ticks
+Timer: 60 ticks
+Thread: 0 idle ticks, 59 kernel ticks, 1 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
