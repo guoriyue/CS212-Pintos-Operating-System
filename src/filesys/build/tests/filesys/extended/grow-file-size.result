@@ -1,5 +1,1 @@
-FAIL
-Kernel panic in run: PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hdb1 (sector=3221465240, size=4096)
-Call stack: 0xc002892f
-Translation of call stack:
-0xc002892f: debug_panic (.../../lib/kernel/debug.c:38)
+PASS

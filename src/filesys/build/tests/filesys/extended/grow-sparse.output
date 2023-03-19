@@ -1,6 +1,6 @@
 Copying tests/filesys/extended/grow-sparse to scratch partition...
 Copying tests/filesys/extended/tar to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/w3F9tGrJ34.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/V5gPB0k3BI.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run grow-sparse
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  335,052,800 loops/s.
+Calibrating timer...  320,307,200 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 237 sectors (118 kB), Pintos scratch (22)
@@ -25,9 +25,6 @@ Boot complete.
 Extracting ustar archive from scratch device into file system...
 Putting 'grow-sparse' into the file system...
 Putting 'tar' into the file system...
-Singly indirect block
-Singly indirect block
-byte to sector for singly indirect block
 Erasing ustar archive...
 Executing 'grow-sparse':
 (grow-sparse) begin
@@ -35,13 +32,12 @@ Executing 'grow-sparse':
 (grow-sparse) open "testfile"
 (grow-sparse) seek "testfile"
 (grow-sparse) write "testfile"
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hdb1 (sector=3221465240, size=4096)
-
+Kernel PANIC at ../../threads/thread.c:287 in thread_current(): assertion `is_thread (t)' failed.
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
+Kernel PANIC recursion at ../../threads/thread.c:287 in thread_current().
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -51,7 +47,7 @@ Kernel command line: -q -f extract run grow-sparse
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  337,920,000 loops/s.
+Calibrating timer...  343,244,800 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 237 sectors (118 kB), Pintos scratch (22)

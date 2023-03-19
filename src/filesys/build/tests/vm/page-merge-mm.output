@@ -1,6 +1,6 @@
 Copying tests/vm/page-merge-mm to scratch partition...
 Copying tests/vm/child-qsort-mm to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/4nCAXJ1kWK.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/W5GhevcW_F.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run page-merge-mm
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  333,004,800 loops/s.
+Calibrating timer...  342,835,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -29,184 +29,29 @@ Executing 'page-merge-mm':
 (page-merge-mm) begin
 (page-merge-mm) init
 (page-merge-mm) sort chunk 0
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Doubly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-byte to sector for singly indirect block
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=2867634488, size=4096)
-
+Page fault at 0x1e1: not present error writing page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0028da4
+ cr2=000001e1 error=00000002
+ eax=c01a640c ebx=c003a890 ecx=000001dd edx=c01a620c
+ esi=c01a6000 edi=c003a8a8 esp=00000001 ebp=c01a620c
+ cs=0008 ds=0010 es=0010 ss=620c
+Kernel PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Kernel PANIC recursion at ../../devices/block.c:112 in check_sector().
+Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
+.
 Kernel command line: -q -f extract run page-merge-mm
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  334,233,600 loops/s.
+Calibrating timer...  342,016,000 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -224,7 +69,7 @@ load: page-merge-mm: open failed
 page-merge-mm: exit(-1)
 Execution of 'page-merge-mm' complete.
 Timer: 61 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 1 user ticks
+Thread: 0 idle ticks, 61 kernel ticks, 0 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

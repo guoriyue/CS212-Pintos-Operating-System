@@ -1,5 +1,11 @@
 FAIL
-Kernel panic in run: PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hdb1 (sector=3221465240, size=4096)
-Call stack: 0xc002892f
+Kernel panic in run: PANIC at ../../filesys/inode.c:705 in inode_allow_write(): assertion `inode->deny_write_cnt <= inode->open_cnt' failed.
+Call stack: 0xc002892f 0x804a878
 Translation of call stack:
+In kernel.o:
 0xc002892f: debug_panic (.../../lib/kernel/debug.c:38)
+In tests/filesys/extended/grow-two-files:
+0x0804a878: close (...../lib/user/syscall.c:141)
+Translations of user virtual addresses above are based on a guess at
+the binary to use.  If this guess is incorrect, then those
+translations will be misleading.

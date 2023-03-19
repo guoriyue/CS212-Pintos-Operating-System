@@ -1,4 +1,4 @@
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/VMHVG74yPV.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/LEbxL6Y0tZ.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -8,7 +8,7 @@ Kernel command line: -q run 'tar fs.tar /' append fs.tar
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  333,414,400 loops/s.
+Calibrating timer...  328,908,800 loops/s.
 hda: 11,088 sectors (5 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 2,048 sectors (1 MB), Pintos scratch (22)
@@ -20,22 +20,17 @@ scratch: using hda2
 swap: using hda3
 Boot complete.
 Executing 'tar fs.tar /':
-load: tar: open failed
-tar: exit(-1)
+/: open failed
+tar: exit(1)
 Execution of 'tar fs.tar /' complete.
 Appending 'fs.tar' to ustar archive on scratch device...
-Kernel PANIC at ../../filesys/fsutil.c:187 in fsutil_append(): fs.tar: open failed
-Call stack: 0xc002892f 0xc011aa0c.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Timer: 59 ticks
-Thread: 0 idle ticks, 58 kernel ticks, 1 user ticks
-hdb1 (filesys): 4 reads, 0 writes
-hda2 (scratch): 0 reads, 0 writes
+Timer: 64 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 3 user ticks
+hdb1 (filesys): 38 reads, 7 writes
+hda2 (scratch): 0 reads, 5 writes
 hda3 (swap): 0 reads, 0 writes
-Console: 1205 characters output
+Console: 925 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
-Copying tests/filesys/extended/dir-vine.tar out of /tmp/VMHVG74yPV.dsk...
+Copying tests/filesys/extended/dir-vine.tar out of /tmp/LEbxL6Y0tZ.dsk...

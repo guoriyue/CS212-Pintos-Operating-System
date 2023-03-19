@@ -1,6 +1,6 @@
 Copying tests/userprog/exec-bound to scratch partition...
 Copying tests/userprog/child-args to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/dXGhaFA0cv.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/CJbinnSXCe.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run exec-bound
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  339,148,800 loops/s.
+Calibrating timer...  328,089,600 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -39,7 +39,7 @@ child-args: exit(0)
 exec-bound: exit(0)
 Execution of 'exec-bound' complete.
 Timer: 97 ticks
-Thread: 0 idle ticks, 91 kernel ticks, 6 user ticks
+Thread: 0 idle ticks, 90 kernel ticks, 7 user ticks
 hda2 (filesys): 64 reads, 415 writes
 hda3 (scratch): 204 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

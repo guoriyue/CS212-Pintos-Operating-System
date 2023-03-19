@@ -1,5 +1,5 @@
 Copying tests/vm/mmap-shuffle to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/RsPv98EcaN.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/7V0exBccNX.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run mmap-shuffle
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,270,400 loops/s.
+Calibrating timer...  338,329,600 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -26,146 +26,50 @@ Erasing ustar archive...
 Executing 'mmap-shuffle':
 (mmap-shuffle) begin
 (mmap-shuffle) create "buffer"
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Singly indirect block
-Doubly indirect block
-(mmap-shuffle) open "buffer"
-(mmap-shuffle) mmap "buffer"
+Page fault at 0x171: not present error writing page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0028da4
+ cr2=00000171 error=00000002
+ eax=c016f40c ebx=c003a890 ecx=0000016d edx=c016f20c
+ esi=c016f000 edi=c003a8a8 esp=00000001 ebp=c016f20c
+ cs=0008 ds=0010 es=0010 ss=f20c
+Kernel PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc002892f.
+The `backtrace' program can make call stacks useful.
+Read "Backtraces" in the "Debugging Tools" chapter
+of the Pintos documentation for more information.
+Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
+c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
+Booting from Hard Disk...
+PPiiLLoo  hhddaa1
+1
+LLooaaddiinngg.......................
+Kernel command line: -q -f extract run mmap-shuffle
+Pintos booting with 3,968 kB RAM...
+367 pages available in kernel pool.
+367 pages available in user pool.
+Calibrating timer...  340,377,600 loops/s.
+hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
+hda1: 202 sectors (101 kB), Pintos OS kernel (20)
+hda2: 4,096 sectors (2 MB), Pintos file system (21)
+hda3: 113 sectors (56 kB), Pintos scratch (22)
+hda4: 8,192 sectors (4 MB), Pintos swap (23)
+filesys: using hda2
+scratch: using hda3
+swap: using hda4
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch device into file system...
+Erasing ustar archive...
+Executing 'mmap-shuffle':
+load: mmap-shuffle: open failed
 mmap-shuffle: exit(-1)
 Execution of 'mmap-shuffle' complete.
-Timer: 128 ticks
-Thread: 0 idle ticks, 93 kernel ticks, 36 user ticks
-hda2 (filesys): 39 reads, 486 writes
-hda3 (scratch): 112 reads, 2 writes
+Timer: 58 ticks
+Thread: 0 idle ticks, 58 kernel ticks, 0 user ticks
+hda2 (filesys): 0 reads, 4 writes
+hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 3934 characters output
+Console: 942 characters output
 Keyboard: 0 keys pressed
-Exception: 6 page faults
+Exception: 0 page faults
 Powering off...

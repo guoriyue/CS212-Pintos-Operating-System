@@ -1,5 +1,5 @@
 Copying tests/vm/mmap-bad-fd to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/TwfXSPqSUb.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/547Cd8nHbM.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run mmap-bad-fd
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  323,993,600 loops/s.
+Calibrating timer...  347,340,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -29,8 +29,8 @@ Executing 'mmap-bad-fd':
 (mmap-bad-fd) end
 mmap-bad-fd: exit(0)
 Execution of 'mmap-bad-fd' complete.
-Timer: 79 ticks
-Thread: 0 idle ticks, 77 kernel ticks, 3 user ticks
+Timer: 78 ticks
+Thread: 0 idle ticks, 75 kernel ticks, 3 user ticks
 hda2 (filesys): 31 reads, 208 writes
 hda3 (scratch): 102 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

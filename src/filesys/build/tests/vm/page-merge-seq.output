@@ -1,6 +1,6 @@
 Copying tests/vm/page-merge-seq to scratch partition...
 Copying tests/vm/child-sort to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/TAxrvmhtuS.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/5hnoUFHVpx.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run page-merge-seq
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  339,148,800 loops/s.
+Calibrating timer...  323,993,600 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -28,10 +28,17 @@ Erasing ustar archive...
 Executing 'page-merge-seq':
 (page-merge-seq) begin
 (page-merge-seq) init
-Singly indirect block
 (page-merge-seq) sort chunk 0
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hda2 (sector=3221465240, size=4096)
-
+child-sort: exit(123)
+(page-merge-seq) sort chunk 1
+child-sort: exit(123)
+(page-merge-seq) sort chunk 2
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002fba9
+ cr2=00000000 error=00000002
+ eax=c003e424 ebx=c003e3e0 ecx=00000200 edx=c0100008
+ esi=c003e424 edi=00000000 esp=c003e40c ebp=c003e40c
+ cs=0008 ds=0010 es=0010 ss=0000
+Kernel PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
 Call stack: 0xc002892f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
@@ -41,12 +48,12 @@ Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run page-merge-seq
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  337,920,000 loops/s.
+Calibrating timer...  327,270,400 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)

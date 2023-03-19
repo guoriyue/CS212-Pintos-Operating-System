@@ -126,7 +126,7 @@ file_write_at (struct file *file, const void *buffer, off_t size,
                off_t file_ofs) 
 {
   if (file->pos > file_length(file)) {
-    file_seek_past_write (file);
+    //file_seek_past_write (file);
   }
   return inode_write_at (file->inode, buffer, size, file_ofs, file->is_bitmap);
 }

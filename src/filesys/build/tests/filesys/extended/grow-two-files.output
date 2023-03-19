@@ -1,6 +1,6 @@
 Copying tests/filesys/extended/grow-two-files to scratch partition...
 Copying tests/filesys/extended/tar to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/dfrgo6gHMN.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/3kcIBJrPYj.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run grow-two-files
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  326,451,200 loops/s.
+Calibrating timer...  340,787,200 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 239 sectors (119 kB), Pintos scratch (22)
@@ -25,9 +25,6 @@ Boot complete.
 Extracting ustar archive from scratch device into file system...
 Putting 'grow-two-files' into the file system...
 Putting 'tar' into the file system...
-Singly indirect block
-Singly indirect block
-byte to sector for singly indirect block
 Erasing ustar archive...
 Executing 'grow-two-files':
 (grow-two-files) begin
@@ -36,13 +33,17 @@ Executing 'grow-two-files':
 (grow-two-files) open "a"
 (grow-two-files) open "b"
 (grow-two-files) write "a" and "b" alternately
-Kernel PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hdb1 (sector=3221465240, size=4096)
-
-Call stack: 0xc002892f.
-The `backtrace' program can make call stacks useful.
-Read "Backtraces" in the "Debugging Tools" chapter
-of the Pintos documentation for more information.
-Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
+(grow-two-files) close "a"
+(grow-two-files) close "b"
+grow-two-files: exit(-1)
+Kernel PANIC at ../../filesys/inode.c:705 in inode_allow_write(): assertion `inode->deny_write_cnt <= inode->open_cnt' failed.
+Call stack: 0xc002892f 0x804a878 0Page fault at 0x1fcf: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002633b
+ cr2=00001fcf error=00000000
+ eax=00000002 ebx=00001fcf ecx=000007a2 edx=000003d4
+ esi=000002c1 edi=c0032368 esp=c0033ddc ebp=c0167de4
+ cs=0008 ds=0010 es=0010 ss=0000
+Kernel PANIC recursion at ../../userprog/exception.c:109 in kill().
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -52,7 +53,7 @@ Kernel command line: -q -f extract run grow-two-files
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  328,499,200 loops/s.
+Calibrating timer...  340,787,200 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 239 sectors (119 kB), Pintos scratch (22)
@@ -70,8 +71,8 @@ Executing 'grow-two-files':
 load: grow-two-files: open failed
 grow-two-files: exit(-1)
 Execution of 'grow-two-files' complete.
-Timer: 61 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 1 user ticks
+Timer: 63 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 1 user ticks
 hdb1 (filesys): 0 reads, 4 writes
 hda2 (scratch): 1 reads, 2 writes
 hda3 (swap): 0 reads, 0 writes

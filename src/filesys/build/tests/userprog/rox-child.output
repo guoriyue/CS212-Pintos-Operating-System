@@ -1,6 +1,6 @@
 Copying tests/userprog/rox-child to scratch partition...
 Copying tests/userprog/child-rox to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/NRi3f978hP.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/asA6WAAHWX.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run rox-child
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  334,233,600 loops/s.
+Calibrating timer...  320,716,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -40,12 +40,12 @@ child-rox: exit(12)
 (rox-child) end
 rox-child: exit(0)
 Execution of 'rox-child' complete.
-Timer: 102 ticks
-Thread: 0 idle ticks, 95 kernel ticks, 7 user ticks
+Timer: 97 ticks
+Thread: 0 idle ticks, 90 kernel ticks, 8 user ticks
 hda2 (filesys): 65 reads, 446 writes
 hda3 (scratch): 219 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 1303 characters output
+Console: 1302 characters output
 Keyboard: 0 keys pressed
 Exception: 10 page faults
 Powering off...

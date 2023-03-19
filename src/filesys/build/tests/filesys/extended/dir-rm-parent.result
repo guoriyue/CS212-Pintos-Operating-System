@@ -1,5 +1,21 @@
 FAIL
-Kernel panic in run: PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hdb1 (sector=3221465240, size=4096)
-Call stack: 0xc002892f
-Translation of call stack:
-0xc002892f: debug_panic (.../../lib/kernel/debug.c:38)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (dir-rm-parent) begin
+  (dir-rm-parent) mkdir "a"
+  (dir-rm-parent) chdir "a"
+  (dir-rm-parent) mkdir "b"
+  (dir-rm-parent) chdir "b"
+  (dir-rm-parent) remove "/a" (must fail)
+  (dir-rm-parent) end
+Differences in `diff -u' format:
+  (dir-rm-parent) begin
+  (dir-rm-parent) mkdir "a"
+- (dir-rm-parent) chdir "a"
+- (dir-rm-parent) mkdir "b"
+- (dir-rm-parent) chdir "b"
+- (dir-rm-parent) remove "/a" (must fail)
+- (dir-rm-parent) end
+
+(Process exit codes are excluded for matching purposes.)

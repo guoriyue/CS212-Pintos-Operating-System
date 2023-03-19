@@ -1,6 +1,6 @@
 Copying tests/vm/mmap-exit to scratch partition...
 Copying tests/vm/child-mm-wrt to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/XuY8kTfjkJ.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/E2j2URt01p.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run mmap-exit
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,680,000 loops/s.
+Calibrating timer...  337,100,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -38,8 +38,8 @@ child-mm-wrt: exit(0)
 (mmap-exit) size of sample.txt (4096) differs from expected (795): FAILED
 mmap-exit: exit(1)
 Execution of 'mmap-exit' complete.
-Timer: 105 ticks
-Thread: 0 idle ticks, 96 kernel ticks, 9 user ticks
+Timer: 98 ticks
+Thread: 0 idle ticks, 87 kernel ticks, 12 user ticks
 hda2 (filesys): 68 reads, 436 writes
 hda3 (scratch): 208 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
