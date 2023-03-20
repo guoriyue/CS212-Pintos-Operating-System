@@ -1,6 +1,6 @@
 Copying tests/filesys/extended/dir-mkdir to scratch partition...
 Copying tests/filesys/extended/tar to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/IN9NXe5SUJ.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/_YJA_mJkkC.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -31,12 +31,12 @@ Executing 'dir-mkdir':
 (dir-mkdir) mkdir "a"
 dir-mkdir: exit(-1)
 Execution of 'dir-mkdir' complete.
-Timer: 100 ticks
-Thread: 0 idle ticks, 96 kernel ticks, 4 user ticks
-hdb1 (filesys): 38 reads, 478 writes
+Timer: 104 ticks
+Thread: 0 idle ticks, 101 kernel ticks, 3 user ticks
+hdb1 (filesys): 37 reads, 478 writes
 hda2 (scratch): 235 reads, 2 writes
 hda3 (swap): 0 reads, 0 writes
-Console: 1093 characters output
+Console: 1094 characters output
 Keyboard: 0 keys pressed
 Exception: 5 page faults
 Powering off...

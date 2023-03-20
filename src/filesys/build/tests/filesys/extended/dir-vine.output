@@ -1,6 +1,6 @@
 Copying tests/filesys/extended/dir-vine to scratch partition...
 Copying tests/filesys/extended/tar to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/3ocA1efLXD.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/LvhwCo3rRw.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run dir-vine
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  325,222,400 loops/s.
+Calibrating timer...  326,041,600 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 243 sectors (121 kB), Pintos scratch (22)
@@ -31,12 +31,12 @@ Executing 'dir-vine':
 (dir-vine) creating many levels of files and directories...
 dir-vine: exit(-1)
 Execution of 'dir-vine' complete.
-Timer: 95 ticks
-Thread: 0 idle ticks, 92 kernel ticks, 4 user ticks
-hdb1 (filesys): 40 reads, 492 writes
+Timer: 103 ticks
+Thread: 0 idle ticks, 98 kernel ticks, 5 user ticks
+hdb1 (filesys): 39 reads, 492 writes
 hda2 (scratch): 242 reads, 2 writes
 hda3 (swap): 0 reads, 0 writes
-Console: 1124 characters output
+Console: 1125 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...

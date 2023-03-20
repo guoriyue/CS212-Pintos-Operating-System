@@ -2,6 +2,7 @@
 #include <debug.h>
 #include "filesys/inode.h"
 #include "threads/malloc.h"
+#include <string.h>
 
 /* An open file. */
 //struct file 
@@ -22,6 +23,7 @@ file_open (struct inode *inode)
     {
       file->inode = inode;
       file->pos = 0;
+      inode_set_dir_status (inode, false);
       file->deny_write = false;
       return file;
     }

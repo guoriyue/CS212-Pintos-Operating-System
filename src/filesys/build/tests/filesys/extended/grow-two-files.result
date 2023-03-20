@@ -1,9 +1,9 @@
 FAIL
-Kernel panic in run: PANIC at ../../filesys/inode.c:705 in inode_allow_write(): assertion `inode->deny_write_cnt <= inode->open_cnt' failed.
-Call stack: 0xc002892f 0x804a878
+Kernel panic in run: PANIC at ../../filesys/inode.c:717 in inode_allow_write(): assertion `inode->deny_write_cnt <= inode->open_cnt' failed.
+Call stack: 0xc002893f 0x804a878
 Translation of call stack:
 In kernel.o:
-0xc002892f: debug_panic (.../../lib/kernel/debug.c:38)
+0xc002893f: debug_panic (.../../lib/kernel/debug.c:38)
 In tests/filesys/extended/grow-two-files:
 0x0804a878: close (...../lib/user/syscall.c:141)
 Translations of user virtual addresses above are based on a guess at

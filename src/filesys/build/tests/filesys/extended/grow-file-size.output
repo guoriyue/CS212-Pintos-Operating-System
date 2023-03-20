@@ -1,6 +1,6 @@
 Copying tests/filesys/extended/grow-file-size to scratch partition...
 Copying tests/filesys/extended/tar to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/joOax4ERRL.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/rMvNOq1uwy.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run grow-file-size
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,270,400 loops/s.
+Calibrating timer...  330,956,800 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 236 sectors (118 kB), Pintos scratch (22)
@@ -39,8 +39,8 @@ Executing 'grow-file-size':
 grow-file-size: exit(0)
 Execution of 'grow-file-size' complete.
 Timer: 105 ticks
-Thread: 0 idle ticks, 98 kernel ticks, 7 user ticks
-hdb1 (filesys): 39 reads, 488 writes
+Thread: 0 idle ticks, 97 kernel ticks, 8 user ticks
+hdb1 (filesys): 38 reads, 488 writes
 hda2 (scratch): 235 reads, 2 writes
 hda3 (swap): 0 reads, 0 writes
 Console: 1392 characters output

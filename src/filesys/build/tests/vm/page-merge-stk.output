@@ -1,6 +1,6 @@
 Copying tests/vm/page-merge-stk to scratch partition...
 Copying tests/vm/child-qsort to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/QfjmHGTnGS.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/3SdV5tU9_H.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run page-merge-stk
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  342,425,600 loops/s.
+Calibrating timer...  326,041,600 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -30,13 +30,13 @@ Executing 'page-merge-stk':
 (page-merge-stk) init
 (page-merge-stk) sort chunk 0
 Page fault at 0x1e2: not present error writing page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0028da4
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0028db4
  cr2=000001e2 error=00000002
- eax=c01a680c ebx=c003a890 ecx=000001de edx=c01a660c
- esi=c01a6000 edi=c003a8a8 esp=00000001 ebp=c01a660c
+ eax=c01a680c ebx=c003a930 ecx=000001de edx=c01a660c
+ esi=c01a6000 edi=c003a948 esp=00000001 ebp=c01a660c
  cs=0008 ds=0010 es=0010 ss=660c
 Kernel PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002892f.
+Call stack: 0xc002893f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
@@ -45,12 +45,12 @@ Kernel PANIC recursion at ../../devices/timer.c:222 in real_time_sleep().
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
 1
-LLooaaddiinngg........................
+LLooaaddiinngg.......................
 Kernel command line: -q -f extract run page-merge-stk
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  337,100,800 loops/s.
+Calibrating timer...  326,860,800 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -68,7 +68,7 @@ load: page-merge-stk: open failed
 page-merge-stk: exit(-1)
 Execution of 'page-merge-stk' complete.
 Timer: 59 ticks
-Thread: 0 idle ticks, 59 kernel ticks, 0 user ticks
+Thread: 0 idle ticks, 58 kernel ticks, 1 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

@@ -121,6 +121,7 @@ thread_start (void)
 
   /* Wait for the idle thread to initialize idle_thread. */
   sema_down (&idle_started);
+  //thread_current()->cur_dir = dir_open_root ();
 }
 
 /* Called by the timer interrupt handler at each timer tick.
@@ -217,7 +218,10 @@ thread_create (const char *name, int priority,
   
   t->exit_status = es;
 
-  
+  /* Project 4 directories. Inherit CWD from parent. */
+  //t->cur_dir = dir_open_root ();
+  t->cur_dir = thread_current()->cur_dir;
+
   list_push_back (&t->parent->children_exit_status_list, &es->exit_status_elem);
 
   /* Add to run queue. */

@@ -40,6 +40,7 @@
 #endif
 #include "vm/swap.h"
 #include "filesys/cache.h"
+#include "filesys/directory.h"
 /* Page directory with kernel mappings only. */
 uint32_t *init_page_dir;
 

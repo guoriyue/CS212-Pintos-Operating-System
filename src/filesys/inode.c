@@ -52,6 +52,7 @@ struct inode
     int deny_write_cnt;                 /* 0: writes ok, >0: deny writes. */
     struct lock lock_inode;             /* Inode lock */
     block_sector_t inode_disk_sector;   /* Sector that contains inode_disk for inode. */
+    bool is_dir;                        /* File is a directory. */
   };
 
 
@@ -75,7 +76,6 @@ byte_to_sector (const struct inode_disk *inode_disk, off_t pos)
     if (pos < L0_CACHE_CAPACITY + L1_CACHE_CAPACITY) {
       // Indirect block at index SECTOR_IDXS - 2
       block_sector_t sector = inode_disk->sector_idxs[SECTOR_IDXS - 2];
-      printf("singly secotr: %d\n", sector);
       struct inode_disk *disk_inode;
       disk_inode = malloc (sizeof *disk_inode);
       if (disk_inode == NULL)
@@ -145,7 +145,8 @@ inode_init (void)
 }
 
 /* Allocate a new zero sector */
-static block_sector_t
+//static block_sector_t
+block_sector_t
 zero_sector (void)
 {
   block_sector_t sector;
@@ -354,7 +355,6 @@ inode_open (block_sector_t sector)
   if (disk_inode == NULL)
     return NULL;
 
-  printf("sector: %d\n", sector);
   cache_read (sector, disk_inode, 0, BLOCK_SECTOR_SIZE);
   free (disk_inode);
   return inode;
@@ -523,7 +523,7 @@ off_t
 inode_write_at (struct inode *inode, const void *buffer_, off_t size,
                 off_t offset, bool is_bitmap) 
 {
-  printf("offset: %d\n", offset);
+  if (inode->is_dir == true) return -1;
   const uint8_t *buffer = buffer_;
   off_t bytes_written = 0;
 
@@ -677,13 +677,11 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
       {
         // write full sector
         cache_write (sector_idx, buffer + bytes_written, 0, BLOCK_SECTOR_SIZE);
-        printf("write sector: %d\n", sector_idx);
       }
       else
       {
         // write partial sector 
         cache_write (sector_idx, buffer + bytes_written, sector_ofs, chunk_size);
-        printf("write sector: %d\n", sector_idx);
       }
 
       /* Advance. */
@@ -731,4 +729,30 @@ inode_length (const struct inode *inode)
   inode_dsk = malloc (sizeof *inode_dsk);
   cache_read (inode->sector, inode_dsk, 0, BLOCK_SECTOR_SIZE);
   return inode_dsk->length;
+}
+
+/* Returns true if the file stored at this inode is a directory. */
+bool 
+inode_is_dir(struct inode *inode)
+{
+  return inode->is_dir;
+}
+
+void
+inode_set_dir_status(struct inode *inode, bool dir_status)
+{
+  inode->is_dir = dir_status;
+}
+
+void 
+set_inode_length (struct inode *inode, off_t length) {
+  struct inode_disk *disk_inode;
+  disk_inode = malloc (sizeof *disk_inode);
+  if (disk_inode == NULL)
+    return NULL;
+
+  cache_read (inode->sector, disk_inode, 0, BLOCK_SECTOR_SIZE);
+  disk_inode->length = length;
+  cache_write (inode->sector, disk_inode, 0, BLOCK_SECTOR_SIZE);
+  free (disk_inode);
 }

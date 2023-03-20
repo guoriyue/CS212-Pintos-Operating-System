@@ -1,5 +1,5 @@
 FAIL
-Kernel panic in run: PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002892f
+Kernel panic in run: PANIC at ../../devices/block.c:112 in check_sector(): Access past end of device hdb1 (sector=1087355735, size=4096)
+Call stack: 0xc002893f
 Translation of call stack:
-0xc002892f: debug_panic (.../../lib/kernel/debug.c:38)
+0xc002893f: debug_panic (.../../lib/kernel/debug.c:38)

@@ -10,4 +10,4 @@ userprog/syscall.o: ../../userprog/syscall.c ../../userprog/syscall.h \
  ../../filesys/filesys.h ../../devices/shutdown.h ../../threads/malloc.h \
  ../../threads/palloc.h ../../devices/input.h ../../vm/frame.h \
  ../../lib/inttypes.h ../../lib/stdlib.h ../../vm/page.h ../../vm/swap.h \
- ../../devices/block.h
+ ../../devices/block.h ../../filesys/inode.h ../../filesys/directory.h

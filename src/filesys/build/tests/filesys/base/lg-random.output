@@ -1,5 +1,5 @@
 Copying tests/filesys/base/lg-random to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/36iQI0CH8i.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/bCYTID78WG.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -9,7 +9,7 @@ Kernel command line: -q -f extract run lg-random
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  342,016,000 loops/s.
+Calibrating timer...  314,163,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -33,8 +33,8 @@ Executing 'lg-random':
 (lg-random) end
 lg-random: exit(0)
 Execution of 'lg-random' complete.
-Timer: 112 ticks
-Thread: 0 idle ticks, 87 kernel ticks, 26 user ticks
+Timer: 108 ticks
+Thread: 0 idle ticks, 84 kernel ticks, 25 user ticks
 hda2 (filesys): 173 reads, 517 writes
 hda3 (scratch): 110 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

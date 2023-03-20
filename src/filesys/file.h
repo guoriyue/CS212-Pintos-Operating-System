@@ -11,6 +11,7 @@ struct file
     off_t pos;                  /* Current position. */
     bool deny_write;            /* Has file_deny_write() been called? */
     bool is_bitmap;             /* Bitmap. */
+    //bool is_dir;                /* File is a directory. */
   };
 
 /* Opening and closing files. */

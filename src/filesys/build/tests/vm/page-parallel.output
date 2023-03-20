@@ -1,6 +1,6 @@
 Copying tests/vm/page-parallel to scratch partition...
 Copying tests/vm/child-linear to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/XFEmGBCGqR.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/1nnzhNL4bC.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -35,14 +35,14 @@ child-linear: exit(66)
 (page-parallel) wait for child 0
 child-linear: exit(66)
 (page-parallel) wait for child 1
-Page fault at 0x34: not present error reading page in kernel context.
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc003018b
- cr2=00000034 error=00000000
+Page fault at 0x38: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc003027b
+ cr2=00000038 error=00000000
  eax=00000000 ebx=c01b5001 ecx=00000000 edx=00000000
  esi=c010200c edi=c0102010 esp=c0102010 ebp=c017f000
  cs=0008 ds=0010 es=0010 ss=a000
 Kernel PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002892f.
+Call stack: 0xc002893f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
@@ -56,7 +56,7 @@ Kernel command line: -q -f extract run page-parallel
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  339,968,000 loops/s.
+Calibrating timer...  334,233,600 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -73,8 +73,8 @@ Executing 'page-parallel':
 load: page-parallel: open failed
 page-parallel: exit(-1)
 Execution of 'page-parallel' complete.
-Timer: 58 ticks
-Thread: 0 idle ticks, 57 kernel ticks, 1 user ticks
+Timer: 61 ticks
+Thread: 0 idle ticks, 60 kernel ticks, 1 user ticks
 hda2 (filesys): 0 reads, 4 writes
 hda3 (scratch): 1 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes

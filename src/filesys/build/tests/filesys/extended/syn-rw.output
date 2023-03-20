@@ -1,7 +1,7 @@
 Copying tests/filesys/extended/syn-rw to scratch partition...
 Copying tests/filesys/extended/tar to scratch partition...
 Copying tests/filesys/extended/child-syn-rw to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/9Sxy0dOjVn.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/cjmaPLSXfN.dsk,format=raw,index=0,media=disk -drive file=tmp.dsk,format=raw,index=1,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -11,7 +11,7 @@ Kernel command line: -q -f extract run syn-rw
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  340,787,200 loops/s.
+Calibrating timer...  325,632,000 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 356 sectors (178 kB), Pintos scratch (22)
@@ -33,13 +33,13 @@ Executing 'syn-rw':
 (syn-rw) create "logfile"
 (syn-rw) open "logfile"
 (syn-rw) exec child 1 of 4: "child-syn-rw 0"
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002fba9
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc002fc98
  cr2=00000000 error=00000002
- eax=c003adc4 ebx=c003ad80 ecx=00000200 edx=c0100008
- esi=c003adc4 edi=00000000 esp=c003adac ebp=c003adac
+ eax=c0040d8c ebx=c0040d48 ecx=00000200 edx=c0100008
+ esi=c0040d8c edi=00000000 esp=c0040d74 ebp=c0040d74
  cs=0008 ds=0010 es=0010 ss=0000
 Kernel PANIC at ../../userprog/exception.c:109 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc002892f.
+Call stack: 0xc002893f.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
@@ -53,7 +53,7 @@ Kernel command line: -q -f extract run syn-rw
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  327,270,400 loops/s.
+Calibrating timer...  322,355,200 loops/s.
 hda: 9,072 sectors (4 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 356 sectors (178 kB), Pintos scratch (22)
@@ -71,8 +71,8 @@ Executing 'syn-rw':
 load: syn-rw: open failed
 syn-rw: exit(-1)
 Execution of 'syn-rw' complete.
-Timer: 60 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 0 user ticks
+Timer: 62 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
 hdb1 (filesys): 0 reads, 4 writes
 hda2 (scratch): 1 reads, 2 writes
 hda3 (swap): 0 reads, 0 writes

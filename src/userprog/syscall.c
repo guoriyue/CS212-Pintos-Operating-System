@@ -21,6 +21,8 @@
 #include "vm/frame.h"
 #include "vm/page.h"
 #include "vm/swap.h"
+#include "filesys/inode.h"
+#include "filesys/directory.h"
 
 static void check_usr_ptr(const void *u_ptr, void *esp);
 static void check_usr_string(const char *str, void *esp);
@@ -371,6 +373,42 @@ syscall_handler(struct intr_frame *f UNUSED)
     sysmunmap (mapping);
     lock_release(&syscall_system_lock);
   } 
+  else if (syscall_number == SYS_CHDIR) 
+  {
+    char *dir = get_valid_argument (esp, 1);
+    lock_acquire(&syscall_system_lock);
+    f->eax = (uint32_t) syschdir (dir);
+    lock_release(&syscall_system_lock);
+  }
+  else if (syscall_number == SYS_MKDIR)
+  {
+    char *dir = get_valid_argument (esp, 1);
+    lock_acquire(&syscall_system_lock);
+    f->eax = (uint32_t) sysmkdir (dir);
+    lock_release(&syscall_system_lock);
+  }
+  else if (syscall_number == SYS_READDIR)
+  {
+    int fd = get_valid_argument (esp, 1);
+    char *name = get_valid_argument (esp, 2);
+    lock_acquire(&syscall_system_lock);
+    f->eax = (uint32_t) sysreaddir (fd, name);
+    lock_release(&syscall_system_lock);
+  }
+  else if (syscall_number == SYS_ISDIR)
+  {
+    int fd = get_valid_argument (esp, 1);
+    lock_acquire(&syscall_system_lock);
+    f->eax = (uint32_t) sysisdir (fd);
+    lock_release(&syscall_system_lock);
+  }
+  else if (syscall_number == SYS_INUMBER)
+  {
+    int fd = get_valid_argument (esp, 1);
+    lock_acquire(&syscall_system_lock);
+    f->eax = (uint32_t) sysinumber (fd);
+    lock_release(&syscall_system_lock);
+  }
   else
   {
     sysexit(-1);
@@ -389,8 +427,10 @@ void sysexit(int status)
   thread_exit();
 }
 
+// TODO: open relative paths
 int sysopen(const char *file, void *esp)
 {
+
   check_usr_string(file, esp);
   pinning_file(file, false);
   unsigned length = strlen(file);
@@ -449,6 +489,7 @@ int syswrite(int fd, const void *buffer, unsigned length, void *esp)
     else
     {
       struct file *f = cur->file_handlers[fd];
+      //if inode_is_dir(f->inode) return 0;
       f->is_bitmap = false;
       lock_acquire(&file_system_lock);
       ans = file_write(f, buffer, length);
@@ -509,6 +550,7 @@ int sysfilesize(int fd)
 {
   struct thread *cur = thread_current();
   struct file *f = cur->file_handlers[fd];
+  //if inode_is_dir(f->inode) return -1;
   return (int)file_length(f);
 }
 
@@ -550,6 +592,7 @@ int sysread(int fd, void *buffer, unsigned length, void *esp)
       ans = -1;
     else
     {
+      //if (inode_is_dir(f->inode)) return 0;
       lock_acquire(&file_system_lock);
       ans = file_read(f, buffer, length);
       lock_release(&file_system_lock);
@@ -582,6 +625,7 @@ systell(int fd)
   return file_tell(f);
 }
 
+// SYSCLOSE DIRECTORY
 void sysclose(int fd)
 {
   if (fd > (thread_current()->file_handlers_number - 1))
@@ -678,4 +722,77 @@ sysmunmap (mapid_t mapping)
       }
     }
   lock_release (&cur->supplementary_page_table_lock);
+}
+
+bool 
+syschdir (const char *dir)
+{
+  if (dir == NULL) return 0;
+  char *start = dir;
+  struct dir *cur_dir;
+  if (*dir == '/') {    // root
+    start++;
+    cur_dir = dir_open_root ();
+  } else {
+    cur_dir = thread_current ()->cur_dir;
+  }
+  char *token;
+  while (true) {
+    token = strtok_r(start, " ", &start);
+    if (token == NULL) break;
+    struct inode *dir_inode = NULL;
+    bool exists = dir_lookup (cur_dir, token, &dir_inode);
+    if (!exists) return 0;
+    cur_dir = dir_open (dir_inode);
+    dir_close(cur_dir);
+  }
+  thread_current()->cur_dir = cur_dir;
+  return 1;
+}
+
+bool 
+sysmkdir (const char *dir)
+{
+  //if (*dir == "") return -1;
+  //struct dir *dir = dir_open_root ();
+  // at start the only two entries are . and ..
+  return filesys_create (dir, 2 * sizeof (struct dir_entry));
+}
+
+bool 
+sysreaddir (int fd, char *name)
+{
+  if (fd > (thread_current()->file_handlers_number - 1)) return -1;
+  if (fd == 0) return -1;   
+  if (fd == 1) return -1;   
+
+  struct file *f = thread_current()->file_handlers[fd];
+  //if (!inode_is_dir(f->inode)) return 0;
+  struct dir *dir = dir_open(f->inode);
+  char new_name[READDIR_MAX_LEN + 1];
+  bool success = dir_readdir (dir, new_name);
+  if (success) name = new_name;
+  return success;
+}
+
+bool 
+sysisdir (int fd)
+{
+  if (fd > (thread_current()->file_handlers_number - 1)) return -1;
+  if (fd == 0) return -1;   
+  if (fd == 1) return -1;   
+
+  struct file *f = thread_current()->file_handlers[fd];
+  return inode_is_dir(f->inode);
+}
+
+int 
+sysinumber (int fd)
+{
+  if (fd > (thread_current()->file_handlers_number - 1)) return -1;
+  if (fd == 0) return -1;   
+  if (fd == 1) return -1;   
+
+  struct file *f = thread_current()->file_handlers[fd];
+  return inode_get_inumber(f->inode);
 }

@@ -25,5 +25,10 @@ unsigned systell (int fd);
 void sysclose (int fd);
 mapid_t sysmmap (int fd, void *addr);
 void sysmunmap (mapid_t mapping);
+bool syschdir (const char *dir);
+bool sysmkdir (const char *dir);
+bool sysreaddir (int fd, char *name);
+bool sysisdir (int fd);
+int sysinumber (int fd);
 
 #endif /* userprog/syscall.h */

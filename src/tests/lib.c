@@ -129,9 +129,7 @@ check_file_handle (int fd,
       block_size = size - ofs;
       if (block_size > sizeof block)
         block_size = sizeof block;
-      printf("of1s: %d\n", ofs);
       ret_val = read (fd, block, block_size);
-      printf("ofs2: %d\n", ofs);
       if (ret_val != block_size)
         fail ("read of %zu bytes at offset %zu in \"%s\" returned %zu",
               block_size, ofs, file_name, ret_val);

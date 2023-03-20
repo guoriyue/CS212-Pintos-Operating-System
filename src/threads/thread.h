@@ -92,6 +92,7 @@ struct thread
     int priority;                       /* Priority. */
     struct list_elem allelem;           /* List element for all threads list. */
     struct file *exec_file;             /* Executable of the current process. */
+    struct dir *cur_dir;                /* Thread's working directory. */
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */

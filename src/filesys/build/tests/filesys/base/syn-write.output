@@ -1,6 +1,6 @@
 Copying tests/filesys/base/syn-write to scratch partition...
 Copying tests/filesys/base/child-syn-wrt to scratch partition...
-qemu-system-i386 -device isa-debug-exit -drive file=/tmp/RYdh5X8q7c.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
+qemu-system-i386 -device isa-debug-exit -drive file=/tmp/oD6Y4pJu9z.dsk,format=raw,index=0,media=disk -m 4 -net none -nographic -monitor null
 c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
 Booting from Hard Disk...
 PPiiLLoo  hhddaa1
@@ -10,7 +10,7 @@ Kernel command line: -q -f extract run syn-write
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  342,016,000 loops/s.
+Calibrating timer...  314,163,200 loops/s.
 hda: 13,104 sectors (6 MB), model "QM00001", serial "QEMU HARDDISK"
 hda1: 202 sectors (101 kB), Pintos OS kernel (20)
 hda2: 4,096 sectors (2 MB), Pintos file system (21)
@@ -63,12 +63,12 @@ child-syn-wrt: exit(9)
 (syn-write) end
 syn-write: exit(0)
 Execution of 'syn-write' complete.
-Timer: 125 ticks
-Thread: 0 idle ticks, 101 kernel ticks, 24 user ticks
+Timer: 117 ticks
+Thread: 0 idle ticks, 91 kernel ticks, 26 user ticks
 hda2 (filesys): 69 reads, 474 writes
 hda3 (scratch): 226 reads, 2 writes
 hda4 (swap): 0 reads, 0 writes
-Console: 2431 characters output
+Console: 2430 characters output
 Keyboard: 0 keys pressed
 Exception: 66 page faults
 Powering off...

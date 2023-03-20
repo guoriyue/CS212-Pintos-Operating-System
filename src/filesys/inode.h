@@ -25,6 +25,8 @@ void dir_unlock(struct inode *inode);
 void dir_lock(struct inode *inode);
 bool inode_is_dir(struct inode *inode);
 int inode_open_cnt(struct inode *inode);
-struct inode *
-open_inode_find (block_sector_t sector);
+struct inode *open_inode_find (block_sector_t sector);
+void inode_set_dir_status(struct inode *inode, bool dir_status);
+block_sector_t zero_sector (void);
+void set_inode_length (struct inode *inode, off_t length);
 #endif /* filesys/inode.h */

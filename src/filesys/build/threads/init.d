@@ -15,4 +15,4 @@ threads/init.o: ../../threads/init.c ../../threads/init.h \
  ../../lib/user/syscall.h ../../userprog/tss.h ../../devices/block.h \
  ../../devices/ide.h ../../filesys/filesys.h ../../filesys/fsutil.h \
  ../../vm/swap.h ../../filesys/cache.h ../../filesys/off_t.h \
- ../../filesys/inode.h ../../filesys/free-map.h
+ ../../filesys/inode.h ../../filesys/free-map.h ../../filesys/directory.h
